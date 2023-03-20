@@ -1,1 +1,1 @@
-# xmtp-react
+# xmtp-web
