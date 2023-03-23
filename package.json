@@ -13,6 +13,7 @@
     "lint": "FORCE_COLOR=1 turbo run lint",
     "format": "turbo run format",
     "format:check": "turbo run format:check",
+    "generate:types": "turbo run generate:types",
     "test": "FORCE_COLOR=1 turbo run test",
     "typecheck": "FORCE_COLOR=1 turbo run typecheck"
   },

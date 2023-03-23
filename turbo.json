@@ -19,13 +19,18 @@
     "format:check": {
       "outputs": []
     },
+    "generate:types": {
+      "outputs": ["lib/types/**"]
+    },
     "lint": {
+      "dependsOn": ["^generate:types"],
       "outputs": []
     },
     "test": {
       "outputs": []
     },
     "typecheck": {
+      "dependsOn": ["^generate:types"],
       "outputs": []
     }
   }
