@@ -1,0 +1,24 @@
+{
+  "name": "xmtp-web",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "examples/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "clean": "turbo run clean && rm -rf node_modules && yarn cache clean",
+    "dev": "turbo run dev",
+    "lint": "FORCE_COLOR=1 turbo run lint",
+    "format": "turbo run format",
+    "format:check": "turbo run format:check",
+    "test": "FORCE_COLOR=1 turbo run test",
+    "typecheck": "FORCE_COLOR=1 turbo run typecheck"
+  },
+  "devDependencies": {
+    "prettier": "latest",
+    "turbo": "^1.8.5"
+  },
+  "packageManager": "yarn@3.4.1"
+}

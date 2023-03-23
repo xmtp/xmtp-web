@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "React SDK",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "allowJs": false,
+    "declarationMap": true,
+    "declaration": true,
+    "jsx": "react-jsx",
+    "lib": ["ESNext", "DOM"],
+    "sourceMap": true,
+    "target": "ESNext",
+    "types": ["vitest", "vitest/globals"]
+  }
+}
