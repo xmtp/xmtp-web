@@ -55,59 +55,46 @@ export const Messages: React.FC<MessagesProps> = ({
     <div
       data-testid="message-tile-container"
       className="w-full flex flex-col-reverse pt-8 px-4 md:px-8">
-      {messages
-        // remove empty messages
-        .filter((message) => message.content)
-        // sort by most recent
-        .sort((a, b) => {
-          if (isBefore(a.sent, b.sent)) {
-            return 1;
-          }
-          if (isAfter(a.sent, b.sent)) {
-            return -1;
-          }
-          return 0;
-        })
-        .map((message, idx, filteredMessages) => {
-          if (renderedDates.length === 0) {
-            renderedDates.push(message.sent);
-          }
-          const lastRenderedDate = renderedDates.at(-1) as Date;
-          const isIncoming = message.senderAddress !== clientAddress;
-          const isLastMessage = idx === filteredMessages.length - 1;
-          const isSameDate = isSameDay(lastRenderedDate, message.sent);
-          const shouldDisplayDate = isLastMessage || !isSameDate;
+      {messages.map((message, idx, filteredMessages) => {
+        if (renderedDates.length === 0) {
+          renderedDates.push(message.sent);
+        }
+        const lastRenderedDate = renderedDates.at(-1) as Date;
+        const isIncoming = message.senderAddress !== clientAddress;
+        const isLastMessage = idx === filteredMessages.length - 1;
+        const isSameDate = isSameDay(lastRenderedDate, message.sent);
+        const shouldDisplayDate = isLastMessage || !isSameDate;
 
-          if (shouldDisplayDate && !isLastMessage) {
-            renderedDates.push(message.sent);
-          }
+        if (shouldDisplayDate && !isLastMessage) {
+          renderedDates.push(message.sent);
+        }
 
-          return (
-            <Fragment key={message.id}>
-              {shouldDisplayDate &&
-                renderedDates.length > 1 &&
-                (!isLastMessage || (isLastMessage && !isSameDate)) && (
-                  <DateDivider
-                    date={
-                      isLastMessage && !isSameDate
-                        ? (renderedDates.at(-1) as Date)
-                        : (renderedDates.at(-2) as Date)
-                    }
-                  />
-                )}
-              <Message
-                key={message.id}
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                content={message.content}
-                datetime={message.sent}
-                isIncoming={isIncoming}
-              />
-              {shouldDisplayDate && isLastMessage && (
-                <DateDivider date={renderedDates.at(-1) as Date} />
+        return (
+          <Fragment key={message.id}>
+            {shouldDisplayDate &&
+              renderedDates.length > 1 &&
+              (!isLastMessage || (isLastMessage && !isSameDate)) && (
+                <DateDivider
+                  date={
+                    isLastMessage && !isSameDate
+                      ? (renderedDates.at(-1) as Date)
+                      : (renderedDates.at(-2) as Date)
+                  }
+                />
               )}
-            </Fragment>
-          );
-        })}
+            <Message
+              key={message.id}
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+              content={message.content}
+              datetime={message.sent}
+              isIncoming={isIncoming}
+            />
+            {shouldDisplayDate && isLastMessage && (
+              <DateDivider date={renderedDates.at(-1) as Date} />
+            )}
+          </Fragment>
+        );
+      })}
       <div
         className="text-gray-500 font-bold text-sm w-full py-2 text-center"
         data-testid="message-beginning-text">

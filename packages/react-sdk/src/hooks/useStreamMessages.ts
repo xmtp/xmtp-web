@@ -1,7 +1,7 @@
 import type { Conversation, DecodedMessage, Stream } from "@xmtp/xmtp-js";
 import { useEffect, useRef, useState } from "react";
 
-type MessageStream = Promise<Stream<DecodedMessage>>;
+export type MessageStream = Promise<Stream<DecodedMessage>>;
 
 /**
  * This hook streams new conversation messages on mount and exposes an error state.

@@ -2,7 +2,7 @@ import type { Conversation, Stream } from "@xmtp/xmtp-js";
 import { useContext, useEffect, useRef, useState } from "react";
 import { XMTPContext } from "../contexts/XMTPContext";
 
-type ConversationStream = Promise<Stream<Conversation>>;
+export type ConversationStream = Promise<Stream<Conversation>>;
 
 /**
  * This hook streams new conversations on mount and exposes an error state.

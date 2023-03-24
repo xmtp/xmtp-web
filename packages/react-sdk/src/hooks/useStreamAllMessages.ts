@@ -2,7 +2,7 @@ import type { DecodedMessage } from "@xmtp/xmtp-js";
 import { useContext, useEffect, useRef, useState } from "react";
 import { XMTPContext } from "../contexts/XMTPContext";
 
-type AllMessagesStream = Promise<AsyncGenerator<DecodedMessage>>;
+export type AllMessagesStream = Promise<AsyncGenerator<DecodedMessage>>;
 
 /**
  * This hook streams new messages from all conversations on mount and exposes
