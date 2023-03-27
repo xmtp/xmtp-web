@@ -9,7 +9,7 @@
   "scripts": {
     "build": "turbo run build",
     "clean": "turbo run clean && rm -rf node_modules && yarn cache clean",
-    "dev": "turbo run dev",
+    "dev": "FORCE_COLOR=1 turbo run dev",
     "lint": "FORCE_COLOR=1 turbo run lint",
     "format": "turbo run format",
     "format:check": "turbo run format:check",
