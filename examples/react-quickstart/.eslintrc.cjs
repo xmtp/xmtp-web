@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: ["xmtp"],
+  extends: ["xmtp-web"],
   parserOptions: {
     project: "./tsconfig.eslint.json",
   },

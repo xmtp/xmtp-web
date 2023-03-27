@@ -1,7 +1,6 @@
 {
   "name": "@xmtp/react-sdk",
-  "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0-preview.0",
   "license": "MIT",
   "type": "module",
   "main": "lib/cjs/index.js",
@@ -58,7 +57,7 @@
     "babel-loader": "^8.3.0",
     "concurrently": "^7.6.0",
     "eslint": "^8.36.0",
-    "eslint-config-xmtp": "workspace:*",
+    "eslint-config-xmtp-web": "workspace:*",
     "eslint-plugin-storybook": "^0.6.11",
     "jsdom": "^21.1.1",
     "postcss": "^8.4.21",
