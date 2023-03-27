@@ -27,8 +27,7 @@
     "test": "vitest run --passWithNoTests",
     "typecheck": "tsc --noEmit",
     "storybook": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
-    "build-storybook": "NODE_OPTIONS=--openssl-legacy-provider build-storybook",
-    "chromatic": "chromatic --exit-once-uploaded --exit-zero-on-changes"
+    "build-storybook": "NODE_OPTIONS=--openssl-legacy-provider build-storybook"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.16",
@@ -57,7 +56,6 @@
     "@xmtp/tsconfig": "workspace:*",
     "autoprefixer": "^10.4.14",
     "babel-loader": "^8.3.0",
-    "chromatic": "^6.17.2",
     "concurrently": "^7.6.0",
     "eslint": "^8.36.0",
     "eslint-config-xmtp": "workspace:*",
