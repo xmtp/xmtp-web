@@ -1,0 +1,24 @@
+.NotificationWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  text-align: center;
+  height: 100%;
+}
+
+.Notification {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.Notification__title {
+  font-weight: bold;
+}
+
+.Notification__icon {
+  width: 2.5rem;
+  height: 2.5rem;
+}

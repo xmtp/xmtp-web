@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declarationMap": false,
+    "declaration": false,
+    "outDir": "lib/cjs",
+    "module": "commonjs"
+  },
+  "exclude": ["**/*.test.*", "**/*.stories.tsx"]
+}

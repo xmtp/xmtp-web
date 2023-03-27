@@ -1,1 +1,1 @@
-# xmtp-web
+# XMTP Web SDKs and Examples

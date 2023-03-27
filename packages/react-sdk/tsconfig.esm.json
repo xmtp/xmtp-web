@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "declarationMap": false,
+    "declaration": false,
+    "module": "ESNext",
+    "outDir": "lib/esm"
+  },
+  "exclude": ["**/*.test.*", "**/*.stories.tsx"]
+}

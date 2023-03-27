@@ -43,6 +43,7 @@ module.exports = {
         format: null,
       },
     ],
+    "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/unbound-method": [
       "error",
@@ -64,6 +65,32 @@ module.exports = {
     ],
     "no-console": ["error", { allow: ["error"] }],
     "no-void": ["error", { allowAsStatement: true }],
+    "no-restricted-syntax": [
+      "error",
+      {
+        selector: "ForInStatement",
+        message:
+          "for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.",
+      },
+      {
+        selector: "ForOfStatement",
+        message:
+          "iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations.",
+      },
+      {
+        selector: "WithStatement",
+        message:
+          "`with` is disallowed in strict mode because it makes code impossible to predict and optimize.",
+      },
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        selector: "ForOfStatement",
+        message:
+          "iterators/generators require regenerator-runtime, which is too heavyweight for this guide to allow them. Separately, loops should be avoided in favor of array iterations.",
+      },
+    ],
   },
   overrides: [
     // allow devDependencies in configuration files

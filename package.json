@@ -9,15 +9,16 @@
   "scripts": {
     "build": "turbo run build",
     "clean": "turbo run clean && rm -rf node_modules && yarn cache clean",
-    "dev": "turbo run dev",
+    "dev": "FORCE_COLOR=1 turbo run dev",
     "lint": "FORCE_COLOR=1 turbo run lint",
     "format": "turbo run format",
     "format:check": "turbo run format:check",
+    "generate:types": "turbo run generate:types",
     "test": "FORCE_COLOR=1 turbo run test",
     "typecheck": "FORCE_COLOR=1 turbo run typecheck"
   },
   "devDependencies": {
-    "prettier": "latest",
+    "prettier": "^2.8.7",
     "turbo": "^1.8.5"
   },
   "packageManager": "yarn@3.4.1"
