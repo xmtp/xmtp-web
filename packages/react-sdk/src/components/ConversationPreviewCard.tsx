@@ -1,6 +1,6 @@
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import type { KeyboardEvent } from "react";
 import { useCallback } from "react";
+import { formatDistanceToNowStrict } from "date-fns";
 import { IconSkeletonLoader } from "./SkeletonLoaders/IconSkeletonLoader";
 import { ShortCopySkeletonLoader } from "./SkeletonLoaders/ShortCopySkeletonLoader";
 import { Avatar } from "./Avatar";
@@ -85,7 +85,7 @@ export const ConversationPreviewCard: React.FC<
         />
       </div>
       <div className="flex flex-col items-start flex-grow overflow-hidden">
-        {conversationDomain && (
+        {!isLoading && conversationDomain && (
           <div className="text-sm mb-1 text-white px-2 rounded-lg bg-indigo-600">
             {conversationDomain}
           </div>
@@ -109,7 +109,7 @@ export const ConversationPreviewCard: React.FC<
         <IconSkeletonLoader />
       ) : (
         <div className="text-xs text-gray-600 w-1/4 text-right ml-4 h-full p-1">
-          {datetime && `${formatDistanceToNow(datetime)} ago`}
+          {datetime && `${formatDistanceToNowStrict(datetime)} ago`}
         </div>
       )}
     </div>

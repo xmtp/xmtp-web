@@ -65,9 +65,7 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
     const subtextColor = isError ? "text-red-600" : "text-gray-400";
     return (
       <div className="flex px-2 md:px-4 py-3 border-b border-gray-100 border-l-0 z-10 max-h-sm w-full">
-        <form
-          className="flex items-centerr flex-grow"
-          onSubmit={(e) => e.preventDefault()}>
+        <div className="flex items-center flex-grow">
           <Avatar {...avatarUrlProps} />
           <div className="ml-2 md:ml-4 flex flex-col justify-center flex-grow">
             {isLoading ? (
@@ -108,7 +106,7 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
               {subtext}
             </p>
           </div>
-        </form>
+        </div>
         {onTooltipClick && (
           <InformationCircleIcon onClick={onTooltipClick} height="24" />
         )}

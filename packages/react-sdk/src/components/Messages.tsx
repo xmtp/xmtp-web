@@ -1,5 +1,5 @@
 import type { DecodedMessage } from "@xmtp/xmtp-js";
-import { isAfter, isBefore, isSameDay } from "date-fns";
+import { isSameDay } from "date-fns";
 import { Fragment } from "react";
 import { MessageSkeletonLoader } from "./SkeletonLoaders/MessageSkeletonLoader";
 import { Message } from "./Message";

@@ -48,7 +48,6 @@ export const useStreamMessages = (conversation?: Conversation) => {
         // changes, remove existing messages from state
         setMessages([]);
 
-        // eslint-disable-next-line no-restricted-syntax
         for await (const message of await stream) {
           setMessages((previous) => [...previous, message]);
         }

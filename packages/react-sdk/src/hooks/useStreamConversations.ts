@@ -53,7 +53,6 @@ export const useStreamConversations = () => {
         streamRef.current = xmtpContext.client.conversations.stream();
         stream = streamRef.current;
 
-        // eslint-disable-next-line no-restricted-syntax
         for await (const conversation of await stream) {
           setConversations((previous) => [...previous, conversation]);
         }

@@ -31,6 +31,7 @@ export const Messages: React.FC<ConversationMessagesProps> = ({
       setIsSending(true);
       await sendMessage(message);
       setIsSending(false);
+      // ensure focus of input by waiting for a browser tick
       setTimeout(() => messageInputRef.current?.focus(), 0);
     },
     [sendMessage],

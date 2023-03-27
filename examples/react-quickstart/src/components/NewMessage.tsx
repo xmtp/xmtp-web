@@ -57,10 +57,15 @@ export const NewMessage: React.FC<NewMessageProps> = ({ onSuccess }) => {
 
   let subtext: string | undefined;
   let isError = false;
-  if (!isValidAddress(peerAddress)) {
-    subtext = "Please enter a valid wallet address";
+  if (peerAddress === "") {
+    subtext = "Enter a 0x wallet address";
+  } else if (isLoading) {
+    subtext = "Finding address on the XMTP network...";
+  } else if (!isValidAddress(peerAddress)) {
+    subtext = "Please enter a valid 0x wallet address";
   } else if (!isOnNetwork) {
-    subtext = "Address is not on the XMTP network";
+    subtext =
+      "Sorry, we can't message this address because its owner hasn't used it with XMTP yet";
     isError = true;
   }
 

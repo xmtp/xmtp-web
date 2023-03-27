@@ -15,6 +15,7 @@ export const useClient = ({ keys, options, signer }: InitClientArgs) => {
   // disconnect XMTP client when the wallet changes
   useEffect(() => {
     xmtpContext.closeClient();
+    // only run this effect with the signer changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signer]);
 

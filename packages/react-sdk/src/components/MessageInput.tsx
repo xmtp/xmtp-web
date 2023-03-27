@@ -1,5 +1,6 @@
-import type { ChangeEvent } from "react";
+import type { ChangeEvent, KeyboardEvent } from "react";
 import {
+  useCallback,
   forwardRef,
   useImperativeHandle,
   useState,
@@ -23,6 +24,7 @@ export type MessageInputProps = {
 export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
   ({ onSubmit, isDisabled }, ref) => {
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
+    // make external ref point to internal ref
     useImperativeHandle<HTMLTextAreaElement | null, HTMLTextAreaElement | null>(
       ref,
       () => textAreaRef.current,
@@ -39,6 +41,26 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
         : "max-h-40"
     } min-h-8 outline-none border-none focus:ring-0 resize-none mx-4 p-1 w-full text-md text-gray-900`;
 
+    const handleKeyDown = useCallback(
+      (event: KeyboardEvent) => {
+        if (event.key === "Enter" && !event.shiftKey) {
+          event.preventDefault();
+          if (value) {
+            void onSubmit?.(value);
+            setValue("");
+          }
+        }
+      },
+      [onSubmit, value],
+    );
+
+    const handleClick = useCallback(() => {
+      if (value) {
+        void onSubmit?.(value);
+        setValue("");
+      }
+    }, [onSubmit, value]);
+
     useLayoutEffect(() => {
       const MIN_TEXTAREA_HEIGHT = 32;
       if (textAreaRef?.current?.value) {
@@ -53,7 +75,7 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
     }, [value]);
 
     return (
-      <form>
+      <div>
         <label htmlFor="chat" className="sr-only">
           Type something...
         </label>
@@ -63,15 +85,7 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
             id="chat"
             data-testid="message-input"
             onChange={onChange}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                if (value) {
-                  void onSubmit?.(value);
-                  setValue("");
-                }
-              }
-            }}
+            onKeyDown={handleKeyDown}
             ref={textAreaRef}
             rows={1}
             className={textAreaStyles}
@@ -85,17 +99,12 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
               variant="secondary"
               label={<ArrowUpIcon color="white" width="12" />}
               srText="Submit Message"
-              onClick={() => {
-                if (value) {
-                  void onSubmit?.(value);
-                  setValue("");
-                }
-              }}
+              onClick={handleClick}
               isDisabled={!value || isDisabled}
             />
           </div>
         </div>
-      </form>
+      </div>
     );
   },
 );

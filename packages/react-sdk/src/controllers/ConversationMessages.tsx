@@ -43,16 +43,27 @@ export const ConversationMessages: React.FC<ConversationMessagesProps> = ({
         }
         return 0;
       })
-      .map((message) => ({
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        content: message.content,
-        contentTopic: message.contentTopic,
-        contentType: message.contentType,
-        error: message.error,
-        id: message.id,
-        recipientAddress: message.recipientAddress,
-        senderAddress: message.senderAddress,
-        sent: message.sent,
-      }))}
+      .map(
+        ({
+          content,
+          contentTopic,
+          contentType,
+          error,
+          id,
+          recipientAddress,
+          senderAddress,
+          sent,
+        }) => ({
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          content,
+          contentTopic,
+          contentType,
+          error,
+          id,
+          recipientAddress,
+          senderAddress,
+          sent,
+        }),
+      )}
   />
 );
