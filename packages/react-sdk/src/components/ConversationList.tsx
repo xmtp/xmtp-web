@@ -24,7 +24,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({
 }) => {
   if (isLoading) {
     return (
-      <div className="flex flex-col justify-start bg-gray-300 pl-16">
+      <div className="flex flex-col justify-start bg-gray-300">
         {Array.from({ length: 12 }).map((_, idx) => (
           <ConversationPreviewCard key={idx} isLoading />
         ))}
@@ -34,7 +34,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({
 
   if (!conversations.length && !isLoading) {
     return (
-      <div className="sm:p-4 md:p-8 border border-gray-100 h-full pl-16">
+      <div className="sm:p-4 md:p-8 border border-gray-100 h-full">
         {renderEmpty}
       </div>
     );
@@ -42,7 +42,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({
 
   return (
     <div
-      className="flex flex-col bg-gray-100 pl-16"
+      className="flex flex-col bg-gray-100"
       data-testid="conversations-list-panel">
       {conversations}
     </div>
