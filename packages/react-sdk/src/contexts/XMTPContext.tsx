@@ -2,38 +2,23 @@ import { useState, createContext, useCallback, useMemo, useRef } from "react";
 import type { ClientOptions, Signer } from "@xmtp/xmtp-js";
 import { Client } from "@xmtp/xmtp-js";
 
+type CanMessageReturns<T> = T extends string
+  ? boolean
+  : T extends string[]
+  ? boolean[]
+  : never;
+
 export type InitClientArgs = {
   keys?: Uint8Array;
   options?: ClientOptions;
   signer?: Signer | null;
 };
 
-// check if the client can message an address or addresses
-async function canMessage(
-  peerAddress: string,
-  client?: Client,
-): Promise<boolean>;
-async function canMessage(
-  peerAddress: string[],
-  client?: Client,
-): Promise<boolean[]>;
-async function canMessage(
-  peerAddress: string | string[],
-  client?: Client,
-): Promise<boolean | boolean[]> {
-  if (!client) {
-    return typeof peerAddress === "string"
-      ? false
-      : (new Array(peerAddress.length).fill(false) as boolean[]);
-  }
-  return typeof peerAddress === "string"
-    ? client.canMessage(peerAddress)
-    : client.canMessage(peerAddress);
-}
-
 export type XMTPContextValue = {
   error: unknown;
-  canMessage: typeof canMessage;
+  canMessage: <T extends string | string[]>(
+    peerAddress: T,
+  ) => Promise<CanMessageReturns<T>>;
   client?: Client;
   closeClient: () => void;
   initClient: (arg0: InitClientArgs) => Promise<void>;
@@ -41,7 +26,7 @@ export type XMTPContextValue = {
 };
 
 export const XMTPContext = createContext<XMTPContextValue>({
-  canMessage,
+  canMessage: () => Promise.resolve(false) as Promise<CanMessageReturns<false>>,
   client: undefined,
   closeClient: () => {},
   error: null,
@@ -102,6 +87,25 @@ export const XMTPProvider: React.FC<React.PropsWithChildren> = ({
     }
   }, [client]);
 
+  // check if the client can message an address
+  const canMessage = useCallback(
+    async <T extends string | string[]>(
+      peerAddress: T,
+    ): Promise<CanMessageReturns<T>> => {
+      if (!client) {
+        return typeof peerAddress === "string"
+          ? (false as CanMessageReturns<T>)
+          : (Array.from({ length: peerAddress.length }).fill(
+              false,
+            ) as CanMessageReturns<T>);
+      }
+      return typeof peerAddress === "string"
+        ? (client.canMessage(peerAddress) as Promise<CanMessageReturns<T>>)
+        : (client.canMessage(peerAddress) as Promise<CanMessageReturns<T>>);
+    },
+    [client],
+  );
+
   // memo-ize the context value to prevent unnecessary re-renders
   const value = useMemo(
     () => ({
@@ -112,7 +116,7 @@ export const XMTPProvider: React.FC<React.PropsWithChildren> = ({
       initClient,
       isLoading,
     }),
-    [client, closeClient, error, initClient, isLoading],
+    [canMessage, client, closeClient, error, initClient, isLoading],
   );
 
   return <XMTPContext.Provider value={value}>{children}</XMTPContext.Provider>;
