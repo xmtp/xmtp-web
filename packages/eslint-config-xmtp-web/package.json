@@ -1,8 +1,26 @@
 {
   "name": "eslint-config-xmtp-web",
+  "description": "ESLint configuration for XMTP web projects",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:xmtp/xmtp-web.git",
+    "directory": "packages/eslint-config-xmtp-web"
+  },
+  "homepage": "https://github.com/xmtp/xmtp-web",
+  "bugs": {
+    "url": "https://github.com/xmtp/xmtp-web/issues"
+  },
+  "keywords": [
+    "eslint",
+    "eslintconfig",
+    "eslint-config",
+    "react",
+    "typescript",
+    "xmtp"
+  ],
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
