@@ -70,12 +70,12 @@ export const Inbox: React.FC = () => {
         <div className="InboxConversations__messages">
           {isNewMessage ? (
             <NewMessage onSuccess={handleStartNewConversationSuccess} />
-          ) : (
+          ) : conversation ? (
             <Messages
               conversation={conversation}
               onStartNewConversation={handleStartNewConversation}
             />
-          )}
+          ) : null}
         </div>
       </div>
     </div>

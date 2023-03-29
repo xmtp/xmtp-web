@@ -1,7 +1,7 @@
 {
   "name": "@xmtp/react-sdk",
   "description": "React hooks and components for interacting with the XMTP network",
-  "version": "1.0.0-preview.4",
+  "version": "1.0.0-preview.6",
   "license": "MIT",
   "type": "module",
   "main": "lib/cjs/index.js",

@@ -8,9 +8,10 @@ export type AllMessagesStream = Promise<AsyncGenerator<DecodedMessage>>;
  * This hook streams new messages from all conversations on mount and exposes
  * an error state.
  */
-export const useStreamAllMessages = () => {
+export const useStreamAllMessages = (
+  onMessage: (message: DecodedMessage) => void,
+) => {
   const [error, setError] = useState<unknown | null>(null);
-  const [messages, setMessages] = useState<DecodedMessage[]>([]);
   const streamRef = useRef<AllMessagesStream | undefined>(undefined);
   const endStreamRef = useRef(async (stream?: AllMessagesStream) => {
     // it's important to reset the stream reference first so that any
@@ -55,7 +56,7 @@ export const useStreamAllMessages = () => {
         stream = streamRef.current;
 
         for await (const message of await stream) {
-          setMessages((previous) => [...previous, message]);
+          onMessage(message);
         }
       } catch (e) {
         setError(e);
@@ -69,10 +70,9 @@ export const useStreamAllMessages = () => {
     return () => {
       void endStream(stream);
     };
-  }, [xmtpContext?.client]);
+  }, [onMessage, xmtpContext.client]);
 
   return {
     error,
-    messages,
   };
 };

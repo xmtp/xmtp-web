@@ -6,9 +6,11 @@ export type MessageStream = Promise<Stream<DecodedMessage>>;
 /**
  * This hook streams new conversation messages on mount and exposes an error state.
  */
-export const useStreamMessages = (conversation?: Conversation) => {
+export const useStreamMessages = (
+  conversation: Conversation,
+  onMessage: (message: DecodedMessage) => void,
+) => {
   const [error, setError] = useState<unknown | null>(null);
-  const [messages, setMessages] = useState<DecodedMessage[]>([]);
   const streamRef = useRef<MessageStream | undefined>(undefined);
   const endStreamRef = useRef(async (stream?: MessageStream) => {
     // it's important to reset the stream reference first so that any
@@ -44,12 +46,8 @@ export const useStreamMessages = (conversation?: Conversation) => {
         streamRef.current = conversation.streamMessages();
         stream = streamRef.current;
 
-        // since we're creating a new messages stream when the conversation
-        // changes, remove existing messages from state
-        setMessages([]);
-
         for await (const message of await stream) {
-          setMessages((previous) => [...previous, message]);
+          onMessage(message);
         }
       } catch (e) {
         setError(e);
@@ -63,10 +61,9 @@ export const useStreamMessages = (conversation?: Conversation) => {
     return () => {
       void endStream(stream);
     };
-  }, [conversation]);
+  }, [conversation, onMessage]);
 
   return {
     error,
-    messages,
   };
 };
