@@ -5,6 +5,7 @@ import {
   ArrowRightOnRectangleIcon,
   PlusCircleIcon,
 } from "@heroicons/react/24/outline";
+import packageJson from "../../package.json";
 import { Conversations } from "./Conversations";
 import { Messages } from "./Messages";
 import { NewMessage } from "./NewMessage";
@@ -43,7 +44,9 @@ export const Inbox: React.FC = () => {
       <div className="InboxHeader">
         <div className="InboxHeader__xmtp">
           <img src="/xmtp-icon.png" alt="XMTP logo" width="32" />
-          <strong>xmtp-js v7.11.0</strong>
+          <strong>
+            xmtp-js v{packageJson.dependencies["@xmtp/xmtp-js"].substring(1)}
+          </strong>
         </div>
         <div className="InboxHeader__actions">
           <button
