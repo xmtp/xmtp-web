@@ -20,10 +20,10 @@ export const useClient = ({ keys, options, signer }: InitClientArgs) => {
   }, [signer]);
 
   return {
-    client: xmtpContext?.client,
+    client: xmtpContext.client,
     disconnect: xmtpContext.closeClient,
     error: xmtpContext.error,
-    initialize: () => xmtpContext?.initClient({ keys, options, signer }),
+    initialize: () => xmtpContext.initClient({ keys, options, signer }),
     isLoading: xmtpContext.isLoading,
   };
 };

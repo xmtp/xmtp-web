@@ -7,9 +7,10 @@ export type ConversationStream = Promise<Stream<Conversation>>;
 /**
  * This hook streams new conversations on mount and exposes an error state.
  */
-export const useStreamConversations = () => {
+export const useStreamConversations = (
+  onConversation: (conversation: Conversation) => void,
+) => {
   const [error, setError] = useState<unknown | null>(null);
-  const [conversations, setConversations] = useState<Conversation[]>([]);
   const streamRef = useRef<ConversationStream | undefined>(undefined);
   const endStreamRef = useRef(async (stream?: ConversationStream) => {
     // it's important to reset the stream reference first so that any
@@ -54,7 +55,7 @@ export const useStreamConversations = () => {
         stream = streamRef.current;
 
         for await (const conversation of await stream) {
-          setConversations((previous) => [...previous, conversation]);
+          onConversation(conversation);
         }
       } catch (e) {
         setError(e);
@@ -68,10 +69,9 @@ export const useStreamConversations = () => {
     return () => {
       void endStream(stream);
     };
-  }, [xmtpContext?.client]);
+  }, [onConversation, xmtpContext.client]);
 
   return {
-    conversations,
     error,
   };
 };

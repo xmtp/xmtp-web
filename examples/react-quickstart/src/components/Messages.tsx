@@ -6,13 +6,13 @@ import {
   useSendMessage,
   useStreamMessages,
 } from "@xmtp/react-sdk";
-import type { Conversation } from "@xmtp/xmtp-js";
+import type { Conversation, DecodedMessage } from "@xmtp/xmtp-js";
 import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/outline";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Notification } from "./Notification";
 
 type ConversationMessagesProps = {
-  conversation?: Conversation;
+  conversation: Conversation;
   onStartNewConversation?: VoidFunction;
 };
 
@@ -21,9 +21,21 @@ export const Messages: React.FC<ConversationMessagesProps> = ({
   onStartNewConversation,
 }) => {
   const [isSending, setIsSending] = useState(false);
+  const [streamedMessages, setStreamedMessages] = useState<DecodedMessage[]>(
+    [],
+  );
   const messageInputRef = useRef<HTMLTextAreaElement>(null);
   const { messages, isLoading } = useMessages(conversation);
-  const { messages: streamedMessages } = useStreamMessages(conversation);
+  const onMessage = useCallback(
+    (message: DecodedMessage) => {
+      // prevent duplicates
+      if (!streamedMessages.some((msg) => msg.id === message.id)) {
+        setStreamedMessages((prev) => [...prev, message]);
+      }
+    },
+    [streamedMessages],
+  );
+  useStreamMessages(conversation, onMessage);
   const sendMessage = useSendMessage(conversation);
 
   const handleSendMessage = useCallback(
@@ -39,6 +51,7 @@ export const Messages: React.FC<ConversationMessagesProps> = ({
 
   useEffect(() => {
     messageInputRef.current?.focus();
+    setStreamedMessages([]);
   }, [conversation]);
 
   if (!conversation) {
@@ -60,8 +73,6 @@ export const Messages: React.FC<ConversationMessagesProps> = ({
     );
   }
 
-  const allMessages = [...messages, ...streamedMessages];
-
   return (
     <>
       <AddressInput
@@ -70,7 +81,7 @@ export const Messages: React.FC<ConversationMessagesProps> = ({
       />
       <ConversationMessages
         isLoading={isLoading}
-        messages={allMessages}
+        messages={[...messages, ...streamedMessages]}
         clientAddress={conversation?.clientAddress ?? ""}
       />
       <MessageInput
