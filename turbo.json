@@ -21,7 +21,7 @@
       "outputs": []
     },
     "generate:types": {
-      "outputs": ["lib/types/**"]
+      "outputs": ["lib/index.d.ts"]
     },
     "lint": {
       "dependsOn": ["^generate:types"],
