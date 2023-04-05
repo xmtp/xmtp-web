@@ -1,6 +1,4 @@
 import { useContext, useEffect } from "react";
-import type { Signer } from "@xmtp/xmtp-js";
-import { Client } from "@xmtp/xmtp-js";
 import type { InitClientArgs } from "../contexts/XMTPContext";
 import { XMTPContext } from "../contexts/XMTPContext";
 
