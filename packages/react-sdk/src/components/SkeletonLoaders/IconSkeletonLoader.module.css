@@ -1,10 +1,10 @@
-.iconSkeletonLoaderWrapper {
+.wrapper {
   display: flex;
   justify-content: flex-end;
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.iconSkeletonLoader {
+.element {
   height: 1rem;
   width: 2rem;
   border-radius: 9999px;
