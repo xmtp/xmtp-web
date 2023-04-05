@@ -7,18 +7,14 @@ import {
   useStreamMessages,
 } from "@xmtp/react-sdk";
 import type { Conversation, DecodedMessage } from "@xmtp/xmtp-js";
-import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/outline";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Notification } from "./Notification";
 
 type ConversationMessagesProps = {
   conversation: Conversation;
-  onStartNewConversation?: VoidFunction;
 };
 
 export const Messages: React.FC<ConversationMessagesProps> = ({
   conversation,
-  onStartNewConversation,
 }) => {
   const [isSending, setIsSending] = useState(false);
   const [streamedMessages, setStreamedMessages] = useState<DecodedMessage[]>(
@@ -53,25 +49,6 @@ export const Messages: React.FC<ConversationMessagesProps> = ({
     messageInputRef.current?.focus();
     setStreamedMessages([]);
   }, [conversation]);
-
-  if (!conversation) {
-    return (
-      <Notification
-        cta={
-          <button
-            className="Button"
-            type="button"
-            onClick={onStartNewConversation}>
-            Start new conversation
-          </button>
-        }
-        icon={<ChatBubbleLeftRightIcon />}
-        title="No conversation selected">
-        Select a conversation to display its messages or start a new
-        conversation
-      </Notification>
-    );
-  }
 
   return (
     <>
