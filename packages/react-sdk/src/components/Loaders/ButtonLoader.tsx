@@ -18,13 +18,11 @@ export const ButtonLoader: React.FC<ButtonLoaderProps> = ({
   size,
   color = "primary",
 }) => (
-  <div className={styles.btnLoaderWrapper}>
+  <div className={styles.wrapper}>
     <div
-      className={`${styles.btnLoader} ${
-        color === "primary" ? styles.btnLoaderLight : styles.btnLoaderDark
-      } ${size === "small" ? styles.btnLoaderSmall : styles.btnLoaderLarge} ${
-        styles.btnLoaderAnimate
-      }`}
+      className={`${styles.element} ${
+        color === "primary" ? styles.light : styles.dark
+      } ${size === "small" ? styles.elementSmall : styles.elementLarge}`}
     />
   </div>
 );
