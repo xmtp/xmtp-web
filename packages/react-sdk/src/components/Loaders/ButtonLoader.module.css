@@ -1,3 +1,9 @@
+/* TODO: Change to proper styling once designs are finished */
+
+.btnLoaderWrapper {
+  display: flex;
+}
+
 .btnLoaderLight {
   border-color: #c2c6d2;
 }
@@ -9,31 +15,26 @@
 .btnLoader {
   border-style: solid;
   border-top-color: transparent;
+  border-radius: 9999px;
 }
 
-.btnLoaderXs {
+.btnLoaderSmall {
   border-width: 2px;
   width: 20px;
   height: 20px;
 }
 
-.btnLoaderSm {
+.btnLoaderLarge {
   border-width: 2px;
   width: 24px;
   height: 24px;
 }
 
-.btnLoaderLg {
-  border-width: 4px;
-  width: 36px;
-  height: 36px;
+.btnLoaderAnimate {
+  animation: btn-loader-spin 1s linear infinite;
 }
 
-.animateSpin {
-  animation: lds-roller 1s linear infinite;
-}
-
-@keyframes lds-roller {
+@keyframes btn-loader-spin {
   0% {
     transform: rotate(0deg);
   }
