@@ -1,0 +1,49 @@
+.wrapper {
+  padding: 1rem;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.section {
+  margin: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sectionRight {
+  margin-right: 0;
+  align-items: flex-end;
+}
+
+.element {
+  border-radius: 9999px;
+  background-color: rgb(229 231 235);
+  height: 0.75rem;
+}
+
+.elementSmall {
+  width: 8rem;
+}
+
+.elementMedium {
+  width: 10rem;
+}
+
+.elementLarge {
+  width: 20rem;
+}
+
+.elementLast {
+  width: 4rem;
+  height: 0.625rem;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
