@@ -50,7 +50,7 @@
     "dev": "concurrently \"tsup --watch\" \"yarn storybook\"",
     "clean:lib": "rm -rf lib",
     "clean": "rm -rf .turbo && rm -rf node_modules && yarn clean:lib",
-    "lint": "eslint .",
+    "lint": "eslint . --ignore-path ../../.gitignore",
     "format:base": "prettier --ignore-path ../../.gitignore",
     "format:check": "yarn format:base -c .",
     "format": "yarn format:base -w .",
