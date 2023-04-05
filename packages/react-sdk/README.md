@@ -1,23 +1,23 @@
 # XMTP React SDK
 
-XMTP client SDK for React applications written in TypeScript.
+XMTP client SDK for React apps written in TypeScript.
 
 ## What's inside?
 
 ### Hooks
 
-These hooks are mostly bindings to the XMTP JS SDK that expose the underlying data in a React way.
+These hooks are mostly bindings to the [`xmtp-js` SDK](https://github.com/xmtp/xmtp-js) that expose the underlying data in a React way.
 
 ### Components
 
-These are ready-made components to help quickly build a chat application.
+These ready-made components can help you quickly build a chat app.
 
 ## Requirements
 
 - Node 16.10+
 - React 16.14+
 
-## Installation
+## Install
 
 ```bash
 # npm
@@ -32,13 +32,13 @@ yarn add @xmtp/react-sdk
 
 ### Create React App
 
-Requires the Buffer polyfill, see below.
+Requires the Buffer polyfill. See below.
 
-If you're seeing a lot of warnings related to source maps, check out [this issue](https://github.com/facebook/create-react-app/discussions/11767) to learn more.
+If you see a lot of warnings related to source maps, see [this issue](https://github.com/facebook/create-react-app/discussions/11767) to learn more.
 
 ### Vite
 
-Requires the Buffer polyfill, see below.
+Requires the Buffer polyfill. See below.
 
 ### Buffer polyfill
 
@@ -71,7 +71,7 @@ const nextConfig = {
 
 ### Include styles
 
-If you're going to use any of the included components, you'll need to also include their styles. To do so, simply import the styles into your project from the package.
+To use any of the included components, you must also include their styles. To do so, import the styles from the package into your project.
 
 ```ts
 import "@xmtp/react-sdk/styles.css";
@@ -81,7 +81,7 @@ Most frameworks and bundlers include support for CSS imports out of the box.
 
 ### Add the provider
 
-In order to use the provided hooks, you must wrap your application with an `XMTPProvider` so that the hooks have access to the XMTP client.
+To use the provided hooks, you must wrap your app with an `XMTPProvider`. This gives the hooks access to the XMTP client.
 
 **Example**
 
@@ -95,13 +95,13 @@ createRoot(document.getElementById("root") as HTMLElement).render(
 );
 ```
 
-### Creating a client
+### Create a client
 
 The `useClient` hook allows you to initialize, disconnect, and access the XMTP client instance. It also exposes the error and loading states of the client.
 
-It requires passing in a connected wallet that implements the [Signer](https://github.com/xmtp/xmtp-js/blob/main/src/types/Signer.ts) interface.
+The hook requires passing in a connected wallet that implements the [Signer](https://github.com/xmtp/xmtp-js/blob/main/src/types/Signer.ts) interface.
 
-For more information about this process, see the [XMTP-JS docs](https://github.com/xmtp/xmtp-js#creating-a-client).
+To learn more about this process, see [Create a client](https://github.com/xmtp/xmtp-js#creating-a-client) in the `xmtp-js` SDK docs.
 
 **Type**
 
@@ -154,13 +154,15 @@ export const CreateClient: React.FC<{ signer: Signer }> = ({ signer }) => {
 };
 ```
 
-#### Configuring the client
+#### Configure the client
 
-See the [XMTP-JS docs](https://github.com/xmtp/xmtp-js#configuring-the-client) for configuration options.
+To learn more about client configuration options, see [Configure the client](https://github.com/xmtp/xmtp-js#configuring-the-client) in the `xmtp-js` SDK docs.
 
-#### Creating a client with private keys
+#### Create a client with private keys
 
-It is not recommended to handle private keys manually unless you have a specific use case to do so. For more information, check out [`Manually handling private key storage`](https://github.com/xmtp/xmtp-js#manually-handling-private-key-storage)
+Manually handling private keys is not recommended unless a use case requires it.
+
+To learn more, see [Manually handling private key storage](https://github.com/xmtp/xmtp-js#manually-handling-private-key-storage) in the `xmtp-js` SDK docs.
 
 **Example**
 
@@ -224,11 +226,11 @@ export const ListConversations: React.FC = () => {
 };
 ```
 
-See the [XMTP-JS docs](https://github.com/xmtp/xmtp-js#list-existing-conversations) for more information.
+To learn more, see [List existing conversations](https://github.com/xmtp/xmtp-js#list-existing-conversations) in the `xmtp-js` SDK docs.
 
 ### Listen for new conversations
 
-The `useStreamConversations` hook listens for new conversations in real-time and call the passed callback when a new conversation is created. It also exposes an error state.
+The `useStreamConversations` hook listens for new conversations in real-time and calls the passed callback when a new conversation is created. It also exposes an error state.
 
 **Type**
 
@@ -274,7 +276,7 @@ export const NewConversations: React.FC = () => {
 };
 ```
 
-See the [XMTP-JS docs](https://github.com/xmtp/xmtp-js#listen-for-new-conversations) for more information.
+To learn more, see [Listen for new conversations](https://github.com/xmtp/xmtp-js#listen-for-new-conversations) in the `xmtp-js` SDK docs.
 
 ### Start a new conversation
 
@@ -335,7 +337,7 @@ export const StartConversation: React.FC = () => {
 };
 ```
 
-### Sending messages
+### Send messages
 
 The `useSendMessage` hook sends a new message into a conversation.
 
@@ -376,7 +378,7 @@ export const SendMessage: React.FC<{ conversation: Conversation }> = ({
 };
 ```
 
-See the [XMTP-JS docs](https://github.com/xmtp/xmtp-js#sending-messages) for more information.
+To learn more, see [Send messages](https://github.com/xmtp/xmtp-js#sending-messages) in the `xmtp-js` SDK docs.
 
 #### Content types
 
@@ -384,7 +386,7 @@ See the [XMTP-JS docs](https://github.com/xmtp/xmtp-js#sending-messages) for mor
 
 ### List messages in a conversation
 
-The `useMessages` hook fetches a list of all messages within a conversation on mount. It also exposes loading and error states and whether or not there are more messages based on the options passed.
+The `useMessages` hook fetches a list of all messages within a conversation on mount. It also exposes loading and error states and whether there are more messages based on the options passed.
 
 **Type**
 
@@ -489,7 +491,7 @@ export const StreamMessages: React.FC<{
 };
 ```
 
-See the [XMTP-JS docs](https://github.com/xmtp/xmtp-js#listen-for-new-messages-in-a-conversation) for more information.
+To learn more, see [Listen for new messages in a conversation](https://github.com/xmtp/xmtp-js#listen-for-new-messages-in-a-conversation) in the `xmtp-js` SDK docs.
 
 ### Listen for new messages in all conversations
 
@@ -534,11 +536,11 @@ export const StreamAllMessages: React.FC = () => {
 };
 ```
 
-See the [XMTP-JS docs](https://github.com/xmtp/xmtp-js#listen-for-new-messages-in-all-conversations) for more information.
+To learn more, see [Listen for new messages in all conversations](https://github.com/xmtp/xmtp-js#listen-for-new-messages-in-all-conversations) in the `xmtp-js` SDK docs.
 
-### Checking if an address is on the network
+### Check if an address is on the network
 
-The `useCanMessage` hook exposes both the client and static instances of the `canMessage` method. If you would like to check if a blockchain address is registered on the network before instantiating a client instance, you can use the `canMessageStatic` export.
+The `useCanMessage` hook exposes both the client and static instances of the `canMessage` method. To check if a blockchain address is registered on the network before instantiating a client instance, use the `canMessageStatic` export.
 
 **Type**
 

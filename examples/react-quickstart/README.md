@@ -1,14 +1,14 @@
-# React Quickstart Example
+# React quickstart example app
 
-A quick start example app using [React](https://react.dev/), [Vite](https://vitejs.dev/), and [RainbowKit](https://www.rainbowkit.com/).
+A quickstart example app using [React](https://react.dev/), [Vite](https://vitejs.dev/), and [RainbowKit](https://www.rainbowkit.com/).
 
 ### Limitations
 
-This example app is meant to demonstrate features of the React SDK, but it is not a complete solution. For instance, the list of conversations will not update when new messages arrive in existing conversations.
+This example app demonstrates features of the React SDK, but it isn't a complete solution. For example, the list of conversations doesn't update when new messages arrive in existing conversations.
 
 ## Developing
 
-After dependencies are installed, run `yarn dev`.
+After installing the dependencies, run `yarn dev` to start developing.
 
 ## Useful commands
 

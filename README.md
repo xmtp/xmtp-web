@@ -1,24 +1,26 @@
-# XMTP Web SDKs and Examples
+# XMTP web SDKs and examples
 
-This is the official repository for XMTP web SDKs and examples, powered by [Turborepo](https://turbo.build/repo). For more information on the contents of this repository, check out the README files in each package or example.
+This is the official repository for XMTP web SDKs and examples, powered by [Turborepo](https://turbo.build/repo). 
+
+To learn more about the contents of this repository, see this README and the READMEs provided for [packages](https://github.com/xmtp/xmtp-web/tree/main/packages) and [examples](https://github.com/xmtp/xmtp-web/tree/main/examples).
 
 ## What's inside?
 
 ### Packages
 
 - `eslint-config-xmtp-web`: An opinionated ESLint configuration for XMTP web projects
-- `react-sdk`: XMTP client SDK for React applications written in TypeScript
+- `react-sdk`: XMTP client SDK for React apps written in TypeScript
 - `tsconfig`: Internal package for sharing `tsconfig.json` files
 
 ### Examples
 
-- `react-quickstart`: A quick start example app using [React](https://react.dev/), [Vite](https://vitejs.dev/), and [RainbowKit](https://www.rainbowkit.com/)
+- `react-quickstart`: A quickstart example app using [React](https://react.dev/), [Vite](https://vitejs.dev/), and [RainbowKit](https://www.rainbowkit.com/)
 
 ## Requirements
 
 This repository requires Yarn v3+ and Node 16.10+.
 
-To install Yarn v3, follow [these instructions](https://yarnpkg.com/getting-started/install).
+To install Yarn v3, see [Yarn Installation](https://yarnpkg.com/getting-started/install).
 
 ## Developing
 
