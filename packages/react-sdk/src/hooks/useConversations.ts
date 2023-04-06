@@ -4,6 +4,7 @@ import { XMTPContext } from "../contexts/XMTPContext";
 
 /**
  * This hook fetches all conversations with the current wallet on mount.
+ * It also exposes error and loading states.
  */
 export const useConversations = () => {
   const [isLoading, setIsLoading] = useState(false);

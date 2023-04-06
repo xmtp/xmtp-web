@@ -1,6 +1,6 @@
 {
   "name": "@xmtp/react-sdk",
-  "description": "React hooks and components for interacting with the XMTP network",
+  "description": "XMTP client SDK for React applications written in TypeScript",
   "version": "1.0.0-preview.8",
   "license": "MIT",
   "type": "module",
@@ -50,7 +50,7 @@
     "dev": "concurrently \"tsup --watch\" \"yarn storybook\"",
     "clean:lib": "rm -rf lib",
     "clean": "rm -rf .turbo && rm -rf node_modules && yarn clean:lib",
-    "lint": "eslint .",
+    "lint": "eslint . --ignore-path ../../.gitignore",
     "format:base": "prettier --ignore-path ../../.gitignore",
     "format:check": "yarn format:base -c .",
     "format": "yarn format:base -w .",
@@ -105,6 +105,7 @@
   "peerDependencies": {
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.21",
+    "react": ">=16.14",
     "tailwindcss": "^3.2.7"
   }
 }

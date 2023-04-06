@@ -8,7 +8,7 @@
     "build": "yarn typecheck && vite build",
     "clean:dist": "rm -rf dist",
     "clean": "rm -rf .turbo && rm -rf node_modules && yarn clean:dist",
-    "lint": "eslint .",
+    "lint": "eslint . --ignore-path ../../.gitignore",
     "format:base": "prettier --ignore-path ../../.gitignore",
     "format:check": "yarn format:base -c .",
     "format": "yarn format:base -w .",

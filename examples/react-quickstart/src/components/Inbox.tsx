@@ -10,6 +10,7 @@ import { Conversations } from "./Conversations";
 import { Messages } from "./Messages";
 import { NewMessage } from "./NewMessage";
 import { useWallet } from "../hooks/useWallet";
+import { NoSelectedConversationNotification } from "./NoSelectedConversationNotification";
 
 export const Inbox: React.FC = () => {
   const { disconnect } = useWallet();
@@ -74,11 +75,12 @@ export const Inbox: React.FC = () => {
           {isNewMessage ? (
             <NewMessage onSuccess={handleStartNewConversationSuccess} />
           ) : conversation ? (
-            <Messages
-              conversation={conversation}
+            <Messages conversation={conversation} />
+          ) : (
+            <NoSelectedConversationNotification
               onStartNewConversation={handleStartNewConversation}
             />
-          ) : null}
+          )}
         </div>
       </div>
     </div>
