@@ -26,3 +26,11 @@ export const Loading = Template.bind({});
 Loading.args = {
   isLoading: true,
 };
+
+export const WithDomain = Template.bind({});
+WithDomain.args = {
+  text: "Hello there",
+  displayAddress: "hi.xmtp.eth",
+  datetime: new Date(2023, 0, 1),
+  conversationDomain: "foo",
+};

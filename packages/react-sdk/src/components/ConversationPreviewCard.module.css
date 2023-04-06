@@ -1,0 +1,61 @@
+.wrapper {
+  display: flex;
+  background-color: rgb(243 244 246);
+  padding: 1rem;
+  border-bottom: 1px solid rgb(229 231 235);
+  align-items: center;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: rgb(229 231 235);
+}
+
+.loading {
+  padding: 0.5rem 1rem;
+}
+
+.element {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-left: 0.75rem;
+}
+
+.domain {
+  color: white;
+  padding: 0 0.5rem;
+  background-color: rgb(79 70 229);
+  border-radius: 0.5rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.address {
+  font-size: 15px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.message {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  color: rgb(75 85 99);
+  font-size: 15px;
+  word-break: break-all;
+  align-self: stretch;
+}
+
+.time {
+  text-align: right;
+  color: rgb(75 85 99);
+  margin-left: 1rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
