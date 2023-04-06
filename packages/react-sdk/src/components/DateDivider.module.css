@@ -1,0 +1,24 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+.wrapper::before,
+.wrapper::after {
+  content: "";
+  flex-grow: 1;
+  height: 0.125rem;
+  background-color: rgb(209 213 219 / 0.25);
+}
+
+.date {
+  flex: none;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  color: rgb(107 114 128);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 700;
+}
