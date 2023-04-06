@@ -1,9 +1,17 @@
-import { InformationCircleIcon } from "@heroicons/react/24/outline";
-import { forwardRef } from "react";
+import {
+  ChevronLeftIcon,
+  InformationCircleIcon,
+} from "@heroicons/react/24/outline";
+import { forwardRef, useCallback } from "react";
 import { Avatar } from "./Avatar";
 import { ShortCopySkeletonLoader } from "./SkeletonLoaders/ShortCopySkeletonLoader";
+import styles from "./AddressInput.module.css";
 
 export type AddressInputProps = {
+  /**
+   * What, if any, ARIA label should be used for the text input
+   */
+  ariaLabel?: string;
   /**
    * What, if any, resolved address is there?
    */
@@ -27,6 +35,10 @@ export type AddressInputProps = {
     address?: string;
   };
   /**
+   * What, if any, label should be used?
+   */
+  label?: string;
+  /**
    * What happens on a submit?
    */
   onChange?: (value: string) => void;
@@ -46,39 +58,63 @@ export type AddressInputProps = {
    * Input Value
    */
   value?: string;
+  /**
+   * Is there a left icon click event that needs to be handled?
+   */
+  onLeftIconClick?: () => void;
 };
 
 export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
   (
     {
+      ariaLabel,
       resolvedAddress,
       subtext,
       avatarUrlProps,
       onChange,
       isError,
       isLoading,
+      label,
+      onLeftIconClick,
       onTooltipClick,
       value,
     },
     ref,
   ) => {
-    const subtextColor = isError ? "text-red-600" : "text-gray-400";
+    const handleChange = useCallback<
+      React.ChangeEventHandler<HTMLInputElement>
+    >(
+      (event) => {
+        onChange?.(event.target.value);
+      },
+      [onChange],
+    );
+
+    const isResolvedAddress = !!resolvedAddress?.displayAddress;
+
     return (
-      <div className="flex px-2 md:px-4 py-3 border-b border-gray-100 border-l-0 z-10 max-h-sm w-full">
-        <div className="flex items-center flex-grow">
+      <div
+        className={`${styles.wrapper} ${
+          isResolvedAddress ? styles.resolved : ""
+        }`}>
+        {onLeftIconClick && (
+          <ChevronLeftIcon onClick={onLeftIconClick} width={24} />
+        )}
+        <div className={styles.element}>
+          <div className={styles.label}>{label}</div>
           <Avatar {...avatarUrlProps} />
-          <div className="ml-2 md:ml-4 flex flex-col justify-center flex-grow">
+          <div className={styles.control}>
             {isLoading ? (
               <ShortCopySkeletonLoader lines={1} />
             ) : resolvedAddress?.displayAddress ? (
-              <div className="flex flex-col text-md py-1">
+              <div className={styles.resolvedAddress}>
                 <span
-                  className="font-bold h-4 mb-2 ml-0"
+                  className={styles.displayAddress}
                   data-testid="recipient-wallet-address">
                   {resolvedAddress.displayAddress}
                 </span>
                 {resolvedAddress.walletAddress && (
-                  <span className="text-sm font-mono">
+                  <span className={styles.walletAddress}>
                     {resolvedAddress.walletAddress}
                   </span>
                 )}
@@ -87,24 +123,24 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
               <input
                 data-testid="message-to-input"
                 tabIndex={0}
-                className="text-gray-700 px-0 h-4 m-2 ml-0 font-mono text-sm w-full leading-tight border-none focus:ring-0 cursor-text"
+                className={styles.input}
                 id="address"
                 type="text"
                 spellCheck="false"
                 autoComplete="false"
                 autoCorrect="false"
                 autoCapitalize="off"
-                onChange={(e) => onChange?.(e.target.value)}
+                onChange={handleChange}
                 value={value}
-                aria-label="Address Input"
+                aria-label={ariaLabel}
                 ref={ref}
               />
             )}
-            <p
-              className={`font-mono text-sm ${subtextColor}`}
+            <div
+              className={`${styles.subtext} ${isError ? styles.error : ""}`}
               data-testid="message-to-subtext">
               {subtext}
-            </p>
+            </div>
           </div>
         </div>
         {onTooltipClick && (
