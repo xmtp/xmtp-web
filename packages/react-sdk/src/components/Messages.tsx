@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import { MessageSkeletonLoader } from "./SkeletonLoaders/MessageSkeletonLoader";
 import { Message } from "./Message";
 import { DateDivider } from "./DateDivider";
+import styles from "./Messages.module.css";
 
 export type MessageData = Pick<
   DecodedMessage,
@@ -39,7 +40,7 @@ export const Messages: React.FC<MessagesProps> = ({
 }) => {
   if (isLoading) {
     return (
-      <div className="flex flex-col-reverse justify-start p-4">
+      <div className={styles.loading}>
         {Array.from({ length: 2 }).map((_, idx) => (
           <Fragment key={idx}>
             <MessageSkeletonLoader incoming={false} /> <MessageSkeletonLoader />
@@ -52,9 +53,7 @@ export const Messages: React.FC<MessagesProps> = ({
   const renderedDates: Date[] = [];
 
   return (
-    <div
-      data-testid="message-tile-container"
-      className="w-full flex flex-col-reverse pt-8 px-4 md:px-8">
+    <div data-testid="message-tile-container" className={styles.wrapper}>
       {messages.map((message, idx, filteredMessages) => {
         if (renderedDates.length === 0) {
           renderedDates.push(message.sent);
@@ -95,9 +94,7 @@ export const Messages: React.FC<MessagesProps> = ({
           </Fragment>
         );
       })}
-      <div
-        className="text-gray-500 font-bold text-sm w-full py-2 text-center"
-        data-testid="message-beginning-text">
+      <div className={styles.beginning} data-testid="message-beginning-text">
         This is the beginning of the conversation
       </div>
     </div>
