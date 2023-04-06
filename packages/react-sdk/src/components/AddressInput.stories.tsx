@@ -12,7 +12,7 @@ export default {
 } as ComponentMeta<typeof AddressInput>;
 
 const Template: ComponentStory<typeof AddressInput> = (args) => (
-  <AddressInput {...args} />
+  <AddressInput {...args} label="To:" />
 );
 
 export const Default = Template.bind({});
@@ -26,6 +26,14 @@ ResolvedAddress.args = {
     displayAddress: "hi.xmtp.eth",
     walletAddress: "0x194c31cAe1418D5256E8c58e0d08Aee1046C6Ed0",
   },
+  avatarUrlProps: {
+    address: "0x194c31cAe1418D5256E8c58e0d08Aee1046C6Ed0",
+  },
+};
+
+export const WithLeftIcon = Template.bind({});
+WithLeftIcon.args = {
+  onLeftIconClick: () => {},
 };
 
 export const Loading = Template.bind({});

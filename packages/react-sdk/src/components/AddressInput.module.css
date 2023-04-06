@@ -1,0 +1,104 @@
+.wrapper {
+  padding: 0.75rem 0.5rem;
+  background-color: rgb(238 242 255);
+  border-bottom: 1px solid rgb(99 102 241);
+  display: flex;
+  align-items: center;
+  height: 4rem;
+}
+
+.resolved {
+  background-color: transparent;
+  border-bottom: 1px solid rgb(229 231 235);
+}
+
+.element {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.label {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  margin-right: 0.5rem;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 0.5rem;
+  flex-grow: 1;
+}
+
+.input {
+  color: rgb(17 24 39);
+  line-height: 1.25;
+  font-family: Inconsolata, ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  padding-left: 0;
+  padding-right: 0;
+  background-color: transparent;
+  border-color: transparent;
+  cursor: text;
+  height: 1rem;
+  margin: 0.25rem 0.25rem 0.25rem 0;
+}
+
+.input:focus {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.resolvedAddress {
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem 0;
+  gap: 0.5rem;
+  font-size: 15px;
+}
+
+.displayAddress {
+  height: 1rem;
+  font-weight: 700;
+}
+
+.walletAddress {
+  font-family: Inconsolata, ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.subtext {
+  color: rgb(107 114 128);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-family: Inconsolata, ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.error {
+  color: rgb(220 38 38);
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .leftIcon {
+    display: none;
+  }
+
+  .control {
+    margin-left: 1rem;
+  }
+
+  .input {
+    font-size: 14px;
+  }
+}
