@@ -1,11 +1,13 @@
+import styles from "./ShortCopySkeletonLoader.module.css";
+
 export const ShortCopySkeletonLoader = ({ lines = 1 }) => (
-  <div role="status" className="animate-pulse max-w-lg">
+  <div role="status" className={styles.wrapper}>
     {lines === 1 ? (
-      <div className="h-4 my-2 bg-gray-200 rounded-full w-48" />
+      <div className={`${styles.element} ${styles.element1Line}`} />
     ) : (
-      <div className="my-2">
-        <div className="h-3 bg-gray-200 rounded-full w-32 mb-2" />
-        <div className="h-2.5 bg-gray-200 rounded-full w-48" />
+      <div className={styles.element2Lines}>
+        <div className={styles.element} />
+        <div className={styles.element} />
       </div>
     )}
   </div>
