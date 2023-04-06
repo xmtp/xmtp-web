@@ -1,0 +1,37 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper.left {
+  align-items: flex-start;
+}
+
+.wrapper.right {
+  align-items: flex-end;
+}
+
+.content {
+  font-size: 15px;
+  padding: 0.5rem 0.75rem;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  margin-bottom: 0.25rem;
+}
+
+.wrapper.left .content {
+  background-color: rgb(229 231 235);
+  border-radius: 0.75rem 0.75rem 0.75rem 0;
+}
+
+.wrapper.right .content {
+  color: white;
+  background-color: rgb(79 70 229);
+  border-radius: 0.75rem 0.75rem 0 0.75rem;
+}
+
+.time {
+  color: rgb(107 114 128);
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
