@@ -1,0 +1,55 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+  padding: 0;
+}
+
+.wrapper:focus {
+  outline: none;
+}
+
+.wrapper > :first-child {
+  padding: 0.25rem;
+  background-color: rgb(79 70 229);
+}
+
+.wrapper > :first-child:hover {
+  background-color: rgb(55 48 163);
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.primary {
+  border-radius: 9999px;
+}
+
+.primary > :first-child {
+  border-radius: 9999px;
+}
+
+.secondary {
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+
+.secondary > :first-child {
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+}
+
+.large {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.small {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
