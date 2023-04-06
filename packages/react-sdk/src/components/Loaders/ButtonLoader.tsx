@@ -1,4 +1,4 @@
-import loaderStyles from "./Loader.module.css";
+import styles from "./ButtonLoader.module.css";
 
 export type ButtonLoaderProps = {
   /**
@@ -18,16 +18,11 @@ export const ButtonLoader: React.FC<ButtonLoaderProps> = ({
   size,
   color = "primary",
 }) => (
-  // To-do: Change to proper loader once designs are finished
-  <div className="flex flex-row">
+  <div className={styles.wrapper}>
     <div
-      className={`rounded-full ${loaderStyles.btnLoader} ${
-        color === "primary"
-          ? loaderStyles.btnLoaderLight
-          : loaderStyles.btnLoaderDark
-      } ${
-        size === "small" ? loaderStyles.btnLoaderXs : loaderStyles.btnLoaderSm
-      } ${loaderStyles.animateSpin}`}
+      className={`${styles.element} ${
+        color === "primary" ? styles.light : styles.dark
+      } ${size === "small" ? styles.elementSmall : styles.elementLarge}`}
     />
   </div>
 );
