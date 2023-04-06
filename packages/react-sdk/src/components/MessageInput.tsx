@@ -9,20 +9,31 @@ import {
 } from "react";
 import { ArrowUpIcon } from "@heroicons/react/24/solid";
 import { IconButton } from "./IconButton";
+import styles from "./MessageInput.module.css";
 
 export type MessageInputProps = {
+  /**
+   * Is the CTA button disabled?
+   */
+  isDisabled?: boolean;
   /**
    * What happens on a submit?
    */
   onSubmit?: (msg: string) => Promise<void>;
   /**
-   * Is the CTA button disabled?
+   * What, if any, placeholder should we use for the input?
    */
-  isDisabled?: boolean;
+  placeholder?: string;
+  /**
+   * What, if any, screen reader text should be used for the submit button
+   */
+  submitSrText?: string;
 };
 
+const MIN_TEXTAREA_HEIGHT = 32;
+
 export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
-  ({ onSubmit, isDisabled }, ref) => {
+  ({ isDisabled, onSubmit, placeholder, submitSrText }, ref) => {
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     // make external ref point to internal ref
     useImperativeHandle<HTMLTextAreaElement | null, HTMLTextAreaElement | null>(
@@ -32,14 +43,6 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
     const [value, setValue] = useState("");
     const onChange = (event: ChangeEvent<HTMLTextAreaElement>) =>
       setValue(event.target.value);
-    const borderStyles =
-      "border border-gray-300 focus-within:border-1 focus-within:border-indigo-600 rounded-tl-2xl rounded-bl-2xl rounded-tr-2xl";
-    const textAreaStyles = `${
-      textAreaRef?.current?.scrollHeight &&
-      textAreaRef?.current?.scrollHeight <= 32
-        ? "max-h-8"
-        : "max-h-40"
-    } min-h-8 outline-none border-none focus:ring-0 resize-none mx-4 p-1 w-full text-md text-gray-900`;
 
     const handleKeyDown = useCallback(
       (event: KeyboardEvent) => {
@@ -62,7 +65,6 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
     }, [onSubmit, value]);
 
     useLayoutEffect(() => {
-      const MIN_TEXTAREA_HEIGHT = 32;
       if (textAreaRef?.current?.value) {
         const currentScrollHeight = textAreaRef?.current.scrollHeight;
         textAreaRef.current.style.height = `${Math.max(
@@ -76,33 +78,32 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
 
     return (
       <div>
-        <label htmlFor="chat" className="sr-only">
-          Type something...
-        </label>
-        <div
-          className={`flex items-center max-h-300 mx-4 my-2 bg-white relative no-scrollbar z-10 p-1 ${borderStyles}`}>
+        {placeholder && (
+          <label htmlFor="chat" className={styles.label}>
+            {placeholder}
+          </label>
+        )}
+        <div className={styles.wrapper}>
           <textarea
-            id="chat"
+            name="chat"
             data-testid="message-input"
             onChange={onChange}
             onKeyDown={handleKeyDown}
             ref={textAreaRef}
             rows={1}
-            className={textAreaStyles}
-            placeholder="Type something..."
+            className={styles.input}
+            placeholder={placeholder}
             value={value}
             disabled={isDisabled}
           />
-          <div className="flex items-end absolute bottom-1.5 right-1">
-            <IconButton
-              testId="message-input-submit"
-              variant="secondary"
-              label={<ArrowUpIcon color="white" width="12" />}
-              srText="Submit Message"
-              onClick={handleClick}
-              isDisabled={!value || isDisabled}
-            />
-          </div>
+          <IconButton
+            testId="message-input-submit"
+            variant="secondary"
+            label={<ArrowUpIcon color="white" width="20" />}
+            srText={submitSrText}
+            onClick={handleClick}
+            isDisabled={!value || isDisabled}
+          />
         </div>
       </div>
     );
