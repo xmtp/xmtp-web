@@ -10,7 +10,7 @@ import { Conversations } from "./Conversations";
 import { Messages } from "./Messages";
 import { NewMessage } from "./NewMessage";
 import { useWallet } from "../hooks/useWallet";
-import { NoSelectedConversation } from "./NoSelectedConversation";
+import { NoSelectedConversationNotification } from "./NoSelectedConversationNotification";
 
 export const Inbox: React.FC = () => {
   const { disconnect } = useWallet();
@@ -77,7 +77,7 @@ export const Inbox: React.FC = () => {
           ) : conversation ? (
             <Messages conversation={conversation} />
           ) : (
-            <NoSelectedConversation
+            <NoSelectedConversationNotification
               onStartNewConversation={handleStartNewConversation}
             />
           )}
