@@ -1,4 +1,5 @@
 import Blockies from "react-18-blockies";
+import styles from "./Avatar.module.css";
 
 export type AvatarProps = {
   /**
@@ -17,34 +18,20 @@ export type AvatarProps = {
 
 export const Avatar: React.FC<AvatarProps> = ({ url, isLoading, address }) => {
   if (isLoading) {
-    return (
-      <div className="animate-pulse flex">
-        <div className="rounded-full bg-gray-200 h-10 w-10" />
-      </div>
-    );
+    return <div className={styles.loading} />;
   }
 
   if (url) {
-    return (
-      <div>
-        <div className="w-10 h-10 rounded-full border border-n-80" />
-        <img
-          className="w-10 h-10 rounded-full z-10 -mt-10"
-          src={url}
-          alt={address}
-        />
-      </div>
-    );
+    return <img className={styles.avatar} src={url} alt={address} />;
   }
 
   return (
-    <div data-testid="avatar">
-      <Blockies
-        seed={address || ""}
-        scale={5}
-        size={8}
-        className="rounded-full"
-      />
-    </div>
+    <Blockies
+      data-testid="avatar"
+      seed={address || ""}
+      scale={5}
+      size={8}
+      className={styles.blockies}
+    />
   );
 };
