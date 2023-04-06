@@ -1,6 +1,18 @@
 # XMTP React SDK
 
-XMTP client SDK for React apps written in TypeScript.
+![Test](https://github.com/xmtp/xmtp-web/actions/workflows/test.yml/badge.svg) ![Lint](https://github.com/xmtp/xmtp-web/actions/workflows/lint.yml/badge.svg) ![Status](https://img.shields.io/badge/Project_Status-Developer_Preview-yellow)
+
+This `react-sdk` package provides the XMTP client SDK for React apps written in TypeScript.
+
+This SDK is in **Developer Preview** status and ready for you to start building with.
+
+However, we do **not** recommend using Developer Preview software in production apps. Software in this status may change based on feedback.
+
+To keep up with the latest SDK developments, see the [Pull requests tab](https://github.com/xmtp/xmtp-web/pulls) in this repo.
+
+To learn more about XMTP and get answers to frequently asked questions, see [FAQ about XMTP](https://xmtp.org/docs/dev-concepts/faq).
+
+![x-red-sm](https://user-images.githubusercontent.com/510695/163488403-1fb37e86-c673-4b48-954e-8460ae4d4b05.png)
 
 ## What's inside?
 
@@ -379,10 +391,6 @@ export const SendMessage: React.FC<{ conversation: Conversation }> = ({
 ```
 
 To learn more, see [Send messages](https://github.com/xmtp/xmtp-js#sending-messages) in the `xmtp-js` SDK docs.
-
-#### Content types
-
-#### Compression
 
 ### List messages in a conversation
 
