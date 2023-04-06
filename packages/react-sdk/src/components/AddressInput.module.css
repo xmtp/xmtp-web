@@ -90,6 +90,10 @@
     padding-right: 1rem;
   }
 
+  .leftIcon {
+    display: none;
+  }
+
   .control {
     margin-left: 1rem;
   }

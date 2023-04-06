@@ -98,7 +98,9 @@ export const AddressInput = forwardRef<HTMLInputElement, AddressInputProps>(
           isResolvedAddress ? styles.resolved : ""
         }`}>
         {onLeftIconClick && (
-          <ChevronLeftIcon onClick={onLeftIconClick} width={24} />
+          <div className={styles.leftIcon}>
+            <ChevronLeftIcon onClick={onLeftIconClick} width={24} />
+          </div>
         )}
         <div className={styles.element}>
           <div className={styles.label}>{label}</div>
