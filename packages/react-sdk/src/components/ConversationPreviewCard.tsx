@@ -4,7 +4,7 @@ import { formatDistanceToNowStrict } from "date-fns";
 import { IconSkeletonLoader } from "./SkeletonLoaders/IconSkeletonLoader";
 import { ShortCopySkeletonLoader } from "./SkeletonLoaders/ShortCopySkeletonLoader";
 import { Avatar } from "./Avatar";
-import { shortAddress } from "../helpers/shortAddress";
+import styles from "./ConversationPreviewCard.module.css";
 
 export type ConversationPreviewCardProps = {
   /**
@@ -19,6 +19,10 @@ export type ConversationPreviewCardProps = {
    * What is the display address associated with the message?
    */
   displayAddress?: string;
+  /**
+   * What is the wallet address associated with the message?
+   */
+  address?: string;
   /**
    * What is the datetime of the message
    */
@@ -46,8 +50,9 @@ export const ConversationPreviewCard: React.FC<
   ConversationPreviewCardProps
 > = ({
   avatarUrl,
-  text = "New message",
-  displayAddress = "New recipient",
+  text,
+  displayAddress,
+  address,
   datetime,
   isLoading = false,
   onClick,
@@ -70,45 +75,33 @@ export const ConversationPreviewCard: React.FC<
 
   return (
     <div
-      className={`flex items-start border border-t-0 border-gray-200 outline-blue outline-b-0 p-4 h-min cursor-pointer ${
-        isSelected ? "bg-gray-200" : "bg-gray-100"
+      className={`${styles.wrapper} ${isSelected ? styles.selected : ""} ${
+        isLoading ? styles.loading : ""
       }`}
       role="button"
       tabIndex={0}
       onKeyDown={handleKeyDown}
       onClick={onClick}>
-      <div className="mr-3 flex-none">
-        <Avatar
-          url={avatarUrl}
-          address={displayAddress}
-          isLoading={isLoading}
-        />
-      </div>
-      <div className="flex flex-col items-start flex-grow overflow-hidden">
+      <Avatar url={avatarUrl} address={address} isLoading={isLoading} />
+      <div className={styles.element}>
         {!isLoading && conversationDomain && (
-          <div className="text-sm mb-1 text-white px-2 rounded-lg bg-indigo-600">
-            {conversationDomain}
-          </div>
+          <div className={styles.domain}>{conversationDomain}</div>
         )}
         {isLoading ? (
           <ShortCopySkeletonLoader />
         ) : (
-          <span className="text-md font-bold truncate max-w-full">
-            {shortAddress(displayAddress) ?? "New recipient"}
-          </span>
+          <div className={styles.address}>{displayAddress}</div>
         )}
         {isLoading ? (
           <ShortCopySkeletonLoader />
         ) : (
-          <span className="text-md text-gray-600 line-clamp-1 max-w-[90%] break-all mt-1">
-            {text ?? "New message"}
-          </span>
+          <div className={styles.message}>{text}</div>
         )}
       </div>
       {isLoading ? (
         <IconSkeletonLoader />
       ) : (
-        <div className="text-xs text-gray-600 w-1/4 text-right ml-4 h-full p-1">
+        <div className={styles.time}>
           {datetime && `${formatDistanceToNowStrict(datetime)} ago`}
         </div>
       )}
