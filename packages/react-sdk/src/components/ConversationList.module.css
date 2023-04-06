@@ -1,0 +1,22 @@
+:root {
+  --conversation-list-bg-color: rgb(243 244 246);
+  --conversation-list-border-color: rgb(243 244 246);
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: var(--conversation-list-bg-color);
+}
+
+.empty {
+  border: 1px solid var(--conversation-list-border-color);
+  height: 100%;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--conversation-list-bg-color);
+}
