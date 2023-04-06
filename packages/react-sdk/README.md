@@ -2,7 +2,7 @@
 
 ![Status](https://img.shields.io/badge/Project_Status-Developer_Preview-yellow)
 
-This `react-sdk` package provides the XMTP client SDK for React apps written in TypeScript.
+This package provides the XMTP client SDK for React apps written in TypeScript.
 
 This SDK is in **Developer Preview** status and ready for you to start building with.
 
@@ -643,9 +643,9 @@ Run `yarn dev` to build the SDK on changes and launch Storybook.
 
 ## 🏗 **Breaking revisions**
 
-Because `xmtp-react` is in active development, you should expect breaking revisions that might require you to adopt the latest SDK release to enable your app to continue working as expected.
+Because this SDK is in active development, you should expect breaking revisions that might require you to adopt the latest SDK release to enable your app to continue working as expected.
 
-XMTP communicates about breaking revisions in the [XMTP Discord community](https://discord.gg/xmtp), providing as much advance notice as possible. Additionally, breaking revisions in an `xmtp-react` release are described on the [Releases page](https://github.com/xmtp/xmtp-react/releases).
+XMTP communicates about breaking revisions in the [XMTP Discord community](https://discord.gg/xmtp), providing as much advance notice as possible. Additionally, breaking revisions in a release are described on the [Releases page](https://github.com/xmtp/xmtp-react/releases).
 
 ## Deprecation
 
@@ -656,9 +656,9 @@ Older versions of the SDK will eventually be deprecated, which means:
 
 The following table provides the deprecation schedule.
 
-| Announced  | Effective  | Minimum Version | Rationale                                                                                                         |
-| ---------- | ---------- | --------------- | ---------------------------------------------------------------------------------------------------------------- |
-| There are no deprecations scheduled for `xmtp-react` at this time. |  |          |  |
+| Announced                                                      | Effective | Minimum Version | Rationale |
+| -------------------------------------------------------------- | --------- | --------------- | --------- |
+| There are no deprecations scheduled for this SDK at this time. |           |                 |           |
 
 Bug reports, feature requests, and PRs are welcome in accordance with these [contribution guidelines](https://github.com/xmtp/xmtp-react/blob/main/CONTRIBUTING.md).
 
