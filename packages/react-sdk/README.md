@@ -1,6 +1,6 @@
 # XMTP React SDK
 
-![Test](https://github.com/xmtp/xmtp-web/actions/workflows/test.yml/badge.svg) ![Lint](https://github.com/xmtp/xmtp-web/actions/workflows/lint.yml/badge.svg) ![Status](https://img.shields.io/badge/Project_Status-Developer_Preview-yellow)
+![Status](https://img.shields.io/badge/Project_Status-Developer_Preview-yellow)
 
 This `react-sdk` package provides the XMTP client SDK for React apps written in TypeScript.
 
@@ -640,3 +640,44 @@ Run `yarn dev` to build the SDK on changes and launch Storybook.
 - `yarn lint`: Runs ESLint
 - `yarn test`: Runs all unit tests
 - `yarn typecheck`: Runs `tsc`
+
+## 🏗 **Breaking revisions**
+
+Because `xmtp-react` is in active development, you should expect breaking revisions that might require you to adopt the latest SDK release to enable your app to continue working as expected.
+
+XMTP communicates about breaking revisions in the [XMTP Discord community](https://discord.gg/xmtp), providing as much advance notice as possible. Additionally, breaking revisions in an `xmtp-react` release are described on the [Releases page](https://github.com/xmtp/xmtp-react/releases).
+
+## Deprecation
+
+Older versions of the SDK will eventually be deprecated, which means:
+
+1. The network will not support and eventually actively reject connections from clients using deprecated versions.
+2. Bugs will not be fixed in deprecated versions.
+
+The following table provides the deprecation schedule.
+
+| Announced  | Effective  | Minimum Version | Rationale                                                                                                         |
+| ---------- | ---------- | --------------- | ---------------------------------------------------------------------------------------------------------------- |
+| There are no deprecations scheduled for `xmtp-react` at this time. |  |          |  |
+
+Bug reports, feature requests, and PRs are welcome in accordance with these [contribution guidelines](https://github.com/xmtp/xmtp-react/blob/main/CONTRIBUTING.md).
+
+## XMTP `production` and `dev` network environments
+
+XMTP provides both `production` and `dev` network environments to support the development phases of your project.
+
+The `production` and `dev` networks are completely separate and not interchangeable.
+For example, for a given blockchain account, its XMTP identity on `dev` network is completely distinct from its XMTP identity on the `production` network, as are the messages associated with these identities. In addition, XMTP identities and messages created on the `dev` network can't be accessed from or moved to the `production` network, and vice versa.
+
+> **Important:**  
+> When you [create a client](#create-a-client), it connects to the XMTP `dev` environment by default. To learn how to use the `env` parameter to set your client's network environment, see [Configure the client](#configure-the-client).
+
+The `env` parameter accepts one of three valid values: `dev`, `production`, or `local`. Here are some best practices for when to use each environment:
+
+- `dev`: Use to have a client communicate with the `dev` network. As a best practice, set `env` to `dev` while developing and testing your app. Follow this best practice to isolate test messages to `dev` inboxes.
+
+- `production`: Use to have a client communicate with the `production` network. As a best practice, set `env` to `production` when your app is serving real users. Follow this best practice to isolate messages between real-world users to `production` inboxes.
+
+- `local`: Use to have a client communicate with an XMTP node you are running locally. For example, an XMTP node developer can set `env` to `local` to generate client traffic to test a node running locally.
+
+The `production` network is configured to store messages indefinitely. XMTP may occasionally delete messages and keys from the `dev` network, and will provide advance notice in the [XMTP Discord community](https://discord.gg/xmtp).
