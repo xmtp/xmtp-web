@@ -14,7 +14,7 @@ export default {
 } as ComponentMeta<typeof MessageInput>;
 
 const Template: ComponentStory<typeof MessageInput> = (args) => (
-  <MessageInput {...args} />
+  <MessageInput {...args} placeholder="Type something..." />
 );
 
 export const Default = Template.bind({});
