@@ -1,5 +1,7 @@
+import styles from "./IconSkeletonLoader.module.css";
+
 export const IconSkeletonLoader = () => (
-  <div role="status" className="animate-pulse flex justify-end">
-    <div className="h-4 mt-2 ml-2 bg-gray-200 rounded-full w-8 mt-1" />
+  <div role="status" className={styles.wrapper}>
+    <div className={styles.element} />
   </div>
 );
