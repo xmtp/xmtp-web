@@ -1,5 +1,6 @@
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { ButtonLoader } from "./Loaders/ButtonLoader";
+import styles from "./IconButton.module.css";
 
 export type IconButtonProps = {
   /**
@@ -36,20 +37,6 @@ export type IconButtonProps = {
   testId?: string;
 };
 
-const colorClassMapping = {
-  primary: {
-    backgroundColor:
-      "bg-indigo-600 hover:bg-indigo-800 focus:outline-none focus:ring focus:ring-indigo-800",
-    fontColor: null,
-  },
-  secondary: null,
-};
-
-const sizeClassMapping = {
-  large: "text-lg p-0",
-  small: "text-sm p-0",
-};
-
 /**
  * Icon-only button component
  */
@@ -62,28 +49,18 @@ export const IconButton: React.FC<IconButtonProps> = ({
   srText,
   onClick,
   testId,
-}) => {
-  const disabled = isDisabled ? "opacity-50 cursor-not-allowed" : "";
-  const sizeClass = sizeClassMapping[size];
-  const shape =
-    variant === "primary"
-      ? "rounded-full"
-      : "rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl";
-
-  return (
-    <button
-      data-testid={testId}
-      type="button"
-      onClick={onClick}
-      disabled={isDisabled}
-      className={`${colorClassMapping.primary.backgroundColor} ${sizeClass} ${disabled} ${shape} flex justify-center items-center p-0 h-fit`}
-      aria-label={srText}>
-      <div
-        className={`bg-indigo-600 hover:bg-indigo-800 ${
-          size === "small" ? "p-1 min-h-20" : "p-2 min-h-24"
-        } ${shape}`}>
-        {isLoading ? <ButtonLoader color="primary" size={size} /> : label}
-      </div>
-    </button>
-  );
-};
+}) => (
+  <button
+    data-testid={testId}
+    type="button"
+    onClick={onClick}
+    disabled={isDisabled}
+    className={`${styles.wrapper} ${styles[size]} ${styles[variant]} ${
+      isDisabled ? styles.disabled : ""
+    }`}
+    aria-label={srText}>
+    <div>
+      {isLoading ? <ButtonLoader color="primary" size={size} /> : label}
+    </div>
+  </button>
+);
