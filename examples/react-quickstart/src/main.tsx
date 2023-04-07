@@ -8,9 +8,9 @@ import { mainnet } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { XMTPProvider } from "@xmtp/react-sdk";
 import App from "./components/App";
-import "./index.css";
 import "@xmtp/react-sdk/style.css";
 import { WalletProvider } from "./contexts/WalletContext";
+import "./index.css";
 
 const { chains, provider, webSocketProvider } = configureChains(
   [mainnet],

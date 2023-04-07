@@ -1,3 +1,6 @@
+// required styles
+import "./styles/normalize.css";
+
 // components
 export { AddressInput } from "./components/AddressInput";
 export { Avatar } from "./components/Avatar";
