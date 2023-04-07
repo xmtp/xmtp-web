@@ -18,7 +18,6 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding-right: 0.25rem;
 }
 
 @media (min-width: 768px) {
@@ -39,6 +38,8 @@
   max-height: 10rem;
   margin-left: 0.5rem;
   flex-grow: 1;
+  line-height: 1.5rem;
+  background-color: transparent;
 }
 
 .input:disabled {
