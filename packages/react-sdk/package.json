@@ -1,6 +1,6 @@
 {
   "name": "@xmtp/react-sdk",
-  "description": "XMTP client SDK for React applications written in TypeScript",
+  "description": "XMTP client SDK for React apps written in TypeScript",
   "version": "1.0.0-preview.8",
   "license": "MIT",
   "type": "module",
@@ -77,15 +77,12 @@
     "@storybook/react": "^7.0.0",
     "@storybook/react-vite": "^7.0.0",
     "@storybook/testing-library": "^0.0.14-next.2",
-    "@tailwindcss/forms": "^0.5.3",
-    "@tailwindcss/line-clamp": "^0.4.2",
     "@testing-library/react": "^14.0.0",
     "@types/react": "^18.0.29",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",
     "@xmtp/tsconfig": "workspace:*",
     "autoprefixer": "^10.4.14",
-    "babel-loader": "^8.3.0",
     "concurrently": "^7.6.0",
     "eslint": "^8.36.0",
     "eslint-config-xmtp-web": "workspace:*",
@@ -96,16 +93,12 @@
     "prop-types": "^15.8.1",
     "react-dom": "^18.2.0",
     "storybook": "^7.0.0",
-    "tailwindcss": "^3.2.7",
     "tsup": "^6.7.0",
     "typescript": "^5.0.2",
     "vite": "^4.2.1",
     "vitest": "^0.29.7"
   },
   "peerDependencies": {
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.21",
-    "react": ">=16.14",
-    "tailwindcss": "^3.2.7"
+    "react": ">=16.14"
   }
 }
