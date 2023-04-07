@@ -5,7 +5,7 @@ import { XMTPContext } from "../contexts/XMTPContext";
 export type ConversationStream = Promise<Stream<Conversation>>;
 
 /**
- * This hook listens for new conversations in real-time and call the passed
+ * This hook listens for new conversations in real-time and calls the passed
  * callback when a new conversation is created. It also exposes an error state.
  */
 export const useStreamConversations = (
