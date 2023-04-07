@@ -2,6 +2,7 @@ import type { Conversation } from "@xmtp/xmtp-js";
 import { SortDirection } from "@xmtp/xmtp-js";
 import { useCallback, useEffect, useState } from "react";
 import { ConversationPreviewCard } from "../components/ConversationPreviewCard";
+import { shortAddress } from "../helpers/shortAddress";
 
 export type ConversationPreviewProps = {
   /**
@@ -50,7 +51,8 @@ export const ConversationPreview: React.FC<ConversationPreviewProps> = ({
   return (
     <ConversationPreviewCard
       datetime={conversation.createdAt}
-      displayAddress={conversation.peerAddress}
+      displayAddress={shortAddress(conversation.peerAddress)}
+      address={conversation.peerAddress}
       isLoading={isLoading}
       isSelected={isSelected}
       onClick={handlePreviewClick}
