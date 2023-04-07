@@ -10,14 +10,10 @@
 
 .element1Line {
   height: 1rem;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
   width: 12rem;
 }
 
 .element2Lines {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;

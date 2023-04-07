@@ -89,7 +89,7 @@ To use any of the included components, you must also include their styles. To do
 import "@xmtp/react-sdk/styles.css";
 ```
 
-Most frameworks and bundlers include support for CSS imports out of the box.
+**Note:** The included styles contain normalizations of elements globally.
 
 ### Add the provider
 

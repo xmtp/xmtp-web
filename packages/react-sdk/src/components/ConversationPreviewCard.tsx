@@ -88,14 +88,12 @@ export const ConversationPreviewCard: React.FC<
           <div className={styles.domain}>{conversationDomain}</div>
         )}
         {isLoading ? (
-          <ShortCopySkeletonLoader />
+          <ShortCopySkeletonLoader lines={2} />
         ) : (
-          <div className={styles.address}>{displayAddress}</div>
-        )}
-        {isLoading ? (
-          <ShortCopySkeletonLoader />
-        ) : (
-          <div className={styles.message}>{text}</div>
+          <>
+            <div className={styles.address}>{displayAddress}</div>
+            <div className={styles.message}>{text}</div>
+          </>
         )}
       </div>
       {isLoading ? (

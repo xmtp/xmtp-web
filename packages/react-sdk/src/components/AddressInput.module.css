@@ -38,18 +38,14 @@
   line-height: 1.25;
   font-family: Inconsolata, ui-monospace, SFMono-Regular, Menlo, Monaco,
     Consolas, "Liberation Mono", "Courier New", monospace;
-  padding-left: 0;
-  padding-right: 0;
   background-color: transparent;
-  border-color: transparent;
+  border: 0;
   cursor: text;
   height: 1rem;
-  margin: 0.25rem 0.25rem 0.25rem 0;
 }
 
-.input:focus {
-  border-color: transparent;
-  box-shadow: none;
+.input:focus-visible {
+  outline: none;
 }
 
 .resolvedAddress {

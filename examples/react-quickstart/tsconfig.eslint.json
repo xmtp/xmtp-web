@@ -1,10 +1,5 @@
 {
   "extends": "./tsconfig.json",
-  "include": [
-    ".",
-    ".eslintrc.cjs",
-    "postcss.config.cjs",
-    "tailwind.config.cjs"
-  ],
+  "include": [".", ".eslintrc.cjs", "postcss.config.cjs"],
   "exclude": ["dist", "node_modules"]
 }

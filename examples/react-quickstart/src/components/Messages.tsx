@@ -8,6 +8,7 @@ import {
 } from "@xmtp/react-sdk";
 import type { Conversation, DecodedMessage } from "@xmtp/xmtp-js";
 import { useCallback, useEffect, useRef, useState } from "react";
+import "./Messages.css";
 
 type ConversationMessagesProps = {
   conversation: Conversation;
@@ -61,11 +62,13 @@ export const Messages: React.FC<ConversationMessagesProps> = ({
         messages={[...messages, ...streamedMessages]}
         clientAddress={conversation?.clientAddress ?? ""}
       />
-      <MessageInput
-        isDisabled={isSending}
-        onSubmit={handleSendMessage}
-        ref={messageInputRef}
-      />
+      <div className="MessageInputWrapper">
+        <MessageInput
+          isDisabled={isSending}
+          onSubmit={handleSendMessage}
+          ref={messageInputRef}
+        />
+      </div>
     </>
   );
 };
