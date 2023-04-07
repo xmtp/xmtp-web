@@ -4,6 +4,7 @@
   align-items: center;
   height: fit-content;
   padding: 0;
+  border: none;
 }
 
 .wrapper:focus {
@@ -15,7 +16,7 @@
   background-color: rgb(79 70 229);
 }
 
-.wrapper > :first-child:hover {
+.wrapper:not(.disabled) > :first-child:hover {
   background-color: rgb(55 48 163);
 }
 
