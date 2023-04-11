@@ -1,7 +1,7 @@
 {
   "name": "@xmtp/react-sdk",
   "description": "XMTP client SDK for React apps written in TypeScript",
-  "version": "1.0.0-preview.8",
+  "version": "1.0.0-preview.11",
   "license": "MIT",
   "type": "module",
   "main": "lib/index.cjs",
@@ -44,6 +44,18 @@
   ],
   "publishConfig": {
     "access": "public"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 3 chrome versions",
+      "last 3 firefox versions",
+      "last 3 safari versions"
+    ]
   },
   "scripts": {
     "build": "tsup",

@@ -3,6 +3,7 @@ import fsPromises from "fs/promises";
 import { defineConfig } from "tsup";
 import postcss from "postcss";
 import postcssModules from "postcss-modules";
+import autoprefixer from "autoprefixer";
 
 export default defineConfig((options) => ({
   entry: ["src/index.ts"],
@@ -11,11 +12,12 @@ export default defineConfig((options) => ({
   sourcemap: true,
   treeshake: true,
   clean: true,
+  bundle: true,
   minify: !options.watch,
   dts: true,
+  platform: "browser",
   format: ["cjs", "esm"],
   esbuildPlugins: [
-    // TODO: understand this solution
     // @see https://github.com/egoist/tsup/issues/536#issuecomment-1302012400
     {
       name: "css-module",
@@ -42,6 +44,9 @@ export default defineConfig((options) => ({
             );
             let cssModule = {};
             const result = await postcss([
+              autoprefixer({
+                env: "production",
+              }),
               postcssModules({
                 getJSON(_, json) {
                   cssModule = json;
