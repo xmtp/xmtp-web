@@ -44,13 +44,3 @@
   border-top-left-radius: 1rem;
   border-bottom-left-radius: 1rem;
 }
-
-.large {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-}
-
-.small {
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}

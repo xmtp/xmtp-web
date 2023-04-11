@@ -16,7 +16,7 @@
   border-style: solid;
   border-top-color: transparent;
   border-radius: 9999px;
-  animation: spin 1s linear infinite;
+  composes: spin from global;
 }
 
 .elementSmall {
@@ -29,13 +29,4 @@
   border-width: 2px;
   width: 24px;
   height: 24px;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }

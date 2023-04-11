@@ -5,13 +5,6 @@
   gap: 0.5rem;
 }
 
-@media (min-width: 768px) {
-  .wrapper {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-}
-
 .loading {
   display: flex;
   flex-direction: column-reverse;
@@ -21,8 +14,15 @@
 
 .beginning {
   color: rgb(107 114 128);
-  font-size: 0.875rem;
+  font-size: var(--xmtp-font-size-sm);
   line-height: 1.25rem;
   text-align: center;
   padding: 0.5rem 0;
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
 }

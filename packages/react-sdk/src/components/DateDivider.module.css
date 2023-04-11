@@ -18,7 +18,7 @@
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   color: rgb(107 114 128);
-  font-size: 0.75rem;
+  font-size: var(--xmtp-font-size-xs);
   line-height: 1rem;
   font-weight: 700;
 }

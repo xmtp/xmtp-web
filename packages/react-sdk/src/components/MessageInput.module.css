@@ -1,13 +1,5 @@
 .label {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+  composes: visually-hidden from global;
 }
 
 .wrapper {
@@ -18,12 +10,6 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-@media (min-width: 768px) {
-  .wrapper {
-    font-size: 15px;
-  }
 }
 
 .wrapper:focus-within {
@@ -51,4 +37,10 @@
   outline: none;
   border: none;
   box-shadow: none;
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    font-size: var(--xmtp-font-size-md);
+  }
 }

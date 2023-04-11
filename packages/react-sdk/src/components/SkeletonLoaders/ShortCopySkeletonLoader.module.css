@@ -1,6 +1,6 @@
 .wrapper {
   max-width: 32rem;
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  composes: pulse from global;
 }
 
 .element {
@@ -27,14 +27,4 @@
 .element2Lines > :last-child {
   width: 12rem;
   height: 0.625rem;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
 }

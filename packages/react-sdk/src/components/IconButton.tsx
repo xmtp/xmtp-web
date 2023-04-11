@@ -55,7 +55,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
     type="button"
     onClick={onClick}
     disabled={isDisabled}
-    className={`${styles.wrapper} ${styles[size]} ${styles[variant]} ${
+    className={`${styles.wrapper} ${styles[variant]} ${
       isDisabled ? styles.disabled : ""
     }`}
     aria-label={srText}>

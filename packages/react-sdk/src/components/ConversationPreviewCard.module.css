@@ -29,12 +29,12 @@
   background-color: rgb(79 70 229);
   border-radius: 0.5rem;
   margin-bottom: 0.25rem;
-  font-size: 0.875rem;
+  font-size: var(--xmtp-font-size-sm);
   line-height: 1.25rem;
 }
 
 .address {
-  font-size: 15px;
+  font-size: var(--xmtp-font-size-md);
   font-weight: 700;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -47,7 +47,7 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
   color: rgb(75 85 99);
-  font-size: 15px;
+  font-size: var(--xmtp-font-size-md);
   word-break: break-all;
   align-self: stretch;
 }
@@ -56,6 +56,6 @@
   text-align: right;
   color: rgb(75 85 99);
   margin-left: 1rem;
-  font-size: 0.75rem;
+  font-size: var(--xmtp-font-size-xs);
   line-height: 1rem;
 }
