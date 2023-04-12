@@ -1,5 +1,5 @@
 // required styles
-import "./styles/normalize.css";
+import "./styles/index.css";
 
 // components
 export { AddressInput } from "./components/AddressInput";

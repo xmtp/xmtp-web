@@ -1,0 +1,52 @@
+:root {
+  /* font sizes */
+  --xmtp-font-size-xs: 12px;
+  --xmtp-font-size-sm: 14px;
+  --xmtp-font-size-md: 15px;
+  --xmtp-font-size-lg: 18px;
+  --xmtp-font-size-xl: 20px;
+  --xmtp-font-size-2xl: 36px;
+
+  /* font families */
+  --xmtp-font-family: "SF Pro Rounded", Inter, ui-sans-serif, system-ui,
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  --xmtp-font-family-mono: Inconsolata, ui-monospace, SFMono-Regular, Menlo,
+    Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* colors */
+  --xmtp-color-white: #fff;
+  --xmtp-color-black: #000;
+  --xmtp-color-gray-50: #f9fafb;
+  --xmtp-color-gray-200: #e5e7eb;
+  --xmtp-color-gray-400: #9ca3af;
+  --xmtp-color-gray-500: #6b7280;
+  --xmtp-color-gray-700: #374151;
+  --xmtp-color-gray-800: #1f2937;
+  --xmtp-color-gray-900: #111827;
+  --xmtp-color-indigo-600: #4f46e5;
+  --xmtp-color-indigo-800: #3730a3;
+  --xmtp-color-green-500: #22c55e;
+  --xmtp-color-green-800: #166534;
+  --xmtp-color-red-600: #dc2626;
+  --xmtp-color-red-800: #991b1b;
+
+  /* background colors */
+  --xmtp-bg-color-primary: var(--xmtp-color-white);
+  --xmtp-bg-color-secondary: var(--xmtp-color-gray-200);
+  --xmtp-bg-color-tertiary: var(--xmtp-color-gray-50);
+
+  /* text colors */
+  --xmtp-text-color-primary: var(--xmtp-color-black);
+  --xmtp-text-color-secondary: var(--xmtp-color-gray-500);
+  --xmtp-text-color-tertiary: var(--xmtp-color-gray-400);
+
+  /* action colors */
+  --xmtp-action-color-primary: var(--xmtp-color-indigo-600);
+  --xmtp-action-color-primary-pressed: var(--xmtp-color-indigo-800);
+  --xmtp-action-color-secondary: var(--xmtp-color-green-500);
+  --xmtp-action-color-secondary-pressed: var(--xmtp-color-green-800);
+  --xmtp-action-color-tertiary: var(--xmtp-color-red-600);
+  --xmtp-action-color-tertiary-pressed: var(--xmtp-color-red-800);
+}

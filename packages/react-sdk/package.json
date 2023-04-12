@@ -1,7 +1,7 @@
 {
   "name": "@xmtp/react-sdk",
   "description": "XMTP client SDK for React apps written in TypeScript",
-  "version": "1.0.0-preview.8",
+  "version": "1.0.0-preview.12",
   "license": "MIT",
   "type": "module",
   "main": "lib/index.cjs",
@@ -45,6 +45,18 @@
   "publishConfig": {
     "access": "public"
   },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 3 chrome versions",
+      "last 3 firefox versions",
+      "last 3 safari versions"
+    ]
+  },
   "scripts": {
     "build": "tsup",
     "dev": "concurrently \"tsup --watch\" \"yarn storybook\"",
@@ -62,7 +74,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.16",
-    "@xmtp/xmtp-js": "^7.14.1",
+    "@xmtp/xmtp-js": "beta",
     "date-fns": "^2.29.3",
     "react": "^18.2.0",
     "react-18-blockies": "^1.0.6"
@@ -82,7 +94,6 @@
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^3.1.0",
     "@xmtp/tsconfig": "workspace:*",
-    "autoprefixer": "^10.4.14",
     "concurrently": "^7.6.0",
     "eslint": "^8.36.0",
     "eslint-config-xmtp-web": "workspace:*",
@@ -90,6 +101,7 @@
     "jsdom": "^21.1.1",
     "postcss": "^8.4.21",
     "postcss-modules": "^6.0.0",
+    "postcss-preset-env": "^8.3.1",
     "prop-types": "^15.8.1",
     "react-dom": "^18.2.0",
     "storybook": "^7.0.0",

@@ -12,7 +12,7 @@
 }
 
 .content {
-  font-size: 15px;
+  font-size: var(--xmtp-font-size-md);
   padding: 0.5rem 0.75rem;
   overflow-wrap: break-word;
   white-space: pre-wrap;
@@ -32,6 +32,6 @@
 
 .time {
   color: rgb(107 114 128);
-  font-size: 0.75rem;
+  font-size: var(--xmtp-font-size-sm);
   line-height: 1rem;
 }
