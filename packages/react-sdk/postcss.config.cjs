@@ -1,7 +1,5 @@
 module.exports = {
   plugins: {
-    autoprefixer: {
-      env: "development",
-    },
+    "postcss-preset-env": {},
   },
 };

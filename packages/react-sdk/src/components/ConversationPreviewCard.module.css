@@ -1,14 +1,14 @@
 .wrapper {
   display: flex;
-  background-color: rgb(243 244 246);
+  background-color: var(--xmtp-bg-color-tertiary);
   padding: 1rem;
-  border-bottom: 1px solid rgb(229 231 235);
+  border-bottom: 1px solid var(--xmtp-bg-color-secondary);
   align-items: center;
   cursor: pointer;
 }
 
 .selected {
-  background-color: rgb(229 231 235);
+  background-color: var(--xmtp-bg-color-secondary);
 }
 
 .loading {
@@ -24,17 +24,17 @@
 }
 
 .domain {
-  color: white;
+  color: var(--xmtp-color-white);
   padding: 0 0.5rem;
-  background-color: rgb(79 70 229);
+  background-color: var(--xmtp-color-indigo-600);
   border-radius: 0.5rem;
   margin-bottom: 0.25rem;
-  font-size: var(--xmtp-font-size-sm);
-  line-height: 1.25rem;
+  composes: text-sm from global;
 }
 
 .address {
-  font-size: var(--xmtp-font-size-md);
+  composes: text-md from global;
+  color: var(--xmtp-text-color-primary);
   font-weight: 700;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -46,16 +46,15 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
-  color: rgb(75 85 99);
-  font-size: var(--xmtp-font-size-md);
+  color: var(--xmtp-text-color-secondary);
+  composes: text-md from global;
   word-break: break-all;
   align-self: stretch;
 }
 
 .time {
   text-align: right;
-  color: rgb(75 85 99);
+  color: var(--xmtp-text-color-tertiary);
   margin-left: 1rem;
-  font-size: var(--xmtp-font-size-xs);
-  line-height: 1rem;
+  composes: text-xs from global;
 }

@@ -10,6 +10,47 @@
   border-width: 0;
 }
 
+.text-xs {
+  font-size: var(--xmtp-font-size-xs);
+  letter-spacing: 0.5px;
+  line-height: 16px;
+}
+
+.text-sm {
+  font-size: var(--xmtp-font-size-sm);
+  letter-spacing: 0.5px;
+  line-height: 18px;
+}
+
+.text-md {
+  font-size: var(--xmtp-font-size-md);
+  letter-spacing: 0.5px;
+  line-height: 21px;
+}
+
+.text-lg {
+  font-size: var(--xmtp-font-size-lg);
+  letter-spacing: 0.5px;
+  line-height: 22px;
+}
+
+.text-xl {
+  font-size: var(--xmtp-font-size-xl);
+  letter-spacing: 0.5px;
+  line-height: 28px;
+}
+
+.text-2xl {
+  font-size: var(--xmtp-font-size-2xl);
+  letter-spacing: 0.5px;
+  line-height: 40px;
+}
+
+.text-mono {
+  font-family: var(--xmtp-font-family-mono);
+  letter-spacing: 0;
+}
+
 .pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

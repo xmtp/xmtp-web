@@ -3,7 +3,7 @@ import fsPromises from "fs/promises";
 import { defineConfig } from "tsup";
 import postcss from "postcss";
 import postcssModules from "postcss-modules";
-import autoprefixer from "autoprefixer";
+import postcssPresetEnv from "postcss-preset-env";
 
 export default defineConfig((options) => ({
   entry: ["src/index.ts"],
@@ -44,8 +44,10 @@ export default defineConfig((options) => ({
             );
             let cssModule = {};
             const result = await postcss([
-              autoprefixer({
-                env: "production",
+              postcssPresetEnv({
+                autoprefixer: {
+                  env: "production",
+                },
               }),
               postcssModules({
                 getJSON(_, json) {

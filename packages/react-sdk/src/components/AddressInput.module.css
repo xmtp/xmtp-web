@@ -1,15 +1,20 @@
+:root {
+  --xmtp-address-input-bg-color: #4f46e50d;
+  --xmtp-address-input-border-color: var(--xmtp-action-color-primary);
+}
+
 .wrapper {
   padding: 0.75rem 0.5rem;
-  background-color: rgb(238 242 255);
-  border-bottom: 1px solid rgb(99 102 241);
+  background-color: var(--xmtp-address-input-bg-color);
+  border-bottom: 1px solid var(--xmtp-address-input-border-color);
   display: flex;
   align-items: center;
   height: 4rem;
 }
 
 .resolved {
-  background-color: transparent;
-  border-bottom: 1px solid rgb(229 231 235);
+  background-color: var(--xmtp-bg-color-primary);
+  border-bottom: 1px solid var(--xmtp-bg-color-secondary);
 }
 
 .element {
@@ -19,10 +24,9 @@
 }
 
 .label {
-  font-size: var(--xmtp-font-size-sm);
-  line-height: 1.25rem;
   font-weight: 700;
   margin-right: 0.5rem;
+  composes: text-sm from global;
 }
 
 .control {
@@ -34,13 +38,13 @@
 }
 
 .input {
-  color: rgb(17 24 39);
-  line-height: 1.25;
+  color: var(--xmtp-text-color-primary);
   font-family: var(--xmtp-font-family-mono);
   background-color: transparent;
   border: 0;
   cursor: text;
   height: 1rem;
+  composes: text-md from global;
 }
 
 .input:focus-visible {
@@ -92,6 +96,6 @@
   }
 
   .input {
-    font-size: var(--xmtp-font-size-sm);
+    composes: text-sm from global;
   }
 }
