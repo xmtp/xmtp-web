@@ -60,7 +60,8 @@ export const Messages: React.FC<ConversationMessagesProps> = ({
       <ConversationMessages
         isLoading={isLoading}
         messages={[...messages, ...streamedMessages]}
-        clientAddress={conversation?.clientAddress ?? ""}
+        // TODO: fix this once the Conversation type is fixed
+        clientAddress=""
       />
       <div className="MessageInputWrapper">
         <MessageInput
