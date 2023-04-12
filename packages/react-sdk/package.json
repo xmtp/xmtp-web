@@ -74,7 +74,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.16",
-    "@xmtp/xmtp-js": "beta",
+    "@xmtp/xmtp-js": "8.0.0-beta.19",
     "date-fns": "^2.29.3",
     "react": "^18.2.0",
     "react-18-blockies": "^1.0.6"

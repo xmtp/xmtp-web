@@ -6142,7 +6142,7 @@ __metadata:
     "@vitejs/plugin-react": ^3.1.0
     "@xmtp/react-sdk": "workspace:*"
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": beta
+    "@xmtp/xmtp-js": 8.0.0-beta.19
     autoprefixer: ^10.4.14
     eslint: ^8.36.0
     eslint-config-xmtp-web: "workspace:*"
@@ -6175,7 +6175,7 @@ __metadata:
     "@types/react-dom": ^18.0.11
     "@vitejs/plugin-react": ^3.1.0
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": beta
+    "@xmtp/xmtp-js": 8.0.0-beta.19
     concurrently: ^7.6.0
     date-fns: ^2.29.3
     eslint: ^8.36.0
@@ -6205,9 +6205,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xmtp/xmtp-js@npm:beta":
-  version: 8.0.0-beta.18
-  resolution: "@xmtp/xmtp-js@npm:8.0.0-beta.18"
+"@xmtp/xmtp-js@npm:8.0.0-beta.19":
+  version: 8.0.0-beta.19
+  resolution: "@xmtp/xmtp-js@npm:8.0.0-beta.19"
   dependencies:
     "@noble/secp256k1": ^1.5.2
     "@stardazed/streams-polyfill": ^2.4.0
@@ -6217,7 +6217,7 @@ __metadata:
     ethers: ^5.5.3
     long: ^5.2.0
     siwe: ^2.1.3
-  checksum: ae34d27e7e209bf81b1be988f41c54581eb8670a0a40e4e4c1c806f8bede4706cb1f71bf3f55cbfc3c3d05eafc80e5bab0035823905c37a423a82a98308c59e1
+  checksum: 3fac6aa8ac9fe597490fc33650c81658cb509748fd50df0820eac168e25b9473855ea61692e21fb1a42ad115bce82199006c2fa7807010f039576c90110c2ee6
   languageName: node
   linkType: hard
 
