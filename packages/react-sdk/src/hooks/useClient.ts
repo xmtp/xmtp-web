@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import type { InitClientArgs } from "../contexts/XMTPContext";
 import { XMTPContext } from "../contexts/XMTPContext";
 
 /**
@@ -16,8 +15,8 @@ export const useClient = () => {
     client: xmtpContext.client,
     disconnect: xmtpContext.closeClient,
     error: xmtpContext.error,
-    initialize: ({ keys, options, signer }: InitClientArgs) =>
-      xmtpContext.initClient({ keys, options, signer }),
+    initialize: xmtpContext.initClient,
     isLoading: xmtpContext.isLoading,
+    signer: xmtpContext.signer,
   };
 };
