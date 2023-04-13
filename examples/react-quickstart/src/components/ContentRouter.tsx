@@ -6,8 +6,8 @@ import { WalletConnect } from "./WalletConnect";
 import { Inbox } from "./Inbox";
 
 export const ContentRouter = () => {
-  const { isConnected, signer } = useWallet();
-  const { client } = useClient({ signer });
+  const { isConnected } = useWallet();
+  const { client } = useClient();
 
   if (!isConnected) {
     return <WalletConnect />;

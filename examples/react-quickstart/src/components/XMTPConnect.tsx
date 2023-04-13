@@ -10,11 +10,11 @@ type XMTPConnectButtonProps = {
 
 const XMTPConnectButton: React.FC<XMTPConnectButtonProps> = ({ label }) => {
   const { signer } = useWallet();
-  const { initialize } = useClient({ signer });
+  const { initialize } = useClient();
 
   const handleConnect = useCallback(() => {
-    void initialize();
-  }, [initialize]);
+    void initialize({ signer });
+  }, [initialize, signer]);
 
   return (
     <button className="Button" type="button" onClick={handleConnect}>
@@ -24,8 +24,7 @@ const XMTPConnectButton: React.FC<XMTPConnectButtonProps> = ({ label }) => {
 };
 
 export const XMTPConnect: React.FC = () => {
-  const { signer } = useWallet();
-  const { isLoading, error } = useClient({ signer });
+  const { isLoading, error } = useClient();
 
   if (error) {
     return (
