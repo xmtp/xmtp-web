@@ -10,7 +10,7 @@ type CanMessageReturns<T> = T extends string
 
 export type InitClientArgs = {
   keys?: Uint8Array;
-  options?: ClientOptions;
+  options?: Partial<ClientOptions>;
   signer?: Signer | null;
 };
 
