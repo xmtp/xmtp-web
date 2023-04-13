@@ -21,7 +21,7 @@ export type XMTPContextValue = {
   ) => Promise<CanMessageReturns<T>>;
   client?: Client;
   closeClient: () => void;
-  initClient: (arg0: InitClientArgs) => Promise<void>;
+  initClient: (arg0: InitClientArgs) => Promise<Client | undefined>;
   isLoading: boolean;
 };
 
@@ -30,7 +30,7 @@ export const XMTPContext = createContext<XMTPContextValue>({
   client: undefined,
   closeClient: () => {},
   error: null,
-  initClient: () => Promise.resolve(),
+  initClient: () => Promise.resolve(undefined),
   isLoading: false,
 });
 
@@ -49,7 +49,7 @@ export const XMTPProvider: React.FC<React.PropsWithChildren> = ({
       if (!client && signer) {
         // if the client is already initializing, don't do anything
         if (initializingRef.current) {
-          return;
+          return undefined;
         }
 
         // flag the client as initializing
@@ -65,6 +65,7 @@ export const XMTPProvider: React.FC<React.PropsWithChildren> = ({
             privateKeyOverride: keys,
           });
           setClient(xmtpClient);
+          return xmtpClient;
         } catch (e) {
           setClient(undefined);
           setError(e);
@@ -75,6 +76,7 @@ export const XMTPProvider: React.FC<React.PropsWithChildren> = ({
           initializingRef.current = false;
         }
       }
+      return client;
     },
     [client],
   );

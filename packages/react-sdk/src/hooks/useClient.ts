@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import type { InitClientArgs } from "../contexts/XMTPContext";
 import { XMTPContext } from "../contexts/XMTPContext";
 
@@ -6,27 +6,17 @@ import { XMTPContext } from "../contexts/XMTPContext";
  * This hook allows you to initialize, disconnect, and access the XMTP client
  * instance. It also exposes the error and loading states of the client.
  */
-export const useClient = ({
-  options,
-  signer,
-}: Pick<InitClientArgs, "options" | "signer">) => {
+export const useClient = () => {
   const xmtpContext = useContext(XMTPContext);
   if (xmtpContext === undefined) {
     console.error("useClient must be used within a XMTPProvider");
   }
 
-  // disconnect XMTP client when the wallet changes
-  useEffect(() => {
-    xmtpContext.closeClient();
-    // only run this effect with the signer changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [signer]);
-
   return {
     client: xmtpContext.client,
     disconnect: xmtpContext.closeClient,
     error: xmtpContext.error,
-    initialize: (keys?: InitClientArgs["keys"]) =>
+    initialize: ({ keys, options, signer }: InitClientArgs) =>
       xmtpContext.initClient({ keys, options, signer }),
     isLoading: xmtpContext.isLoading,
   };
