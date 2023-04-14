@@ -10,7 +10,7 @@ type CanMessageReturns<T> = T extends string
 
 export type InitClientArgs = {
   keys?: Uint8Array;
-  options?: ClientOptions;
+  options?: Partial<ClientOptions>;
   signer?: Signer | null;
 };
 
@@ -21,8 +21,9 @@ export type XMTPContextValue = {
   ) => Promise<CanMessageReturns<T>>;
   client?: Client;
   closeClient: () => void;
-  initClient: (arg0: InitClientArgs) => Promise<void>;
+  initClient: (arg0: InitClientArgs) => Promise<Client | undefined>;
   isLoading: boolean;
+  signer?: Signer;
 };
 
 export const XMTPContext = createContext<XMTPContextValue>({
@@ -30,7 +31,7 @@ export const XMTPContext = createContext<XMTPContextValue>({
   client: undefined,
   closeClient: () => {},
   error: null,
-  initClient: () => Promise.resolve(),
+  initClient: () => Promise.resolve(undefined),
   isLoading: false,
 });
 
@@ -38,6 +39,9 @@ export const XMTPProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
   const [client, setClient] = useState<Client | undefined>(undefined);
+  const [clientSigner, setClientSigner] = useState<Signer | undefined>(
+    undefined,
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown | null>(null);
   const initializingRef = useRef(false);
@@ -49,7 +53,7 @@ export const XMTPProvider: React.FC<React.PropsWithChildren> = ({
       if (!client && signer) {
         // if the client is already initializing, don't do anything
         if (initializingRef.current) {
-          return;
+          return undefined;
         }
 
         // flag the client as initializing
@@ -65,8 +69,11 @@ export const XMTPProvider: React.FC<React.PropsWithChildren> = ({
             privateKeyOverride: keys,
           });
           setClient(xmtpClient);
+          setClientSigner(signer);
+          return xmtpClient;
         } catch (e) {
           setClient(undefined);
+          setClientSigner(undefined);
           setError(e);
           // re-throw error so that consumers can process
           throw e;
@@ -75,6 +82,7 @@ export const XMTPProvider: React.FC<React.PropsWithChildren> = ({
           initializingRef.current = false;
         }
       }
+      return client;
     },
     [client],
   );
@@ -84,6 +92,7 @@ export const XMTPProvider: React.FC<React.PropsWithChildren> = ({
     if (client) {
       await client.close();
       setClient(undefined);
+      setClientSigner(undefined);
     }
   }, [client]);
 
@@ -115,8 +124,17 @@ export const XMTPProvider: React.FC<React.PropsWithChildren> = ({
       error,
       initClient,
       isLoading,
+      signer: clientSigner,
     }),
-    [canMessage, client, closeClient, error, initClient, isLoading],
+    [
+      canMessage,
+      client,
+      clientSigner,
+      closeClient,
+      error,
+      initClient,
+      isLoading,
+    ],
   );
 
   return <XMTPContext.Provider value={value}>{children}</XMTPContext.Provider>;

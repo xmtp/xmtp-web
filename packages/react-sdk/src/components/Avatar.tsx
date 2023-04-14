@@ -25,6 +25,10 @@ export const Avatar: React.FC<AvatarProps> = ({ url, isLoading, address }) => {
     return <img className={styles.avatar} src={url} alt={address} />;
   }
 
+  if (!address) {
+    return <div className={styles.avatar} />;
+  }
+
   return (
     <Blockies
       data-testid="avatar"
