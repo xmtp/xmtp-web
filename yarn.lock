@@ -6142,7 +6142,7 @@ __metadata:
     "@vitejs/plugin-react": ^3.1.0
     "@xmtp/react-sdk": "workspace:*"
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": ^8.0.0
+    "@xmtp/xmtp-js": ^8.0.1
     autoprefixer: ^10.4.14
     eslint: ^8.36.0
     eslint-config-xmtp-web: "workspace:*"
@@ -6205,22 +6205,6 @@ __metadata:
   resolution: "@xmtp/tsconfig@workspace:packages/tsconfig"
   languageName: unknown
   linkType: soft
-
-"@xmtp/xmtp-js@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "@xmtp/xmtp-js@npm:8.0.0"
-  dependencies:
-    "@noble/secp256k1": ^1.5.2
-    "@stardazed/streams-polyfill": ^2.4.0
-    "@xmtp/proto": ^3.24.0-beta.2
-    async-mutex: ^0.4.0
-    elliptic: ^6.5.4
-    ethers: ^5.5.3
-    long: ^5.2.0
-    siwe: ^2.1.3
-  checksum: 1f7e815819ba61cf88991b27e048b1d2fdd64626c72df956559df067d2dcd60493c6ab31ab7ac88f5d15fb46b992cc1af632c1629c9ddddab31e8288bc333e5e
-  languageName: node
-  linkType: hard
 
 "@xmtp/xmtp-js@npm:^8.0.1":
   version: 8.0.1
