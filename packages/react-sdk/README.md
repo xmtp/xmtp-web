@@ -33,13 +33,13 @@ These ready-made components can help you quickly build a chat app.
 
 ```bash
 # npm
-npm install @xmtp/react-sdk
+npm install @xmtp/react-sdk@preview
 
 # pnpm
-pnpm install @xmtp/react-sdk
+pnpm install @xmtp/react-sdk@preview
 
 # yarn
-yarn add @xmtp/react-sdk
+yarn add @xmtp/react-sdk@preview
 ```
 
 ### Create React App
@@ -66,7 +66,7 @@ window.Buffer = window.Buffer ?? Buffer;
 
 ### Next.js
 
-Next.js seems to have some issues with processing ES Modules. If you experience any issues when importing `@xmtp/react-sdk`, you can disable ESM imports by updating your config.
+Next.js may have issues with processing ES Modules when importing `@xmtp/react-sdk`. If you experience any problems, you can disable ESM imports by updating your config.
 
 `next.config.js`:
 
