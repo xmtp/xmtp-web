@@ -8,7 +8,7 @@ This SDK is in **Developer Preview** status and ready for you to start building 
 
 However, we do **not** recommend using Developer Preview software in production apps. Software in this status may change based on feedback.
 
-To keep up with the latest SDK developments, see the [Pull requests tab](https://github.com/xmtp/xmtp-web/pulls) in this repo.
+To keep up with the latest SDK developments, see the [Issues tab](https://github.com/xmtp/xmtp-web/issues) in this repo.
 
 To learn more about XMTP and get answers to frequently asked questions, see [FAQ about XMTP](https://xmtp.org/docs/dev-concepts/faq).
 
@@ -113,7 +113,7 @@ The `useClient` hook allows you to initialize, disconnect, and access the XMTP c
 
 The hook requires passing in a connected wallet that implements the [Signer](https://github.com/xmtp/xmtp-js/blob/main/src/types/Signer.ts) interface.
 
-To learn more about this process, see [Create a client](https://github.com/xmtp/xmtp-js#creating-a-client) in the `xmtp-js` SDK docs.
+To learn more about this process, see [Create a client](https://github.com/xmtp/xmtp-js#create-a-client) in the `xmtp-js` SDK docs.
 
 **Type**
 
@@ -168,13 +168,13 @@ export const CreateClient: React.FC<{ signer: Signer }> = ({ signer }) => {
 
 #### Configure the client
 
-To learn more about client configuration options, see [Configure the client](https://github.com/xmtp/xmtp-js#configuring-the-client) in the `xmtp-js` SDK docs.
+To learn more about client configuration options, see [Configure the client](https://github.com/xmtp/xmtp-js#configure-the-client) in the `xmtp-js` SDK docs.
 
 #### Create a client with private keys
 
 Manually handling private keys is not recommended unless a use case requires it.
 
-To learn more, see [Manually handling private key storage](https://github.com/xmtp/xmtp-js#manually-handling-private-key-storage) in the `xmtp-js` SDK docs.
+To learn more, see [Manually handle private key storage](https://github.com/xmtp/xmtp-js#manually-handle-private-key-storage) in the `xmtp-js` SDK docs.
 
 **Example**
 
@@ -390,7 +390,7 @@ export const SendMessage: React.FC<{ conversation: Conversation }> = ({
 };
 ```
 
-To learn more, see [Send messages](https://github.com/xmtp/xmtp-js#sending-messages) in the `xmtp-js` SDK docs.
+To learn more, see [Send messages](https://github.com/xmtp/xmtp-js#send-messages) in the `xmtp-js` SDK docs.
 
 ### List messages in a conversation
 
