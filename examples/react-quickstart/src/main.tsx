@@ -8,7 +8,7 @@ import { mainnet } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { XMTPProvider } from "@xmtp/react-sdk";
 import App from "./components/App";
-import "@xmtp/react-sdk/style.css";
+import "@xmtp/react-sdk/styles.css";
 import { WalletProvider } from "./contexts/WalletContext";
 import "./index.css";
 
