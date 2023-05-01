@@ -1,6 +1,16 @@
 # React quickstart example app
 
-A quickstart example app using [React](https://react.dev/), [Vite](https://vitejs.dev/), and [RainbowKit](https://www.rainbowkit.com/).
+![Status](https://img.shields.io/badge/Project_Status-Developer_Preview-yellow)
+
+This is a quickstart example app using [React](https://react.dev/), [Vite](https://vitejs.dev/), and [RainbowKit](https://www.rainbowkit.com/).
+
+This example app is in **Developer Preview** status and ready to serve as a reference for you to start building with.
+
+However, we do not recommend using Developer Preview software in production apps.
+
+To keep up with the latest example app developments, see the [Issues tab](https://github.com/xmtp/xmtp-web/issues) in this repo.
+
+To learn more about XMTP and get answers to frequently asked questions, see [FAQ about XMTP](https://xmtp.org/docs/dev-concepts/faq).
 
 ### Limitations
 
