@@ -35,3 +35,6 @@ export { useStartConversation } from "./hooks/useStartConversation";
 export { useStreamAllMessages } from "./hooks/useStreamAllMessages";
 export { useStreamConversations } from "./hooks/useStreamConversations";
 export { useStreamMessages } from "./hooks/useStreamMessages";
+
+// re-export types from the JS SDK
+export type * from "@xmtp/xmtp-js";
