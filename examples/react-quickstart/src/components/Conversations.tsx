@@ -3,7 +3,7 @@ import {
   useConversations,
   useStreamConversations,
 } from "@xmtp/react-sdk";
-import type { Conversation } from "@xmtp/xmtp-js";
+import type { Conversation } from "@xmtp/react-sdk";
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
 import { useCallback, useState } from "react";
 import { Notification } from "./Notification";

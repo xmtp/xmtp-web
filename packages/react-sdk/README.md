@@ -118,8 +118,8 @@ To learn more about this process, see [Create a client](https://github.com/xmtp/
 **Type**
 
 ```ts
-import { Client } from "@xmtp/xmtp-js";
-import type { ClientOptions, Signer } from "@xmtp/xmtp-js";
+import { Client } from "@xmtp/react-sdk";
+import type { ClientOptions, Signer } from "@xmtp/react-sdk";
 
 const useClient: ({
   options,
@@ -179,9 +179,8 @@ To learn more, see [Manually handle private key storage](https://github.com/xmtp
 **Example**
 
 ```tsx
-import { Client } from "@xmtp/xmtp-js";
-import type { Signer } from "@xmtp/xmtp-js";
-import { useClient } from "@xmtp/react-sdk";
+import { Client, useClient } from "@xmtp/react-sdk";
+import type { Signer } from "@xmtp/react-sdk";
 
 export const CreateClientWithKeys: React.FC<{ signer: Signer }> = ({ signer }) => {
   const { initialize } = useClient({ signer });
@@ -210,7 +209,7 @@ The `useConversations` hook fetches all conversations with the current wallet on
 **Type**
 
 ```ts
-import type { Conversation } from "@xmtp/xmtp-js";
+import type { Conversation } from "@xmtp/react-sdk";
 
 const useConversations: () => {
   conversations: Conversation[];
@@ -247,7 +246,7 @@ The `useStreamConversations` hook listens for new conversations in real-time and
 **Type**
 
 ```ts
-import type { Conversation } from "@xmtp/xmtp-js";
+import type { Conversation } from "@xmtp/react-sdk";
 
 const useStreamConversations: (
   onConversation: (conversation: Conversation) => void,
@@ -261,7 +260,7 @@ const useStreamConversations: (
 ```tsx
 import { useCallback, useState } from "react";
 import { useStreamConversations } from "@xmtp/react-sdk";
-import type { Conversation } from "@xmtp/xmtp-js";
+import type { Conversation } from "@xmtp/react-sdk";
 
 export const NewConversations: React.FC = () => {
   // track streamed conversations
@@ -298,7 +297,7 @@ The `useStartConversation` hook starts a new conversation and sends an initial m
 
 ```ts
 import type { InvitationContext } from "@xmtp/xmtp-js/dist/types/src/Invitation";
-import type { Conversation, SendOptions } from "@xmtp/xmtp-js";
+import type { Conversation, SendOptions } from "@xmtp/react-sdk";
 
 const useStartConversation: <T = string>(
   options?: InvitationContext,
@@ -356,7 +355,7 @@ The `useSendMessage` hook sends a new message into a conversation.
 **Type**
 
 ```ts
-import type { Conversation, SendOptions } from "@xmtp/xmtp-js";
+import type { Conversation, SendOptions } from "@xmtp/react-sdk";
 
 const useSendMessage: <T = string>(
   conversation: Conversation,
@@ -368,7 +367,7 @@ const useSendMessage: <T = string>(
 
 ```tsx
 import { MessageInput, useSendMessage } from "@xmtp/react-sdk";
-import type { Conversation } from "@xmtp/xmtp-js";
+import type { Conversation } from "@xmtp/react-sdk";
 import { useCallback, useState } from "react";
 
 export const SendMessage: React.FC<{ conversation: Conversation }> = ({
@@ -403,7 +402,7 @@ import type {
   Conversation,
   DecodedMessage,
   ListMessagesOptions,
-} from "@xmtp/xmtp-js";
+} from "@xmtp/react-sdk";
 
 const useMessages: (
   conversation?: Conversation,
@@ -420,7 +419,7 @@ const useMessages: (
 
 ```tsx
 import { ConversationMessages, useMessages } from "@xmtp/react-sdk";
-import type { Conversation, DecodedMessage } from "@xmtp/xmtp-js";
+import type { Conversation, DecodedMessage } from "@xmtp/react-sdk";
 
 export const Messages: React.FC<{
   conversation: Conversation;
@@ -452,7 +451,7 @@ The `useStreamMessages` hook streams new conversation messages on mount and expo
 **Type**
 
 ```ts
-import type { Conversation, DecodedMessage } from "@xmtp/xmtp-js";
+import type { Conversation, DecodedMessage } from "@xmtp/react-sdk";
 
 const useStreamMessages: (
   conversation: Conversation,
@@ -466,7 +465,7 @@ const useStreamMessages: (
 
 ```tsx
 import { useStreamMessages } from "@xmtp/react-sdk";
-import type { Conversation, DecodedMessage } from "@xmtp/xmtp-js";
+import type { Conversation, DecodedMessage } from "@xmtp/react-sdk";
 import { useCallback, useEffect, useState } from "react";
 
 export const StreamMessages: React.FC<{
@@ -508,7 +507,7 @@ The `useStreamAllMessages` hook streams new messages from all conversations on m
 **Type**
 
 ```ts
-import type { DecodedMessage } from "@xmtp/xmtp-js";
+import type { DecodedMessage } from "@xmtp/react-sdk";
 
 const useStreamAllMessages: (onMessage: (message: DecodedMessage) => void) => {
   error: unknown;
@@ -519,7 +518,7 @@ const useStreamAllMessages: (onMessage: (message: DecodedMessage) => void) => {
 
 ```tsx
 import { useStreamAllMessages } from "@xmtp/react-sdk";
-import type { DecodedMessage } from "@xmtp/xmtp-js";
+import type { DecodedMessage } from "@xmtp/react-sdk";
 import { useCallback, useState } from "react";
 
 export const StreamAllMessages: React.FC = () => {
@@ -574,6 +573,8 @@ const useCanMessage: () => {
 **Example**
 
 ```tsx
+import { useCanMessage } from "@xmtp/react-sdk";
+
 export const CanMessage: React.FC = () => {
   const [peerAddress, setPeerAddress] = useState("");
   const [isOnNetwork, setIsOnNetwork] = useState(false);
