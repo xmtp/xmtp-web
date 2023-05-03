@@ -457,7 +457,7 @@ export const Messages: React.FC<{
 };
 ```
 
-#### Paging through messages
+#### Page through messages
 
 If a conversation has a lot of messages, it's more performant to page through them rather than fetching them all at once. This can be accomplished by using the `limit` option to limit the number of messages to fetch at a time.
 
