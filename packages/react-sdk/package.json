@@ -1,7 +1,7 @@
 {
   "name": "@xmtp/react-sdk",
   "description": "XMTP client SDK for React apps written in TypeScript",
-  "version": "1.0.0-preview.20",
+  "version": "1.0.0-preview.26",
   "license": "MIT",
   "type": "module",
   "main": "lib/index.cjs",

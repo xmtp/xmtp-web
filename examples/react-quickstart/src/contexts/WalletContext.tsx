@@ -1,5 +1,5 @@
 import "@rainbow-me/rainbowkit/styles.css";
-import type { Signer } from "@xmtp/xmtp-js";
+import type { Signer } from "@xmtp/react-sdk";
 import { createContext, useMemo } from "react";
 import { useAccount, useConnect, useDisconnect, useSigner } from "wagmi";
 

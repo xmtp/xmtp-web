@@ -6,7 +6,7 @@ import {
   useCanMessage,
   useStartConversation,
 } from "@xmtp/react-sdk";
-import type { Conversation } from "@xmtp/xmtp-js";
+import type { Conversation } from "@xmtp/react-sdk";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 type NewMessageProps = {

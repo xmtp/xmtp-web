@@ -6,7 +6,7 @@ import {
   useSendMessage,
   useStreamMessages,
 } from "@xmtp/react-sdk";
-import type { Conversation, DecodedMessage } from "@xmtp/xmtp-js";
+import type { Conversation, DecodedMessage } from "@xmtp/react-sdk";
 import { useCallback, useEffect, useRef, useState } from "react";
 import "./Messages.css";
 

@@ -1,6 +1,6 @@
 import "./Inbox.css";
 import { useCallback, useState } from "react";
-import type { Conversation } from "@xmtp/xmtp-js";
+import type { Conversation } from "@xmtp/react-sdk";
 import {
   ArrowRightOnRectangleIcon,
   PlusCircleIcon,
