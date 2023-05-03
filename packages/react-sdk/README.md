@@ -404,16 +404,29 @@ import type {
   ListMessagesOptions,
 } from "@xmtp/react-sdk";
 
+export type UseMessagesOptions = ListMessagesOptions & {
+  /**
+   * Callback function to execute when new messages are fetched
+   */
+  onMessages?: (
+    messages: DecodedMessage[],
+    options: ListMessagesOptions,
+  ) => void;
+};
+
 const useMessages: (
   conversation?: Conversation,
-  options?: ListMessagesOptions,
+  options?: UseMessagesOptions,
 ) => {
   error: unknown;
+  hasMore: boolean;
   isLoading: boolean;
   messages: DecodedMessage[];
-  hasMore: boolean;
+  next: () => Promise<DecodedMessage[]>;
 };
 ```
+
+**Note:** It's important to memoize the `options` argument so that the hook doesn't fetch messages endlessly.
 
 **Example**
 
@@ -440,6 +453,61 @@ export const Messages: React.FC<{
       messages={messages}
       clientAddress={conversation?.clientAddress ?? ""}
     />
+  );
+};
+```
+
+#### Paging through messages
+
+If a conversation has a lot of messages, it's more performant to page through them rather than fetching them all at once. This can be accomplished by using the `limit` option to limit the number of messages to fetch at a time.
+
+**Example**
+
+```tsx
+import { ConversationMessages, useMessages } from "@xmtp/react-sdk";
+import type { Conversation, DecodedMessage } from "@xmtp/react-sdk";
+
+export const PagedMessages: React.FC<{
+  conversation: Conversation;
+}> = ({ conversation }) => {
+  // it's important to memoize the options so that messages are not
+  // fetched continuously
+  const options = useMemo(
+    () => ({
+      limit: 20,
+    }),
+    [],
+  );
+
+  const { error, isLoading, messages, next } = useMessages(
+    conversation,
+    options,
+  );
+
+  const handleClick = useCallback(() => {
+    // fetch next page of messages
+    next();
+  }, [next]);
+
+  if (error) {
+    return "An error occurred while loading messages";
+  }
+
+  if (isLoading) {
+    return "Loading messages...";
+  }
+
+  return (
+    <>
+      <ConversationMessages
+        isLoading={isLoading}
+        messages={messages}
+        clientAddress={conversation?.clientAddress ?? ""}
+      />
+      <button type="button" onClick={handleClick}>
+        Load more messages
+      </button>
+    </>
   );
 };
 ```
