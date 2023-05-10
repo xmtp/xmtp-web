@@ -15,14 +15,35 @@ export type InitClientArgs = {
 };
 
 export type XMTPContextValue = {
+  /**
+   * XMTP client error
+   */
   error: unknown;
+  /**
+   * Check if a wallet address is on the XMTP network
+   */
   canMessage: <T extends string | string[]>(
     peerAddress: T,
   ) => Promise<CanMessageReturns<T>>;
+  /**
+   * XMTP JS Client
+   */
   client?: Client;
+  /**
+   * Disconnect the XMTP client
+   */
   closeClient: () => void;
+  /**
+   * Initialize the XMTP client
+   */
   initClient: (arg0: InitClientArgs) => Promise<Client | undefined>;
+  /**
+   * Loading state when the XMTP client is busy
+   */
   isLoading: boolean;
+  /**
+   * The signer (wallet) associated with the XMTP client
+   */
   signer?: Signer;
 };
 
