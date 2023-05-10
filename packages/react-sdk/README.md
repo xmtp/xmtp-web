@@ -64,21 +64,6 @@ import { Buffer } from "buffer";
 window.Buffer = window.Buffer ?? Buffer;
 ```
 
-### Next.js
-
-Next.js may have issues with processing ES Modules when importing `@xmtp/react-sdk`. If you experience any problems, you can disable ESM imports by updating your config.
-
-`next.config.js`:
-
-```js
-const nextConfig = {
-  experimental: {
-    // disable ESM imports
-    esmExternals: false,
-  },
-};
-```
-
 ## Usage
 
 ### Include styles
