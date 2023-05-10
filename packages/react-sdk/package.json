@@ -75,7 +75,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.16",
-    "@xmtp/xmtp-js": "^8.1.0",
+    "@xmtp/xmtp-js": "^9.0.0",
     "date-fns": "^2.29.3",
     "react": "^18.2.0",
     "react-18-blockies": "^1.0.6"
@@ -112,7 +112,7 @@
     "vitest": "^0.29.7"
   },
   "peerDependencies": {
-    "@xmtp/xmtp-js": "^8.1.0",
+    "@xmtp/xmtp-js": "^9.0.0",
     "react": ">=16.14"
   }
 }
