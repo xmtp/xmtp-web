@@ -6594,7 +6594,7 @@ __metadata:
     "@types/react-dom": ^18.2.4
     "@vitejs/plugin-react": ^4.0.0
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": ^9.0.0
+    "@xmtp/xmtp-js": ^9.0.1
     date-fns: ^2.30.0
     eslint: ^8.40.0
     eslint-config-xmtp-web: "workspace:*"
@@ -6613,7 +6613,7 @@ __metadata:
     vite: ^4.3.5
     vitest: ^0.31.0
   peerDependencies:
-    "@xmtp/xmtp-js": ^9.0.0
+    "@xmtp/xmtp-js": ^9.0.1
     react: ">=16.14"
   languageName: unknown
   linkType: soft
@@ -6624,9 +6624,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xmtp/xmtp-js@npm:^9.0.0":
-  version: 9.0.0
-  resolution: "@xmtp/xmtp-js@npm:9.0.0"
+"@xmtp/xmtp-js@npm:^9.0.1":
+  version: 9.0.1
+  resolution: "@xmtp/xmtp-js@npm:9.0.1"
   dependencies:
     "@noble/secp256k1": ^1.5.2
     "@xmtp/proto": ^3.24.0
@@ -6634,7 +6634,7 @@ __metadata:
     elliptic: ^6.5.4
     ethers: ^5.5.3
     long: ^5.2.0
-  checksum: 665e98c60d22cc8ebe5ac8776e28e19e8f8209bc8152e00f61c42e6e69a03811e4956deef0f29531f4e8f2d9b77b5efd7788a8731e077f2239433a8d81c5244b
+  checksum: a5576f980a38d053890980098e73e232f8e271c13ae338b12d8ba641e293aa7b9f7c05c69e7c47651c567768beeec6f9e5223ef791604f431f85c54cf721b0ab
   languageName: node
   linkType: hard
 
