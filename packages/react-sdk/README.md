@@ -296,8 +296,11 @@ The `useStartConversation` hook starts a new conversation and sends an initial m
 **Type**
 
 ```ts
-import type { InvitationContext } from "@xmtp/xmtp-js/dist/types/src/Invitation";
-import type { Conversation, SendOptions } from "@xmtp/react-sdk";
+import type {
+  Conversation,
+  InvitationContext,
+  SendOptions,
+} from "@xmtp/react-sdk";
 
 const useStartConversation: <T = string>(
   options?: InvitationContext,
