@@ -8,6 +8,7 @@ import {
 } from "@xmtp/react-sdk";
 import type { Conversation } from "@xmtp/react-sdk";
 import { useCallback, useEffect, useRef, useState } from "react";
+import "./NewMessage.css";
 
 type NewMessageProps = {
   onSuccess?: (conversation?: Conversation) => void;
@@ -82,10 +83,12 @@ export const NewMessage: React.FC<NewMessageProps> = ({ onSuccess }) => {
         }}
       />
       <ConversationMessages />
-      <MessageInput
-        isDisabled={isLoading || !isValidAddress(peerAddress) || isError}
-        onSubmit={handleStartConversation}
-      />
+      <div className="NewMessageInputWrapper">
+        <MessageInput
+          isDisabled={isLoading || !isValidAddress(peerAddress) || isError}
+          onSubmit={handleStartConversation}
+        />
+      </div>
     </>
   );
 };
