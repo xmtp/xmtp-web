@@ -11,6 +11,9 @@ export const useCanMessage = () => {
 
   return {
     canMessage: xmtpContext.canMessage,
+    /**
+     * Check if a wallet address is on the XMTP network without a client instance
+     */
     canMessageStatic: Client.canMessage,
   };
 };

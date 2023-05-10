@@ -7,10 +7,31 @@ import { useCallback } from "react";
 export const useSendMessage = <T = string>(
   conversation: Conversation,
   options?: SendOptions,
-) =>
-  useCallback(
+) => {
+  // destructure options for more granular dependency array
+  const { compression, contentFallback, contentType, ephemeral, timestamp } =
+    options ?? {};
+
+  return useCallback(
     async (message: T, optionsOverride?: SendOptions) => {
-      await conversation?.send(message, optionsOverride || options);
+      await conversation?.send(
+        message,
+        optionsOverride ?? {
+          compression,
+          contentFallback,
+          contentType,
+          ephemeral,
+          timestamp,
+        },
+      );
     },
-    [conversation, options],
+    [
+      compression,
+      contentFallback,
+      contentType,
+      conversation,
+      ephemeral,
+      timestamp,
+    ],
   );
+};
