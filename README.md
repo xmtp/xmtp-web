@@ -1,6 +1,6 @@
 # XMTP web SDKs and examples
 
-This is the official repository for XMTP web SDKs and examples, powered by [Turborepo](https://turbo.build/repo). 
+This is the official repository for XMTP web SDKs and examples, powered by [Turborepo](https://turbo.build/repo).
 
 To learn more about the contents of this repository, see this README and the READMEs provided for [packages](https://github.com/xmtp/xmtp-web/tree/main/packages) and [examples](https://github.com/xmtp/xmtp-web/tree/main/examples).
 
@@ -9,7 +9,7 @@ To learn more about the contents of this repository, see this README and the REA
 ### Packages
 
 - [`eslint-config-xmtp-web`](packages/eslint-config-xmtp-web): An opinionated ESLint configuration for XMTP web projects
-- [`react-sdk`](packages/react-sdk): 🧑‍💻 Dev preview: XMTP client SDK for React apps written in TypeScript
+- [`react-sdk`](packages/react-sdk): 🧑‍💻 Dev preview: React XMTP client SDK
 - [`tsconfig`](packages/tsconfig): Internal package for sharing `tsconfig.json` files
 
 ### Examples
@@ -18,9 +18,9 @@ To learn more about the contents of this repository, see this README and the REA
 
 ## Requirements
 
-This repository requires Yarn v3+ and Node 16.10+.
-
-To install Yarn v3, see [Yarn Installation](https://yarnpkg.com/getting-started/install).
+- Node 16.10+
+- React 16.14+
+- Yarn v3+. See [Yarn Installation](https://yarnpkg.com/getting-started/install).
 
 ## Developing
 
