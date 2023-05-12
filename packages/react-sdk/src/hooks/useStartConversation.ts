@@ -1,6 +1,5 @@
-import type { InvitationContext } from "@xmtp/xmtp-js/dist/types/src/Invitation";
 import { useCallback, useContext } from "react";
-import type { SendOptions } from "@xmtp/xmtp-js";
+import type { SendOptions, InvitationContext } from "@xmtp/xmtp-js";
 import { XMTPContext } from "../contexts/XMTPContext";
 
 /**
@@ -14,6 +13,9 @@ export const useStartConversation = <T = string>(
     console.error("useStartConversation must be used within a XMTPProvider");
   }
 
+  // destructure options for more granular dependency arrays
+  const { conversationId, metadata } = options ?? {};
+
   return useCallback(
     async (peerAddress: string, message: T, sendOptions?: SendOptions) => {
       // we can't do anything without a client
@@ -25,13 +27,18 @@ export const useStartConversation = <T = string>(
       const conversation =
         await xmtpContext?.client?.conversations.newConversation(
           peerAddress,
-          options,
+          conversationId && metadata
+            ? {
+                conversationId,
+                metadata,
+              }
+            : undefined,
         );
 
       await conversation.send(message, sendOptions);
 
       return conversation;
     },
-    [options, xmtpContext?.client],
+    [conversationId, metadata, xmtpContext?.client],
   );
 };

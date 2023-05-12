@@ -15,25 +15,24 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@heroicons/react": "^2.0.16",
+    "@heroicons/react": "^2.0.18",
     "@rainbow-me/rainbowkit": "^0.12.4",
     "@xmtp/react-sdk": "workspace:*",
-    "@xmtp/xmtp-js": "^8.1.0",
     "ethers": "5.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "wagmi": "^0.12.6"
+    "wagmi": "^0.12.13"
   },
   "devDependencies": {
-    "@types/react": "^18.0.29",
-    "@types/react-dom": "^18.0.11",
-    "@vitejs/plugin-react": "^3.1.0",
+    "@types/react": "^18.2.6",
+    "@types/react-dom": "^18.2.4",
+    "@vitejs/plugin-react": "^4.0.0",
     "@xmtp/tsconfig": "workspace:*",
     "autoprefixer": "^10.4.14",
-    "eslint": "^8.36.0",
+    "eslint": "^8.40.0",
     "eslint-config-xmtp-web": "workspace:*",
-    "postcss": "^8.4.21",
-    "typescript": "^5.0.2",
-    "vite": "^4.2.1"
+    "postcss": "^8.4.23",
+    "typescript": "^5.0.4",
+    "vite": "^4.3.5"
   }
 }
