@@ -1,8 +1,8 @@
-# XMTP React SDK
+# React XMTP client SDK
 
 ![Status](https://img.shields.io/badge/Project_Status-Developer_Preview-yellow)
 
-This package provides the XMTP client SDK for React apps written in TypeScript.
+This package provides the XMTP client SDK for React.
 
 This SDK is in **Developer Preview** status and ready for you to start building with.
 
@@ -28,17 +28,11 @@ These ready-made components can help you quickly build a chat app.
 
 - Node 16.10+
 - React 16.14+
+- Yarn v3+. See [Yarn Installation](https://yarnpkg.com/getting-started/install).
 
 ## Install
 
 ```bash
-# npm
-npm install @xmtp/react-sdk@preview
-
-# pnpm
-pnpm install @xmtp/react-sdk@preview
-
-# yarn
 yarn add @xmtp/react-sdk@preview
 ```
 
@@ -691,7 +685,8 @@ Run `yarn dev` to build the SDK on changes and launch Storybook.
 
 - `yarn build`: Builds the SDK
 - `yarn clean`: Removes `node_modules`, `lib`, and `.turbo` folders
-- `yarn dev`: Launches Storybook for SDK components
+- `yarn dev`: Develop the `react-sdk` package
+- `yarn storybook`: Launches Storybook for SDK components at `http://localhost:6006`
 - `yarn format`: Runs prettier format and write changes
 - `yarn format:check`: Runs prettier format check
 - `yarn lint`: Runs ESLint

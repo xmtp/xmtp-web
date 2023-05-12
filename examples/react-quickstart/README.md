@@ -1,8 +1,8 @@
-# React quickstart example app
+# React Quickstart example app
 
 ![Status](https://img.shields.io/badge/Project_Status-Developer_Preview-yellow)
 
-This is a quickstart example app using [React](https://react.dev/), [Vite](https://vitejs.dev/), and [RainbowKit](https://www.rainbowkit.com/).
+React Quickstart is an example app built using the [React XMTP client SDK](/packages/react-sdk/README.md), [React](https://react.dev/), [Vite](https://vitejs.dev/), and [RainbowKit](https://www.rainbowkit.com/).
 
 This example app is in **Developer Preview** status and ready to serve as a reference for you to start building with.
 
@@ -14,17 +14,17 @@ To learn more about XMTP and get answers to frequently asked questions, see [FAQ
 
 ### Limitations
 
-This example app demonstrates features of the React SDK, but it isn't a complete solution. For example, the list of conversations doesn't update when new messages arrive in existing conversations.
+This example app demonstrates features of the React XMTP client SDK, but it isn't a complete solution. For example, the list of conversations doesn't update when new messages arrive in existing conversations.
 
 ## Developing
 
-After installing the dependencies, run `yarn dev` to start developing.
+Install the [React client SDK and requirements](/packages/react-sdk/README.md) and then run `yarn dev` to start developing.
 
 ## Useful commands
 
 - `yarn build`: Builds the example app
 - `yarn clean`: Removes `node_modules`, `dist`, and `.turbo` folders
-- `yarn dev`: Launches the example app in development mode
+- `yarn dev`: Launches the example app in development mode at `http://127.0.0.1:5173`
 - `yarn format`: Runs prettier format and write changes
 - `yarn format:check`: Runs prettier format check
 - `yarn lint`: Runs ESLint
