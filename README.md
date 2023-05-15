@@ -20,7 +20,7 @@ To learn more about the contents of this repository, see this README and the REA
 
 - Node 16.10+
 - React 16.14+
-- Yarn v3+. See [Yarn Installation](https://yarnpkg.com/getting-started/install).
+- Yarn v3+ is required only at the root level of this repo and when developing examples and packages in this repo. See [Yarn Installation](https://yarnpkg.com/getting-started/install). External consumption of the React SDK does not require Yarn.
 
 ## Developing
 
@@ -30,7 +30,7 @@ After installing the requirements, run `yarn && yarn dev` to start developing.
 
 - `yarn build`: Build all packages
 - `yarn clean`: Remove all `node_modules`, `.turbo`, and build folders, clear Yarn cache
-- `yarn dev`: Builds all packages and examples and watches for changes, which will trigger rebuilds
+- `yarn dev`: Builds `packages/react-sdk` and starts dev mode on the SDK. Runs the `examples/react-quickstart` app in dev mode.
 - `yarn format`: Run prettier format and write changes on all packages
 - `yarn format:check`: Run prettier format check on all packages
 - `yarn lint`: Lint all packages

@@ -18,7 +18,9 @@ This example app demonstrates features of the React XMTP client SDK, but it isn'
 
 ## Developing
 
-Run `yarn build` and then `yarn dev` to start developing.
+1. In `packages/react-sdk`, run `yarn build` to build the SDK.
+
+2. In `examples/react-quickstart`, run `yarn dev` to start developing.
 
 ## Useful commands
 
