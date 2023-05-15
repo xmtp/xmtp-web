@@ -39,7 +39,7 @@ npm install @xmtp/react-sdk@preview
 # pnpm
 pnpm install @xmtp/react-sdk@preview
 
-# for use within this repo: yarn
+# for use within this repo, yarn
 yarn add @xmtp/react-sdk@preview
 ```
 
