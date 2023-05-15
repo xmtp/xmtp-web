@@ -30,7 +30,7 @@ After installing the requirements, run `yarn && yarn dev` to start developing.
 
 - `yarn build`: Build all packages
 - `yarn clean`: Remove all `node_modules`, `.turbo`, and build folders, clear Yarn cache
-- `yarn dev`: Develop all packages and examples
+- `yarn dev`: Builds all packages and examples and watches for changes, which will trigger rebuilds
 - `yarn format`: Run prettier format and write changes on all packages
 - `yarn format:check`: Run prettier format check on all packages
 - `yarn lint`: Lint all packages

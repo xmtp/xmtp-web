@@ -24,7 +24,7 @@ Run `yarn build` and then `yarn dev` to start developing.
 
 - `yarn build`: Builds the example app
 - `yarn clean`: Removes `node_modules`, `dist`, and `.turbo` folders
-- `yarn dev`: Launches the example app in development mode at `http://127.0.0.1:5173`
+- `yarn dev`: Launches the example app and watches for changes, which will trigger a rebuild
 - `yarn format`: Runs prettier format and write changes
 - `yarn format:check`: Runs prettier format check
 - `yarn lint`: Runs ESLint

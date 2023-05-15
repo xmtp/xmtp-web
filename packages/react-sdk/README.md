@@ -28,11 +28,18 @@ These ready-made components can help you quickly build a chat app.
 
 - Node 16.10+
 - React 16.14+
-- Yarn v3+. See [Yarn Installation](https://yarnpkg.com/getting-started/install).
+- For use within this repo, Yarn v3+. See [Yarn Installation](https://yarnpkg.com/getting-started/install).
 
 ## Install
 
 ```bash
+# npm
+npm install @xmtp/react-sdk@preview
+
+# pnpm
+pnpm install @xmtp/react-sdk@preview
+
+# for use within this repo: yarn
 yarn add @xmtp/react-sdk@preview
 ```
 
@@ -679,14 +686,14 @@ export const CanMessage: React.FC = () => {
 
 ## Developing
 
-Run `yarn dev` to build the SDK on changes and launch Storybook.
+Run `yarn dev` to build the SDK and watch for changes, which will trigger a rebuild.
 
 ## Useful commands
 
 - `yarn build`: Builds the SDK
 - `yarn clean`: Removes `node_modules`, `lib`, and `.turbo` folders
-- `yarn dev`: Develop the `react-sdk` package
-- `yarn storybook`: Launches Storybook for SDK components at `http://localhost:6006`
+- `yarn dev`: Builds the SDK and watches for changes, which will trigger a rebuild
+- `yarn storybook`: Launches Storybook for SDK components
 - `yarn format`: Runs prettier format and write changes
 - `yarn format:check`: Runs prettier format check
 - `yarn lint`: Runs ESLint
