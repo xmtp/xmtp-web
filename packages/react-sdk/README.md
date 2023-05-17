@@ -28,7 +28,6 @@ These ready-made components can help you quickly build a chat app.
 
 - Node 16.10+
 - React 16.14+
-- Yarn v3+ is required only at the root level of this repo and when developing examples and packages in this repo. See [Yarn Installation](https://yarnpkg.com/getting-started/install). External consumption of the React SDK does not require Yarn.
 
 ## Install
 
