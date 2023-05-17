@@ -10,7 +10,6 @@
       "outputs": []
     },
     "dev": {
-      "dependsOn": ["@xmtp/react-sdk#build"],
       "cache": false,
       "persistent": true
     },

@@ -1,11 +1,8 @@
-import {
-  ConversationPreviewList,
-  useConversations,
-  useStreamConversations,
-} from "@xmtp/react-sdk";
+import { useConversations, useStreamConversations } from "@xmtp/react-sdk";
 import type { Conversation } from "@xmtp/react-sdk";
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
 import { useCallback, useState } from "react";
+import { ConversationPreviewList } from "@xmtp/react-components";
 import { Notification } from "./Notification";
 
 type ConversationsProps = {

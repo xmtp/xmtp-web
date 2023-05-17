@@ -1,11 +1,13 @@
 import {
-  AddressInput,
-  Messages as ConversationMessages,
-  MessageInput,
   isValidAddress,
   useCanMessage,
   useStartConversation,
 } from "@xmtp/react-sdk";
+import {
+  AddressInput,
+  Messages as ConversationMessages,
+  MessageInput,
+} from "@xmtp/react-components";
 import type { Conversation } from "@xmtp/react-sdk";
 import { useCallback, useEffect, useRef, useState } from "react";
 import "./NewMessage.css";
