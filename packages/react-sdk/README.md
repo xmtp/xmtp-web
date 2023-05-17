@@ -1,8 +1,8 @@
-# XMTP React SDK
+# React XMTP client SDK
 
 ![Status](https://img.shields.io/badge/Project_Status-Developer_Preview-yellow)
 
-This package provides the XMTP client SDK for React apps written in TypeScript.
+This package provides the XMTP client SDK for React.
 
 This SDK is in **Developer Preview** status and ready for you to start building with.
 
@@ -685,13 +685,14 @@ export const CanMessage: React.FC = () => {
 
 ## Developing
 
-Run `yarn dev` to build the SDK on changes and launch Storybook.
+Run `yarn dev` to build the SDK and watch for changes, which will trigger a rebuild.
 
 ## Useful commands
 
 - `yarn build`: Builds the SDK
 - `yarn clean`: Removes `node_modules`, `lib`, and `.turbo` folders
-- `yarn dev`: Launches Storybook for SDK components
+- `yarn dev`: Builds the SDK and watches for changes, which will trigger a rebuild
+- `yarn storybook`: Launches Storybook for SDK components
 - `yarn format`: Runs prettier format and write changes
 - `yarn format:check`: Runs prettier format check
 - `yarn lint`: Runs ESLint
