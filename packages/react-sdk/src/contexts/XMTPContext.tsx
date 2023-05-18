@@ -1,6 +1,14 @@
-import { useState, createContext, useCallback, useMemo, useRef } from "react";
+import React, {
+  useState,
+  createContext,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
 import type { ClientOptions, Signer } from "@xmtp/xmtp-js";
 import { Client } from "@xmtp/xmtp-js";
+import { Signer as EthersSigner } from "ethers";
+import { useSigner } from "@thirdweb-dev/react-native";
 
 type CanMessageReturns<T> = T extends string
   ? boolean
@@ -44,7 +52,7 @@ export type XMTPContextValue = {
   /**
    * The signer (wallet) associated with the XMTP client
    */
-  signer?: Signer;
+  signer?: EthersSigner | Signer;
 };
 
 export const XMTPContext = createContext<XMTPContextValue>({

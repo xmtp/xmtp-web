@@ -16,6 +16,7 @@ export const useClient = () => {
     disconnect: xmtpContext.closeClient,
     error: xmtpContext.error,
     initialize: xmtpContext.initClient,
+    initializeRN: xmtpContext.initClientRN,
     isLoading: xmtpContext.isLoading,
     signer: xmtpContext.signer,
   };

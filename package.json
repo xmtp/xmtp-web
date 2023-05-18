@@ -17,6 +17,9 @@
     "test": "FORCE_COLOR=1 turbo run test",
     "typecheck": "FORCE_COLOR=1 turbo run typecheck"
   },
+  "dependencies": {
+    "@thirdweb-dev/react-native": "^0.2.8"
+  },
   "devDependencies": {
     "prettier": "^2.8.8",
     "turbo": "^1.9.3"
