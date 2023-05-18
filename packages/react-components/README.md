@@ -1,14 +1,14 @@
-# XMTP React Components
+# XMTP React components
 
 ![Status](https://img.shields.io/badge/Project_Status-Developer_Preview-yellow)
 
-This package provides React components for XMTP React apps written in TypeScript.
+This package provides React components for building React apps with XMTP.
 
 These components are in **Developer Preview** status and ready for you to start building with.
 
 However, we do **not** recommend using Developer Preview software in production apps. Software in this status may change based on feedback.
 
-To keep up with the latest SDK developments, see the [Issues tab](https://github.com/xmtp/xmtp-web/issues) in this repo.
+To keep up with the latest component developments, see the [Issues tab](https://github.com/xmtp/xmtp-web/issues) in this repo.
 
 To learn more about XMTP and get answers to frequently asked questions, see [FAQ about XMTP](https://xmtp.org/docs/dev-concepts/faq).
 
@@ -18,7 +18,7 @@ To learn more about XMTP and get answers to frequently asked questions, see [FAQ
 
 ### Components
 
-These ready-made components can help you quickly build a chat app.
+These ready-made components can help you quickly build a chat app with XMTP.
 
 ## Requirements
 
@@ -74,9 +74,7 @@ XMTP communicates about breaking revisions in the [XMTP Discord community](https
 
 ## Deprecation
 
-Older versions of this package will eventually be deprecated, which means:
-
-1. Bugs will not be fixed in deprecated versions.
+Older versions of this package will eventually be deprecated, which means bugs will not be fixed in deprecated versions.
 
 The following table provides the deprecation schedule.
 
