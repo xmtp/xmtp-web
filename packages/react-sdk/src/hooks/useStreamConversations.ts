@@ -1,6 +1,6 @@
 import type { Conversation, Stream } from "@xmtp/xmtp-js";
-import { useContext, useEffect, useRef, useState } from "react";
-import { XMTPContext } from "../contexts/XMTPContext";
+import { useEffect, useRef, useState } from "react";
+import { useClient } from "./useClient";
 
 export type ConversationStream = Promise<Stream<Conversation>>;
 
@@ -24,10 +24,7 @@ export const useStreamConversations = (
     }
   });
 
-  const xmtpContext = useContext(XMTPContext);
-  if (xmtpContext === undefined) {
-    console.error("useStreamConversations must be used within a XMTPProvider");
-  }
+  const { client } = useClient();
 
   /**
    * Attempt to stream conversations on mount
@@ -39,7 +36,7 @@ export const useStreamConversations = (
 
     const streamConversations = async () => {
       // we can't do anything without a client
-      if (xmtpContext?.client === undefined) {
+      if (client === undefined) {
         console.error("XMTP client is not available");
         return;
       }
@@ -52,7 +49,7 @@ export const useStreamConversations = (
       try {
         // it's important not to await the stream here so that we can cleanup
         // consistently if this hook unmounts during this call
-        streamRef.current = xmtpContext.client.conversations.stream();
+        streamRef.current = client.conversations.stream();
         stream = streamRef.current;
 
         for await (const conversation of await stream) {
@@ -70,7 +67,7 @@ export const useStreamConversations = (
     return () => {
       void endStream(stream);
     };
-  }, [onConversation, xmtpContext.client]);
+  }, [onConversation, client]);
 
   return {
     error,
