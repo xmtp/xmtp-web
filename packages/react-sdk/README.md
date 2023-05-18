@@ -104,19 +104,18 @@ To learn more about this process, see [Create a client](https://github.com/xmtp/
 
 ```ts
 import { Client } from "@xmtp/react-sdk";
-import type { ClientOptions, Signer } from "@xmtp/react-sdk";
 
-const useClient: ({
-  options,
-  signer,
-}: {
-  options?: ClientOptions;
+type InitClientArgs = {
+  keys?: Uint8Array;
+  options?: Partial<ClientOptions>;
   signer?: Signer | null;
-}) => {
+};
+
+const useClient: () => {
   client: Client | undefined;
   disconnect: () => void;
   error: unknown;
-  initialize: (keys?: Uint8Array) => Promise<void>;
+  initialize: (args?: InitClientArgs) => Promise<void>;
   isLoading: boolean;
 };
 ```
@@ -125,10 +124,10 @@ const useClient: ({
 
 ```tsx
 export const CreateClient: React.FC<{ signer: Signer }> = ({ signer }) => {
-  const { client, error, isLoading, initialize } = useClient({ signer });
+  const { client, error, isLoading, initialize } = useClient();
 
   const handleConnect = useCallback(async () => {
-    await initialize();
+    await initialize({ signer });
   }, [initialize]);
 
   if (error) {
@@ -168,7 +167,7 @@ import { Client, useClient } from "@xmtp/react-sdk";
 import type { Signer } from "@xmtp/react-sdk";
 
 export const CreateClientWithKeys: React.FC<{ signer: Signer }> = ({ signer }) => {
-  const { initialize } = useClient({ signer });
+  const { initialize } = useClient();
 
   // initialize client on mount
   useEffect(() => {
@@ -176,7 +175,7 @@ export const CreateClientWithKeys: React.FC<{ signer: Signer }> = ({ signer }) =
       // get the keys using a valid Signer
       const keys = await Client.getKeys(signer);
       // create a client using keys returned from getKeys
-      await initialize(keys);
+      await initialize({ keys, signer });
     };
     void init();
   }, []);
