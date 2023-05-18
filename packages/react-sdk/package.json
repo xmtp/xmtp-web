@@ -73,7 +73,9 @@
   "dependencies": {
     "@xmtp/xmtp-js": "^9.0.1",
     "date-fns": "^2.30.0",
-    "react": "^18.2.0"
+    "dexie": "^3.2.3",
+    "react": "^18.2.0",
+    "react-18-blockies": "^1.0.6"
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",

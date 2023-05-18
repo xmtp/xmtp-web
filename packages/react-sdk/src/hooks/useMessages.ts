@@ -3,9 +3,8 @@ import type {
   DecodedMessage,
   ListMessagesOptions,
 } from "@xmtp/xmtp-js";
-import { SortDirection } from "@xmtp/xmtp-js";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { adjustDate } from "../helpers/adjustDate";
+import { updateLastEntry } from "../helpers/updateLastEntry";
 
 export type UseMessagesOptions = ListMessagesOptions & {
   /**
@@ -37,109 +36,87 @@ export const useMessages = (
   // internal references to start/end times for paging results
   const startTimeRef = useRef<Date | undefined>(options?.startTime);
   const endTimeRef = useRef<Date | undefined>(options?.endTime);
+  // internal reference to the last message fetched
+  const lastEntryRef = useRef<DecodedMessage | undefined>();
 
   // destructure options for more granular dependency arrays
-  const { checkAddresses, direction, limit, onError, onMessages } =
-    options ?? {};
+  const {
+    checkAddresses,
+    direction,
+    limit,
+    onError,
+    onMessages,
+    endTime,
+    startTime,
+  } = options ?? {};
 
-  // // reset start/end time refs when the options change
+  // reset start/end time refs when the options or conversation change
   useEffect(() => {
-    startTimeRef.current = options?.startTime;
-    endTimeRef.current = options?.endTime;
-  }, [options]);
+    startTimeRef.current = startTime;
+    endTimeRef.current = endTime;
+  }, [endTime, startTime, conversation]);
 
   // reset messages when the conversation changes
   useEffect(() => {
     setMessages([]);
   }, [conversation]);
 
-  // fetch the next set of messages based on passed options
-  const next = useCallback(async () => {
-    // limit is required for paging
-    if (conversation && limit && hasMore && messages.length > 0) {
-      const lastMessageSentAt = messages[messages.length - 1].sent;
-
-      // update start/end times based on sort direction
-      switch (direction) {
-        case SortDirection.SORT_DIRECTION_UNSPECIFIED:
-        case SortDirection.SORT_DIRECTION_ASCENDING:
-          startTimeRef.current = adjustDate(lastMessageSentAt, 1);
-          break;
-        case SortDirection.SORT_DIRECTION_DESCENDING:
-          endTimeRef.current = adjustDate(lastMessageSentAt, -1);
-          break;
-        // no default
-      }
-
-      setIsLoading(true);
-
-      const finalOptions = {
-        checkAddresses,
-        direction,
-        endTime: endTimeRef.current,
-        limit,
-        startTime: startTimeRef.current,
-      };
-
-      try {
-        // fetch next batch of messages
-        const nextMessages = await conversation.messages(finalOptions);
-        onMessages?.(nextMessages, finalOptions);
-        setMessages(nextMessages);
-        setHasMore(nextMessages.length > 0 && nextMessages.length === limit);
-        return nextMessages;
-      } catch (e) {
-        setError(e);
-        onError?.(e);
-      } finally {
-        setIsLoading(false);
-      }
+  const getMessages = useCallback(async () => {
+    // conversation is required
+    if (!conversation) {
+      return [];
     }
+
+    setIsLoading(true);
+
+    const finalOptions = {
+      checkAddresses,
+      direction,
+      endTime: endTimeRef.current,
+      limit,
+      startTime: startTimeRef.current,
+    };
+
+    try {
+      const networkMessages = await conversation.messages(finalOptions);
+
+      if (networkMessages.length > 0) {
+        updateLastEntry({
+          direction,
+          endTimeRef,
+          startTimeRef,
+          lastEntry: networkMessages[networkMessages.length - 1],
+          lastEntryRef,
+        });
+      }
+
+      setMessages(networkMessages);
+      onMessages?.(networkMessages, finalOptions);
+
+      if (limit) {
+        setHasMore(
+          networkMessages.length > 0 && networkMessages.length === limit,
+        );
+      }
+
+      return networkMessages;
+    } catch (e) {
+      setError(e);
+      onError?.(e);
+    } finally {
+      setIsLoading(false);
+    }
+
     return [];
-  }, [
-    checkAddresses,
-    conversation,
-    direction,
-    hasMore,
-    limit,
-    messages,
-    onError,
-    onMessages,
-  ]);
+  }, [checkAddresses, conversation, direction, limit, onError, onMessages]);
+
+  // fetch the next set of messages
+  const next = useCallback(async () => getMessages(), [getMessages]);
 
   // fetch conversation messages on mount
   useEffect(() => {
-    const getMessages = async () => {
-      // conversation is required
-      if (!conversation) {
-        return;
-      }
-      setIsLoading(true);
-
-      const finalOptions = {
-        checkAddresses,
-        direction,
-        endTime: endTimeRef.current,
-        limit,
-        startTime: startTimeRef.current,
-      };
-
-      try {
-        const newMessages = await conversation.messages(finalOptions);
-        setMessages(newMessages);
-        onMessages?.(newMessages, finalOptions);
-        if (limit) {
-          setHasMore(newMessages.length > 0 && newMessages.length === limit);
-        }
-      } catch (e) {
-        setError(e);
-        onError?.(e);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     void getMessages();
-  }, [checkAddresses, conversation, direction, limit, onError, onMessages]);
+  }, [getMessages]);
 
   return {
     error,

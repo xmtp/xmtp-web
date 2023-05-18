@@ -6631,11 +6631,13 @@ __metadata:
     "@xmtp/tsconfig": "workspace:*"
     "@xmtp/xmtp-js": ^9.0.1
     date-fns: ^2.30.0
+    dexie: ^3.2.3
     eslint: ^8.40.0
     eslint-config-xmtp-web: "workspace:*"
     jsdom: ^21.1.2
     prettier: ^2.8.8
     react: ^18.2.0
+    react-18-blockies: ^1.0.6
     react-dom: ^18.2.0
     tsup: ^6.7.0
     typescript: ^5.0.4
@@ -8454,6 +8456,13 @@ __metadata:
     detect: bin/detect-port.js
     detect-port: bin/detect-port.js
   checksum: b48da9340481742547263d5d985e65d078592557863402ecf538511735e83575867e94f91fe74405ea19b61351feb99efccae7e55de9a151d5654e3417cea05b
+  languageName: node
+  linkType: hard
+
+"dexie@npm:^3.2.3":
+  version: 3.2.3
+  resolution: "dexie@npm:3.2.3"
+  checksum: 54fd7bc94364ed601dc2d53f8b488e49ac61d4ec532f001a68fde9ffccb4bf3c6a8af310b41d8f52c94c1a99c0e165437d7b223b655df582ceda90b9bfcd60e7
   languageName: node
   linkType: hard
 
