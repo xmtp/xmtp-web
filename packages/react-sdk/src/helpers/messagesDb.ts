@@ -27,6 +27,7 @@ export class MessagesDB extends Dexie {
       {
         id,
         cId: getConversationId(message.conversation),
+        // encrypted message
         bytes: message.toBytes(),
         sent,
       },

@@ -2,8 +2,8 @@ import type { Client, Conversation, ListMessagesOptions } from "@xmtp/xmtp-js";
 import { DecodedMessage, SortDirection } from "@xmtp/xmtp-js";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Collection, IndexableType } from "dexie";
-import type { CachedMessage } from "../helpers/messageDb";
-import { messagesDb } from "../helpers/messageDb";
+import type { CachedMessage } from "../helpers/messagesDb";
+import { messagesDb } from "../helpers/messagesDb";
 import { getConversationId } from "../helpers/getConversationId";
 import { useClient } from "./useClient";
 import { updateLastEntry } from "../helpers/updateLastEntry";
@@ -25,14 +25,33 @@ const fastForward = (lastEntry: DecodedMessage | undefined, cId: string) => {
 };
 
 type GetCachedMessagesOptions = {
+  /**
+   * Conversation ID
+   */
   cId: string;
+  /**
+   * XMTP client, needed for decryption
+   */
   client: Client;
+  /**
+   * Sort direction
+   */
   direction?: string;
+  /**
+   * Is this the initial fetch?
+   */
   initial?: boolean;
+  /**
+   * The position of the cursor
+   */
   lastEntry?: DecodedMessage;
+  /**
+   * Page size
+   */
   limit?: number;
 };
 
+// fetch messages from the cache and decode them
 const getCachedMessages = async ({
   cId,
   client,
@@ -44,10 +63,12 @@ const getCachedMessages = async ({
   let messagesQuery: Collection<CachedMessage, IndexableType>;
 
   if (initial) {
+    // the initial query is slightly different than subsequent queries
     messagesQuery = messagesDb.messages
       .orderBy("sent")
       .filter(filterByConversation(cId));
   } else {
+    // query when paging through messages
     messagesQuery = messagesDb.messages
       .where("sent")
       .aboveOrEqual(lastEntry?.sent)
