@@ -1,7 +1,7 @@
 {
-  "name": "@xmtp/react-sdk",
-  "description": "XMTP client SDK for React apps written in TypeScript",
-  "version": "1.0.0-preview.29",
+  "name": "@xmtp/react-components",
+  "description": "React components for use with the XMTP React SDK",
+  "version": "1.0.0-preview.0",
   "license": "MIT",
   "type": "module",
   "main": "lib/index.cjs",
@@ -22,7 +22,7 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:xmtp/xmtp-web.git",
-    "directory": "packages/react-sdk"
+    "directory": "packages/react-components"
   },
   "homepage": "https://github.com/xmtp/xmtp-web",
   "bugs": {
@@ -39,8 +39,7 @@
     "typescript",
     "react",
     "reactjs",
-    "react-hooks",
-    "hooks"
+    "react-component"
   ],
   "publishConfig": {
     "access": "public"
@@ -68,14 +67,27 @@
     "format": "yarn format:base -w .",
     "generate:types": "tsup --dts-only",
     "test": "vitest run --passWithNoTests",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
     "@xmtp/xmtp-js": "^9.0.1",
     "date-fns": "^2.30.0",
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "react-18-blockies": "^1.0.6"
   },
   "devDependencies": {
+    "@babel/core": "^7.21.8",
+    "@mdx-js/react": "^1.6.22",
+    "@storybook/addon-essentials": "^7.0.10",
+    "@storybook/addon-interactions": "^7.0.10",
+    "@storybook/addon-links": "^7.0.10",
+    "@storybook/blocks": "^7.0.10",
+    "@storybook/react": "^7.0.10",
+    "@storybook/react-vite": "^7.0.10",
+    "@storybook/testing-library": "^0.1.0",
     "@testing-library/react": "^14.0.0",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",
@@ -83,9 +95,15 @@
     "@xmtp/tsconfig": "workspace:*",
     "eslint": "^8.40.0",
     "eslint-config-xmtp-web": "workspace:*",
+    "eslint-plugin-storybook": "^0.6.12",
     "jsdom": "^21.1.2",
+    "postcss": "^8.4.23",
+    "postcss-modules": "^6.0.0",
+    "postcss-preset-env": "^8.3.2",
     "prettier": "^2.8.8",
+    "prop-types": "^15.8.1",
     "react-dom": "^18.2.0",
+    "storybook": "^7.0.10",
     "tsup": "^6.7.0",
     "typescript": "^5.0.4",
     "vite": "^4.3.5",

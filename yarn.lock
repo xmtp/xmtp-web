@@ -6551,33 +6551,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmtp/react-quickstart-example@workspace:examples/react-quickstart":
+"@xmtp/react-components@workspace:*, @xmtp/react-components@workspace:packages/react-components":
   version: 0.0.0-use.local
-  resolution: "@xmtp/react-quickstart-example@workspace:examples/react-quickstart"
-  dependencies:
-    "@heroicons/react": ^2.0.18
-    "@rainbow-me/rainbowkit": ^0.12.4
-    "@types/react": ^18.2.6
-    "@types/react-dom": ^18.2.4
-    "@vitejs/plugin-react": ^4.0.0
-    "@xmtp/react-sdk": "workspace:*"
-    "@xmtp/tsconfig": "workspace:*"
-    autoprefixer: ^10.4.14
-    eslint: ^8.40.0
-    eslint-config-xmtp-web: "workspace:*"
-    ethers: 5.7.2
-    postcss: ^8.4.23
-    react: ^18.2.0
-    react-dom: ^18.2.0
-    typescript: ^5.0.4
-    vite: ^4.3.5
-    wagmi: ^0.12.13
-  languageName: unknown
-  linkType: soft
-
-"@xmtp/react-sdk@workspace:*, @xmtp/react-sdk@workspace:packages/react-sdk":
-  version: 0.0.0-use.local
-  resolution: "@xmtp/react-sdk@workspace:packages/react-sdk"
+  resolution: "@xmtp/react-components@workspace:packages/react-components"
   dependencies:
     "@babel/core": ^7.21.8
     "@heroicons/react": ^2.0.18
@@ -6603,11 +6579,64 @@ __metadata:
     postcss: ^8.4.23
     postcss-modules: ^6.0.0
     postcss-preset-env: ^8.3.2
+    prettier: ^2.8.8
     prop-types: ^15.8.1
     react: ^18.2.0
     react-18-blockies: ^1.0.6
     react-dom: ^18.2.0
     storybook: ^7.0.10
+    tsup: ^6.7.0
+    typescript: ^5.0.4
+    vite: ^4.3.5
+    vitest: ^0.31.0
+  peerDependencies:
+    "@xmtp/xmtp-js": ^9.0.1
+    react: ">=16.14"
+  languageName: unknown
+  linkType: soft
+
+"@xmtp/react-quickstart-example@workspace:examples/react-quickstart":
+  version: 0.0.0-use.local
+  resolution: "@xmtp/react-quickstart-example@workspace:examples/react-quickstart"
+  dependencies:
+    "@heroicons/react": ^2.0.18
+    "@rainbow-me/rainbowkit": ^0.12.4
+    "@types/react": ^18.2.6
+    "@types/react-dom": ^18.2.4
+    "@vitejs/plugin-react": ^4.0.0
+    "@xmtp/react-components": "workspace:*"
+    "@xmtp/react-sdk": "workspace:*"
+    "@xmtp/tsconfig": "workspace:*"
+    autoprefixer: ^10.4.14
+    eslint: ^8.40.0
+    eslint-config-xmtp-web: "workspace:*"
+    ethers: 5.7.2
+    postcss: ^8.4.23
+    react: ^18.2.0
+    react-dom: ^18.2.0
+    typescript: ^5.0.4
+    vite: ^4.3.5
+    wagmi: ^0.12.13
+  languageName: unknown
+  linkType: soft
+
+"@xmtp/react-sdk@workspace:*, @xmtp/react-sdk@workspace:packages/react-sdk":
+  version: 0.0.0-use.local
+  resolution: "@xmtp/react-sdk@workspace:packages/react-sdk"
+  dependencies:
+    "@testing-library/react": ^14.0.0
+    "@types/react": ^18.2.6
+    "@types/react-dom": ^18.2.4
+    "@vitejs/plugin-react": ^4.0.0
+    "@xmtp/tsconfig": "workspace:*"
+    "@xmtp/xmtp-js": ^9.0.1
+    date-fns: ^2.30.0
+    eslint: ^8.40.0
+    eslint-config-xmtp-web: "workspace:*"
+    jsdom: ^21.1.2
+    prettier: ^2.8.8
+    react: ^18.2.0
+    react-dom: ^18.2.0
     tsup: ^6.7.0
     typescript: ^5.0.4
     vite: ^4.3.5

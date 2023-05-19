@@ -1,7 +1,4 @@
 import {
-  AddressInput,
-  ConversationMessages,
-  MessageInput,
   useMessages,
   useSendMessage,
   useStreamMessages,
@@ -9,6 +6,11 @@ import {
 import type { Conversation, DecodedMessage } from "@xmtp/react-sdk";
 import { useCallback, useEffect, useRef, useState } from "react";
 import "./Messages.css";
+import {
+  AddressInput,
+  ConversationMessages,
+  MessageInput,
+} from "@xmtp/react-components";
 
 type ConversationMessagesProps = {
   conversation: Conversation;
