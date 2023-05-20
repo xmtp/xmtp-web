@@ -7,6 +7,8 @@ export type CachedMessage = {
   id: string;
   cId: string;
   bytes: Uint8Array;
+  recipientAddress?: string;
+  senderAddress: string;
   sent: Date;
 };
 
@@ -16,19 +18,20 @@ export class MessagesDB extends Dexie {
   constructor() {
     super("__XMTP__");
     this.version(1).stores({
-      messages: "id, cId, sent",
+      messages: "id, [cId+sent]",
     });
   }
 
-  // persist encrypted message to cache
+  // persist message to cache
   async persistMessage(message: DecodedMessage) {
-    const { id, sent } = message;
+    const { id, sent, recipientAddress, senderAddress } = message;
     await this.messages.put(
       {
         id,
         cId: getConversationId(message.conversation),
-        // encrypted message
         bytes: message.toBytes(),
+        recipientAddress,
+        senderAddress,
         sent,
       },
       [id, sent],

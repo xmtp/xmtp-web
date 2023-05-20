@@ -1,28 +1,13 @@
 import type { Client, Conversation, ListMessagesOptions } from "@xmtp/xmtp-js";
 import { DecodedMessage, SortDirection } from "@xmtp/xmtp-js";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Collection, IndexableType } from "dexie";
+import { Dexie, type Collection, type IndexableType } from "dexie";
 import type { CachedMessage } from "../helpers/messagesDb";
 import { messagesDb } from "../helpers/messagesDb";
 import { getConversationId } from "../helpers/getConversationId";
 import { useClient } from "./useClient";
 import { updateLastEntry } from "../helpers/updateLastEntry";
-
-const filterByConversation = (cId: string) => (cachedMessage: CachedMessage) =>
-  cachedMessage.cId === cId;
-
-const fastForward = (lastEntry: DecodedMessage | undefined, cId: string) => {
-  let fastForwardComplete = false;
-  return (item: CachedMessage) => {
-    if (fastForwardComplete) {
-      return item.cId === cId;
-    }
-    if (lastEntry !== undefined && item.id === lastEntry.id) {
-      fastForwardComplete = true;
-    }
-    return false;
-  };
-};
+import { adjustDate } from "../helpers/adjustDate";
 
 type GetCachedMessagesOptions = {
   /**
@@ -62,18 +47,24 @@ const getCachedMessages = async ({
 }: GetCachedMessagesOptions) => {
   let messagesQuery: Collection<CachedMessage, IndexableType>;
 
-  if (initial) {
-    // the initial query is slightly different than subsequent queries
-    messagesQuery = messagesDb.messages
-      .orderBy("sent")
-      .filter(filterByConversation(cId));
-  } else {
-    // query when paging through messages
-    messagesQuery = messagesDb.messages
-      .where("sent")
-      .aboveOrEqual(lastEntry?.sent)
-      .filter(fastForward(lastEntry, cId));
-  }
+  messagesQuery = messagesDb.messages
+    // order by conversation ID, then sent timestamp
+    .where("[cId+sent]")
+    // only fetch messages that match the current conversation ID
+    .between(
+      [
+        cId,
+        initial
+          ? // initially, get all messages
+            Dexie.minKey
+          : lastEntry?.sent
+          ? // when paging through messages, only fetch messages sent after
+            // the current latest entry
+            adjustDate(lastEntry.sent, 1)
+          : 0,
+      ],
+      [cId, Dexie.maxKey],
+    );
 
   // apply limit
   if (limit) {
