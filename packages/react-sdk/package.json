@@ -1,7 +1,7 @@
 {
   "name": "@xmtp/react-sdk",
   "description": "XMTP client SDK for React apps written in TypeScript",
-  "version": "1.0.0-preview.29",
+  "version": "1.0.0-preview.31",
   "license": "MIT",
   "type": "module",
   "main": "lib/index.cjs",
@@ -73,6 +73,7 @@
   "dependencies": {
     "@xmtp/xmtp-js": "^9.0.1",
     "date-fns": "^2.30.0",
+    "dexie": "^3.2.3",
     "react": "^18.2.0"
   },
   "devDependencies": {

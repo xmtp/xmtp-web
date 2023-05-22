@@ -8,6 +8,7 @@ export { isValidAddress } from "./helpers/isValidAddress";
 export { useCanMessage } from "./hooks/useCanMessage";
 export { useConversations } from "./hooks/useConversations";
 export { useClient } from "./hooks/useClient";
+export { useCachedMessages } from "./hooks/useCachedMessages";
 export { useMessages } from "./hooks/useMessages";
 export { useSendMessage } from "./hooks/useSendMessage";
 export { useStartConversation } from "./hooks/useStartConversation";
