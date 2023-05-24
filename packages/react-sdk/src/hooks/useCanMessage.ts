@@ -21,13 +21,13 @@ export const useCanMessage = (onError?: OnError["onError"]) => {
   /**
    * Check if a wallet address is on the XMTP network using the client instance
    */
-  const canMessage = useCallback(
-    async (...args: Parameters<typeof cm>) => {
+  const canMessage = useCallback<typeof cm>(
+    async (peerAddress) => {
       setIsLoading(false);
       setError(null);
 
       try {
-        await cm(...args);
+        return await cm(peerAddress);
       } catch (e) {
         setError(e);
         onError?.(e);
@@ -49,7 +49,7 @@ export const useCanMessage = (onError?: OnError["onError"]) => {
       setError(null);
 
       try {
-        await Client.canMessage(...args);
+        return await Client.canMessage(...args);
       } catch (e) {
         setError(e);
         onError?.(e);
