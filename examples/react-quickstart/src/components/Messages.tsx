@@ -35,7 +35,7 @@ export const Messages: React.FC<ConversationMessagesProps> = ({
     [streamedMessages],
   );
   useStreamMessages(conversation, onMessage);
-  const sendMessage = useSendMessage(conversation);
+  const { sendMessage } = useSendMessage(conversation);
 
   const handleSendMessage = useCallback(
     async (message: string) => {
