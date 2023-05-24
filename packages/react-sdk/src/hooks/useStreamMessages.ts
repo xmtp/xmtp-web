@@ -1,5 +1,6 @@
 import type { Conversation, DecodedMessage, Stream } from "@xmtp/xmtp-js";
 import { useEffect, useRef, useState } from "react";
+import type { OnError } from "../sharedTypes";
 
 export type MessageStream = Promise<Stream<DecodedMessage>>;
 
@@ -9,6 +10,7 @@ export type MessageStream = Promise<Stream<DecodedMessage>>;
 export const useStreamMessages = (
   conversation: Conversation,
   onMessage: (message: DecodedMessage) => void,
+  onError?: OnError["onError"],
 ) => {
   const [error, setError] = useState<unknown | null>(null);
   const streamRef = useRef<MessageStream | undefined>(undefined);
@@ -51,7 +53,10 @@ export const useStreamMessages = (
         }
       } catch (e) {
         setError(e);
+        onError?.(e);
         void endStream(stream);
+        // re-throw error for upstream consumption
+        throw e;
       }
     };
 
@@ -61,7 +66,7 @@ export const useStreamMessages = (
     return () => {
       void endStream(stream);
     };
-  }, [conversation, onMessage]);
+  }, [conversation, onError, onMessage]);
 
   return {
     error,

@@ -5,20 +5,18 @@ import type {
 } from "@xmtp/xmtp-js";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { updateLastEntry } from "../helpers/updateLastEntry";
+import type { OnError } from "../sharedTypes";
 
-export type UseMessagesOptions = ListMessagesOptions & {
-  /**
-   * Callback function to execute when new messages are fetched
-   */
-  onMessages?: (
-    messages: DecodedMessage[],
-    options: ListMessagesOptions,
-  ) => void;
-  /**
-   * Callback function to execute when an error occurs
-   */
-  onError?: (error: unknown) => void;
-};
+export type UseMessagesOptions = ListMessagesOptions &
+  OnError & {
+    /**
+     * Callback function to execute when new messages are fetched
+     */
+    onMessages?: (
+      messages: DecodedMessage[],
+      options: ListMessagesOptions,
+    ) => void;
+  };
 
 /**
  * This hook fetches a list of all messages within a conversation on mount. It
@@ -68,6 +66,7 @@ export const useMessages = (
     }
 
     setIsLoading(true);
+    setError(null);
 
     const finalOptions = {
       checkAddresses,
@@ -103,6 +102,8 @@ export const useMessages = (
     } catch (e) {
       setError(e);
       onError?.(e);
+      // re-throw error for upstream consumption
+      throw e;
     } finally {
       setIsLoading(false);
     }

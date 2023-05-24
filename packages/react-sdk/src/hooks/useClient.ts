@@ -8,7 +8,7 @@ import { XMTPContext } from "../contexts/XMTPContext";
 export const useClient = () => {
   const xmtpContext = useContext(XMTPContext);
   if (xmtpContext === undefined) {
-    console.error("useClient must be used within a XMTPProvider");
+    console.error("This hook must be used within the context of XMTPProvider");
   }
 
   return {

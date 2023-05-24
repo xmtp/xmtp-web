@@ -1,6 +1,7 @@
 import { useState, createContext, useCallback, useMemo, useRef } from "react";
 import type { ClientOptions, Signer } from "@xmtp/xmtp-js";
 import { Client } from "@xmtp/xmtp-js";
+import type { OnError } from "../sharedTypes";
 
 type CanMessageReturns<T> = T extends string
   ? boolean
@@ -10,7 +11,7 @@ type CanMessageReturns<T> = T extends string
 
 export type InitClientArgs = {
   keys?: Uint8Array;
-  options?: Partial<ClientOptions>;
+  options?: Partial<ClientOptions> & OnError;
   signer?: Signer | null;
 };
 
@@ -96,7 +97,8 @@ export const XMTPProvider: React.FC<React.PropsWithChildren> = ({
           setClient(undefined);
           setClientSigner(undefined);
           setError(e);
-          // re-throw error so that consumers can process
+          options?.onError?.(e);
+          // re-throw error for upstream consumption
           throw e;
         } finally {
           setIsLoading(false);
