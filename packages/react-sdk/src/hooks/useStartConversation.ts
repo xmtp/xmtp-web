@@ -1,40 +1,66 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import type { SendOptions, InvitationContext } from "@xmtp/xmtp-js";
 import { useClient } from "./useClient";
+import type { OnError } from "../sharedTypes";
+
+export type UseStartConversation = InvitationContext & OnError;
 
 /**
  * This hook starts a new conversation and sends an initial message to it.
  */
 export const useStartConversation = <T = string>(
-  options?: InvitationContext,
+  options?: UseStartConversation,
 ) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<unknown | Error | null>(null);
   const { client } = useClient();
 
   // destructure options for more granular dependency arrays
-  const { conversationId, metadata } = options ?? {};
+  const { conversationId, metadata, onError } = options ?? {};
 
-  return useCallback(
+  const startConversation = useCallback(
     async (peerAddress: string, message: T, sendOptions?: SendOptions) => {
       // we can't do anything without a client
       if (client === undefined) {
-        console.error("XMTP client is not available");
+        const clientError = new Error("XMTP client is not available");
+        setError(clientError);
+        onError?.(client);
+        // do not throw the error in this case
+        // return undefined
         return undefined;
       }
 
-      const conversation = await client?.conversations.newConversation(
-        peerAddress,
-        conversationId && metadata
-          ? {
-              conversationId,
-              metadata,
-            }
-          : undefined,
-      );
+      setIsLoading(true);
+      setError(null);
 
-      await conversation.send(message, sendOptions);
+      try {
+        const conversation = await client?.conversations.newConversation(
+          peerAddress,
+          conversationId && metadata
+            ? {
+                conversationId,
+                metadata,
+              }
+            : undefined,
+        );
 
-      return conversation;
+        await conversation.send(message, sendOptions);
+        return conversation;
+      } catch (e) {
+        setError(e);
+        onError?.(e);
+        // re-throw error for upstream consumption
+        throw e;
+      } finally {
+        setIsLoading(false);
+      }
     },
-    [conversationId, metadata, client],
+    [client, conversationId, metadata, onError],
   );
+
+  return {
+    error,
+    isLoading,
+    startConversation,
+  };
 };

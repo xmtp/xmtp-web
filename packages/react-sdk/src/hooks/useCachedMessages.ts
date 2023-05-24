@@ -8,6 +8,7 @@ import { getConversationId } from "../helpers/getConversationId";
 import { useClient } from "./useClient";
 import { updateLastEntry } from "../helpers/updateLastEntry";
 import { adjustDate } from "../helpers/adjustDate";
+import type { OnError } from "../sharedTypes";
 
 type GetCachedMessagesOptions = {
   /**
@@ -84,19 +85,16 @@ const getCachedMessages = async ({
   );
 };
 
-export type UseCachedMessagesOptions = ListMessagesOptions & {
-  /**
-   * Callback function to execute when new messages are fetched
-   */
-  onMessages?: (
-    messages: DecodedMessage[],
-    options: ListMessagesOptions,
-  ) => void;
-  /**
-   * Callback function to execute when an error occurs
-   */
-  onError?: (error: unknown) => void;
-};
+export type UseCachedMessagesOptions = ListMessagesOptions &
+  OnError & {
+    /**
+     * Callback function to execute when new messages are fetched
+     */
+    onMessages?: (
+      messages: DecodedMessage[],
+      options: ListMessagesOptions,
+    ) => void;
+  };
 
 /**
  * This hook fetches a list of all messages within a conversation on mount,
@@ -144,6 +142,7 @@ export const useCachedMessages = (
       }
 
       const cId = getConversationId(conversation);
+      setError(null);
 
       try {
         // get cached messages and decode them
@@ -218,6 +217,8 @@ export const useCachedMessages = (
       } catch (e) {
         setError(e);
         onError?.(e);
+        // re-throw error for upstream consumption
+        throw e;
       } finally {
         setIsLoading(false);
       }

@@ -1,6 +1,7 @@
 import type { Conversation, Stream } from "@xmtp/xmtp-js";
 import { useEffect, useRef, useState } from "react";
 import { useClient } from "./useClient";
+import type { OnError } from "../sharedTypes";
 
 export type ConversationStream = Promise<Stream<Conversation>>;
 
@@ -10,6 +11,7 @@ export type ConversationStream = Promise<Stream<Conversation>>;
  */
 export const useStreamConversations = (
   onConversation: (conversation: Conversation) => void,
+  onError?: OnError["onError"],
 ) => {
   const [error, setError] = useState<unknown | null>(null);
   const streamRef = useRef<ConversationStream | undefined>(undefined);
@@ -37,7 +39,10 @@ export const useStreamConversations = (
     const streamConversations = async () => {
       // we can't do anything without a client
       if (client === undefined) {
-        console.error("XMTP client is not available");
+        const clientError = new Error("XMTP client is not available");
+        setError(clientError);
+        onError?.(client);
+        // do not throw the error in this case
         return;
       }
 
@@ -57,7 +62,10 @@ export const useStreamConversations = (
         }
       } catch (e) {
         setError(e);
+        onError?.(e);
         void endStream(stream);
+        // re-throw error for upstream consumption
+        throw e;
       }
     };
 
@@ -67,7 +75,7 @@ export const useStreamConversations = (
     return () => {
       void endStream(stream);
     };
-  }, [onConversation, client]);
+  }, [onConversation, client, onError]);
 
   return {
     error,

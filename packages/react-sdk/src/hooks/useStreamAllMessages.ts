@@ -1,6 +1,7 @@
 import type { DecodedMessage } from "@xmtp/xmtp-js";
 import { useEffect, useRef, useState } from "react";
 import { useClient } from "./useClient";
+import type { OnError } from "../sharedTypes";
 
 export type AllMessagesStream = Promise<AsyncGenerator<DecodedMessage>>;
 
@@ -10,6 +11,7 @@ export type AllMessagesStream = Promise<AsyncGenerator<DecodedMessage>>;
  */
 export const useStreamAllMessages = (
   onMessage: (message: DecodedMessage) => void,
+  onError?: OnError["onError"],
 ) => {
   const [error, setError] = useState<unknown | null>(null);
   const streamRef = useRef<AllMessagesStream | undefined>(undefined);
@@ -36,7 +38,10 @@ export const useStreamAllMessages = (
     const streamAllMessages = async () => {
       // we can't do anything without a client
       if (client === undefined) {
-        console.error("XMTP client is not initialized");
+        const clientError = new Error("XMTP client is not available");
+        setError(clientError);
+        onError?.(client);
+        // do not throw the error in this case
         return;
       }
 
@@ -56,7 +61,10 @@ export const useStreamAllMessages = (
         }
       } catch (e) {
         setError(e);
+        onError?.(e);
         void endStream(stream);
+        // re-throw error for upstream consumption
+        throw e;
       }
     };
 
@@ -66,7 +74,7 @@ export const useStreamAllMessages = (
     return () => {
       void endStream(stream);
     };
-  }, [onMessage, client]);
+  }, [onMessage, client, onError]);
 
   return {
     error,

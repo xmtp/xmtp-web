@@ -22,7 +22,7 @@ export const NewMessage: React.FC<NewMessageProps> = ({ onSuccess }) => {
   const [isOnNetwork, setIsOnNetwork] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const startConversation = useStartConversation();
+  const { startConversation } = useStartConversation();
   const { canMessage } = useCanMessage();
 
   const handleChange = useCallback((updatedValue: string) => {

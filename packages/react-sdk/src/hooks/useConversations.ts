@@ -1,16 +1,13 @@
 import type { Conversation } from "@xmtp/xmtp-js";
 import { useEffect, useState } from "react";
 import { useClient } from "./useClient";
+import type { OnError } from "../sharedTypes";
 
-export type UseConversationsOptions = {
+export type UseConversationsOptions = OnError & {
   /**
    * Callback function to execute when new conversations are fetched
    */
   onConversations?: (conversations: Conversation[]) => void;
-  /**
-   * Callback function to execute when an error occurs
-   */
-  onError?: (error: unknown) => void;
 };
 
 /**
@@ -30,12 +27,16 @@ export const useConversations = (options?: UseConversationsOptions) => {
   useEffect(() => {
     // we can't do anything without a client
     if (client === undefined) {
-      console.error("XMTP client is not available");
+      const clientError = new Error("XMTP client is not available");
+      setError(clientError);
+      onError?.(clientError);
+      // do not throw the error in this case
       return;
     }
 
     const getConversations = async () => {
       setIsLoading(true);
+      setError(null);
 
       try {
         const conversationList = (await client?.conversations.list()) ?? [];
@@ -44,6 +45,8 @@ export const useConversations = (options?: UseConversationsOptions) => {
       } catch (e) {
         setError(e);
         onError?.(e);
+        // re-throw error for upstream consumption
+        throw e;
       } finally {
         setIsLoading(false);
       }
