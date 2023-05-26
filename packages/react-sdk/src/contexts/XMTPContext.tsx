@@ -1,13 +1,7 @@
 import { useState, createContext, useCallback, useMemo, useRef } from "react";
 import type { ClientOptions, Signer } from "@xmtp/xmtp-js";
 import { Client } from "@xmtp/xmtp-js";
-import type { OnError } from "../sharedTypes";
-
-type CanMessageReturns<T> = T extends string
-  ? boolean
-  : T extends string[]
-  ? boolean[]
-  : never;
+import type { CanMessageReturns, OnError } from "../sharedTypes";
 
 export type InitClientArgs = {
   keys?: Uint8Array;

@@ -4,3 +4,9 @@ export type OnError = {
    */
   onError?: (error: unknown | Error) => void;
 };
+
+export type CanMessageReturns<T> = T extends string
+  ? boolean
+  : T extends string[]
+  ? boolean[]
+  : never;
