@@ -1,7 +1,7 @@
 import { useCallback, useContext, useState } from "react";
 import { Client } from "@xmtp/xmtp-js";
 import { XMTPContext } from "../contexts/XMTPContext";
-import type { OnError } from "../sharedTypes";
+import type { CanMessageReturns, OnError } from "../sharedTypes";
 
 /**
  * This hook exposes both the client and static instances of the `canMessage`
@@ -44,12 +44,21 @@ export const useCanMessage = (onError?: OnError["onError"]) => {
    * Check if a wallet address is on the XMTP network without a client instance
    */
   const canMessageStatic = useCallback(
-    async (...args: Parameters<typeof Client.canMessage>) => {
+    async <T extends string | string[]>(
+      peerAddress: T,
+      options?: Parameters<typeof Client.canMessage>["1"],
+    ): Promise<CanMessageReturns<T>> => {
       setIsLoading(false);
       setError(null);
 
       try {
-        return await Client.canMessage(...args);
+        return typeof peerAddress === "string"
+          ? await (Client.canMessage(peerAddress, options) as Promise<
+              CanMessageReturns<T>
+            >)
+          : await (Client.canMessage(peerAddress, options) as Promise<
+              CanMessageReturns<T>
+            >);
       } catch (e) {
         setError(e);
         onError?.(e);
