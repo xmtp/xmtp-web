@@ -1,5 +1,5 @@
-import type { Conversation } from "@xmtp/xmtp-js";
-import { SortDirection } from "@xmtp/xmtp-js";
+import type { Conversation } from "@xmtp/react-sdk";
+import { SortDirection } from "@xmtp/react-sdk";
 import { useCallback, useEffect, useState } from "react";
 import { ConversationPreviewCard } from "../components/ConversationPreviewCard";
 import { shortAddress } from "../helpers/shortAddress";

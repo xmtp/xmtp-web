@@ -1,4 +1,4 @@
-import type { Conversation } from "@xmtp/xmtp-js";
+import type { Conversation } from "@xmtp/react-sdk";
 import { isAfter, isBefore } from "date-fns";
 import { ConversationPreview } from "./ConversationPreview";
 import type { ConversationListProps } from "../components/ConversationList";
