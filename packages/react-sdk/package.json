@@ -1,7 +1,7 @@
 {
   "name": "@xmtp/react-sdk",
   "description": "XMTP client SDK for React apps written in TypeScript",
-  "version": "1.0.0-preview.32",
+  "version": "1.0.0-preview.36",
   "license": "MIT",
   "type": "module",
   "main": "lib/index.cjs",
@@ -12,8 +12,7 @@
       "types": "./lib/index.d.ts",
       "import": "./lib/index.js",
       "require": "./lib/index.cjs"
-    },
-    "./styles.css": "./lib/index.css"
+    }
   },
   "files": [
     "lib"
@@ -71,7 +70,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@xmtp/xmtp-js": "9.1.0-beta.5",
+    "@xmtp/xmtp-js": "^9.1.1",
     "date-fns": "^2.30.0",
     "dexie": "^3.2.3",
     "react": "^18.2.0"
@@ -93,7 +92,7 @@
     "vitest": "^0.31.0"
   },
   "peerDependencies": {
-    "@xmtp/xmtp-js": "9.1.0-beta.5",
+    "@xmtp/xmtp-js": "^9.1.1",
     "react": ">=16.14"
   }
 }
