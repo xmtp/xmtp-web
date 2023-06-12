@@ -6608,6 +6608,7 @@ __metadata:
     "@xmtp/react-sdk": "workspace:*"
     "@xmtp/tsconfig": "workspace:*"
     autoprefixer: ^10.4.14
+    buffer: ^6.0.3
     eslint: ^8.40.0
     eslint-config-xmtp-web: "workspace:*"
     ethers: 5.7.2
