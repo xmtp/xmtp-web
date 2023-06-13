@@ -95,7 +95,11 @@
     margin-left: 1rem;
   }
 
-  .input {
+  /* 
+    compose statements inside nested selectorsdoesn't seem to be valid?
+    https://github.com/css-modules/css-modules/issues/202#issuecomment-291947603
+  */
+  /* .input {
     composes: text-sm from global;
-  }
+  } */
 }

@@ -4,7 +4,8 @@
   // (trailing commas!).
 
   // Reflame uses this to identify your app.
-  "appId": "01H2RJMCMSRB5198TRBCAWA2N9",
+  "appId": "01H2RJMCMSRB5198TRBCAWA2N9", // prod
+  // "appId": "01H2S0B89M65APCR5GERFKFVBC", // dev
 
   // This is what shows up in the browser's tab bar.
   "title": "Reflame App",
