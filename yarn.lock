@@ -6539,18 +6539,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmtp/proto@npm:^3.24.0":
-  version: 3.24.0
-  resolution: "@xmtp/proto@npm:3.24.0"
-  dependencies:
-    long: ^5.2.0
-    protobufjs: ^7.0.0
-    rxjs: ^7.8.0
-    undici: ^5.8.1
-  checksum: fe5ee775ab07c05483bb757691af30391a8d76f74971c6a63462b6f9fc01ae8de6926e4e44a0351ee0031852f93bdec39bf4f95ac1ddfb68676467f3ea921e30
-  languageName: node
-  linkType: hard
-
 "@xmtp/proto@npm:^3.25.0":
   version: 3.25.0
   resolution: "@xmtp/proto@npm:3.25.0"
@@ -6582,7 +6570,7 @@ __metadata:
     "@types/react-dom": ^18.2.4
     "@vitejs/plugin-react": ^4.0.0
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": ^9.0.1
+    "@xmtp/xmtp-js": 9.1.0-beta.5
     date-fns: ^2.30.0
     eslint: ^8.40.0
     eslint-config-xmtp-web: "workspace:*"
@@ -6602,7 +6590,7 @@ __metadata:
     vite: ^4.3.5
     vitest: ^0.31.0
   peerDependencies:
-    "@xmtp/xmtp-js": ^9.0.1
+    "@xmtp/xmtp-js": 9.1.0-beta.5
     react: ">=16.14"
   languageName: unknown
   linkType: soft
@@ -6677,20 +6665,6 @@ __metadata:
     ethers: ^5.5.3
     long: ^5.2.0
   checksum: 5024fcd216ee482223f9e00afa10d012edda04bf804a410718922e0b01da6647d63b0721ef1be7f984c67432b9c2237e0c49209a07b394b9c937111b1f36c8ed
-  languageName: node
-  linkType: hard
-
-"@xmtp/xmtp-js@npm:^9.0.1":
-  version: 9.0.1
-  resolution: "@xmtp/xmtp-js@npm:9.0.1"
-  dependencies:
-    "@noble/secp256k1": ^1.5.2
-    "@xmtp/proto": ^3.24.0
-    async-mutex: ^0.4.0
-    elliptic: ^6.5.4
-    ethers: ^5.5.3
-    long: ^5.2.0
-  checksum: a5576f980a38d053890980098e73e232f8e271c13ae338b12d8ba641e293aa7b9f7c05c69e7c47651c567768beeec6f9e5223ef791604f431f85c54cf721b0ab
   languageName: node
   linkType: hard
 
