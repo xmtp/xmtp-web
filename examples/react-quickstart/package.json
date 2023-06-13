@@ -33,6 +33,7 @@
     "eslint": "^8.40.0",
     "eslint-config-xmtp-web": "workspace:*",
     "postcss": "^8.4.23",
+    "postcss-preset-env": "^8.4.2",
     "typescript": "^5.0.4",
     "vite": "^4.3.5"
   }

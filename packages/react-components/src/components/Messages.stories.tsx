@@ -1,6 +1,6 @@
 import type { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { ContentTypeId } from "@xmtp/xmtp-js";
+import { ContentTypeId } from "@xmtp/react-sdk";
 import { Messages } from "./Messages";
 
 export default {

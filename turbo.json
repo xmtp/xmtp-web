@@ -20,6 +20,7 @@
       "outputs": []
     },
     "generate:types": {
+      "dependsOn": ["^generate:types"],
       "outputs": ["lib/index.d.ts"]
     },
     "lint": {
