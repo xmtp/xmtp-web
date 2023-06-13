@@ -6551,6 +6551,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xmtp/proto@npm:^3.25.0":
+  version: 3.25.0
+  resolution: "@xmtp/proto@npm:3.25.0"
+  dependencies:
+    long: ^5.2.0
+    protobufjs: ^7.0.0
+    rxjs: ^7.8.0
+    undici: ^5.8.1
+  checksum: 9673abcbe5b53252d12216bd24743c1176e4c7578c0214333668009fa1ef98dd9a422c388122096d5a175fc886651b87107d35d7cb836e6d647c9923b290fd77
+  languageName: node
+  linkType: hard
+
 "@xmtp/react-components@workspace:*, @xmtp/react-components@workspace:packages/react-components":
   version: 0.0.0-use.local
   resolution: "@xmtp/react-components@workspace:packages/react-components"
@@ -6629,7 +6641,7 @@ __metadata:
     "@types/react-dom": ^18.2.4
     "@vitejs/plugin-react": ^4.0.0
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": ^9.0.1
+    "@xmtp/xmtp-js": 9.1.0-beta.5
     date-fns: ^2.30.0
     dexie: ^3.2.3
     eslint: ^8.40.0
@@ -6653,6 +6665,20 @@ __metadata:
   resolution: "@xmtp/tsconfig@workspace:packages/tsconfig"
   languageName: unknown
   linkType: soft
+
+"@xmtp/xmtp-js@npm:9.1.0-beta.5":
+  version: 9.1.0-beta.5
+  resolution: "@xmtp/xmtp-js@npm:9.1.0-beta.5"
+  dependencies:
+    "@noble/secp256k1": ^1.5.2
+    "@xmtp/proto": ^3.25.0
+    async-mutex: ^0.4.0
+    elliptic: ^6.5.4
+    ethers: ^5.5.3
+    long: ^5.2.0
+  checksum: 5024fcd216ee482223f9e00afa10d012edda04bf804a410718922e0b01da6647d63b0721ef1be7f984c67432b9c2237e0c49209a07b394b9c937111b1f36c8ed
+  languageName: node
+  linkType: hard
 
 "@xmtp/xmtp-js@npm:^9.0.1":
   version: 9.0.1
