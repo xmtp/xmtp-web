@@ -1,5 +1,8 @@
 {
   "recommendations": [
-    "reflame.agent",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "clinyong.vscode-css-modules",
+    "reflame.agent"
   ]
 }
