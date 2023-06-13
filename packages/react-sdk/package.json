@@ -71,7 +71,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@xmtp/xmtp-js": "^9.0.1",
+    "@xmtp/xmtp-js": "9.1.0-beta.5",
     "date-fns": "^2.30.0",
     "dexie": "^3.2.3",
     "react": "^18.2.0"
@@ -93,7 +93,7 @@
     "vitest": "^0.31.0"
   },
   "peerDependencies": {
-    "@xmtp/xmtp-js": "^9.0.1",
+    "@xmtp/xmtp-js": "9.1.0-beta.5",
     "react": ">=16.14"
   }
 }
