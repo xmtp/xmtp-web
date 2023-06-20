@@ -6820,7 +6820,7 @@ __metadata:
     vite: ^4.3.9
     vitest: ^0.32.1
   peerDependencies:
-    "@xmtp/xmtp-js": ^9.1.1
+    "@xmtp/xmtp-js": ^9.1.6
     react: ">=16.14"
   languageName: unknown
   linkType: soft
