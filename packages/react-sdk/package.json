@@ -95,5 +95,8 @@
   "peerDependencies": {
     "@xmtp/xmtp-js": "^9.1.6",
     "react": ">=16.14"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }

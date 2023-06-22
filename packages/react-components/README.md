@@ -22,7 +22,7 @@ These ready-made components can help you quickly build a chat app with XMTP.
 
 ## Requirements
 
-- Node 16.10+
+- Node 18+
 - React 16.14+
 
 ## Install
