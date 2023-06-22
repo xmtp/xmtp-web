@@ -15,10 +15,11 @@ jobs:
         run: |
           corepack enable
           corepack prepare yarn@3.4.1 --activate
-      - name: Run Code Format Check
-        run: |
-          yarn
-          yarn format:check
+      - name: Install dependencies
+        run: yarn
+      - name: Check code format
+        run: yarn format:check
+
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -31,10 +32,11 @@ jobs:
         run: |
           corepack enable
           corepack prepare yarn@3.4.1 --activate
-      - name: Run Lint
-        run: |
-          yarn
-          yarn lint
+      - name: Install dependencies
+        run: yarn
+      - name: Lint
+        run: yarn lint
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -47,10 +49,11 @@ jobs:
         run: |
           corepack enable
           corepack prepare yarn@3.4.1 --activate
-      - name: Run Tests
-        run: |
-          yarn
-          yarn test
+      - name: Install dependencies
+        run: yarn
+      - name: Run tests
+        run: yarn test
+
   typecheck:
     runs-on: ubuntu-latest
     steps:
@@ -63,29 +66,7 @@ jobs:
         run: |
           corepack enable
           corepack prepare yarn@3.4.1 --activate
-      - name: Run Typechecks
-        run: |
-          yarn
-          yarn typecheck
-  # chromatic:
-  #   needs: [lint, prettier, test, typecheck]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #       with:
-  #         fetch-depth: 0
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 18.14.0
-  #         cache: "yarn"
-  #     - name: Install Yarn v3
-  #       run: |
-  #         corepack enable
-  #         corepack prepare yarn@3.4.1 --activate
-  #     - name: Run Chromatic
-  #       env:
-  #         CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-  #       run: |
-  #         yarn
-  #         cd packages/react-sdk
-  #         yarn chromatic
+      - name: Install dependencies
+        run: yarn
+      - name: Check types
+        run: yarn typecheck
