@@ -22,7 +22,7 @@ These hooks are mostly bindings to the [`xmtp-js` SDK](https://github.com/xmtp/x
 
 ## Requirements
 
-- Node 16.10+
+- Node 18+
 - React 16.14+
 
 ## Install
