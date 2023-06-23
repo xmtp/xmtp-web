@@ -1,8 +1,19 @@
-import type { Conversation, SendOptions } from "@xmtp/xmtp-js";
+import type { Conversation, DecodedMessage, SendOptions } from "@xmtp/xmtp-js";
 import { useCallback, useState } from "react";
 import type { OnError } from "../sharedTypes";
+import { messagesDb } from "../helpers/messagesDb";
 
-export type UseSendMessageOptions = SendOptions & OnError;
+export type UseSendMessageOptions = SendOptions &
+  OnError & {
+    /**
+     * Callback function to execute when a message has been sent successfully
+     */
+    onSuccess?: (message: DecodedMessage) => void;
+    /**
+     * Automatically persist a successfully sent message to messages DB cache
+     */
+    persist?: boolean;
+  };
 
 /**
  * This hook sends a new message into a conversation.
@@ -21,6 +32,8 @@ export const useSendMessage = <T = string>(
     contentType,
     ephemeral,
     onError,
+    onSuccess,
+    persist,
     timestamp,
   } = options ?? {};
 
@@ -30,7 +43,7 @@ export const useSendMessage = <T = string>(
       setError(null);
 
       try {
-        await conversation?.send(
+        const sentMessage = await conversation?.send(
           message,
           optionsOverride ?? {
             compression,
@@ -40,6 +53,10 @@ export const useSendMessage = <T = string>(
             timestamp,
           },
         );
+        onSuccess?.(sentMessage);
+        if (persist) {
+          await messagesDb.persistMessage(sentMessage);
+        }
       } catch (e) {
         setError(e);
         onError?.(e);
@@ -56,6 +73,8 @@ export const useSendMessage = <T = string>(
       conversation,
       ephemeral,
       onError,
+      onSuccess,
+      persist,
       timestamp,
     ],
   );

@@ -105,6 +105,7 @@ module.exports = {
             peerDependencies: false,
           },
         ],
+        "@typescript-eslint/no-var-requires": "off",
       },
     },
     // allow require in .cjs files

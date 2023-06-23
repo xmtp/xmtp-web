@@ -20,6 +20,7 @@ const { chains, provider, webSocketProvider } = configureChains(
 const { connectors } = getDefaultWallets({
   appName: "XMTP React RainbowKit Example",
   chains,
+  projectId: "YOUR_PROJECT_ID", // now required for WalletConnect V2
 });
 
 const wagmiClient = createClient({

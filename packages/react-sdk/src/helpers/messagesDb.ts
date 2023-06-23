@@ -1,6 +1,6 @@
 import type { DecodedMessage } from "@xmtp/xmtp-js";
 import type { Table } from "dexie";
-import Dexie from "dexie";
+import { Dexie } from "dexie";
 import { getConversationId } from "./getConversationId";
 
 export type CachedMessage = {

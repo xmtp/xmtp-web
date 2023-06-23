@@ -7,22 +7,27 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo run build --filter='./packages/*'",
     "clean": "turbo run clean && rm -rf node_modules && yarn cache clean",
     "dev": "FORCE_COLOR=1 turbo run dev",
-    "lint": "FORCE_COLOR=1 turbo run lint",
-    "format": "turbo run format",
     "format:check": "turbo run format:check",
+    "format": "turbo run format",
     "generate:types": "turbo run generate:types",
+    "lint": "FORCE_COLOR=1 turbo run lint",
+    "publish": "yarn build && changeset publish",
     "test": "FORCE_COLOR=1 turbo run test",
     "typecheck": "FORCE_COLOR=1 turbo run typecheck"
   },
   "devDependencies": {
     "prettier": "^2.8.8",
-    "turbo": "^1.9.3"
+    "turbo": "^1.10.4"
   },
   "packageManager": "yarn@3.4.1",
   "engines": {
-    "node": ">=16.10"
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/cli": "^2.26.1"
   }
 }

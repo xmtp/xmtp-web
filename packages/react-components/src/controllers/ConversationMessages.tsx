@@ -1,4 +1,4 @@
-import type { DecodedMessage } from "@xmtp/xmtp-js";
+import type { DecodedMessage } from "@xmtp/react-sdk";
 import { isAfter, isBefore } from "date-fns";
 import { Messages } from "../components/Messages";
 
