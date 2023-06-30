@@ -452,9 +452,6 @@ const useMessages: (
 };
 ```
 
-> **Note**  
-> It's important to memoize the `options` argument so that the hook doesn't fetch messages endlessly.
-
 **Example**
 
 ```tsx
