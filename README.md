@@ -9,13 +9,13 @@ To learn more about the contents of this repository, see this README and the REA
 ### Packages
 
 - [`eslint-config-xmtp-web`](packages/eslint-config-xmtp-web): An opinionated ESLint configuration for XMTP web projects
-- [`react-sdk`](packages/react-sdk): 🧑‍💻 Dev preview: React XMTP client SDK
-- [`react-components`](packages/react-components): 🧑‍💻 Dev preview: React components for building React apps with XMTP
+- [`react-sdk`](packages/react-sdk): **Beta**: React XMTP client SDK
+- [`react-components`](packages/react-components): **Beta**: React components for building React apps with XMTP
 - [`tsconfig`](packages/tsconfig): Internal package for sharing `tsconfig.json` files
 
 ### Examples
 
-- [`react-quickstart`](examples/react-quickstart): 🧑‍💻 Dev preview: A quickstart example app using [React](https://react.dev/), [Vite](https://vitejs.dev/), and [RainbowKit](https://www.rainbowkit.com/)
+- [`react-quickstart`](examples/react-quickstart): **Beta**: A quickstart example app using [React](https://react.dev/), [Vite](https://vitejs.dev/), and [RainbowKit](https://www.rainbowkit.com/)
 
 ## Requirements
 

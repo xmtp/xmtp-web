@@ -1,16 +1,16 @@
 # React XMTP client SDK
 
-![Status](https://img.shields.io/badge/Project_Status-Developer_Preview-yellow)
+![Status](https://img.shields.io/badge/Project_Status-Beta-yellow)
 
 This package provides the XMTP client SDK for React.
 
-This SDK is in **Developer Preview** status and ready for you to start building with.
+This SDK is in **beta** status and ready for you to start building with.
 
-However, we do **not** recommend using Developer Preview software in production apps. Software in this status may change based on feedback.
+However, we do **not** recommend using beta software in production apps. Software in this status may change based on feedback.
 
 To keep up with the latest SDK developments, see the [Issues tab](https://github.com/xmtp/xmtp-web/issues) in this repo.
 
-To learn more about XMTP and get answers to frequently asked questions, see [FAQ about XMTP](https://xmtp.org/docs/dev-concepts/faq).
+To learn more about XMTP and get answers to frequently asked questions, see the [XMTP documentation](https://xmtp.org/docs).
 
 ![x-red-sm](https://user-images.githubusercontent.com/510695/163488403-1fb37e86-c673-4b48-954e-8460ae4d4b05.png)
 
@@ -452,8 +452,6 @@ const useMessages: (
 };
 ```
 
-**Note:** It's important to memoize the `options` argument so that the hook doesn't fetch messages endlessly.
-
 **Example**
 
 ```tsx
@@ -706,7 +704,7 @@ Run `yarn dev` to build the SDK and watch for changes, which will trigger a rebu
 - `yarn test`: Runs all unit tests
 - `yarn typecheck`: Runs `tsc`
 
-## 🏗 **Breaking revisions**
+## 🏗 Breaking revisions
 
 Because this SDK is in active development, you should expect breaking revisions that might require you to adopt the latest SDK release to enable your app to continue working as expected.
 

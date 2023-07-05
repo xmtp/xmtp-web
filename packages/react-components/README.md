@@ -1,16 +1,16 @@
 # XMTP React components
 
-![Status](https://img.shields.io/badge/Project_Status-Developer_Preview-yellow)
+![Status](https://img.shields.io/badge/Project_Status-Beta-yellow)
 
 This package provides React components for building React apps with XMTP.
 
-These components are in **Developer Preview** status and ready for you to start building with.
+These components are in **betaw** status and ready for you to start building with.
 
-However, we do **not** recommend using Developer Preview software in production apps. Software in this status may change based on feedback.
+However, we do **not** recommend using beta software in production apps. Software in this status may change based on feedback.
 
 To keep up with the latest component developments, see the [Issues tab](https://github.com/xmtp/xmtp-web/issues) in this repo.
 
-To learn more about XMTP and get answers to frequently asked questions, see [FAQ about XMTP](https://xmtp.org/docs/dev-concepts/faq).
+To learn more about XMTP and get answers to frequently asked questions, see the [XMTP documentation](https://xmtp.org/docs).
 
 ![x-red-sm](https://user-images.githubusercontent.com/510695/163488403-1fb37e86-c673-4b48-954e-8460ae4d4b05.png)
 
@@ -48,7 +48,8 @@ To use any of the included components, you must also include their styles. To do
 import "@xmtp/react-components/styles.css";
 ```
 
-**Note:** The included styles contain normalizations of elements globally.
+> **Note**  
+> The included styles contain normalizations of elements globally.
 
 ## Developing
 
@@ -66,7 +67,7 @@ Run `yarn dev` to build the package and watch for changes, which will trigger a 
 - `yarn test`: Runs all unit tests
 - `yarn typecheck`: Runs `tsc`
 
-## 🏗 **Breaking revisions**
+## 🏗 Breaking revisions
 
 Because this package is in active development, you should expect breaking revisions that might require you to adopt the latest release to enable your app to continue working as expected.
 
