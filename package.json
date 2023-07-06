@@ -19,7 +19,7 @@
     "typecheck": "FORCE_COLOR=1 turbo run typecheck"
   },
   "devDependencies": {
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.0",
     "turbo": "^1.10.7"
   },
   "packageManager": "yarn@3.4.1",
