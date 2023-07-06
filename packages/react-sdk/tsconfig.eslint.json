@@ -1,5 +1,5 @@
 {
   "extends": "./tsconfig.json",
-  "include": [".", ".eslintrc.cjs", ".storybook/*"],
+  "include": [".", ".eslintrc.cjs"],
   "exclude": ["lib", "node_modules"]
 }

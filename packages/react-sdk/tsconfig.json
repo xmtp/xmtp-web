@@ -1,4 +1,4 @@
 {
   "extends": "@xmtp/tsconfig/react-sdk.json",
-  "include": ["src", ".eslintrc.cjs", ".storybook/*"]
+  "include": ["src", ".eslintrc.cjs"]
 }
