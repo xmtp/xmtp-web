@@ -1,7 +1,7 @@
 import type { Conversation, DecodedMessage, SendOptions } from "@xmtp/xmtp-js";
 import { useCallback, useState } from "react";
 import type { OnError } from "../sharedTypes";
-import { messagesDb } from "../helpers/messagesDb";
+import messagesDb from "../helpers/messagesDb";
 
 export type UseSendMessageOptions = SendOptions &
   OnError & {
