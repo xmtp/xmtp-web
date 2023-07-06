@@ -3,7 +3,7 @@ export { XMTPProvider } from "./contexts/XMTPContext";
 
 // helpers
 export { isValidAddress } from "./helpers/isValidAddress";
-export { messagesDb } from "./helpers/messagesDb";
+export { default as messagesDb } from "./helpers/messagesDb";
 
 // hooks
 export { useCanMessage } from "./hooks/useCanMessage";

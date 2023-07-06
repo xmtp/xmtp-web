@@ -3,7 +3,7 @@ import { DecodedMessage, SortDirection } from "@xmtp/xmtp-js";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Dexie, type Collection, type IndexableType } from "dexie";
 import type { CachedMessage } from "../helpers/messagesDb";
-import { messagesDb } from "../helpers/messagesDb";
+import messagesDb from "../helpers/messagesDb";
 import { getConversationId } from "../helpers/getConversationId";
 import { useClient } from "./useClient";
 import { updateLastEntry } from "../helpers/updateLastEntry";
