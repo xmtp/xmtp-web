@@ -73,6 +73,9 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
+    "@xmtp/content-type-reaction": "^1.0.1",
+    "@xmtp/content-type-remote-attachment": "^1.0.7",
+    "@xmtp/content-type-reply": "^1.0.0",
     "@xmtp/react-sdk": "workspace:*",
     "date-fns": "^2.30.0",
     "react": "^18.2.0",
@@ -91,7 +94,7 @@
     "@testing-library/react": "^14.0.0",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.2.6",
-    "@vitejs/plugin-react": "^4.0.2",
+    "@vitejs/plugin-react": "^4.0.4",
     "@xmtp/tsconfig": "workspace:*",
     "eslint": "^8.44.0",
     "eslint-config-xmtp-web": "workspace:*",
@@ -106,8 +109,8 @@
     "storybook": "^7.0.26",
     "tsup": "^7.1.0",
     "typescript": "^5.1.6",
-    "vite": "^4.4.1",
-    "vitest": "^0.33.0"
+    "vite": "^4.4.9",
+    "vitest": "^0.34.1"
   },
   "peerDependencies": {
     "react": ">=16.14"
