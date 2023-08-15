@@ -1,16 +1,27 @@
-import type { Conversation, DecodedMessage, Stream } from "@xmtp/xmtp-js";
+import type { DecodedMessage, Stream } from "@xmtp/xmtp-js";
 import { useEffect, useRef, useState } from "react";
 import type { OnError } from "../sharedTypes";
+import { toCachedMessage } from "../helpers/caching/messages";
+import {
+  getConversationByTopic,
+  type CachedConversation,
+} from "@/helpers/caching/conversations";
+import { useClient } from "./useClient";
+import { useMessage } from "@/hooks/useMessage";
 
 export type MessageStream = Promise<Stream<DecodedMessage>>;
+
+export type UseStreamMessagesOptions = {
+  onError?: OnError["onError"];
+  onMessage?: (message: DecodedMessage) => void;
+};
 
 /**
  * This hook streams new conversation messages on mount and exposes an error state.
  */
 export const useStreamMessages = (
-  conversation: Conversation,
-  onMessage: (message: DecodedMessage) => void,
-  onError?: OnError["onError"],
+  conversation: CachedConversation,
+  options?: UseStreamMessagesOptions,
 ) => {
   const [error, setError] = useState<unknown | null>(null);
   const streamRef = useRef<MessageStream | undefined>(undefined);
@@ -24,11 +35,21 @@ export const useStreamMessages = (
       void (await stream).return();
     }
   });
+  const { processMessage } = useMessage();
+  const { client } = useClient();
+
+  // destructure options for more granular dependency array
+  const { onError, onMessage } = options ?? {};
 
   // attempt to stream conversation messages on mount
   useEffect(() => {
-    // if there's no conversation, don't do anything
-    if (!conversation) {
+    // conversation and client are required
+    if (!conversation || !client) {
+      const clientError = new Error(
+        "XMTP client and/or conversation is not available",
+      );
+      setError(clientError);
+      onError?.(clientError);
       return () => {};
     }
 
@@ -42,14 +63,30 @@ export const useStreamMessages = (
         return;
       }
 
+      const networkConversation = await getConversationByTopic(
+        conversation.topic,
+        client,
+      );
+
+      // don't start a stream if there's no network conversation
+      if (!networkConversation) {
+        // TODO: should this throw instead?
+        return;
+      }
+
       try {
         // it's important not to await the stream here so that we can cleanup
         // consistently if this hook unmounts during this call
-        streamRef.current = conversation.streamMessages();
+        streamRef.current = networkConversation.streamMessages();
         stream = streamRef.current;
 
         for await (const message of await stream) {
-          onMessage(message);
+          // TODO: figure out why this is happening twice per send
+          await processMessage(
+            conversation,
+            toCachedMessage(message, client.address),
+          );
+          onMessage?.(message);
         }
       } catch (e) {
         setError(e);
@@ -66,7 +103,7 @@ export const useStreamMessages = (
     return () => {
       void endStream(stream);
     };
-  }, [conversation, onError, onMessage]);
+  }, [client, conversation, onError, onMessage, processMessage]);
 
   return {
     error,

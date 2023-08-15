@@ -12,10 +12,6 @@ export const useCanMessage = (onError?: OnError["onError"]) => {
   const [error, setError] = useState<unknown | null>(null);
   const xmtpContext = useContext(XMTPContext);
 
-  if (xmtpContext === undefined) {
-    console.error("This hook must be used within the context of XMTPProvider");
-  }
-
   const { canMessage: cm } = xmtpContext;
 
   /**

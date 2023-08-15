@@ -1,6 +1,6 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { useDb } from "./useDb";
-import type { CachedMessagesTable } from "@/helpers/caching/messages";
+import type { CachedConversationsTable } from "@/helpers/caching/conversations";
 import { useClient } from "@/hooks/useClient";
 
 /**
@@ -9,7 +9,7 @@ import { useClient } from "@/hooks/useClient";
  *
  * It's intended to be used internally and is not exported from the SDK
  */
-export const useCachedMessages = (topic: string) => {
+export const useCachedConversations = () => {
   const { db } = useDb();
   const { client } = useClient();
   return (
@@ -18,12 +18,11 @@ export const useCachedMessages = (topic: string) => {
       if (!client) {
         return [];
       }
-      return (db.table("messages") as CachedMessagesTable)
-        .where({
-          conversationTopic: topic,
-          walletAddress: client.address,
-        })
-        .sortBy("sentAt");
-    }, [topic]) ?? []
+      return (db.table("conversations") as CachedConversationsTable)
+        .where("walletAddress")
+        .equals(client.address)
+        .reverse()
+        .sortBy("updatedAt");
+    }, [client?.address]) ?? []
   );
 };

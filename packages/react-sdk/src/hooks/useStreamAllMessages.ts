@@ -2,6 +2,9 @@ import type { DecodedMessage } from "@xmtp/xmtp-js";
 import { useEffect, useRef, useState } from "react";
 import { useClient } from "./useClient";
 import type { OnError } from "../sharedTypes";
+import { toCachedMessage } from "../helpers/caching/messages";
+import { useConversation } from "@/hooks/useConversation";
+import { useMessage } from "@/hooks/useMessage";
 
 export type AllMessagesStream = Promise<AsyncGenerator<DecodedMessage>>;
 
@@ -10,7 +13,7 @@ export type AllMessagesStream = Promise<AsyncGenerator<DecodedMessage>>;
  * an error state.
  */
 export const useStreamAllMessages = (
-  onMessage: (message: DecodedMessage) => void,
+  onMessage: (message: DecodedMessage) => void | Promise<void>,
   onError?: OnError["onError"],
 ) => {
   const [error, setError] = useState<unknown | null>(null);
@@ -25,6 +28,8 @@ export const useStreamAllMessages = (
       void (await stream).return(undefined);
     }
   });
+  const { processMessage } = useMessage();
+  const { getCachedByTopic } = useConversation();
 
   const { client } = useClient();
 
@@ -40,7 +45,7 @@ export const useStreamAllMessages = (
       if (client === undefined) {
         const clientError = new Error("XMTP client is not available");
         setError(clientError);
-        onError?.(client);
+        onError?.(clientError);
         // do not throw the error in this case
         return;
       }
@@ -57,7 +62,16 @@ export const useStreamAllMessages = (
         stream = streamRef.current;
 
         for await (const message of await stream) {
-          onMessage(message);
+          const cachedConversation = await getCachedByTopic(
+            message.conversation.topic,
+          );
+          if (cachedConversation) {
+            await processMessage(
+              cachedConversation,
+              toCachedMessage(message, client.address),
+            );
+          }
+          void onMessage(message);
         }
       } catch (e) {
         setError(e);
@@ -74,7 +88,7 @@ export const useStreamAllMessages = (
     return () => {
       void endStream(stream);
     };
-  }, [onMessage, client, onError]);
+  }, [onMessage, client, onError, processMessage, getCachedByTopic]);
 
   return {
     error,

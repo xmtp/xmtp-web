@@ -1,82 +1,60 @@
-import type { Conversation, DecodedMessage, SendOptions } from "@xmtp/xmtp-js";
+import { type DecodedMessage, type SendOptions } from "@xmtp/xmtp-js";
 import { useCallback, useState } from "react";
 import type { OnError } from "../sharedTypes";
-import messagesDb from "../helpers/messagesDb";
+import { type CachedConversation } from "@/helpers/caching/conversations";
+import { useMessage } from "@/hooks/useMessage";
 
-export type UseSendMessageOptions = SendOptions &
-  OnError & {
-    /**
-     * Callback function to execute when a message has been sent successfully
-     */
-    onSuccess?: (message: DecodedMessage) => void;
-    /**
-     * Automatically persist a successfully sent message to messages DB cache
-     */
-    persist?: boolean;
-  };
+export type UseSendMessageOptions = OnError & {
+  /**
+   * Callback function to execute when a message has been sent successfully
+   */
+  onSuccess?: (message: DecodedMessage) => void;
+};
 
 /**
- * This hook sends a new message into a conversation.
+ * This hook sends a new message into a conversation
  */
-export const useSendMessage = <T = string>(
-  conversation: Conversation,
-  options?: UseSendMessageOptions,
-) => {
+export const useSendMessage = (options?: UseSendMessageOptions) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown | null>(null);
+  const { sendMessage: _sendMessage } = useMessage();
 
   // destructure options for more granular dependency array
-  const {
-    compression,
-    contentFallback,
-    contentType,
-    ephemeral,
-    onError,
-    onSuccess,
-    persist,
-    timestamp,
-  } = options ?? {};
+  const { onError, onSuccess } = options ?? {};
 
   const sendMessage = useCallback(
-    async (message: T, optionsOverride?: SendOptions) => {
+    async <T = string>(
+      conversation: CachedConversation,
+      content: T,
+      sendOptions?: SendOptions,
+    ) => {
       setIsLoading(true);
       setError(null);
 
+      const contentType = sendOptions?.contentType;
+
       try {
-        const sentMessage = await conversation?.send(
-          message,
-          optionsOverride ?? {
-            compression,
-            contentFallback,
-            contentType,
-            ephemeral,
-            timestamp,
+        const { sentMessage } = await _sendMessage(
+          conversation,
+          content,
+          contentType,
+          {
+            ...sendOptions,
+            onSuccess,
+            onError,
           },
         );
-        onSuccess?.(sentMessage);
-        if (persist) {
-          await messagesDb.persistMessage(sentMessage);
-        }
+
+        return sentMessage;
       } catch (e) {
         setError(e);
-        onError?.(e);
         // re-throw error for upstream consumption
         throw e;
       } finally {
         setIsLoading(false);
       }
     },
-    [
-      compression,
-      contentFallback,
-      contentType,
-      conversation,
-      ephemeral,
-      onError,
-      onSuccess,
-      persist,
-      timestamp,
-    ],
+    [_sendMessage, onError, onSuccess],
   );
 
   return {

@@ -1,3 +1,4 @@
+/* c8 ignore start */
 import { useContext } from "react";
 import { XMTPContext } from "../contexts/XMTPContext";
 
@@ -7,9 +8,6 @@ import { XMTPContext } from "../contexts/XMTPContext";
  */
 export const useClient = () => {
   const xmtpContext = useContext(XMTPContext);
-  if (xmtpContext === undefined) {
-    console.error("This hook must be used within the context of XMTPProvider");
-  }
 
   return {
     client: xmtpContext.client,
@@ -20,3 +18,4 @@ export const useClient = () => {
     signer: xmtpContext.signer,
   };
 };
+/* c8 ignore stop */

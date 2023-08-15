@@ -3,21 +3,99 @@ export { XMTPProvider } from "./contexts/XMTPContext";
 
 // helpers
 export { isValidAddress } from "./helpers/isValidAddress";
-export { default as messagesDb } from "./helpers/messagesDb";
 
 // hooks
-export { useCanMessage } from "./hooks/useCanMessage";
-export { useConversations } from "./hooks/useConversations";
 export { useClient } from "./hooks/useClient";
-export { useCachedMessages } from "./hooks/useCachedMessages";
-export { useMessages } from "./hooks/useMessages";
-export { useSendMessage } from "./hooks/useSendMessage";
+export { useDb } from "./hooks/useDb";
+
+// conversations
+export { useConversation } from "./hooks/useConversation";
+export { useConversations } from "./hooks/useConversations";
 export { useStartConversation } from "./hooks/useStartConversation";
-export { useStreamAllMessages } from "./hooks/useStreamAllMessages";
 export { useStreamConversations } from "./hooks/useStreamConversations";
+
+// messages
+export { useLastMessage } from "./hooks/useLastMessage";
+export { useCanMessage } from "./hooks/useCanMessage";
+export { useMessages } from "./hooks/useMessages";
+export { useMessage } from "./hooks/useMessage";
+export { useSendMessage } from "./hooks/useSendMessage";
+export { useStreamAllMessages } from "./hooks/useStreamAllMessages";
 export { useStreamMessages } from "./hooks/useStreamMessages";
 
-export { Client, SortDirection } from "@xmtp/xmtp-js";
+// reactions
+export { useReactions } from "./hooks/useReactions";
+
+// replies
+export { useReply } from "./hooks/useReply";
+
+// caching
+export { getDbInstance } from "./helpers/caching/db";
+
+// conversations
+export type {
+  CachedConversation,
+  CachedConversationWithId,
+  CachedConversationsTable,
+} from "./helpers/caching/conversations";
+
+// messages
+export type {
+  CachedMessage,
+  CachedMessageWithId,
+  CachedMessagesTable,
+  ProcessUnprocessedMessagesOptions,
+} from "./helpers/caching/messages";
+export {
+  getMessageByXmtpID,
+  processUnprocessedMessages,
+  toCachedMessage,
+} from "./helpers/caching/messages";
+
+// attachments
+export type { CachedAttachmentsMetadata } from "./helpers/caching/contentTypes/attachment";
+export {
+  attachmentsCacheConfig,
+  getAttachment,
+} from "./helpers/caching/contentTypes/attachment";
+
+// reactions
+export type {
+  CachedReaction,
+  CachedReactionsMetadata,
+  CachedReactionsTable,
+} from "./helpers/caching/contentTypes/reaction";
+export {
+  getReactionsByXmtpID,
+  hasReaction,
+  reactionsCacheConfig,
+} from "./helpers/caching/contentTypes/reaction";
+
+// read receipts
+export type { CachedReadReceiptMetadata } from "./helpers/caching/contentTypes/readReceipt";
+export {
+  readReceiptsCacheConfig,
+  hasReadReceipt,
+  getReadReceipt,
+} from "./helpers/caching/contentTypes/readReceipt";
+
+// replies
+export type { CachedRepliesMetadata } from "./helpers/caching/contentTypes/reply";
+export {
+  hasReply,
+  getOriginalMessageFromReply,
+  repliesCacheConfig,
+} from "./helpers/caching/contentTypes/reply";
+
+// text
+export { textCacheConfig } from "./helpers/caching/contentTypes/text";
+
+export {
+  Client,
+  SortDirection,
+  ContentTypeId,
+  ContentTypeText,
+} from "@xmtp/xmtp-js";
 
 // re-export types from the JS SDK
 export type * from "@xmtp/xmtp-js";

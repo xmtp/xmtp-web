@@ -1,22 +1,21 @@
-import type {
-  Conversation,
-  DecodedMessage,
-  ListMessagesOptions,
-} from "@xmtp/xmtp-js";
+import { SortDirection, type DecodedMessage } from "@xmtp/xmtp-js";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { updateLastEntry } from "../helpers/updateLastEntry";
 import type { OnError } from "../sharedTypes";
+import { useCachedMessages } from "./useCachedMessages";
+import { toCachedMessage } from "@/helpers/caching/messages";
+import { adjustDate } from "@/helpers/adjustDate";
+import { getConversationByTopic } from "@/helpers/caching/conversations";
+import type { CachedConversation } from "@/helpers/caching/conversations";
+import { useClient } from "./useClient";
+import { useConversation } from "@/hooks/useConversation";
+import { useMessage } from "@/hooks/useMessage";
 
-export type UseMessagesOptions = ListMessagesOptions &
-  OnError & {
-    /**
-     * Callback function to execute when new messages are fetched
-     */
-    onMessages?: (
-      messages: DecodedMessage[],
-      options: ListMessagesOptions,
-    ) => void;
-  };
+export type UseMessagesOptions = OnError & {
+  /**
+   * Callback function to execute when new messages are fetched
+   */
+  onMessages?: (messages: DecodedMessage[]) => void;
+};
 
 /**
  * This hook fetches a list of all messages within a conversation on mount. It
@@ -24,81 +23,77 @@ export type UseMessagesOptions = ListMessagesOptions &
  * messages based on the options passed.
  */
 export const useMessages = (
-  conversation?: Conversation,
+  conversation: CachedConversation,
   options?: UseMessagesOptions,
 ) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown | null>(null);
-  const [hasMore, setHasMore] = useState(false);
-  const [messages, setMessages] = useState<DecodedMessage[]>([]);
-  // internal references to start/end times for paging results
-  const startTimeRef = useRef<Date | undefined>(options?.startTime);
-  const endTimeRef = useRef<Date | undefined>(options?.endTime);
-  // internal reference to the last message fetched
-  const lastEntryRef = useRef<DecodedMessage | undefined>();
+  const { processMessage } = useMessage();
+  const { updateConversation } = useConversation();
+  const messages = useCachedMessages(conversation.topic);
+  const { client } = useClient();
+  // to prevent messages from being fetched multiple times
+  const loadingRef = useRef(false);
 
   // destructure options for more granular dependency arrays
-  const {
-    checkAddresses,
-    direction,
-    limit,
-    onError,
-    onMessages,
-    endTime,
-    startTime,
-  } = options ?? {};
-
-  // reset start/end time refs when the options or conversation change
-  useEffect(() => {
-    startTimeRef.current = startTime;
-    endTimeRef.current = endTime;
-  }, [endTime, startTime, conversation]);
-
-  // reset messages when the conversation changes
-  useEffect(() => {
-    setMessages([]);
-  }, [conversation]);
+  const { onError, onMessages } = options ?? {};
 
   const getMessages = useCallback(async () => {
-    // conversation is required
-    if (!conversation) {
-      return [];
+    // already in progress
+    if (loadingRef.current) {
+      return;
     }
 
+    // client is required
+    if (!client) {
+      const clientError = new Error("XMTP client is not available");
+      setError(clientError);
+      onError?.(clientError);
+      return;
+    }
+
+    loadingRef.current = true;
+
+    // reset loading state
     setIsLoading(true);
+    // reset error state
     setError(null);
 
-    const finalOptions = {
-      checkAddresses,
-      direction,
-      endTime: endTimeRef.current,
-      limit,
-      startTime: startTimeRef.current,
-    };
+    let startTime: Date | undefined;
+    // if the conversation messages have already been loaded
+    if (conversation.isReady) {
+      // only fetch messages after the most recent message in the conversation
+      startTime = adjustDate(conversation.updatedAt, 1);
+    }
 
     try {
-      const networkMessages = await conversation.messages(finalOptions);
+      const networkConversation = await getConversationByTopic(
+        conversation.topic,
+        client,
+      );
+      const networkMessages =
+        (await networkConversation?.messages({
+          // be explicit in case the default changes
+          direction: SortDirection.SORT_DIRECTION_ASCENDING,
+          startTime,
+        })) ?? [];
 
-      if (networkMessages.length > 0) {
-        updateLastEntry({
-          direction,
-          endTimeRef,
-          startTimeRef,
-          lastEntry: networkMessages[networkMessages.length - 1],
-          lastEntryRef,
-        });
+      await Promise.all(
+        networkMessages.map((message) =>
+          processMessage(
+            conversation,
+            toCachedMessage(message, client.address),
+          ),
+        ),
+      );
+
+      // this is the first time the conversation messages have been loaded
+      if (!conversation.isReady) {
+        // mark the conversation as ready
+        await updateConversation(conversation.topic, { isReady: true });
       }
 
-      setMessages(networkMessages);
-      onMessages?.(networkMessages, finalOptions);
-
-      if (limit) {
-        setHasMore(
-          networkMessages.length > 0 && networkMessages.length === limit,
-        );
-      }
-
-      return networkMessages;
+      onMessages?.(networkMessages);
     } catch (e) {
       setError(e);
       onError?.(e);
@@ -106,13 +101,16 @@ export const useMessages = (
       throw e;
     } finally {
       setIsLoading(false);
+      loadingRef.current = false;
     }
-
-    return [];
-  }, [checkAddresses, conversation, direction, limit, onError, onMessages]);
-
-  // fetch the next set of messages
-  const next = useCallback(async () => getMessages(), [getMessages]);
+  }, [
+    client,
+    conversation,
+    onError,
+    onMessages,
+    processMessage,
+    updateConversation,
+  ]);
 
   // fetch conversation messages on mount
   useEffect(() => {
@@ -121,9 +119,7 @@ export const useMessages = (
 
   return {
     error,
-    hasMore,
     isLoading,
     messages,
-    next,
   };
 };
