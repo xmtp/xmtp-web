@@ -5,18 +5,14 @@ import type { XMTPProviderProps } from "@/contexts/XMTPContext";
 import { XMTPProvider } from "@/contexts/XMTPContext";
 
 type TestWrapperProps = PropsWithChildren &
-  Pick<XMTPProviderProps, "dbVersion" | "beforeClearCache" | "cacheConfig">;
+  Pick<XMTPProviderProps, "dbVersion" | "cacheConfig">;
 
 const TestWrapper: React.FC<TestWrapperProps> = ({
-  beforeClearCache,
   cacheConfig,
   children,
   dbVersion,
 }) => (
-  <XMTPProvider
-    beforeClearCache={beforeClearCache}
-    cacheConfig={cacheConfig}
-    dbVersion={dbVersion}>
+  <XMTPProvider cacheConfig={cacheConfig} dbVersion={dbVersion}>
     {children}
   </XMTPProvider>
 );
