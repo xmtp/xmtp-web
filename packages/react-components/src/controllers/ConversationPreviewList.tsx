@@ -1,5 +1,4 @@
-import type { Conversation } from "@xmtp/react-sdk";
-import { isAfter, isBefore } from "date-fns";
+import type { CachedConversation } from "@xmtp/react-sdk";
 import { ConversationPreview } from "./ConversationPreview";
 import type { ConversationListProps } from "../components/ConversationList";
 import { ConversationList } from "../components/ConversationList";
@@ -11,15 +10,15 @@ export type ConversationPreviewListProps = Pick<
   /**
    * What conversations should we render?
    */
-  conversations?: Conversation[];
+  conversations?: CachedConversation[];
   /**
    * What happens when a conversation is clicked?
    */
-  onConversationClick?: (conversation: Conversation) => void;
+  onConversationClick?: (conversation: CachedConversation) => void;
   /**
    * What, if any, conversation is selected
    */
-  selectedConversation?: Conversation;
+  selectedConversation?: CachedConversation;
 };
 
 /**
@@ -35,25 +34,14 @@ export const ConversationPreviewList: React.FC<
   renderEmpty,
   selectedConversation,
 }) => {
-  const conversationPreviews = conversations
-    // order by most recent
-    .sort((a, b) => {
-      if (isBefore(a.createdAt, b.createdAt)) {
-        return 1;
-      }
-      if (isAfter(a.createdAt, b.createdAt)) {
-        return -1;
-      }
-      return 0;
-    })
-    .map((conversation) => (
-      <ConversationPreview
-        key={conversation.topic}
-        conversation={conversation}
-        isSelected={conversation.topic === selectedConversation?.topic}
-        onClick={onConversationClick}
-      />
-    ));
+  const conversationPreviews = conversations.map((conversation) => (
+    <ConversationPreview
+      key={conversation.topic}
+      conversation={conversation}
+      isSelected={conversation.topic === selectedConversation?.topic}
+      onClick={onConversationClick}
+    />
+  ));
   return (
     <ConversationList
       conversations={conversationPreviews}

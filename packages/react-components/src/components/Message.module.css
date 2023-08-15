@@ -1,6 +1,11 @@
 .wrapper {
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+.wrapper:hover {
+  background-color: #eee;
 }
 
 .wrapper.left {
@@ -19,19 +24,34 @@
   margin-bottom: 0.25rem;
 }
 
-.wrapper.left .content {
-  background-color: rgb(229 231 235);
-  border-radius: 0.75rem 0.75rem 0.75rem 0;
-}
-
-.wrapper.right .content {
-  color: white;
-  background-color: rgb(79 70 229);
-  border-radius: 0.75rem 0.75rem 0 0.75rem;
-}
-
 .time {
   color: rgb(107 114 128);
   font-size: var(--xmtp-font-size-sm);
   line-height: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.readReceipt {
+  color: #666;
+}
+
+.reactions {
+  display: none;
+  position: absolute;
+  top: 0;
+  margin-top: -0.5rem;
+}
+
+.wrapper.left .reactions {
+  right: 0;
+}
+
+.wrapper.right .reactions {
+  left: 0;
+}
+
+.wrapper:hover .reactions {
+  display: block;
 }

@@ -1,32 +1,49 @@
 import { format } from "date-fns";
+import { ContentTypeId } from "@xmtp/react-sdk";
+import type { CachedConversation, CachedMessage } from "@xmtp/react-sdk";
+import { ContentTypeReply } from "@xmtp/content-type-reply";
 import styles from "./Message.module.css";
+import { MessageContent } from "./MessageContent";
+import { ReplyContent } from "./ReplyContent";
+import { ReactionsBar } from "./ReactionsBar";
+import { ReactionsContent } from "./ReactionsContent";
 
 export type MessageProps = {
+  conversation: CachedConversation;
   /**
-   * What is the content of the message?
+   * The message to display
    */
-  content: React.ReactNode;
-  /**
-   * What is the datetime of the message?
-   */
-  datetime: Date;
+  message: CachedMessage;
   /**
    * Is this an incoming message?
    */
   isIncoming?: boolean;
+  isRead?: boolean;
 };
 
 export const Message: React.FC<MessageProps> = ({
-  content,
-  datetime,
+  conversation,
+  message,
   isIncoming,
-}) => (
-  <div className={`${styles.wrapper} ${styles[isIncoming ? "left" : "right"]}`}>
-    <div className={styles.content} data-testid="message-tile-text">
-      {content}
+  isRead,
+}) => {
+  const contentType = ContentTypeId.fromString(message.contentType);
+  return (
+    <div
+      className={`${styles.wrapper} ${styles[isIncoming ? "left" : "right"]}`}>
+      {contentType.sameAs(ContentTypeReply) ? (
+        <ReplyContent message={message} isIncoming={isIncoming} />
+      ) : (
+        <MessageContent message={message} isIncoming={isIncoming} />
+      )}
+      <div className={styles.time} title={message.sentAt.toLocaleString()}>
+        {isRead && <span className={styles.readReceipt}>Read</span>}
+        <span>{format(message.sentAt, "h:mm a")}</span>
+      </div>
+      <div className={styles.reactions}>
+        <ReactionsBar conversation={conversation} message={message} />
+      </div>
+      <ReactionsContent conversation={conversation} message={message} />
     </div>
-    <div className={styles.time} title={datetime.toLocaleString()}>
-      {format(datetime, "h:mm a")}
-    </div>
-  </div>
-);
+  );
+};

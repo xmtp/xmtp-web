@@ -50,6 +50,7 @@
   composes: text-md from global;
   word-break: break-all;
   align-self: stretch;
+  min-height: 21px;
 }
 
 .time {
