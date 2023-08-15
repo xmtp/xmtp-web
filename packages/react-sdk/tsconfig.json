@@ -1,4 +1,10 @@
 {
   "extends": "@xmtp/tsconfig/react-sdk.json",
-  "include": ["src", ".eslintrc.cjs"]
+  "include": ["src", ".eslintrc.cjs", "vitest.setup.ts"],
+  "compilerOptions": {
+    "module": "esnext",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
 }
