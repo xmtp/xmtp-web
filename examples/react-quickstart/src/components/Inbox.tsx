@@ -1,6 +1,6 @@
 import "./Inbox.css";
 import { useCallback, useState } from "react";
-import type { Conversation } from "@xmtp/react-sdk";
+import { type CachedConversation } from "@xmtp/react-sdk";
 import {
   ArrowRightOnRectangleIcon,
   PlusCircleIcon,
@@ -13,13 +13,13 @@ import { NoSelectedConversationNotification } from "./NoSelectedConversationNoti
 
 export const Inbox: React.FC = () => {
   const { disconnect } = useWallet();
-  const [conversation, setConversation] = useState<Conversation | undefined>(
-    undefined,
-  );
+  const [selectedConversation, setSelectedConversation] = useState<
+    CachedConversation | undefined
+  >(undefined);
   const [isNewMessage, setIsNewMessage] = useState(false);
 
-  const handleConversationClick = useCallback((convo: Conversation) => {
-    setConversation(convo);
+  const handleConversationClick = useCallback((convo: CachedConversation) => {
+    setSelectedConversation(convo);
     setIsNewMessage(false);
   }, []);
 
@@ -28,8 +28,8 @@ export const Inbox: React.FC = () => {
   }, []);
 
   const handleStartNewConversationSuccess = useCallback(
-    (convo?: Conversation) => {
-      setConversation(convo);
+    (convo?: CachedConversation) => {
+      setSelectedConversation(convo);
       setIsNewMessage(false);
     },
     [],
@@ -64,14 +64,14 @@ export const Inbox: React.FC = () => {
         <div className="InboxConversations__list">
           <Conversations
             onConversationClick={handleConversationClick}
-            selectedConversation={conversation}
+            selectedConversation={selectedConversation}
           />
         </div>
         <div className="InboxConversations__messages">
           {isNewMessage ? (
             <NewMessage onSuccess={handleStartNewConversationSuccess} />
-          ) : conversation ? (
-            <Messages conversation={conversation} />
+          ) : selectedConversation ? (
+            <Messages conversation={selectedConversation} />
           ) : (
             <NoSelectedConversationNotification
               onStartNewConversation={handleStartNewConversation}

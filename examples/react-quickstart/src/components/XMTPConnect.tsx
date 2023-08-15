@@ -13,7 +13,9 @@ const XMTPConnectButton: React.FC<XMTPConnectButtonProps> = ({ label }) => {
   const { initialize } = useClient();
 
   const handleConnect = useCallback(() => {
-    void initialize({ signer });
+    void initialize({
+      signer,
+    });
   }, [initialize, signer]);
 
   return (

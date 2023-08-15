@@ -3,17 +3,13 @@ import {
   useCanMessage,
   useStartConversation,
 } from "@xmtp/react-sdk";
-import {
-  AddressInput,
-  Messages as ConversationMessages,
-  MessageInput,
-} from "@xmtp/react-components";
-import type { Conversation } from "@xmtp/react-sdk";
+import { AddressInput, MessageInput } from "@xmtp/react-components";
+import type { CachedConversation } from "@xmtp/react-sdk";
 import { useCallback, useEffect, useRef, useState } from "react";
 import "./NewMessage.css";
 
 type NewMessageProps = {
-  onSuccess?: (conversation?: Conversation) => void;
+  onSuccess?: (conversation?: CachedConversation) => void;
 };
 
 export const NewMessage: React.FC<NewMessageProps> = ({ onSuccess }) => {
@@ -33,9 +29,11 @@ export const NewMessage: React.FC<NewMessageProps> = ({ onSuccess }) => {
     async (message: string) => {
       if (peerAddress && isOnNetwork) {
         setIsLoading(true);
-        const conversation = await startConversation(peerAddress, message);
+        const result = await startConversation(peerAddress, message);
         setIsLoading(false);
-        onSuccess?.(conversation);
+        if (result) {
+          onSuccess?.(result.cachedConversation);
+        }
       }
     },
     [isOnNetwork, onSuccess, peerAddress, startConversation],
@@ -84,7 +82,7 @@ export const NewMessage: React.FC<NewMessageProps> = ({ onSuccess }) => {
           address: isOnNetwork ? peerAddress : "",
         }}
       />
-      <ConversationMessages />
+      <div />
       <div className="NewMessageInputWrapper">
         <MessageInput
           isDisabled={isLoading || !isValidAddress(peerAddress) || isError}
