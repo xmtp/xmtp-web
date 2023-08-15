@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+if ! which docker &>/dev/null; then
+    echo "Docker required to run dev/up. Install it and run this again."
+    exit 1
+fi
+
+docker-compose -p xmtp-js -f dev/docker-compose.yml up -d

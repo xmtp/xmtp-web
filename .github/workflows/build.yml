@@ -49,10 +49,14 @@ jobs:
         run: |
           corepack enable
           corepack prepare yarn@3.4.1 --activate
+      - name: Start docker container
+        run: ./dev/up
       - name: Install dependencies
         run: yarn
       - name: Run tests
         run: yarn test
+      - name: Stop docker container
+        run: ./dev/down
 
   typecheck:
     runs-on: ubuntu-latest
