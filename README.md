@@ -22,6 +22,7 @@ To learn more about the contents of this repository, see this README and the REA
 - Node 16.10+
 - React 16.14+
 - Yarn v3+ is required only when working with this repo. See [Yarn Installation](https://yarnpkg.com/getting-started/install).
+Tip: Try with:```yarn set version berry```
 
 ## Developing
 
