@@ -7608,34 +7608,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmtp/xmtp-js@npm:^9.1.6":
-  version: 9.4.0
-  resolution: "@xmtp/xmtp-js@npm:9.4.0"
-  dependencies:
-    "@noble/secp256k1": ^1.5.2
-    "@xmtp/proto": ^3.24.0
-    async-mutex: ^0.4.0
-    elliptic: ^6.5.4
-    ethers: ^5.5.3
-    long: ^5.2.0
-  checksum: ba77fa3d749bcaa416cbbc88a616a395acfaac6a80aaa79b65a65d571e1512452953b2055d060be01341bf8c9bb212f7feb3df0daf3ef340de4de989112a717a
-  languageName: node
-  linkType: hard
-
-"@xmtp/xmtp-js@npm:^9.1.7, @xmtp/xmtp-js@npm:^9.2.0":
-  version: 9.4.1
-  resolution: "@xmtp/xmtp-js@npm:9.4.1"
-  dependencies:
-    "@noble/secp256k1": ^1.5.2
-    "@xmtp/proto": ^3.24.0
-    async-mutex: ^0.4.0
-    elliptic: ^6.5.4
-    ethers: ^5.5.3
-    long: ^5.2.0
-  checksum: 98de3b55ab90410f4f2aed707820cbcb45c8ca8472d278219ecbbee5d4db5e5d77652a35c501cb9963eea580275deb18a2b9a4ca47f8be6be9f160d9997e25bc
-  languageName: node
-  linkType: hard
-
 "@yarnpkg/esbuild-plugin-pnp@npm:^3.0.0-rc.10":
   version: 3.0.0-rc.15
   resolution: "@yarnpkg/esbuild-plugin-pnp@npm:3.0.0-rc.15"
@@ -8677,24 +8649,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.30001449":
-  version: 1.0.30001458
-  resolution: "caniuse-lite@npm:1.0.30001458"
-  checksum: 258cc5a25babbbfe483bf788c6f321a19400ff80b2bf156b360bac09a6f9f4da44516350d187a30395667cb142c682d9ea96577ea0df236d35f76234b07ccb41
-  languageName: node
-  linkType: hard
-
-"caniuse-lite@npm:^1.0.30001464":
-  version: 1.0.30001465
-  resolution: "caniuse-lite@npm:1.0.30001465"
-  checksum: c991ecdfff378a22b268f9b1eb732d003c8ad89db3241a4cdec3b3ec3354aa966a44171cb806c90abe2e3f0573d67dc29a7dce2478b1f070b23747c392244c5d
-  languageName: node
-  linkType: hard
-
-"caniuse-lite@npm:^1.0.30001503":
-  version: 1.0.30001506
-  resolution: "caniuse-lite@npm:1.0.30001506"
-  checksum: 0a090745824622df146e2f6dde79c7f7920a899dec1b3a599d2ef9acf41cef5e179fd133bb59f2030286a4ea935f4230e05438d7394694c414e8ada345eb5268
+"caniuse-lite@npm:^1.0.30001449, caniuse-lite@npm:^1.0.30001464, caniuse-lite@npm:^1.0.30001503":
+  version: 1.0.30001521
+  resolution: "caniuse-lite@npm:1.0.30001521"
+  checksum: be2a2b2cd3be03401887aaa31b89f3e7c6230289e6ef704e224268389cc136480fca502ac9e5001a65ff1e50459d3d95f8c4b2d39f878ab9843af3d6f372c8bb
   languageName: node
   linkType: hard
 

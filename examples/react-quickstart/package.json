@@ -12,6 +12,7 @@
     "format:base": "prettier --ignore-path ../../.gitignore",
     "format:check": "yarn format:base -c .",
     "format": "yarn format:base -w .",
+    "quickstart": "yarn dev",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
