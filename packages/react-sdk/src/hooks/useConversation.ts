@@ -22,8 +22,6 @@ export const useConversation = () => {
   const { client } = useClient();
   const { db } = useDb();
 
-  /* c8 ignore start */
-
   const saveConversation = useCallback(
     (conversation: CachedConversation) =>
       client ? _saveConversation(conversation, db) : undefined,
@@ -79,8 +77,6 @@ export const useConversation = () => {
     async (topic) => _hasTopic(topic, db),
     [db],
   );
-
-  /* c8 ignore stop */
 
   return {
     getByTopic,

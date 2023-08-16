@@ -34,8 +34,6 @@ export const useMessage = () => {
   const { client } = useClient();
   const { db } = useDb();
 
-  /* c8 ignore start */
-
   const processMessage = useCallback<ProcessMessageCallback>(
     async (conversation, message) => {
       if (client) {
@@ -71,8 +69,6 @@ export const useMessage = () => {
   const getMessageByXmtpID = useCallback<
     RemoveLastParameter<typeof _getMessageByXmtpID>
   >(async (xmtpID) => _getMessageByXmtpID(xmtpID, db), [db]);
-
-  /* c8 ignore stop */
 
   /**
    * Send a message to a conversation on the XMTP network
