@@ -1,7 +1,7 @@
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useState } from "react";
 import { Client } from "@xmtp/xmtp-js";
-import { XMTPContext } from "../contexts/XMTPContext";
 import type { CanMessageReturns, OnError } from "../sharedTypes";
+import { useClient } from "@/hooks/useClient";
 
 /**
  * This hook exposes both the client and static instances of the `canMessage`
@@ -10,20 +10,33 @@ import type { CanMessageReturns, OnError } from "../sharedTypes";
 export const useCanMessage = (onError?: OnError["onError"]) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown | null>(null);
-  const xmtpContext = useContext(XMTPContext);
-
-  const { canMessage: cm } = xmtpContext;
+  const { client } = useClient();
 
   /**
-   * Check if a wallet address is on the XMTP network using the client instance
+   * Check if one or more wallet addresses is on the XMTP network using the
    */
-  const canMessage = useCallback<typeof cm>(
-    async (peerAddress) => {
+  const canMessage = useCallback(
+    async <T extends string | string[]>(
+      peerAddress: T,
+    ): Promise<CanMessageReturns<T>> => {
+      if (!client) {
+        throw new Error(
+          "XMTP client is required to check if an address is on the network",
+        );
+      }
+
       setIsLoading(false);
       setError(null);
 
       try {
-        return await cm(peerAddress);
+        // this weirdness is required to get proper typing
+        return typeof peerAddress === "string"
+          ? await (client.canMessage(peerAddress) as Promise<
+              CanMessageReturns<T>
+            >)
+          : await (client.canMessage(peerAddress) as Promise<
+              CanMessageReturns<T>
+            >);
       } catch (e) {
         setError(e);
         onError?.(e);
@@ -33,7 +46,7 @@ export const useCanMessage = (onError?: OnError["onError"]) => {
         setIsLoading(false);
       }
     },
-    [cm, onError],
+    [client, onError],
   );
 
   /**
