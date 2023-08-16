@@ -1,5 +1,5 @@
-import { createContext, useMemo } from "react";
-import type { ContentCodec } from "@xmtp/xmtp-js";
+import { createContext, useMemo, useState } from "react";
+import type { Client, ContentCodec, Signer } from "@xmtp/xmtp-js";
 import Dexie from "dexie";
 import type {
   CacheConfiguration,
@@ -11,6 +11,10 @@ import { combineMessageProcessors } from "@/helpers/combineMessageProcessors";
 import { combineCodecs } from "@/helpers/combineCodecs";
 
 export type XMTPContextValue = {
+  /**
+   * The XMTP client instance
+   */
+  client?: Client;
   /**
    * Content codecs used by the XMTP client
    */
@@ -27,6 +31,12 @@ export type XMTPContextValue = {
    * Message processors for caching
    */
   processors: CachedMessageProcessors;
+  setClient: React.Dispatch<React.SetStateAction<Client | undefined>>;
+  setClientSigner: React.Dispatch<React.SetStateAction<Signer | undefined>>;
+  /**
+   * The signer (wallet) to associate with the XMTP client
+   */
+  signer?: Signer | null;
 };
 
 const initialDb = new Dexie("__XMTP__");
@@ -36,9 +46,15 @@ export const XMTPContext = createContext<XMTPContextValue>({
   db: initialDb,
   namespaces: {},
   processors: {},
+  setClient: () => {},
+  setClientSigner: () => {},
 });
 
 export type XMTPProviderProps = React.PropsWithChildren & {
+  /**
+   * Initial XMTP client instance
+   */
+  client?: Client;
   /**
    * An array of cache configurations to support the caching of messages
    */
@@ -54,9 +70,15 @@ export type XMTPProviderProps = React.PropsWithChildren & {
 
 export const XMTPProvider: React.FC<XMTPProviderProps> = ({
   children,
+  client: initialClient,
   cacheConfig,
   dbVersion,
 }) => {
+  const [client, setClient] = useState<Client | undefined>(initialClient);
+  const [clientSigner, setClientSigner] = useState<Signer | undefined>(
+    undefined,
+  );
+
   // combine all processors into a single object
   const processors = useMemo(
     () => combineMessageProcessors(cacheConfig ?? []),
@@ -86,12 +108,16 @@ export const XMTPProvider: React.FC<XMTPProviderProps> = ({
   // memo-ize the context value to prevent unnecessary re-renders
   const value = useMemo(
     () => ({
+      client,
       codecs,
       db,
       namespaces,
       processors,
+      setClient,
+      setClientSigner,
+      signer: clientSigner,
     }),
-    [codecs, db, namespaces, processors],
+    [client, clientSigner, codecs, db, namespaces, processors],
   );
 
   return <XMTPContext.Provider value={value}>{children}</XMTPContext.Provider>;
