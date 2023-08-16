@@ -82,7 +82,7 @@ module.exports = {
   overrides: [
     // allow devDependencies in configuration files
     {
-      files: ["*.ts", "*.js", "*.cjs"],
+      files: ["*.ts", "*.js", "*.cjs", "**/*.test.tsx", "**/*.test.ts"],
       rules: {
         "import/no-extraneous-dependencies": [
           "error",

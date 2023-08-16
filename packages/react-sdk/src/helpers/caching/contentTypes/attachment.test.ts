@@ -10,7 +10,6 @@ import {
   RemoteAttachmentCodec,
 } from "@xmtp/content-type-remote-attachment";
 import { Client, ContentTypeText } from "@xmtp/xmtp-js";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Wallet } from "ethers";
 import {
   getAttachment,

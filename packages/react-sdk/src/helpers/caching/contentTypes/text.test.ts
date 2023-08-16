@@ -1,6 +1,5 @@
 import { it, expect, describe, vi } from "vitest";
 import { Client, ContentTypeText } from "@xmtp/xmtp-js";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Wallet } from "ethers";
 import {
   ContentTypeAttachment,
