@@ -108,8 +108,10 @@ export const getDbInstance = (options?: GetDBInstanceOptions) => {
   return db;
 };
 
-export const clearCache = async (db: Dexie) =>
-  Promise.all(db.tables.map((table) => table.clear()));
+export const clearCache = async (db: Dexie) => {
+  // clear all data
+  await Promise.all(db.tables.map((table) => table.clear()));
+};
 
 // handle text messages by default
 export const defaultCacheConfig = [textCacheConfig];
