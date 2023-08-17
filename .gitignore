@@ -50,3 +50,6 @@ storybook-static
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# typedocs
+docs
