@@ -7591,6 +7591,7 @@ __metadata:
     vite: ^4.4.9
     vite-tsconfig-paths: ^4.2.0
     vitest: ^0.34.2
+    zod: ^3.22.1
   peerDependencies:
     "@xmtp/xmtp-js": ^10.1.0
     react: ">=16.14"
@@ -19010,6 +19011,13 @@ __metadata:
   version: 1.0.0
   resolution: "yocto-queue@npm:1.0.0"
   checksum: 2cac84540f65c64ccc1683c267edce396b26b1e931aa429660aefac8fbe0188167b7aee815a3c22fa59a28a58d898d1a2b1825048f834d8d629f4c2a5d443801
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.22.1":
+  version: 3.22.1
+  resolution: "zod@npm:3.22.1"
+  checksum: 05b62cc1069da6e6349ad2325ec6b7d0c00699f0796e0fd071bcc2b44ac711679e52ad00bc563019504c7e64bbf0bf73737f31366d882a856962cd6e2882cf0e
   languageName: node
   linkType: hard
 

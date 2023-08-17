@@ -94,7 +94,7 @@ describe("ContentTypeReaction caching", () => {
         xmtpID: "testXmtpId1",
       } satisfies CachedMessageWithId;
 
-      await saveMessage({ db, message: testTextMessage });
+      await saveMessage(testTextMessage, db);
 
       const testReactionContent = {
         content: "test",

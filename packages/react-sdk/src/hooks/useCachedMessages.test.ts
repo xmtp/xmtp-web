@@ -56,7 +56,7 @@ describe("useCachedMessages", () => {
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
 
-    await saveMessage({ db, message: testMessage });
+    await saveMessage(testMessage, db);
 
     const { result } = renderHook(() => useCachedMessages(testTopic));
 

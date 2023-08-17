@@ -45,6 +45,7 @@ export const useClient = (onError?: OnError["onError"]) => {
     db,
     processors,
     namespaces,
+    validators,
   } = useContext(XMTPContext);
 
   /**
@@ -123,6 +124,7 @@ export const useClient = (onError?: OnError["onError"]) => {
             db,
             processors,
             namespaces,
+            validators,
           });
           processedRef.current = true;
         } catch (e) {
@@ -134,7 +136,7 @@ export const useClient = (onError?: OnError["onError"]) => {
       };
       void reprocess();
     }
-  }, [client, db, namespaces, onError, processors]);
+  }, [client, db, namespaces, onError, processors, validators]);
 
   return {
     client,

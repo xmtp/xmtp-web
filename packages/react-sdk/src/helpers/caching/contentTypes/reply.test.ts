@@ -65,7 +65,7 @@ describe("ContentTypeReply caching", () => {
         xmtpID: "testXmtpId1",
       } satisfies CachedMessageWithId;
 
-      await saveMessage({ db, message: testTextMessage });
+      await saveMessage(testTextMessage, db);
 
       const testReplyContent = {
         content: "test",
@@ -101,7 +101,7 @@ describe("ContentTypeReply caching", () => {
       });
       expect(persist).toHaveBeenCalledWith();
       // since we mocked persist, we need to manually save the message
-      await saveMessage({ db, message: testReplyMessage });
+      await saveMessage(testReplyMessage, db);
 
       const originalMessage = await getMessageByXmtpID("testXmtpId1", db);
       const replies = getReplies(originalMessage!);
@@ -247,7 +247,7 @@ describe("ContentTypeReply caching", () => {
         xmtpID: "testXmtpId1",
       } satisfies CachedMessageWithId;
 
-      await saveMessage({ db, message: testTextMessage });
+      await saveMessage(testTextMessage, db);
       await addReply("testXmtpId1", "testXmtpId2", db);
       await addReply("testXmtpId1", "testXmtpId3", db);
 

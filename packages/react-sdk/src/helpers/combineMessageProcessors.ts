@@ -5,7 +5,7 @@ import type {
 } from "@/helpers/caching/db";
 
 /**
- * Formats message processors for easy consumption
+ * Combines all message processors into a single object
  *
  * @param cacheConfig The cache configuration to extract the processors from
  * @returns An object that maps content types to their respective message processors

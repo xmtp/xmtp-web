@@ -7,6 +7,7 @@ import { Mutex } from "async-mutex";
 import { v4 } from "uuid";
 import type {
   CachedMessageProcessors,
+  CachedMessageValidators,
   CachedMetadata,
   CachedMetadataValues,
   InternalPersistMessage,
@@ -46,6 +47,8 @@ export type CachedMessageWithId<C = any> = CachedMessage<C> & {
 /**
  * Converts a DecodedMessage from the XMTP network to its cached format
  *
+ * @param message The message to convert
+ * @param walletAddress The wallet address associated with the message
  * @returns The message in cached format
  */
 export const toCachedMessage = (
@@ -79,6 +82,8 @@ export const toCachedMessage = (
 /**
  * Retrieve a message from the cache by its XMTP ID
  *
+ * @param xmtpID The XMTP ID of the message to retrieve
+ * @param db Database instance
  * @returns The cached message, or `undefined` if not found
  */
 export const getMessageByXmtpID = async (xmtpID: string, db: Dexie) => {
@@ -89,7 +94,7 @@ export const getMessageByXmtpID = async (xmtpID: string, db: Dexie) => {
 
 export type SaveMessageOptions = Omit<
   ProcessMessageOptions,
-  "client" | "conversation" | "processors" | "namespaces"
+  "client" | "conversation" | "processors" | "namespaces" | "validators"
 >;
 
 /**
@@ -97,7 +102,7 @@ export type SaveMessageOptions = Omit<
  *
  * @returns The newly cached message, or an already existing cached message
  */
-export const saveMessage = async ({ db, message }: SaveMessageOptions) => {
+export const saveMessage = async (message: CachedMessage, db: Dexie) => {
   const messages = db.table("messages") as CachedMessagesTable;
 
   // check if message already exists
@@ -247,6 +252,7 @@ export type ProcessMessageOptions = {
   message: CachedMessage;
   namespaces: Record<string, string>;
   processors: CachedMessageProcessors;
+  validators: CachedMessageValidators;
 };
 
 export type ReprocessMessageOptions = ProcessMessageOptions & {
@@ -274,6 +280,7 @@ export const processMessage = async (
     message,
     namespaces,
     processors,
+    validators,
   }: ProcessMessageOptions,
   removeExisting = false,
 ) =>
@@ -281,6 +288,12 @@ export const processMessage = async (
     const existingMessage = await getMessageByXmtpID(message.xmtpID, db);
     // don't re-process an existing message
     if (existingMessage && existingMessage.status === "processed") {
+      return message;
+    }
+
+    // don't process invalid message content
+    const isContentValid = validators[message.contentType];
+    if (isContentValid && !isContentValid(message.content)) {
       return message;
     }
 
@@ -305,10 +318,7 @@ export const processMessage = async (
         updatedMessage.metadata = updatedMetadata;
       }
 
-      persistedMessage = await saveMessage({
-        db,
-        message: updatedMessage,
-      });
+      persistedMessage = await saveMessage(updatedMessage, db);
       return persistedMessage;
     };
 
@@ -327,10 +337,7 @@ export const processMessage = async (
       // don't persist the message if it already exists in the cache
       if (!(await getMessageByXmtpID(message.xmtpID, db))) {
         // persist the message to cache so that it can be processed later
-        const savedMessage = await saveMessage({
-          db,
-          message,
-        });
+        const savedMessage = await saveMessage(message, db);
         return savedMessage;
       }
       return message;
@@ -393,6 +400,7 @@ export const reprocessMessage = async ({
   message,
   namespaces,
   processors,
+  validators,
   process = processMessage,
   decode = decodeContent,
 }: ReprocessMessageOptions) => {
@@ -425,6 +433,7 @@ export const reprocessMessage = async ({
         },
         namespaces,
         processors,
+        validators,
       },
       true,
     );
@@ -481,6 +490,7 @@ export const processUnprocessedMessages = async ({
   db,
   namespaces,
   processors,
+  validators,
   reprocess = reprocessMessage,
 }: ProcessUnprocessedMessagesOptions) => {
   await processUnprocessedMessagesMutex.runExclusive(async () => {
@@ -501,6 +511,7 @@ export const processUnprocessedMessages = async ({
             message: unprocessedMessage,
             namespaces,
             processors,
+            validators,
           });
         }
       }),

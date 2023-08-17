@@ -4,7 +4,7 @@ import {
 } from "@/helpers/caching/db";
 
 /**
- * Formats namespaces for easy consumption
+ * Combines all namespaces into a single object
  *
  * @param cacheConfig The cache configuration to extract the namespaces from
  * @returns An object that maps content types to their respective namespace

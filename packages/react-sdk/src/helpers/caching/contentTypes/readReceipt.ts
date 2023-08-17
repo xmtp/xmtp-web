@@ -5,6 +5,7 @@ import {
 } from "@xmtp/content-type-read-receipt";
 import { ContentTypeId } from "@xmtp/xmtp-js";
 import { parseISO } from "date-fns";
+import { z } from "zod";
 import type { CacheConfiguration, CachedMessageProcessor } from "../db";
 import type { CachedConversation } from "../conversations";
 
@@ -15,6 +16,7 @@ export type CachedReadReceiptMetadata = string | undefined;
 /**
  * Retrieve the read receipt from a cached conversation
  *
+ * @param conversation Cached conversation
  * @returns The read receipt date, or `undefined` if the conversation
  * has no read receipt
  */
@@ -27,15 +29,33 @@ export const getReadReceipt = (conversation: CachedConversation) => {
 
 /**
  * Check if a cached conversation has a read receipt
+ *
+ * @param conversation Cached conversation
+ * @returns `true` if the conversation has a read receipt, `false` otherwise
  */
 export const hasReadReceipt = (conversation: CachedConversation) =>
   getReadReceipt(conversation) !== undefined;
 
+const ReadReceiptContentSchema = z.object({
+  timestamp: z.string().refine((value) => !!parseISO(value)),
+});
+
+/**
+ * Validate the content of a read receipt message
+ *
+ * @param content Message content
+ * @returns `true` if the content is valid, `false` otherwise
+ */
+const isValidReadReceiptContent = (content: unknown) => {
+  const { success } = ReadReceiptContentSchema.safeParse(content);
+  return success;
+};
+
 /**
  * Process a read receipt message
  *
- * The message is not saved to the cache, but rather the metadata of its
- * conversation is updated with the timestamp of the read receipt.
+ * Updates the metadata of its conversation with the timestamp of the
+ * read receipt.
  */
 export const processReadReceipt: CachedMessageProcessor = async ({
   message,
@@ -43,7 +63,11 @@ export const processReadReceipt: CachedMessageProcessor = async ({
   updateConversationMetadata,
 }) => {
   const contentType = ContentTypeId.fromString(message.contentType);
-  if (ContentTypeReadReceipt.sameAs(contentType) && conversation) {
+  if (
+    ContentTypeReadReceipt.sameAs(contentType) &&
+    conversation &&
+    isValidReadReceiptContent(message.content)
+  ) {
     // update message's conversation with the read receipt metadata
     await updateConversationMetadata(
       (message.content as ReadReceipt).timestamp,
@@ -56,5 +80,8 @@ export const readReceiptsCacheConfig: CacheConfiguration = {
   namespace: NAMESPACE,
   processors: {
     [ContentTypeReadReceipt.toString()]: [processReadReceipt],
+  },
+  validators: {
+    [ContentTypeReadReceipt.toString()]: isValidReadReceiptContent,
   },
 };

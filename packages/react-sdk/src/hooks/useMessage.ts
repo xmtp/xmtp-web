@@ -30,7 +30,7 @@ export type SendMessageOptions = Omit<SendOptions, "contentType"> &
  */
 export const useMessage = () => {
   const xmtpContext = useContext(XMTPContext);
-  const { processors, namespaces } = xmtpContext;
+  const { processors, namespaces, validators } = xmtpContext;
   const { client } = useClient();
   const { db } = useDb();
 
@@ -44,11 +44,12 @@ export const useMessage = () => {
           message,
           namespaces,
           processors,
+          validators,
         });
       }
       return message;
     },
-    [client, db, namespaces, processors],
+    [client, db, namespaces, processors, validators],
   );
 
   const updateMessage = useCallback<RemoveLastParameter<typeof _updateMessage>>(
