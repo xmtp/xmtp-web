@@ -27,12 +27,12 @@
     "wagmi": "^0.12.18"
   },
   "devDependencies": {
-    "@types/react": "^18.2.14",
-    "@types/react-dom": "^18.2.6",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.4",
     "@xmtp/tsconfig": "workspace:*",
-    "autoprefixer": "^10.4.14",
-    "eslint": "^8.44.0",
+    "autoprefixer": "^10.4.15",
+    "eslint": "^8.47.0",
     "eslint-config-xmtp-web": "workspace:*",
     "postcss": "^8.4.25",
     "postcss-preset-env": "^8.5.1",

@@ -93,8 +93,8 @@ describe("useSendMessage", () => {
       const sentMessage = await result.current.sendMessage(
         testConversation,
         testAttachment,
+        ContentTypeAttachment,
         {
-          contentType: ContentTypeAttachment,
           contentFallback: "test",
         },
       );
@@ -108,7 +108,6 @@ describe("useSendMessage", () => {
       ContentTypeAttachment,
       {
         contentFallback: "test",
-        contentType: ContentTypeAttachment,
         onError: onErrorMock,
         onSuccess: onSuccessMock,
       },

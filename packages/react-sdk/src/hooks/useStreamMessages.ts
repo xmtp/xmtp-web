@@ -23,7 +23,7 @@ export const useStreamMessages = (
   conversation: CachedConversation,
   options?: UseStreamMessagesOptions,
 ) => {
-  const [error, setError] = useState<unknown | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const streamRef = useRef<MessageStream | undefined>(undefined);
   const endStreamRef = useRef(async (stream?: MessageStream) => {
     // it's important to reset the stream reference first so that any
@@ -89,8 +89,8 @@ export const useStreamMessages = (
           onMessage?.(message);
         }
       } catch (e) {
-        setError(e);
-        onError?.(e);
+        setError(e as Error);
+        onError?.(e as Error);
         void endStream(stream);
         // re-throw error for upstream consumption
         throw e;

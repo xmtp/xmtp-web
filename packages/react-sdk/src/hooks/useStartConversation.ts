@@ -14,7 +14,7 @@ export type UseStartConversation = Partial<InvitationContext> & OnError;
  */
 export const useStartConversation = (options?: UseStartConversation) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown | Error | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const { client } = useClient();
   const { sendMessage: _sendMessage } = useMessage();
   const { saveConversation } = useConversation();
@@ -90,8 +90,8 @@ export const useStartConversation = (options?: UseStartConversation) => {
           conversation,
         };
       } catch (e) {
-        setError(e);
-        onError?.(e);
+        setError(e as Error);
+        onError?.(e as Error);
         // re-throw error for upstream consumption
         throw e;
       } finally {

@@ -95,6 +95,7 @@ export {
   SortDirection,
   ContentTypeId,
   ContentTypeText,
+  Compression,
 } from "@xmtp/xmtp-js";
 
 // re-export types from the JS SDK

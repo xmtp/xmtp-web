@@ -9,7 +9,6 @@
   "scripts": {
     "build": "turbo run build --filter='./packages/*'",
     "clean": "turbo run clean && rm -rf node_modules && yarn cache clean",
-    "dev": "FORCE_COLOR=1 turbo run dev",
     "format:check": "turbo run format:check",
     "format": "turbo run format",
     "generate:types": "turbo run generate:types",
@@ -20,8 +19,8 @@
     "typecheck": "FORCE_COLOR=1 turbo run typecheck"
   },
   "devDependencies": {
-    "prettier": "^3.0.0",
-    "turbo": "^1.10.7"
+    "prettier": "^3.0.2",
+    "turbo": "^1.10.12"
   },
   "packageManager": "yarn@3.4.1",
   "engines": {

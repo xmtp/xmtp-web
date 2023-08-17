@@ -27,7 +27,7 @@ export const useMessages = (
   options?: UseMessagesOptions,
 ) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const { processMessage } = useMessage();
   const { updateConversation } = useConversation();
   const messages = useCachedMessages(conversation.topic);
@@ -95,8 +95,8 @@ export const useMessages = (
 
       onMessages?.(networkMessages);
     } catch (e) {
-      setError(e);
-      onError?.(e);
+      setError(e as Error);
+      onError?.(e as Error);
       // re-throw error for upstream consumption
       throw e;
     } finally {
