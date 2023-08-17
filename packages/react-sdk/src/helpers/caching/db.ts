@@ -44,11 +44,17 @@ export type CachedMessageProcessor<C = any> = (options: {
   updateConversationMetadata: (data: CachedMetadataValues) => Promise<void>;
 }) => Promise<void>;
 
+export type CachedMessageValidators = Record<
+  string,
+  (content: unknown) => boolean
+>;
+
 export type CacheConfiguration = {
   codecs?: ContentCodec<any>[];
   namespace: string;
   processors: CachedMessageProcessors;
   schema?: Record<string, string>;
+  validators?: CachedMessageValidators;
 };
 
 export type CachedMessageProcessors = {
@@ -95,7 +101,6 @@ export const getDbInstance = (options?: GetDBInstanceOptions) => {
       contentFallback,
       contentType,
       conversationTopic,
-      hasSendError,
       senderAddress,
       sentAt,
       status,

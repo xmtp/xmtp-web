@@ -2,8 +2,9 @@ import type { Reply } from "@xmtp/content-type-reply";
 import { ReplyCodec, ContentTypeReply } from "@xmtp/content-type-reply";
 import { ContentTypeId } from "@xmtp/xmtp-js";
 import type { Dexie } from "dexie";
+import { z } from "zod";
+import type { CachedMessage } from "@/helpers/caching/messages";
 import type { CacheConfiguration, CachedMessageProcessor } from "../db";
-import type { CachedMessage } from "../messages";
 import { getMessageByXmtpID, updateMessageMetadata } from "../messages";
 
 const NAMESPACE = "replies";
@@ -15,6 +16,10 @@ export type CachedRepliesMetadata = string[];
  *
  * Replies are stored as an array of XMTP message IDs in the metadata of
  * the original message.
+ *
+ * @param xmtpID XMTP message ID of the original message
+ * @param replyXmtpID XMTP message ID of the reply message
+ * @param db Database instance
  */
 export const addReply = async (
   xmtpID: Reply["reference"],
@@ -35,6 +40,9 @@ export const addReply = async (
 
 /**
  * Retrieve all replies to a cached message
+ *
+ * @param message Cached message
+ * @returns An array of XMTP message IDs
  */
 export const getReplies = (message: CachedMessage) => {
   const metadata = message?.metadata?.[NAMESPACE] ?? [];
@@ -43,6 +51,9 @@ export const getReplies = (message: CachedMessage) => {
 
 /**
  * Check if a cached message has any replies
+ *
+ * @param message Cached message
+ * @returns `true` if the message has any replies, `false` otherwise
  */
 export const hasReply = (message: CachedMessage) =>
   getReplies(message).length > 0;
@@ -50,6 +61,8 @@ export const hasReply = (message: CachedMessage) =>
 /**
  * Get the original message from a reply message
  *
+ * @param message Cached message
+ * @param db Database instance
  * @returns The original message, or `undefined` if the reply message is invalid
  */
 export const getOriginalMessageFromReply = async (
@@ -67,10 +80,32 @@ export const getOriginalMessageFromReply = async (
   return undefined;
 };
 
+const ReplyContentSchema = z.object({
+  content: z.any(),
+  contentType: z.object({
+    authorityId: z.string(),
+    typeId: z.string(),
+    versionMajor: z.number().gt(0),
+    versionMinor: z.number().gte(0),
+  }),
+  reference: z.string(),
+});
+
+/**
+ * Validate the content of a reply message
+ *
+ * @param content Message content
+ * @returns `true` if the content is valid, `false` otherwise
+ */
+const isValidReplyContent = (content: unknown) => {
+  const { success } = ReplyContentSchema.safeParse(content);
+  return success;
+};
+
 /**
  * Process a reply message
  *
- * This saves the reply message to the cache and updates the metadata of the
+ * Saves the reply message to the cache and updates the metadata of the
  * original message with the new reply.
  */
 export const processReply: CachedMessageProcessor = async ({
@@ -79,7 +114,10 @@ export const processReply: CachedMessageProcessor = async ({
   persist,
 }) => {
   const contentType = ContentTypeId.fromString(message.contentType);
-  if (ContentTypeReply.sameAs(contentType)) {
+  if (
+    ContentTypeReply.sameAs(contentType) &&
+    isValidReplyContent(message.content)
+  ) {
     const reply = message.content as Reply;
 
     // update replies metadata on the referenced message
@@ -95,5 +133,8 @@ export const repliesCacheConfig: CacheConfiguration = {
   namespace: NAMESPACE,
   processors: {
     [ContentTypeReply.toString()]: [processReply],
+  },
+  validators: {
+    [ContentTypeReply.toString()]: isValidReplyContent,
   },
 };

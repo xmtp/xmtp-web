@@ -4,11 +4,13 @@ import Dexie from "dexie";
 import type {
   CacheConfiguration,
   CachedMessageProcessors,
+  CachedMessageValidators,
 } from "@/helpers/caching/db";
 import { getDbInstance } from "@/helpers/caching/db";
 import { combineNamespaces } from "@/helpers/combineNamespaces";
 import { combineMessageProcessors } from "@/helpers/combineMessageProcessors";
 import { combineCodecs } from "@/helpers/combineCodecs";
+import { combineValidators } from "@/helpers/combineValidators";
 
 export type XMTPContextValue = {
   /**
@@ -16,7 +18,7 @@ export type XMTPContextValue = {
    */
   client?: Client;
   /**
-   * Content codecs used by the XMTP client
+   * Content codecs used by the XMTP client instance
    */
   codecs: ContentCodec<any>[];
   /**
@@ -31,12 +33,22 @@ export type XMTPContextValue = {
    * Message processors for caching
    */
   processors: CachedMessageProcessors;
+  /**
+   * Set the XMTP client instance
+   */
   setClient: React.Dispatch<React.SetStateAction<Client | undefined>>;
+  /**
+   * Set the signer (wallet) to associate with the XMTP client instance
+   */
   setClientSigner: React.Dispatch<React.SetStateAction<Signer | undefined>>;
   /**
-   * The signer (wallet) to associate with the XMTP client
+   * The signer (wallet) associated with the XMTP client instance
    */
   signer?: Signer | null;
+  /**
+   * Message content validators for content types
+   */
+  validators: CachedMessageValidators;
 };
 
 const initialDb = new Dexie("__XMTP__");
@@ -48,6 +60,7 @@ export const XMTPContext = createContext<XMTPContextValue>({
   processors: {},
   setClient: () => {},
   setClientSigner: () => {},
+  validators: {},
 });
 
 export type XMTPProviderProps = React.PropsWithChildren & {
@@ -79,18 +92,24 @@ export const XMTPProvider: React.FC<XMTPProviderProps> = ({
     undefined,
   );
 
-  // combine all processors into a single object
+  // combine all message processors
   const processors = useMemo(
     () => combineMessageProcessors(cacheConfig ?? []),
     [cacheConfig],
   );
 
-  // combine all codecs into a single array
+  // combine all codecs
   const codecs = useMemo(() => combineCodecs(cacheConfig ?? []), [cacheConfig]);
 
-  // combine all namespaces into a single object
+  // combine all namespaces
   const namespaces = useMemo(
     () => combineNamespaces(cacheConfig ?? []),
+    [cacheConfig],
+  );
+
+  // combine all content validators
+  const validators = useMemo(
+    () => combineValidators(cacheConfig ?? []),
     [cacheConfig],
   );
 
@@ -116,8 +135,9 @@ export const XMTPProvider: React.FC<XMTPProviderProps> = ({
       setClient,
       setClientSigner,
       signer: clientSigner,
+      validators,
     }),
-    [client, clientSigner, codecs, db, namespaces, processors],
+    [client, clientSigner, codecs, db, namespaces, processors, validators],
   );
 
   return <XMTPContext.Provider value={value}>{children}</XMTPContext.Provider>;

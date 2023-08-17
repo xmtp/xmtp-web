@@ -26,6 +26,7 @@ import {
   getCachedConversationByTopic,
 } from "@/helpers/caching/conversations";
 import { adjustDate } from "@/helpers/adjustDate";
+import { textCacheConfig } from "@/helpers/caching/contentTypes/text";
 
 const db = getDbInstance();
 const testWallet1 = Wallet.createRandom();
@@ -113,7 +114,7 @@ describe("saveMessage", () => {
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
 
-    const cachedMessage = await saveMessage({ db, message: testMessage });
+    const cachedMessage = await saveMessage(testMessage, db);
     expect(cachedMessage).toEqual(testMessage);
 
     const message = await getMessageByXmtpID("testXmtpId", db);
@@ -134,9 +135,9 @@ describe("saveMessage", () => {
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
-    const cachedMessage = await saveMessage({ db, message: testMessage });
+    const cachedMessage = await saveMessage(testMessage, db);
     expect(cachedMessage).toEqual(testMessage);
-    const cachedMessage2 = await saveMessage({ db, message: testMessage });
+    const cachedMessage2 = await saveMessage(testMessage, db);
     expect(cachedMessage2).toEqual(testMessage);
     expect(cachedMessage.id).toBe(cachedMessage2.id);
   });
@@ -159,7 +160,7 @@ describe("deleteMessage", () => {
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
 
-    await saveMessage({ db, message: testMessage });
+    await saveMessage(testMessage, db);
     const message = await getMessageByXmtpID("testXmtpId", db);
     expect(message).toEqual(testMessage);
 
@@ -188,7 +189,7 @@ describe("updateMessage", () => {
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
 
-    const cachedMessage = await saveMessage({ db, message: testMessage });
+    const cachedMessage = await saveMessage(testMessage, db);
     expect(cachedMessage).toEqual(testMessage);
 
     await updateMessage(
@@ -227,7 +228,7 @@ describe("updateMessageMetadata", () => {
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
 
-    const cachedMessage = await saveMessage({ db, message: testMessage });
+    const cachedMessage = await saveMessage(testMessage, db);
     expect(cachedMessage).toEqual(testMessage);
 
     await updateMessageMetadata(
@@ -334,7 +335,7 @@ describe("updateMessageAfterSending", () => {
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
 
-    const cachedMessage = await saveMessage({ db, message: testMessage });
+    const cachedMessage = await saveMessage(testMessage, db);
     expect(cachedMessage).toEqual(testMessage);
 
     const sentAt = new Date();
@@ -386,9 +387,9 @@ describe("getLastMessage", () => {
       xmtpID: "testXmtpId2",
     } satisfies CachedMessage;
 
-    const cachedMessage = await saveMessage({ db, message: testMessage });
+    const cachedMessage = await saveMessage(testMessage, db);
     expect(cachedMessage).toEqual(testMessage);
-    const cachedMessage2 = await saveMessage({ db, message: testMessage2 });
+    const cachedMessage2 = await saveMessage(testMessage2, db);
     expect(cachedMessage2).toEqual(testMessage2);
 
     const lastMessage = await getLastMessage("testTopic", db);
@@ -429,9 +430,9 @@ describe("getUnprocessedMessages", () => {
       xmtpID: "testXmtpId2",
     } satisfies CachedMessage;
 
-    const cachedMessage = await saveMessage({ db, message: testMessage });
+    const cachedMessage = await saveMessage(testMessage, db);
     expect(cachedMessage).toEqual(testMessage);
-    const cachedMessage2 = await saveMessage({ db, message: testMessage2 });
+    const cachedMessage2 = await saveMessage(testMessage2, db);
     expect(cachedMessage2).toEqual(testMessage2);
 
     const unprocessedMessages = await getUnprocessedMessages(db);
@@ -454,6 +455,7 @@ describe("processMessage", () => {
     [ContentTypeText.toString()]: [mockProcessor1, mockProcessor2],
     foo: [mockProcessor3],
   };
+  const testValidators = {};
 
   beforeEach(() => {
     mockProcessor1.mockReset();
@@ -495,6 +497,7 @@ describe("processMessage", () => {
       message: testMessage,
       namespaces: testNamepaces,
       processors: testProcessors,
+      validators: testValidators,
     });
     expect(cachedMessage).toEqual(testMessage);
     expect(mockProcessor1).toHaveBeenCalledTimes(1);
@@ -562,7 +565,7 @@ describe("processMessage", () => {
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
-    await saveMessage({ db, message: testMessage });
+    await saveMessage(testMessage, db);
     const cachedMessage = await processMessage({
       client: testClient,
       conversation: cachedConversation,
@@ -570,6 +573,54 @@ describe("processMessage", () => {
       message: testMessage,
       namespaces: testNamepaces,
       processors: testProcessors,
+      validators: testValidators,
+    });
+    expect(cachedMessage).toEqual(testMessage);
+    expect(mockProcessor1).not.toHaveBeenCalled();
+    expect(mockProcessor2).not.toHaveBeenCalled();
+    expect(mockProcessor3).not.toHaveBeenCalled();
+
+    const updatedConversation = await getCachedConversationByTopic(
+      "testTopic",
+      db,
+    );
+    expect(updatedConversation?.updatedAt).not.toEqual(sentAt);
+  });
+
+  it("should not process a message with invalid content", async () => {
+    const testClient = await Client.create(testWallet1, { env: "local" });
+    const createdAt = new Date();
+    const testConversation = {
+      createdAt,
+      updatedAt: createdAt,
+      isReady: false,
+      topic: "testTopic",
+      peerAddress: "testPeerAddress",
+      walletAddress: "testWalletAddress",
+    } satisfies CachedConversation;
+    const sentAt = adjustDate(createdAt, 1000);
+    const testMessage = {
+      id: 1,
+      walletAddress: "testWalletAddress",
+      conversationTopic: "testTopic",
+      content: 1,
+      contentType: ContentTypeText.toString(),
+      isSending: false,
+      hasSendError: false,
+      sentAt,
+      status: "processed",
+      senderAddress: "testWalletAddress",
+      uuid: "testUuid",
+      xmtpID: "testXmtpId",
+    } satisfies CachedMessage;
+    const cachedMessage = await processMessage({
+      client: testClient,
+      conversation: testConversation,
+      db,
+      message: testMessage,
+      namespaces: testNamepaces,
+      processors: testProcessors,
+      validators: textCacheConfig.validators ?? {},
     });
     expect(cachedMessage).toEqual(testMessage);
     expect(mockProcessor1).not.toHaveBeenCalled();
@@ -610,7 +661,7 @@ describe("processMessage", () => {
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
-    const savedMessage = await saveMessage({ db, message: testMessage });
+    const savedMessage = await saveMessage(testMessage, db);
     expect(savedMessage).toEqual(testMessage);
     const cachedMessage = await processMessage(
       {
@@ -620,6 +671,7 @@ describe("processMessage", () => {
         message: testMessage,
         namespaces: testNamepaces,
         processors: testProcessors,
+        validators: testValidators,
       },
       true,
     );
@@ -667,6 +719,7 @@ describe("processMessage", () => {
         message: testMessage,
         namespaces: testNamepaces,
         processors: testProcessors,
+        validators: testValidators,
       },
       true,
     );
@@ -716,6 +769,7 @@ describe("processMessage", () => {
       message: testMessage,
       namespaces: testNamepaces,
       processors: testProcessors,
+      validators: testValidators,
     });
 
     const updatedMessage = {
@@ -777,6 +831,7 @@ describe("processMessage", () => {
       message: testMessage,
       namespaces: testNamepaces,
       processors: testProcessors,
+      validators: testValidators,
     });
 
     const updatedMessage = {
@@ -841,6 +896,7 @@ describe("processMessage", () => {
       message: testMessage,
       namespaces: testNamepaces,
       processors: testProcessors,
+      validators: testValidators,
     });
 
     expect(cachedMessage).toEqual(testMessage);
@@ -873,6 +929,7 @@ describe("reprocessMessage", () => {
     [ContentTypeText.toString()]: [() => Promise.resolve()],
     foo: [() => Promise.resolve()],
   };
+  const testValidators = {};
 
   const processMessageMock = vi.fn();
   const decodeContentMock = vi.fn();
@@ -919,6 +976,7 @@ describe("reprocessMessage", () => {
       message: testMessage,
       namespaces: testNamepaces,
       processors: testProcessors,
+      validators: testValidators,
       decode: decodeContentMock,
       process: processMessageMock,
     });
@@ -935,6 +993,7 @@ describe("reprocessMessage", () => {
         },
         namespaces: testNamepaces,
         processors: testProcessors,
+        validators: testValidators,
       },
       true,
     );
@@ -978,6 +1037,7 @@ describe("reprocessMessage", () => {
       message: testMessage,
       namespaces: testNamepaces,
       processors: testProcessors,
+      validators: testValidators,
       decode: decodeContentMock,
       process: processMessageMock,
     });
@@ -1014,7 +1074,7 @@ describe("processUnprocessedMessages", () => {
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
-    await saveMessage({ db, message: testMessage1 });
+    await saveMessage(testMessage1, db);
     const testMessage2 = {
       id: 1,
       walletAddress: testWallet1.address,
@@ -1029,7 +1089,7 @@ describe("processUnprocessedMessages", () => {
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
-    await saveMessage({ db, message: testMessage2 });
+    await saveMessage(testMessage2, db);
     const mockReprocessMessage = vi.fn();
     const namespaces = {
       [ContentTypeText.toString()]: "text",
@@ -1037,11 +1097,13 @@ describe("processUnprocessedMessages", () => {
     const processors = {
       [ContentTypeText.toString()]: [() => Promise.resolve()],
     };
+    const validators = {};
     await processUnprocessedMessages({
       client: testClient,
       db,
       namespaces,
       processors,
+      validators,
       reprocess: mockReprocessMessage,
     });
     expect(mockReprocessMessage).toHaveBeenCalledTimes(1);
@@ -1052,6 +1114,7 @@ describe("processUnprocessedMessages", () => {
       message: testMessage1,
       namespaces,
       processors,
+      validators,
     });
   });
 
@@ -1073,7 +1136,7 @@ describe("processUnprocessedMessages", () => {
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
-    await saveMessage({ db, message: testMessage1 });
+    await saveMessage(testMessage1, db);
     const mockReprocessMessage = vi.fn();
     const namespaces = {
       [ContentTypeText.toString()]: "text",
@@ -1081,11 +1144,13 @@ describe("processUnprocessedMessages", () => {
     const processors = {
       [ContentTypeText.toString()]: [() => Promise.resolve()],
     };
+    const validators = {};
     await processUnprocessedMessages({
       client: testClient,
       db,
       namespaces,
       processors,
+      validators,
       reprocess: mockReprocessMessage,
     });
     expect(mockReprocessMessage).not.toHaveBeenCalled();
