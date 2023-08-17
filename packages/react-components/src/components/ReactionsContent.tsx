@@ -71,9 +71,7 @@ export const ReactionsContent: React.FC<ReactionsContentProps> = ({
           reference: message.xmtpID,
           action: hasReacted ? "removed" : "added",
         },
-        {
-          contentType: ContentTypeReaction,
-        },
+        ContentTypeReaction,
       );
     },
     [

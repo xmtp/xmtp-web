@@ -29,9 +29,7 @@ export const ReactionsBar: React.FC<ReactionsBarProps> = ({
           reference: message.xmtpID,
           action: "added",
         },
-        {
-          contentType: ContentTypeReaction,
-        },
+        ContentTypeReaction,
       );
     },
     [conversation, message.xmtpID, sendMessage],

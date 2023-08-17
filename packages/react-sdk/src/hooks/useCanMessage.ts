@@ -9,7 +9,7 @@ import { useClient } from "@/hooks/useClient";
  */
 export const useCanMessage = (onError?: OnError["onError"]) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const { client } = useClient();
 
   /**
@@ -38,8 +38,8 @@ export const useCanMessage = (onError?: OnError["onError"]) => {
               CanMessageReturns<T>
             >);
       } catch (e) {
-        setError(e);
-        onError?.(e);
+        setError(e as Error);
+        onError?.(e as Error);
         // re-throw error for upstream consumption
         throw e;
       } finally {
@@ -69,8 +69,8 @@ export const useCanMessage = (onError?: OnError["onError"]) => {
               CanMessageReturns<T>
             >);
       } catch (e) {
-        setError(e);
-        onError?.(e);
+        setError(e as Error);
+        onError?.(e as Error);
         // re-throw error for upstream consumption
         throw e;
       } finally {

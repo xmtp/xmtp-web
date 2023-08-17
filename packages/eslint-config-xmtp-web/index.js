@@ -26,6 +26,7 @@ module.exports = {
       },
     ],
     "no-nested-ternary": "off",
+    "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/naming-convention": [
       "error",
       {

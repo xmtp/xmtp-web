@@ -129,7 +129,7 @@ export const useMessage = () => {
           hasSendError: true,
           sendOptions: finalSendOptions,
         });
-        onError?.(e);
+        onError?.(e as Error);
         // re-throw error for upstream consumption
         throw e;
       }

@@ -16,7 +16,7 @@ export const useStreamAllMessages = (
   onMessage: (message: DecodedMessage) => void | Promise<void>,
   onError?: OnError["onError"],
 ) => {
-  const [error, setError] = useState<unknown | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const streamRef = useRef<AllMessagesStream | undefined>(undefined);
   const endStreamRef = useRef(async (stream?: AllMessagesStream) => {
     // it's important to reset the stream reference first so that any
@@ -74,8 +74,8 @@ export const useStreamAllMessages = (
           void onMessage(message);
         }
       } catch (e) {
-        setError(e);
-        onError?.(e);
+        setError(e as Error);
+        onError?.(e as Error);
         void endStream(stream);
         // re-throw error for upstream consumption
         throw e;

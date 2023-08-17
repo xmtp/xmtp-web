@@ -21,7 +21,7 @@ export type UseConversationsOptions = OnError & {
  */
 export const useConversations = (options?: UseConversationsOptions) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const { client } = useClient();
   const { processMessage } = useMessage();
   const { saveConversation, hasTopic } = useConversation();
@@ -85,8 +85,8 @@ export const useConversations = (options?: UseConversationsOptions) => {
         );
         onConversations?.(conversationList);
       } catch (e) {
-        setError(e);
-        onError?.(e);
+        setError(e as Error);
+        onError?.(e as Error);
         // re-throw error for upstream consumption
         throw e;
       } finally {

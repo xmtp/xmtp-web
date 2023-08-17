@@ -5,7 +5,7 @@ import { XMTPContext } from "../contexts/XMTPContext";
 import type { OnError } from "@/sharedTypes";
 import { processUnprocessedMessages } from "@/helpers/caching/messages";
 
-export type InitClientArgs = {
+export type InitializeClientOptions = {
   /**
    * Provide a XMTP PrivateKeyBundle encoded as a Uint8Array for signing
    *
@@ -15,7 +15,7 @@ export type InitClientArgs = {
   /**
    * XMTP client options
    */
-  options?: Partial<ClientOptions>;
+  options?: Partial<Omit<ClientOptions, "codecs">>;
   /**
    * The signer (wallet) to associate with the XMTP client
    */
@@ -28,7 +28,7 @@ export type InitClientArgs = {
  */
 export const useClient = (onError?: OnError["onError"]) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   // client is initializing
   const initializingRef = useRef(false);
   // unprocessed messages are being processed
@@ -51,7 +51,7 @@ export const useClient = (onError?: OnError["onError"]) => {
    * Initialize an XMTP client
    */
   const initialize = useCallback(
-    async ({ keys, options, signer }: InitClientArgs) => {
+    async ({ keys, options, signer }: InitializeClientOptions) => {
       // only initialize a client if one doesn't already exist
       if (!client && signer) {
         // if the client is already initializing, don't do anything
@@ -73,7 +73,7 @@ export const useClient = (onError?: OnError["onError"]) => {
           // create a new XMTP client with the provided keys, or a wallet
           xmtpClient = await Client.create(keys ? null : signer, {
             ...options,
-            codecs: [...(options?.codecs ?? []), ...codecs],
+            codecs,
             privateKeyOverride: keys,
           });
           setClient(xmtpClient);
@@ -81,8 +81,8 @@ export const useClient = (onError?: OnError["onError"]) => {
         } catch (e) {
           setClient(undefined);
           setClientSigner(undefined);
-          setError(e);
-          onError?.(e);
+          setError(e as Error);
+          onError?.(e as Error);
           // re-throw error for upstream consumption
           throw e;
         }
@@ -126,7 +126,7 @@ export const useClient = (onError?: OnError["onError"]) => {
           });
           processedRef.current = true;
         } catch (e) {
-          onError?.(e);
+          onError?.(e as Error);
         } finally {
           processingRef.current = false;
           setIsLoading(false);

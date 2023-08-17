@@ -1,4 +1,4 @@
-import { type DecodedMessage, type SendOptions } from "@xmtp/xmtp-js";
+import type { ContentTypeId, DecodedMessage, SendOptions } from "@xmtp/xmtp-js";
 import { useCallback, useState } from "react";
 import type { OnError } from "../sharedTypes";
 import { type CachedConversation } from "@/helpers/caching/conversations";
@@ -16,7 +16,7 @@ export type UseSendMessageOptions = OnError & {
  */
 export const useSendMessage = (options?: UseSendMessageOptions) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const { sendMessage: _sendMessage } = useMessage();
 
   // destructure options for more granular dependency array
@@ -26,12 +26,11 @@ export const useSendMessage = (options?: UseSendMessageOptions) => {
     async <T = string>(
       conversation: CachedConversation,
       content: T,
-      sendOptions?: SendOptions,
+      contentType?: ContentTypeId,
+      sendOptions?: Omit<SendOptions, "contentType">,
     ) => {
       setIsLoading(true);
       setError(null);
-
-      const contentType = sendOptions?.contentType;
 
       try {
         const { sentMessage } = await _sendMessage(
@@ -47,7 +46,7 @@ export const useSendMessage = (options?: UseSendMessageOptions) => {
 
         return sentMessage;
       } catch (e) {
-        setError(e);
+        setError(e as Error);
         // re-throw error for upstream consumption
         throw e;
       } finally {
