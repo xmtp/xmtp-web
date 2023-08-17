@@ -598,7 +598,6 @@ describe("processMessage", () => {
       peerAddress: "testPeerAddress",
       walletAddress: "testWalletAddress",
     } satisfies CachedConversation;
-    // const cachedConversation = await saveConversation(testConversation, db);
     const sentAt = adjustDate(createdAt, 1000);
     const testMessage = {
       id: 1,
@@ -614,7 +613,6 @@ describe("processMessage", () => {
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
-    // await saveMessage(testMessage, db);
     const cachedMessage = await processMessage({
       client: testClient,
       conversation: testConversation,
