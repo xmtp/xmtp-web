@@ -1,7 +1,12 @@
-import type { Conversation } from "@xmtp/xmtp-js";
-import { useEffect, useState } from "react";
+import { SortDirection, type Conversation } from "@xmtp/xmtp-js";
+import { useEffect, useRef, useState } from "react";
 import { useClient } from "./useClient";
 import type { OnError } from "../sharedTypes";
+import { useCachedConversations } from "./useCachedConversations";
+import { toCachedMessage } from "@/helpers/caching/messages";
+import { useConversation } from "@/hooks/useConversation";
+import { useMessage } from "@/hooks/useMessage";
+import { toCachedConversation } from "@/helpers/caching/conversations";
 
 export type UseConversationsOptions = OnError & {
   /**
@@ -17,17 +22,23 @@ export type UseConversationsOptions = OnError & {
 export const useConversations = (options?: UseConversationsOptions) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown | null>(null);
-  const [conversations, setConversations] = useState<Conversation[]>([]);
   const { client } = useClient();
+  const { processMessage } = useMessage();
+  const { saveConversation, hasTopic } = useConversation();
+  const conversations = useCachedConversations();
+  // to prevent conversations from being fetched multiple times
+  const loadingRef = useRef(false);
 
   // destructure options for more granular dependency arrays
   const { onConversations, onError } = options ?? {};
 
   // attempt to fetch conversations on mount
   useEffect(() => {
-    // we can't do anything without a client
-    if (client === undefined) {
-      const clientError = new Error("XMTP client is not available");
+    // client is required
+    if (!client) {
+      const clientError = new Error(
+        "XMTP client is required to fetch conversations",
+      );
       setError(clientError);
       onError?.(clientError);
       // do not throw the error in this case
@@ -35,12 +46,43 @@ export const useConversations = (options?: UseConversationsOptions) => {
     }
 
     const getConversations = async () => {
+      // already in progress
+      if (loadingRef.current) {
+        return;
+      }
+
+      loadingRef.current = true;
+
       setIsLoading(true);
       setError(null);
 
       try {
-        const conversationList = (await client?.conversations.list()) ?? [];
-        setConversations(conversationList);
+        const conversationList = (await client.conversations.list()) ?? [];
+        await Promise.all(
+          conversationList.map(async (conversation) => {
+            // only save the conversation and fetch its latest message if it
+            // doesn't already exist
+            if (!(await hasTopic(conversation.topic))) {
+              const cachedConversation = await saveConversation(
+                toCachedConversation(conversation, client.address),
+              );
+
+              // fetch the latest message for each conversation
+              const latestMessages = await conversation.messages({
+                direction: SortDirection.SORT_DIRECTION_DESCENDING,
+                limit: 1,
+              });
+
+              if (latestMessages.length > 0 && cachedConversation) {
+                const latestMessage = latestMessages[0];
+                await processMessage(
+                  cachedConversation,
+                  toCachedMessage(latestMessage, client.address),
+                );
+              }
+            }
+          }),
+        );
         onConversations?.(conversationList);
       } catch (e) {
         setError(e);
@@ -49,11 +91,19 @@ export const useConversations = (options?: UseConversationsOptions) => {
         throw e;
       } finally {
         setIsLoading(false);
+        loadingRef.current = false;
       }
     };
 
     void getConversations();
-  }, [onConversations, onError, client]);
+  }, [
+    onConversations,
+    onError,
+    client,
+    saveConversation,
+    processMessage,
+    hasTopic,
+  ]);
 
   return {
     conversations,

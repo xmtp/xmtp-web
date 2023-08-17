@@ -1,157 +1,123 @@
-import { useState, createContext, useCallback, useMemo, useRef } from "react";
-import type { ClientOptions, Signer } from "@xmtp/xmtp-js";
-import { Client } from "@xmtp/xmtp-js";
-import type { CanMessageReturns, OnError } from "../sharedTypes";
-
-export type InitClientArgs = {
-  keys?: Uint8Array;
-  options?: Partial<ClientOptions> & OnError;
-  signer?: Signer | null;
-};
+import { createContext, useMemo, useState } from "react";
+import type { Client, ContentCodec, Signer } from "@xmtp/xmtp-js";
+import Dexie from "dexie";
+import type {
+  CacheConfiguration,
+  CachedMessageProcessors,
+} from "@/helpers/caching/db";
+import { getDbInstance } from "@/helpers/caching/db";
+import { combineNamespaces } from "@/helpers/combineNamespaces";
+import { combineMessageProcessors } from "@/helpers/combineMessageProcessors";
+import { combineCodecs } from "@/helpers/combineCodecs";
 
 export type XMTPContextValue = {
   /**
-   * XMTP client error
-   */
-  error: unknown;
-  /**
-   * Check if a wallet address is on the XMTP network
-   */
-  canMessage: <T extends string | string[]>(
-    peerAddress: T,
-  ) => Promise<CanMessageReturns<T>>;
-  /**
-   * XMTP JS Client
+   * The XMTP client instance
    */
   client?: Client;
   /**
-   * Disconnect the XMTP client
+   * Content codecs used by the XMTP client
    */
-  closeClient: () => void;
+  codecs: ContentCodec<any>[];
   /**
-   * Initialize the XMTP client
+   * Local DB instance
    */
-  initClient: (arg0: InitClientArgs) => Promise<Client | undefined>;
+  db: Dexie;
   /**
-   * Loading state when the XMTP client is busy
+   * Namespaces for content types
    */
-  isLoading: boolean;
+  namespaces: Record<string, string>;
   /**
-   * The signer (wallet) associated with the XMTP client
+   * Message processors for caching
    */
-  signer?: Signer;
+  processors: CachedMessageProcessors;
+  setClient: React.Dispatch<React.SetStateAction<Client | undefined>>;
+  setClientSigner: React.Dispatch<React.SetStateAction<Signer | undefined>>;
+  /**
+   * The signer (wallet) to associate with the XMTP client
+   */
+  signer?: Signer | null;
 };
 
+const initialDb = new Dexie("__XMTP__");
+
 export const XMTPContext = createContext<XMTPContextValue>({
-  canMessage: () => Promise.resolve(false) as Promise<CanMessageReturns<false>>,
-  client: undefined,
-  closeClient: () => {},
-  error: null,
-  initClient: () => Promise.resolve(undefined),
-  isLoading: false,
+  codecs: [],
+  db: initialDb,
+  namespaces: {},
+  processors: {},
+  setClient: () => {},
+  setClientSigner: () => {},
 });
 
-export const XMTPProvider: React.FC<React.PropsWithChildren> = ({
+export type XMTPProviderProps = React.PropsWithChildren & {
+  /**
+   * Initial XMTP client instance
+   */
+  client?: Client;
+  /**
+   * An array of cache configurations to support the caching of messages
+   */
+  cacheConfig?: CacheConfiguration[];
+  /**
+   * Database version to use for the local cache
+   *
+   * This number should be incremented when adding support for additional
+   * content types
+   */
+  dbVersion?: number;
+};
+
+export const XMTPProvider: React.FC<XMTPProviderProps> = ({
   children,
+  client: initialClient,
+  cacheConfig,
+  dbVersion,
 }) => {
-  const [client, setClient] = useState<Client | undefined>(undefined);
+  const [client, setClient] = useState<Client | undefined>(initialClient);
   const [clientSigner, setClientSigner] = useState<Signer | undefined>(
     undefined,
   );
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown | null>(null);
-  const initializingRef = useRef(false);
 
-  // initialize the XMTP client
-  const initClient = useCallback(
-    async ({ keys, options, signer }: InitClientArgs) => {
-      // client already exists, don't re-initialize
-      if (!client && signer) {
-        // if the client is already initializing, don't do anything
-        if (initializingRef.current) {
-          return undefined;
-        }
-
-        // flag the client as initializing
-        initializingRef.current = true;
-
-        setError(null);
-        setIsLoading(true);
-
-        try {
-          // create a new XMTP client with the provided keys, or a wallet
-          const xmtpClient = await Client.create(keys ? null : signer, {
-            ...options,
-            privateKeyOverride: keys,
-          });
-          setClient(xmtpClient);
-          setClientSigner(signer);
-          return xmtpClient;
-        } catch (e) {
-          setClient(undefined);
-          setClientSigner(undefined);
-          setError(e);
-          options?.onError?.(e);
-          // re-throw error for upstream consumption
-          throw e;
-        } finally {
-          setIsLoading(false);
-          initializingRef.current = false;
-        }
-      }
-      return client;
-    },
-    [client],
+  // combine all processors into a single object
+  const processors = useMemo(
+    () => combineMessageProcessors(cacheConfig ?? []),
+    [cacheConfig],
   );
 
-  // close the XMTP client
-  const closeClient = useCallback(async () => {
-    if (client) {
-      await client.close();
-      setClient(undefined);
-      setClientSigner(undefined);
-    }
-  }, [client]);
+  // combine all codecs into a single array
+  const codecs = useMemo(() => combineCodecs(cacheConfig ?? []), [cacheConfig]);
 
-  // check if the client can message an address
-  const canMessage = useCallback(
-    async <T extends string | string[]>(
-      peerAddress: T,
-    ): Promise<CanMessageReturns<T>> => {
-      if (!client) {
-        return typeof peerAddress === "string"
-          ? (false as CanMessageReturns<T>)
-          : (Array.from({ length: peerAddress.length }).fill(
-              false,
-            ) as CanMessageReturns<T>);
-      }
-      return typeof peerAddress === "string"
-        ? (client.canMessage(peerAddress) as Promise<CanMessageReturns<T>>)
-        : (client.canMessage(peerAddress) as Promise<CanMessageReturns<T>>);
-    },
-    [client],
+  // combine all namespaces into a single object
+  const namespaces = useMemo(
+    () => combineNamespaces(cacheConfig ?? []),
+    [cacheConfig],
+  );
+
+  // DB instance for caching
+  const db = useMemo(
+    () =>
+      getDbInstance({
+        db: initialDb,
+        cacheConfig,
+        version: dbVersion,
+      }),
+    [dbVersion, cacheConfig],
   );
 
   // memo-ize the context value to prevent unnecessary re-renders
   const value = useMemo(
     () => ({
-      canMessage,
       client,
-      closeClient,
-      error,
-      initClient,
-      isLoading,
+      codecs,
+      db,
+      namespaces,
+      processors,
+      setClient,
+      setClientSigner,
       signer: clientSigner,
     }),
-    [
-      canMessage,
-      client,
-      clientSigner,
-      closeClient,
-      error,
-      initClient,
-      isLoading,
-    ],
+    [client, clientSigner, codecs, db, namespaces, processors],
   );
 
   return <XMTPContext.Provider value={value}>{children}</XMTPContext.Provider>;

@@ -1,13 +1,13 @@
 import { useConversations, useStreamConversations } from "@xmtp/react-sdk";
-import type { Conversation } from "@xmtp/react-sdk";
+import type { CachedConversation } from "@xmtp/react-sdk";
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
-import { useCallback, useState } from "react";
-import { ConversationPreviewList } from "@xmtp/react-components";
+import { ConversationList } from "@xmtp/react-components";
 import { Notification } from "./Notification";
+import { ConversationCard } from "./ConversationCard";
 
 type ConversationsProps = {
-  selectedConversation?: Conversation;
-  onConversationClick?: (conversation: Conversation) => void;
+  selectedConversation?: CachedConversation;
+  onConversationClick?: (conversation: CachedConversation) => void;
 };
 
 const NoConversations: React.FC = () => (
@@ -21,28 +21,23 @@ export const Conversations: React.FC<ConversationsProps> = ({
   onConversationClick,
   selectedConversation,
 }) => {
-  const [streamedConversations, setStreamedConversations] = useState<
-    Conversation[]
-  >([]);
   const { conversations, isLoading } = useConversations();
-  const onConversation = useCallback(
-    (conversation: Conversation) => {
-      // prevent duplicates
-      if (!conversations.some((convo) => convo.topic === conversation.topic)) {
-        setStreamedConversations((prev) => [...prev, conversation]);
-      }
-    },
-    [conversations],
-  );
-  useStreamConversations(onConversation);
+  useStreamConversations();
+
+  const previews = conversations.map((conversation) => (
+    <ConversationCard
+      key={conversation.topic}
+      conversation={conversation}
+      isSelected={conversation.topic === selectedConversation?.topic}
+      onConversationClick={onConversationClick}
+    />
+  ));
 
   return (
-    <ConversationPreviewList
+    <ConversationList
       isLoading={isLoading}
-      conversations={[...conversations, ...streamedConversations]}
-      onConversationClick={onConversationClick}
+      conversations={previews}
       renderEmpty={<NoConversations />}
-      selectedConversation={selectedConversation}
     />
   );
 };

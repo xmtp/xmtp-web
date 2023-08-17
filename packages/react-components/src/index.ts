@@ -12,11 +12,11 @@ export { IconButton } from "./components/IconButton";
 export { ButtonLoader } from "./components/Loaders/ButtonLoader";
 export { MessageInput } from "./components/MessageInput";
 export { ConversationPreviewCard } from "./components/ConversationPreviewCard";
+export { ReactionsBar } from "./components/ReactionsBar";
 
 // controllers
 export { ConversationPreview } from "./controllers/ConversationPreview";
 export { ConversationPreviewList } from "./controllers/ConversationPreviewList";
-export { ConversationMessages } from "./controllers/ConversationMessages";
 
 // helpers
 export { shortAddress } from "./helpers/shortAddress";

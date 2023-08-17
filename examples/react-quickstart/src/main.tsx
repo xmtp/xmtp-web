@@ -6,11 +6,26 @@ import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { mainnet } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
-import { XMTPProvider } from "@xmtp/react-sdk";
+import {
+  XMTPProvider,
+  attachmentsCacheConfig,
+  reactionsCacheConfig,
+  readReceiptsCacheConfig,
+  repliesCacheConfig,
+} from "@xmtp/react-sdk";
 import App from "./components/App";
 import "@xmtp/react-components/styles.css";
 import { WalletProvider } from "./contexts/WalletContext";
 import "./index.css";
+
+const DB_VERSION = 1;
+
+const cacheConfig = [
+  attachmentsCacheConfig,
+  reactionsCacheConfig,
+  readReceiptsCacheConfig,
+  repliesCacheConfig,
+];
 
 const { chains, provider, webSocketProvider } = configureChains(
   [mainnet],
@@ -20,7 +35,8 @@ const { chains, provider, webSocketProvider } = configureChains(
 const { connectors } = getDefaultWallets({
   appName: "XMTP React RainbowKit Example",
   chains,
-  projectId: "YOUR_PROJECT_ID", // now required for WalletConnect V2
+  // now required for WalletConnect V2
+  projectId: import.meta.env.VITE_PROJECT_ID,
 });
 
 const wagmiClient = createClient({
@@ -35,7 +51,7 @@ createRoot(document.getElementById("root") as HTMLElement).render(
     <RainbowKitProvider chains={chains}>
       <StrictMode>
         <WalletProvider>
-          <XMTPProvider>
+          <XMTPProvider dbVersion={DB_VERSION} cacheConfig={cacheConfig}>
             <App />
           </XMTPProvider>
         </WalletProvider>

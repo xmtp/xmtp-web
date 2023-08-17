@@ -2,16 +2,22 @@ import type { Conversation, Stream } from "@xmtp/xmtp-js";
 import { useEffect, useRef, useState } from "react";
 import { useClient } from "./useClient";
 import type { OnError } from "../sharedTypes";
+import { useConversation } from "@/hooks/useConversation";
+import { toCachedConversation } from "@/helpers/caching/conversations";
 
 export type ConversationStream = Promise<Stream<Conversation>>;
+
+export type UseStreamConversationsOptions = {
+  onConversation?: (conversation: Conversation) => void;
+  onError?: OnError["onError"];
+};
 
 /**
  * This hook listens for new conversations in real-time and calls the passed
  * callback when a new conversation is created. It also exposes an error state.
  */
 export const useStreamConversations = (
-  onConversation: (conversation: Conversation) => void,
-  onError?: OnError["onError"],
+  options?: UseStreamConversationsOptions,
 ) => {
   const [error, setError] = useState<unknown | null>(null);
   const streamRef = useRef<ConversationStream | undefined>(undefined);
@@ -27,6 +33,10 @@ export const useStreamConversations = (
   });
 
   const { client } = useClient();
+  const { saveConversation } = useConversation();
+
+  // destructure options for more granular dependency array
+  const { onConversation, onError } = options ?? {};
 
   /**
    * Attempt to stream conversations on mount
@@ -41,7 +51,7 @@ export const useStreamConversations = (
       if (client === undefined) {
         const clientError = new Error("XMTP client is not available");
         setError(clientError);
-        onError?.(client);
+        onError?.(clientError);
         // do not throw the error in this case
         return;
       }
@@ -58,7 +68,10 @@ export const useStreamConversations = (
         stream = streamRef.current;
 
         for await (const conversation of await stream) {
-          onConversation(conversation);
+          await saveConversation(
+            toCachedConversation(conversation, client.address),
+          );
+          onConversation?.(conversation);
         }
       } catch (e) {
         setError(e);
@@ -75,7 +88,7 @@ export const useStreamConversations = (
     return () => {
       void endStream(stream);
     };
-  }, [onConversation, client, onError]);
+  }, [client, saveConversation, onError, onConversation]);
 
   return {
     error,

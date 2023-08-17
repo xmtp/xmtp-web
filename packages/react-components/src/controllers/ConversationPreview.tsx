@@ -1,14 +1,12 @@
-import type { Conversation } from "@xmtp/react-sdk";
-import { SortDirection } from "@xmtp/react-sdk";
-import { useCallback, useEffect, useState } from "react";
+import type { CachedConversation, CachedMessage } from "@xmtp/react-sdk";
+import { useCallback } from "react";
 import { ConversationPreviewCard } from "../components/ConversationPreviewCard";
-import { shortAddress } from "../helpers/shortAddress";
 
 export type ConversationPreviewProps = {
   /**
    * Conversation to preview
    */
-  conversation: Conversation;
+  conversation: CachedConversation;
   /**
    * Is conversation selected?
    */
@@ -16,7 +14,11 @@ export type ConversationPreviewProps = {
   /**
    * What happens when you click on the conversation?
    */
-  onClick?: (conversation: Conversation) => void;
+  onClick?: (conversation: CachedConversation) => void;
+  /**
+   * Preview text to display
+   */
+  lastMessage?: CachedMessage;
 };
 
 /**
@@ -27,36 +29,18 @@ export const ConversationPreview: React.FC<ConversationPreviewProps> = ({
   conversation,
   isSelected,
   onClick,
+  lastMessage,
 }) => {
-  const [message, setMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchMostRecentMessage = async () => {
-      setIsLoading(true);
-      const messages = await conversation.messages({
-        limit: 1,
-        direction: SortDirection.SORT_DIRECTION_DESCENDING,
-      });
-      setIsLoading(false);
-      setMessage(messages.length > 0 ? (messages[0].content as string) : "");
-    };
-    void fetchMostRecentMessage();
-  }, [conversation]);
-
   const handlePreviewClick = useCallback(() => {
     onClick?.(conversation);
   }, [conversation, onClick]);
 
   return (
     <ConversationPreviewCard
-      datetime={conversation.createdAt}
-      displayAddress={shortAddress(conversation.peerAddress)}
-      address={conversation.peerAddress}
-      isLoading={isLoading}
+      conversation={conversation}
       isSelected={isSelected}
       onClick={handlePreviewClick}
-      text={message}
+      lastMessage={lastMessage}
     />
   );
 };

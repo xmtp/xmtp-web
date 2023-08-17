@@ -1,40 +1,53 @@
 import { useCallback, useState } from "react";
-import type { SendOptions, InvitationContext } from "@xmtp/xmtp-js";
+import type { ContentTypeId, InvitationContext } from "@xmtp/xmtp-js";
 import { useClient } from "./useClient";
 import type { OnError } from "../sharedTypes";
+import type { SendMessageOptions } from "@/hooks/useMessage";
+import { useConversation } from "@/hooks/useConversation";
+import { useMessage } from "@/hooks/useMessage";
+import { toCachedConversation } from "@/helpers/caching/conversations";
 
-export type UseStartConversation = InvitationContext & OnError;
+export type UseStartConversation = Partial<InvitationContext> & OnError;
 
 /**
  * This hook starts a new conversation and sends an initial message to it.
  */
-export const useStartConversation = <T = string>(
-  options?: UseStartConversation,
-) => {
+export const useStartConversation = (options?: UseStartConversation) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown | Error | null>(null);
   const { client } = useClient();
+  const { sendMessage: _sendMessage } = useMessage();
+  const { saveConversation } = useConversation();
 
   // destructure options for more granular dependency arrays
   const { conversationId, metadata, onError } = options ?? {};
 
   const startConversation = useCallback(
-    async (peerAddress: string, message: T, sendOptions?: SendOptions) => {
+    async <T = string>(
+      peerAddress: string,
+      content: T,
+      contentType?: ContentTypeId,
+      sendOptions?: SendMessageOptions,
+    ) => {
       // we can't do anything without a client
       if (client === undefined) {
-        const clientError = new Error("XMTP client is not available");
+        const clientError = new Error(
+          "XMTP client is required to start a conversation",
+        );
         setError(clientError);
-        onError?.(client);
-        // do not throw the error in this case
-        // return undefined
-        return undefined;
+        onError?.(clientError);
+        return {
+          cachedConversation: undefined,
+          cachedMessage: undefined,
+          conversation: undefined,
+        };
       }
 
       setIsLoading(true);
       setError(null);
 
       try {
-        const conversation = await client?.conversations.newConversation(
+        const conversation = await client.conversations.newConversation(
           peerAddress,
           conversationId && metadata
             ? {
@@ -44,8 +57,38 @@ export const useStartConversation = <T = string>(
             : undefined,
         );
 
-        await conversation.send(message, sendOptions);
-        return conversation;
+        const cachedConversation = await saveConversation(
+          toCachedConversation(conversation, client.address),
+        );
+
+        if (content === undefined) {
+          return {
+            cachedConversation,
+            cachedMessage: undefined,
+            conversation: undefined,
+          };
+        }
+
+        if (!cachedConversation) {
+          return {
+            cachedConversation: undefined,
+            cachedMessage: undefined,
+            conversation: undefined,
+          };
+        }
+
+        const { cachedMessage } = await _sendMessage(
+          cachedConversation,
+          content,
+          contentType,
+          sendOptions,
+        );
+
+        return {
+          cachedConversation,
+          cachedMessage,
+          conversation,
+        };
       } catch (e) {
         setError(e);
         onError?.(e);
@@ -55,7 +98,7 @@ export const useStartConversation = <T = string>(
         setIsLoading(false);
       }
     },
-    [client, conversationId, metadata, onError],
+    [_sendMessage, client, conversationId, metadata, onError, saveConversation],
   );
 
   return {

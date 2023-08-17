@@ -1,0 +1,42 @@
+.content {
+  font-size: var(--xmtp-font-size-md);
+  padding: 0.5rem 0.75rem;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+  margin-bottom: 0.25rem;
+  position: relative;
+}
+
+.content.left {
+  background-color: rgb(229 231 235);
+  border-radius: 0.75rem 0.75rem 0.75rem 0;
+}
+
+.content.right {
+  color: white;
+  background-color: rgb(79 70 229);
+  border-radius: 0.75rem 0.75rem 0 0.75rem;
+}
+
+.original.content {
+  background-color: white;
+  border: 1px solid #eee;
+  margin-bottom: 0.5rem;
+  font-size: var(--xmtp-font-size-sm);
+  color: inherit;
+  opacity: 0.7;
+  border-radius: 0.75rem;
+}
+
+.original.content::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 100%;
+  border-radius: 0.25rem;
+  width: 1rem;
+  height: 3rem;
+  margin-top: -1.25rem;
+  border: 3px solid #ccc;
+  border-left: 0;
+}

@@ -1,6 +1,7 @@
 import type { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { ContentTypeId } from "@xmtp/react-sdk";
+import type { CachedMessage } from "@xmtp/react-sdk";
+import { ContentTypeText } from "@xmtp/react-sdk";
 import { Messages } from "./Messages";
 
 export default {
@@ -11,12 +12,35 @@ const Template: ComponentStory<typeof Messages> = (args) => (
   <Messages {...args} />
 );
 
-const mockContentType = new ContentTypeId({
-  authorityId: "test-authorityId",
-  typeId: "test-typeId",
-  versionMajor: 1,
-  versionMinor: 1,
-});
+const message1 = {
+  id: 1,
+  content: "Hello!",
+  contentType: ContentTypeText.toString(),
+  isSending: false,
+  hasSendError: false,
+  sentAt: new Date(2023, 0, 2, 0, 4, 0),
+  conversationTopic: "topic1",
+  senderAddress: "0x1234",
+  status: "processed",
+  xmtpID: "1",
+  uuid: "uuid1",
+  walletAddress: "walletAddress1",
+} satisfies CachedMessage;
+
+const message2 = {
+  id: 2,
+  content: "Hi!",
+  contentType: ContentTypeText.toString(),
+  isSending: false,
+  hasSendError: false,
+  sentAt: new Date(2023, 0, 2, 0, 3, 20),
+  conversationTopic: "topic1",
+  senderAddress: "0x5678",
+  status: "processed",
+  xmtpID: "2",
+  uuid: "uuid2",
+  walletAddress: "walletAddress1",
+} satisfies CachedMessage;
 
 export const Loading = Template.bind({});
 Loading.args = {
@@ -26,60 +50,5 @@ Loading.args = {
 export const WithMessages = Template.bind({});
 WithMessages.args = {
   clientAddress: "foo",
-  messages: [
-    {
-      contentTopic: "",
-      content: "cool",
-      contentType: mockContentType,
-      id: "message6",
-      recipientAddress: "foo",
-      senderAddress: "bar",
-      sent: new Date(2023, 0, 2, 0, 4, 0),
-    },
-    {
-      contentTopic: "",
-      content: "cool",
-      contentType: mockContentType,
-      id: "message5",
-      recipientAddress: "bar",
-      senderAddress: "foo",
-      sent: new Date(2023, 0, 2, 0, 3, 20),
-    },
-    {
-      contentTopic: "",
-      content: "same",
-      contentType: mockContentType,
-      id: "message4",
-      recipientAddress: "foo",
-      senderAddress: "bar",
-      sent: new Date(2023, 0, 1, 23, 59, 10),
-    },
-    {
-      contentTopic: "",
-      content: "chillin",
-      contentType: mockContentType,
-      id: "message3",
-      recipientAddress: "bar",
-      senderAddress: "foo",
-      sent: new Date(2023, 0, 1, 23, 59, 0),
-    },
-    {
-      contentTopic: "",
-      content: "sup?",
-      contentType: mockContentType,
-      id: "message2",
-      recipientAddress: "foo",
-      senderAddress: "bar",
-      sent: new Date(2023, 0, 1, 23, 58, 5),
-    },
-    {
-      contentTopic: "",
-      content: "hey",
-      contentType: mockContentType,
-      id: "message1",
-      recipientAddress: "bar",
-      senderAddress: "foo",
-      sent: new Date(2023, 0, 1, 23, 58, 0),
-    },
-  ],
+  messages: [message1, message2],
 };

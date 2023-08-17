@@ -1,5 +1,8 @@
-import { ConversationPreviewCard } from "./ConversationPreviewCard";
+import { Avatar } from "./Avatar";
 import styles from "./ConversationList.module.css";
+import previewStyles from "./ConversationPreviewCard.module.css";
+import { IconSkeletonLoader } from "./SkeletonLoaders/IconSkeletonLoader";
+import { ShortCopySkeletonLoader } from "./SkeletonLoaders/ShortCopySkeletonLoader";
 
 export type ConversationListProps = {
   /**
@@ -16,19 +19,21 @@ export type ConversationListProps = {
   renderEmpty?: React.ReactNode;
 };
 
-const DefaultEmptyMessage: React.FC = () => <div>No conversations</div>;
+const DefaultEmptyMessage: React.FC = () => <div>No conversations!</div>;
 
 export const ConversationList: React.FC<ConversationListProps> = ({
   conversations = [],
   isLoading,
   renderEmpty = <DefaultEmptyMessage />,
 }) => {
-  if (isLoading) {
+  if (isLoading && !conversations.length) {
     return (
-      <div className={styles.loading}>
-        {Array.from({ length: 12 }).map((_, idx) => (
-          <ConversationPreviewCard key={idx} isLoading />
-        ))}
+      <div className={previewStyles.wrapper}>
+        <Avatar isLoading />
+        <div className={previewStyles.element}>
+          <ShortCopySkeletonLoader lines={2} />
+        </div>
+        <IconSkeletonLoader />
       </div>
     );
   }

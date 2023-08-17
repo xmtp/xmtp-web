@@ -1,56 +1,45 @@
 import {
+  useClient,
   useMessages,
   useSendMessage,
   useStreamMessages,
 } from "@xmtp/react-sdk";
-import type { Conversation, DecodedMessage } from "@xmtp/react-sdk";
+import type { CachedConversation } from "@xmtp/react-sdk";
 import { useCallback, useEffect, useRef, useState } from "react";
 import "./Messages.css";
 import {
   AddressInput,
-  ConversationMessages,
+  Messages as MessagesList,
   MessageInput,
 } from "@xmtp/react-components";
 
 type ConversationMessagesProps = {
-  conversation: Conversation;
+  conversation: CachedConversation;
 };
 
 export const Messages: React.FC<ConversationMessagesProps> = ({
   conversation,
 }) => {
   const [isSending, setIsSending] = useState(false);
-  const [streamedMessages, setStreamedMessages] = useState<DecodedMessage[]>(
-    [],
-  );
   const messageInputRef = useRef<HTMLTextAreaElement>(null);
   const { messages, isLoading } = useMessages(conversation);
-  const onMessage = useCallback(
-    (message: DecodedMessage) => {
-      // prevent duplicates
-      if (!streamedMessages.some((msg) => msg.id === message.id)) {
-        setStreamedMessages((prev) => [...prev, message]);
-      }
-    },
-    [streamedMessages],
-  );
-  useStreamMessages(conversation, onMessage);
-  const { sendMessage } = useSendMessage(conversation);
+  const { client } = useClient();
+  useStreamMessages(conversation);
+  const { sendMessage } = useSendMessage();
 
   const handleSendMessage = useCallback(
     async (message: string) => {
       setIsSending(true);
-      await sendMessage(message);
+      await sendMessage(conversation, message);
       setIsSending(false);
       // ensure focus of input by waiting for a browser tick
       setTimeout(() => messageInputRef.current?.focus(), 0);
     },
-    [sendMessage],
+    [conversation, sendMessage],
   );
 
   useEffect(() => {
     messageInputRef.current?.focus();
-    setStreamedMessages([]);
   }, [conversation]);
 
   return (
@@ -59,10 +48,11 @@ export const Messages: React.FC<ConversationMessagesProps> = ({
         value={conversation.peerAddress}
         avatarUrlProps={{ address: conversation.peerAddress }}
       />
-      <ConversationMessages
+      <MessagesList
+        conversation={conversation}
         isLoading={isLoading}
-        messages={[...messages, ...streamedMessages]}
-        clientAddress={conversation?.clientAddress ?? ""}
+        messages={messages.filter((message) => message.content !== undefined)}
+        clientAddress={client?.address}
       />
       <div className="MessageInputWrapper">
         <MessageInput

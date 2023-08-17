@@ -1,4 +1,5 @@
 import type { ComponentStory, ComponentMeta } from "@storybook/react";
+import type { CachedConversation } from "@xmtp/react-sdk";
 import { ConversationPreviewCard } from "./ConversationPreviewCard";
 
 export default {
@@ -15,22 +16,16 @@ const Template: ComponentStory<typeof ConversationPreviewCard> = (args) => (
   <ConversationPreviewCard {...args} />
 );
 
+const conversation1 = {
+  peerAddress: "0x1234",
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  isReady: false,
+  topic: "topic1",
+  walletAddress: "walletAddress1",
+} satisfies CachedConversation;
+
 export const Default = Template.bind({});
 Default.args = {
-  text: "Hello there",
-  displayAddress: "hi.xmtp.eth",
-  datetime: new Date(2023, 0, 1),
-};
-
-export const Loading = Template.bind({});
-Loading.args = {
-  isLoading: true,
-};
-
-export const WithDomain = Template.bind({});
-WithDomain.args = {
-  text: "Hello there",
-  displayAddress: "hi.xmtp.eth",
-  datetime: new Date(2023, 0, 1),
-  conversationDomain: "foo",
+  conversation: conversation1,
 };

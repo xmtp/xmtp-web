@@ -1,0 +1,9 @@
+.attachment {
+  margin-bottom: 4px;
+  border-radius: 4px;
+  background-color: #eee;
+}
+
+.attachment {
+  max-width: 50%;
+}

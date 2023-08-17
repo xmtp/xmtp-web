@@ -1,0 +1,31 @@
+.wrapper {
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.option {
+  border-radius: 0.5rem;
+  background-color: #fefefe;
+  display: flex;
+  align-items: center;
+  appearance: none;
+  padding: 0.25rem;
+  cursor: pointer;
+  border: 0;
+}
+
+.option:hover {
+  background-color: #ddd;
+}
+
+.count {
+  font-size: var(--xmtp-font-size-sm);
+  font-weight: bold;
+}
+
+.active {
+  background-color: #eee;
+  border: 1px solid #ccc;
+}

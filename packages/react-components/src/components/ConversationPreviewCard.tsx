@@ -1,108 +1,77 @@
 import type { KeyboardEvent } from "react";
 import { useCallback } from "react";
 import { formatDistanceToNowStrict } from "date-fns";
-import { IconSkeletonLoader } from "./SkeletonLoaders/IconSkeletonLoader";
-import { ShortCopySkeletonLoader } from "./SkeletonLoaders/ShortCopySkeletonLoader";
+import {
+  type CachedConversation,
+  type CachedMessage,
+  getAttachment,
+} from "@xmtp/react-sdk";
 import { Avatar } from "./Avatar";
 import styles from "./ConversationPreviewCard.module.css";
+import { shortAddress } from "../helpers/shortAddress";
 
 export type ConversationPreviewCardProps = {
   /**
-   * What is the avatar url?
+   * Conversation to preview
    */
-  avatarUrl?: string;
+  conversation: CachedConversation;
   /**
-   * What is the message text?
+   * What is the last message of this conversation?
    */
-  text?: string;
-  /**
-   * What is the display address associated with the message?
-   */
-  displayAddress?: string;
-  /**
-   * What is the wallet address associated with the message?
-   */
-  address?: string;
-  /**
-   * What is the datetime of the message
-   */
-  datetime?: Date;
-  /**
-   * Are we waiting on anything loading?
-   */
-  isLoading?: boolean;
+  lastMessage?: CachedMessage;
   /**
    * What happens on message click?
    */
-  onClick?: () => void;
+  onClick?: (conversation: CachedConversation) => void;
   /**
    * Is conversation selected?
    */
   isSelected?: boolean;
-  /**
-   * What is the app this conversation started on?
-   */
-  conversationDomain?: string;
-  // To-do: Add error views once we have the designs
 };
 
 export const ConversationPreviewCard: React.FC<
   ConversationPreviewCardProps
-> = ({
-  avatarUrl,
-  text,
-  displayAddress,
-  address,
-  datetime,
-  isLoading = false,
-  onClick,
-  isSelected,
-  conversationDomain,
-}) => {
+> = ({ conversation, onClick, isSelected, lastMessage }) => {
+  const attachment = lastMessage ? getAttachment(lastMessage) : undefined;
+  let content: any;
+  if (attachment) {
+    content = attachment.filename;
+  } else if (typeof lastMessage?.content === "string") {
+    content = lastMessage.content;
+  } else if (lastMessage?.contentFallback) {
+    content = lastMessage.contentFallback;
+  }
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === "Enter") {
-        onClick?.();
+        onClick?.(conversation);
       }
     },
-    [onClick],
+    [conversation, onClick],
   );
 
-  // nothing to display
-  if (!text && !isLoading) {
-    return null;
-  }
+  const handleClick = useCallback(() => {
+    onClick?.(conversation);
+  }, [conversation, onClick]);
 
   return (
     <div
-      className={`${styles.wrapper} ${isSelected ? styles.selected : ""} ${
-        isLoading ? styles.loading : ""
-      }`}
+      className={`${styles.wrapper} ${isSelected ? styles.selected : ""}`}
       role="button"
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      onClick={onClick}>
-      <Avatar url={avatarUrl} address={address} isLoading={isLoading} />
+      onClick={handleClick}>
+      <Avatar address={conversation.peerAddress} />
       <div className={styles.element}>
-        {!isLoading && conversationDomain && (
-          <div className={styles.domain}>{conversationDomain}</div>
-        )}
-        {isLoading ? (
-          <ShortCopySkeletonLoader lines={2} />
-        ) : (
-          <>
-            <div className={styles.address}>{displayAddress}</div>
-            <div className={styles.message}>{text}</div>
-          </>
-        )}
-      </div>
-      {isLoading ? (
-        <IconSkeletonLoader />
-      ) : (
-        <div className={styles.time}>
-          {datetime && `${formatDistanceToNowStrict(datetime)} ago`}
+        <div className={styles.address}>
+          {shortAddress(conversation.peerAddress)}
         </div>
-      )}
+        <div className={styles.message}>{content}</div>
+      </div>
+      <div className={styles.time}>
+        {lastMessage?.sentAt &&
+          `${formatDistanceToNowStrict(lastMessage.sentAt)} ago`}
+      </div>
     </div>
   );
 };

@@ -10,7 +10,7 @@ const App = () => {
 
   // disconnect XMTP client when the wallet changes
   useEffect(() => {
-    disconnect();
+    void disconnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signer]);
 

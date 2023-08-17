@@ -27,6 +27,10 @@
       "dependsOn": ["^generate:types"],
       "outputs": []
     },
+    "quickstart": {
+      "dependsOn": ["^build"],
+      "persistent": true
+    },
     "test": {
       "outputs": []
     },
