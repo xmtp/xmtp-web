@@ -68,7 +68,8 @@
     "format": "yarn format:base -w .",
     "generate:types": "tsup --dts-only",
     "test": "vitest run --passWithNoTests",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "typedoc": "typedoc"
   },
   "dependencies": {
     "@xmtp/content-type-reaction": "^1.0.1",
@@ -100,6 +101,7 @@
     "prettier": "^3.0.0",
     "react-dom": "^18.2.0",
     "tsup": "^7.1.0",
+    "typedoc": "^0.24.8",
     "typescript": "^5.1.6",
     "vite": "^4.4.9",
     "vite-tsconfig-paths": "^4.2.0",
