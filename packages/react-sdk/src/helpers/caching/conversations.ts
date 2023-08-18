@@ -1,7 +1,6 @@
 import type { Conversation, Client, InvitationContext } from "@xmtp/xmtp-js";
 import type { Table } from "dexie";
 import type Dexie from "dexie";
-import { Mutex } from "async-mutex";
 import type { CachedMetadata, CachedMetadataValues } from "./db";
 
 export type CachedConversation<M = CachedMetadata> = {
@@ -93,8 +92,6 @@ export const getConversationByTopic = async (
   return conversation;
 };
 
-const updateConversationMutex = new Mutex();
-
 /**
  * Update properties of a cached conversation
  */
@@ -104,19 +101,18 @@ export const updateConversation = async (
     Pick<CachedConversation, "updatedAt" | "isReady" | "metadata">
   >,
   db: Dexie,
-) =>
-  updateConversationMutex.runExclusive(async () => {
-    const conversationsTable = db.table(
-      "conversations",
-    ) as CachedConversationsTable;
-    const existing = await conversationsTable
-      .where("topic")
-      .equals(topic)
-      .first();
-    if (existing) {
-      await conversationsTable.update(existing, update);
-    }
-  });
+) => {
+  const conversationsTable = db.table(
+    "conversations",
+  ) as CachedConversationsTable;
+  const existing = await conversationsTable
+    .where("topic")
+    .equals(topic)
+    .first();
+  if (existing) {
+    await conversationsTable.update(existing, update);
+  }
+};
 
 /**
  * Update metadata of a cached conversation using the specified namespace
@@ -174,8 +170,6 @@ export const toCachedConversation = (
   walletAddress,
 });
 
-const saveConversationMutex = new Mutex();
-
 /**
  * Save a conversation to the cache
  *
@@ -184,21 +178,20 @@ const saveConversationMutex = new Mutex();
 export const saveConversation = async (
   conversation: CachedConversation,
   db: Dexie,
-) =>
-  saveConversationMutex.runExclusive(async () => {
-    const conversations = db.table("conversations") as CachedConversationsTable;
+) => {
+  const conversations = db.table("conversations") as CachedConversationsTable;
 
-    const existing = await conversations
-      .where("topic")
-      .equals(conversation.topic)
-      .first();
+  const existing = await conversations
+    .where("topic")
+    .equals(conversation.topic)
+    .first();
 
-    if (existing) {
-      return existing as CachedConversationWithId;
-    }
+  if (existing) {
+    return existing as CachedConversationWithId;
+  }
 
-    // eslint-disable-next-line no-param-reassign
-    conversation.id = await conversations.add(conversation);
+  // eslint-disable-next-line no-param-reassign
+  conversation.id = await conversations.add(conversation);
 
-    return conversation as CachedConversationWithId;
-  });
+  return conversation as CachedConversationWithId;
+};

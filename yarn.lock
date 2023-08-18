@@ -7572,7 +7572,6 @@ __metadata:
     "@xmtp/content-type-reply": ^1.0.0
     "@xmtp/tsconfig": "workspace:*"
     "@xmtp/xmtp-js": ^10.2.0
-    async-mutex: ^0.4.0
     date-fns: ^2.30.0
     dexie: ^3.2.4
     dexie-react-hooks: ^1.1.6
