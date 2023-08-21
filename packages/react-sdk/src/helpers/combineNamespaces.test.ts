@@ -43,6 +43,7 @@ describe("combineNamespaces", () => {
       combineNamespaces([
         {
           namespace: "text",
+          codecs: [],
           processors: {
             foo: [() => Promise.resolve()],
           },

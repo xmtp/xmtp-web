@@ -35,6 +35,8 @@ export const processText: ContentTypeMessageProcessor = async ({
 
 export const textContentTypeConfig: ContentTypeConfiguration = {
   namespace: NAMESPACE,
+  // the text codec is registered automatically in the JS SDK
+  codecs: [],
   processors: {
     [ContentTypeText.toString()]: [processText],
   },

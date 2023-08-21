@@ -52,7 +52,7 @@ export type ContentTypeMessageValidators = Record<
 >;
 
 export type ContentTypeConfiguration = {
-  codecs?: ContentCodec<any>[];
+  codecs: ContentCodec<any>[];
   namespace: string;
   processors: ContentTypeMessageProcessors;
   schema?: Record<string, string>;

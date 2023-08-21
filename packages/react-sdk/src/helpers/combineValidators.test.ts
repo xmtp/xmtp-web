@@ -34,6 +34,7 @@ describe("combineValidators", () => {
       combineValidators([
         {
           namespace: "foo",
+          codecs: [],
           processors: {},
           validators: {
             [ContentTypeText.toString()]: () => false,
