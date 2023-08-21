@@ -2,7 +2,7 @@ import type { Conversation, Stream } from "@xmtp/xmtp-js";
 import { useEffect, useRef, useState } from "react";
 import { useClient } from "./useClient";
 import type { OnError } from "../sharedTypes";
-import { useConversation } from "@/hooks/useConversation";
+import { useConversationInternal } from "@/hooks/useConversation";
 import { toCachedConversation } from "@/helpers/caching/conversations";
 
 export type ConversationStream = Promise<Stream<Conversation>>;
@@ -33,7 +33,7 @@ export const useStreamConversations = (
   });
 
   const { client } = useClient();
-  const { saveConversation } = useConversation();
+  const { saveConversation } = useConversationInternal();
 
   // destructure options for more granular dependency array
   const { onConversation, onError } = options ?? {};

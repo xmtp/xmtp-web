@@ -3,7 +3,7 @@ import type { ContentTypeId, InvitationContext } from "@xmtp/xmtp-js";
 import { useClient } from "./useClient";
 import type { OnError } from "../sharedTypes";
 import type { SendMessageOptions } from "@/hooks/useMessage";
-import { useConversation } from "@/hooks/useConversation";
+import { useConversationInternal } from "@/hooks/useConversation";
 import { useMessage } from "@/hooks/useMessage";
 import { toCachedConversation } from "@/helpers/caching/conversations";
 
@@ -17,7 +17,7 @@ export const useStartConversation = (options?: UseStartConversation) => {
   const [error, setError] = useState<Error | null>(null);
   const { client } = useClient();
   const { sendMessage: _sendMessage } = useMessage();
-  const { saveConversation } = useConversation();
+  const { saveConversation } = useConversationInternal();
 
   // destructure options for more granular dependency arrays
   const { conversationId, metadata, onError } = options ?? {};
