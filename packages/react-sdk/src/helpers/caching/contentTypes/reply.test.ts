@@ -6,7 +6,7 @@ import { ContentTypeReply, ReplyCodec } from "@xmtp/content-type-reply";
 import {
   processReply,
   hasReply,
-  repliesCacheConfig,
+  replyContentTypeConfig,
   getReplies,
   getOriginalMessageFromReply,
   addReply,
@@ -21,7 +21,7 @@ import type { CachedConversationWithId } from "@/helpers/caching/conversations";
 
 const testWallet = Wallet.createRandom();
 const db = getDbInstance({
-  cacheConfig: [repliesCacheConfig],
+  contentTypeConfigs: [replyContentTypeConfig],
 });
 
 describe("ContentTypeReply caching", () => {
@@ -29,13 +29,13 @@ describe("ContentTypeReply caching", () => {
     await clearCache(db);
   });
 
-  it("should have the correct cache config", () => {
-    expect(repliesCacheConfig.namespace).toEqual("replies");
-    expect(repliesCacheConfig.codecs?.length).toEqual(1);
-    expect(repliesCacheConfig.codecs?.[0]).toBeInstanceOf(ReplyCodec);
-    expect(repliesCacheConfig.processors[ContentTypeReply.toString()]).toEqual([
-      processReply,
-    ]);
+  it("should have the correct content types config", () => {
+    expect(replyContentTypeConfig.namespace).toEqual("replies");
+    expect(replyContentTypeConfig.codecs?.length).toEqual(1);
+    expect(replyContentTypeConfig.codecs?.[0]).toBeInstanceOf(ReplyCodec);
+    expect(
+      replyContentTypeConfig.processors[ContentTypeReply.toString()],
+    ).toEqual([processReply]);
   });
 
   describe("processReply", () => {
@@ -97,7 +97,7 @@ describe("ContentTypeReply caching", () => {
         message: testReplyMessage,
         persist,
         updateConversationMetadata,
-        processors: repliesCacheConfig.processors,
+        processors: replyContentTypeConfig.processors,
       });
       expect(persist).toHaveBeenCalledWith();
       // since we mocked persist, we need to manually save the message
@@ -152,7 +152,7 @@ describe("ContentTypeReply caching", () => {
         message: testMessage,
         persist,
         updateConversationMetadata,
-        processors: repliesCacheConfig.processors,
+        processors: replyContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
     });

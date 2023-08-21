@@ -2,9 +2,9 @@ import { createContext, useMemo, useState } from "react";
 import type { Client, ContentCodec, Signer } from "@xmtp/xmtp-js";
 import Dexie from "dexie";
 import type {
-  CacheConfiguration,
-  CachedMessageProcessors,
-  CachedMessageValidators,
+  ContentTypeConfiguration,
+  ContentTypeMessageProcessors,
+  ContentTypeMessageValidators,
 } from "@/helpers/caching/db";
 import { getDbInstance } from "@/helpers/caching/db";
 import { combineNamespaces } from "@/helpers/combineNamespaces";
@@ -32,7 +32,7 @@ export type XMTPContextValue = {
   /**
    * Message processors for caching
    */
-  processors: CachedMessageProcessors;
+  processors: ContentTypeMessageProcessors;
   /**
    * Set the XMTP client instance
    */
@@ -48,7 +48,7 @@ export type XMTPContextValue = {
   /**
    * Message content validators for content types
    */
-  validators: CachedMessageValidators;
+  validators: ContentTypeMessageValidators;
 };
 
 const initialDb = new Dexie("__XMTP__");
@@ -69,9 +69,10 @@ export type XMTPProviderProps = React.PropsWithChildren & {
    */
   client?: Client;
   /**
-   * An array of cache configurations to support the caching of messages
+   * An array of content type configurations to support the caching and/or
+   * processing of messages
    */
-  cacheConfig?: CacheConfiguration[];
+  contentTypeConfigs?: ContentTypeConfiguration[];
   /**
    * Database version to use for the local cache
    *
@@ -84,7 +85,7 @@ export type XMTPProviderProps = React.PropsWithChildren & {
 export const XMTPProvider: React.FC<XMTPProviderProps> = ({
   children,
   client: initialClient,
-  cacheConfig,
+  contentTypeConfigs,
   dbVersion,
 }) => {
   const [client, setClient] = useState<Client | undefined>(initialClient);
@@ -94,23 +95,26 @@ export const XMTPProvider: React.FC<XMTPProviderProps> = ({
 
   // combine all message processors
   const processors = useMemo(
-    () => combineMessageProcessors(cacheConfig ?? []),
-    [cacheConfig],
+    () => combineMessageProcessors(contentTypeConfigs ?? []),
+    [contentTypeConfigs],
   );
 
   // combine all codecs
-  const codecs = useMemo(() => combineCodecs(cacheConfig ?? []), [cacheConfig]);
+  const codecs = useMemo(
+    () => combineCodecs(contentTypeConfigs ?? []),
+    [contentTypeConfigs],
+  );
 
   // combine all namespaces
   const namespaces = useMemo(
-    () => combineNamespaces(cacheConfig ?? []),
-    [cacheConfig],
+    () => combineNamespaces(contentTypeConfigs ?? []),
+    [contentTypeConfigs],
   );
 
   // combine all content validators
   const validators = useMemo(
-    () => combineValidators(cacheConfig ?? []),
-    [cacheConfig],
+    () => combineValidators(contentTypeConfigs ?? []),
+    [contentTypeConfigs],
   );
 
   // DB instance for caching
@@ -118,10 +122,10 @@ export const XMTPProvider: React.FC<XMTPProviderProps> = ({
     () =>
       getDbInstance({
         db: initialDb,
-        cacheConfig,
+        contentTypeConfigs,
         version: dbVersion,
       }),
-    [dbVersion, cacheConfig],
+    [dbVersion, contentTypeConfigs],
   );
 
   // memo-ize the context value to prevent unnecessary re-renders

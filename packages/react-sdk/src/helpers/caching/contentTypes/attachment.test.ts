@@ -16,7 +16,7 @@ import {
   hasAttachment,
   processAttachment,
   processRemoteAttachment,
-  attachmentsCacheConfig,
+  attachmentContentTypeConfig,
 } from "./attachment";
 import { type CachedMessageWithId } from "@/helpers/caching/messages";
 import { getDbInstance } from "@/helpers/caching/db";
@@ -24,22 +24,26 @@ import type { CachedConversationWithId } from "@/helpers/caching/conversations";
 
 const testWallet = Wallet.createRandom();
 const db = getDbInstance({
-  cacheConfig: [attachmentsCacheConfig],
+  contentTypeConfigs: [attachmentContentTypeConfig],
 });
 
 describe("ContentTypeRemoteAttachment caching", () => {
-  it("should have the correct cache config", () => {
-    expect(attachmentsCacheConfig.namespace).toEqual("attachment");
-    expect(attachmentsCacheConfig.codecs?.length).toEqual(2);
-    expect(attachmentsCacheConfig.codecs?.[0]).toBeInstanceOf(AttachmentCodec);
-    expect(attachmentsCacheConfig.codecs?.[1]).toBeInstanceOf(
+  it("should have the correct content types config", () => {
+    expect(attachmentContentTypeConfig.namespace).toEqual("attachment");
+    expect(attachmentContentTypeConfig.codecs?.length).toEqual(2);
+    expect(attachmentContentTypeConfig.codecs?.[0]).toBeInstanceOf(
+      AttachmentCodec,
+    );
+    expect(attachmentContentTypeConfig.codecs?.[1]).toBeInstanceOf(
       RemoteAttachmentCodec,
     );
     expect(
-      attachmentsCacheConfig.processors[ContentTypeAttachment.toString()],
+      attachmentContentTypeConfig.processors[ContentTypeAttachment.toString()],
     ).toEqual([processAttachment]);
     expect(
-      attachmentsCacheConfig.processors[ContentTypeRemoteAttachment.toString()],
+      attachmentContentTypeConfig.processors[
+        ContentTypeRemoteAttachment.toString()
+      ],
     ).toEqual([processRemoteAttachment]);
   });
 
@@ -83,7 +87,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         message: testMessage,
         persist,
         updateConversationMetadata,
-        processors: attachmentsCacheConfig.processors,
+        processors: attachmentContentTypeConfig.processors,
       });
       expect(persist).toHaveBeenCalledWith({
         metadata: testMessage.content,
@@ -125,7 +129,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         message: testMessage,
         persist,
         updateConversationMetadata,
-        processors: attachmentsCacheConfig.processors,
+        processors: attachmentContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
     });
@@ -184,7 +188,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         message: testMessage,
         persist,
         updateConversationMetadata,
-        processors: attachmentsCacheConfig.processors,
+        processors: attachmentContentTypeConfig.processors,
       });
       expect(spy).toHaveBeenCalledWith(testMessage.content, testClient);
       expect(persist).toHaveBeenCalledWith({
@@ -227,7 +231,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         message: testMessage,
         persist,
         updateConversationMetadata,
-        processors: attachmentsCacheConfig.processors,
+        processors: attachmentContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
     });
@@ -254,7 +258,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         uuid: "testUuid",
         xmtpID: "testXmtpId",
         metadata: {
-          [attachmentsCacheConfig.namespace]: testMetadata,
+          [attachmentContentTypeConfig.namespace]: testMetadata,
         },
       } satisfies CachedMessageWithId<Attachment>;
 
@@ -290,7 +294,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         uuid: "testUuid",
         xmtpID: "testXmtpId",
         metadata: {
-          [attachmentsCacheConfig.namespace]: testMetadata,
+          [attachmentContentTypeConfig.namespace]: testMetadata,
         },
       } satisfies CachedMessageWithId<Attachment>;
 

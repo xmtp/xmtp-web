@@ -5,9 +5,9 @@ import type {
   CachedMessageWithId,
 } from "@/helpers/caching/messages";
 import type { CachedConversation } from "./conversations";
-import { textCacheConfig } from "./contentTypes/text";
+import { textContentTypeConfig } from "./contentTypes/text";
 
-export type CachedMetadataValue =
+export type ContentTypeMetadataValue =
   | string
   | string[]
   | number
@@ -17,53 +17,55 @@ export type CachedMetadataValue =
   | null
   | Uint8Array;
 
-export type CachedMetadataValues =
-  | CachedMetadataValue
-  | Record<string, CachedMetadataValue>;
+export type ContentTypeMetadataValues =
+  | ContentTypeMetadataValue
+  | Record<string, ContentTypeMetadataValue>;
 
-export type CachedMetadata = {
-  [namespace: string]: CachedMetadataValues;
+export type ContentTypeMetadata = {
+  [namespace: string]: ContentTypeMetadataValues;
 };
 
 export type InternalPersistMessageOptions = {
   update?: Partial<Omit<CachedMessage, "id" | "metadata">>;
-  metadata?: CachedMetadataValues;
+  metadata?: ContentTypeMetadataValues;
 };
 
 export type InternalPersistMessage = (
   options?: InternalPersistMessageOptions,
 ) => Promise<CachedMessageWithId<any>>;
 
-export type CachedMessageProcessor<C = any> = (options: {
+export type ContentTypeMessageProcessor<C = any> = (options: {
   client: Client;
   conversation: CachedConversation;
   db: Dexie;
   message: CachedMessageWithId<C>;
-  processors: CachedMessageProcessors;
+  processors: ContentTypeMessageProcessors;
   persist: InternalPersistMessage;
-  updateConversationMetadata: (data: CachedMetadataValues) => Promise<void>;
+  updateConversationMetadata: (
+    data: ContentTypeMetadataValues,
+  ) => Promise<void>;
 }) => Promise<void>;
 
-export type CachedMessageValidators = Record<
+export type ContentTypeMessageValidators = Record<
   string,
   (content: unknown) => boolean
 >;
 
-export type CacheConfiguration = {
+export type ContentTypeConfiguration = {
   codecs?: ContentCodec<any>[];
   namespace: string;
-  processors: CachedMessageProcessors;
+  processors: ContentTypeMessageProcessors;
   schema?: Record<string, string>;
-  validators?: CachedMessageValidators;
+  validators?: ContentTypeMessageValidators;
 };
 
-export type CachedMessageProcessors = {
-  [contentType: string]: CachedMessageProcessor[];
+export type ContentTypeMessageProcessors = {
+  [contentType: string]: ContentTypeMessageProcessor[];
 };
 
 export type GetDBInstanceOptions = {
   db?: Dexie;
-  cacheConfig?: CacheConfiguration[];
+  contentTypeConfigs?: ContentTypeConfiguration[];
   version?: number;
 };
 
@@ -74,7 +76,7 @@ export const getDbInstance = (options?: GetDBInstanceOptions) => {
   const db = options?.db ?? new Dexie("__XMTP__");
 
   // note that duplicate keys will be overwritten
-  const customSchema = options?.cacheConfig?.reduce(
+  const customSchema = options?.contentTypeConfigs?.reduce(
     (result, { schema }) => ({
       ...result,
       ...schema,
@@ -119,4 +121,4 @@ export const clearCache = async (db: Dexie) => {
 };
 
 // handle text messages by default
-export const defaultCacheConfig = [textCacheConfig];
+export const defaultContentTypeConfigs = [textContentTypeConfig];

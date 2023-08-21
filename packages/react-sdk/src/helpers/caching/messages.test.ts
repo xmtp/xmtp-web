@@ -18,7 +18,7 @@ import {
   reprocessMessage,
   processUnprocessedMessages,
 } from "@/helpers/caching/messages";
-import type { CachedMessageProcessor } from "@/helpers/caching/db";
+import type { ContentTypeMessageProcessor } from "@/helpers/caching/db";
 import { getDbInstance, clearCache } from "@/helpers/caching/db";
 import {
   saveConversation,
@@ -26,7 +26,7 @@ import {
   getCachedConversationByTopic,
 } from "@/helpers/caching/conversations";
 import { adjustDate } from "@/helpers/adjustDate";
-import { textCacheConfig } from "@/helpers/caching/contentTypes/text";
+import { textContentTypeConfig } from "@/helpers/caching/contentTypes/text";
 
 const db = getDbInstance();
 const testWallet1 = Wallet.createRandom();
@@ -443,7 +443,7 @@ describe("getUnprocessedMessages", () => {
 
 describe("processMessage", () => {
   const mockProcessor1 = vi.fn<
-    ArgumentsType<CachedMessageProcessor>,
+    ArgumentsType<ContentTypeMessageProcessor>,
     Promise<void>
   >();
   const mockProcessor2 = vi.fn();
@@ -620,7 +620,7 @@ describe("processMessage", () => {
       message: testMessage,
       namespaces: testNamepaces,
       processors: testProcessors,
-      validators: textCacheConfig.validators ?? {},
+      validators: textContentTypeConfig.validators ?? {},
     });
     expect(cachedMessage).toEqual(testMessage);
     expect(mockProcessor1).not.toHaveBeenCalled();

@@ -6,7 +6,10 @@ import {
 import { ContentTypeId } from "@xmtp/xmtp-js";
 import type { Dexie, Table } from "dexie";
 import { z } from "zod";
-import type { CacheConfiguration, CachedMessageProcessor } from "../db";
+import type {
+  ContentTypeConfiguration,
+  ContentTypeMessageProcessor,
+} from "../db";
 import type { CachedMessage } from "../messages";
 import { getMessageByXmtpID, updateMessageMetadata } from "../messages";
 
@@ -160,7 +163,7 @@ const isValidReactionContent = (content: unknown) => {
  * Adds or removes the reaction from the cache based on the `action`
  * property. The original message is not saved to the messages cache.
  */
-export const processReaction: CachedMessageProcessor = async ({
+export const processReaction: ContentTypeMessageProcessor = async ({
   message,
   db,
 }) => {
@@ -193,7 +196,7 @@ export const processReaction: CachedMessageProcessor = async ({
   }
 };
 
-export const reactionsCacheConfig: CacheConfiguration = {
+export const reactionContentTypeConfig: ContentTypeConfiguration = {
   codecs: [new ReactionCodec()],
   namespace: NAMESPACE,
   processors: {
