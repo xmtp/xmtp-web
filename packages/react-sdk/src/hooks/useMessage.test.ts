@@ -299,6 +299,35 @@ describe("useMessage", () => {
   });
 
   describe("resendMessage", () => {
+    it("should throw an error if the message never failed to send", async () => {
+      useClientMock.mockImplementation(() => ({
+        client: undefined,
+      }));
+
+      const { result } = renderHook(() => useMessage());
+
+      await act(async () => {
+        await expect(
+          result.current.resendMessage({
+            id: 1,
+            content: "test",
+            contentType: ContentTypeText.toString(),
+            hasSendError: false,
+            conversationTopic: "testTopic",
+            isSending: false,
+            senderAddress: testWalletAddress,
+            sentAt: new Date(),
+            status: "processed",
+            uuid: "testUuid",
+            walletAddress: testWalletAddress,
+            xmtpID: "testXmtpId",
+          } satisfies CachedMessage),
+        ).rejects.toThrow(
+          "Resending a message that hasn't failed to send is not allowed",
+        );
+      });
+    });
+
     it("should throw an error if no client is available", async () => {
       useClientMock.mockImplementation(() => ({
         client: undefined,

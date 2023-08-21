@@ -7,7 +7,7 @@ import { adjustDate } from "@/helpers/adjustDate";
 import { getConversationByTopic } from "@/helpers/caching/conversations";
 import type { CachedConversation } from "@/helpers/caching/conversations";
 import { useClient } from "./useClient";
-import { useConversation } from "@/hooks/useConversation";
+import { useConversationInternal } from "@/hooks/useConversation";
 import { useMessage } from "@/hooks/useMessage";
 
 export type UseMessagesOptions = OnError & {
@@ -29,7 +29,7 @@ export const useMessages = (
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const { processMessage } = useMessage();
-  const { updateConversation } = useConversation();
+  const { updateConversation } = useConversationInternal();
   const messages = useCachedMessages(conversation.topic);
   const { client } = useClient();
   // to prevent messages from being fetched multiple times

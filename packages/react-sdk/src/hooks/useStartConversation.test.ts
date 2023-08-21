@@ -30,8 +30,9 @@ vi.mock("@/hooks/useMessage", async () => {
 vi.mock("@/hooks/useConversation", async () => {
   const actual = await import("@/hooks/useConversation");
   return {
-    useConversation: () => ({
-      ...actual.useConversation,
+    ...actual,
+    useConversationInternal: () => ({
+      ...actual.useConversationInternal,
       saveConversation: saveConversationMock,
     }),
   };
