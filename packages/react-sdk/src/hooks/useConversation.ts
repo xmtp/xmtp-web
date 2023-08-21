@@ -14,11 +14,7 @@ import type { RemoveLastParameter } from "@/sharedTypes";
 import { useClient } from "@/hooks/useClient";
 import { useDb } from "@/hooks/useDb";
 
-/**
- * This hook returns helper functions for working with conversations in the
- * local cache.
- */
-export const useConversation = () => {
+export const useConversationInternal = () => {
   const { client } = useClient();
   const { db } = useDb();
 
@@ -45,6 +41,21 @@ export const useConversation = () => {
     },
     [db],
   );
+
+  return {
+    saveConversation,
+    updateConversation,
+    updateMetadata,
+  };
+};
+
+/**
+ * This hook returns helper functions for working with conversations in the
+ * local cache.
+ */
+export const useConversation = () => {
+  const { client } = useClient();
+  const { db } = useDb();
 
   const getByTopic = useCallback<
     RemoveLastParameter<typeof getConversationByTopic>
@@ -84,8 +95,5 @@ export const useConversation = () => {
     getCachedByPeerAddress,
     getLastMessage,
     hasTopic,
-    saveConversation,
-    updateConversation,
-    updateMetadata,
   };
 };

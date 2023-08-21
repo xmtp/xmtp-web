@@ -9,7 +9,10 @@ import {
   prepareMessageForSending,
   getMessageByXmtpID as _getMessageByXmtpID,
 } from "@/helpers/caching/messages";
-import type { CachedMessage } from "@/helpers/caching/messages";
+import type {
+  CachedMessage,
+  CachedMessageWithId,
+} from "@/helpers/caching/messages";
 import { getConversationByTopic } from "@/helpers/caching/conversations";
 import type { CachedConversation } from "@/helpers/caching/conversations";
 import type { RemoveLastParameter } from "@/sharedTypes";
@@ -164,7 +167,13 @@ export const useMessage = () => {
    * @returns The sent message, or `undefined` if there's no XMTP client
    */
   const resendMessage = useCallback(
-    async (message: CachedMessage) => {
+    async (message: CachedMessageWithId) => {
+      if (!message.hasSendError) {
+        throw new Error(
+          "Resending a message that hasn't failed to send is not allowed",
+        );
+      }
+
       if (!client) {
         throw new Error("XMTP client is required to send a message");
       }

@@ -4,7 +4,10 @@ import { useClient } from "./useClient";
 import type { OnError } from "../sharedTypes";
 import { useCachedConversations } from "./useCachedConversations";
 import { toCachedMessage } from "@/helpers/caching/messages";
-import { useConversation } from "@/hooks/useConversation";
+import {
+  useConversation,
+  useConversationInternal,
+} from "@/hooks/useConversation";
 import { useMessage } from "@/hooks/useMessage";
 import { toCachedConversation } from "@/helpers/caching/conversations";
 
@@ -24,7 +27,8 @@ export const useConversations = (options?: UseConversationsOptions) => {
   const [error, setError] = useState<Error | null>(null);
   const { client } = useClient();
   const { processMessage } = useMessage();
-  const { saveConversation, hasTopic } = useConversation();
+  const { saveConversation } = useConversationInternal();
+  const { hasTopic } = useConversation();
   const conversations = useCachedConversations();
   // to prevent conversations from being fetched multiple times
   const loadingRef = useRef(false);

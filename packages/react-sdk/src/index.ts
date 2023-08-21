@@ -18,8 +18,8 @@ export { useStreamConversations } from "./hooks/useStreamConversations";
 export { useLastMessage } from "./hooks/useLastMessage";
 export { useCanMessage } from "./hooks/useCanMessage";
 export { useMessages } from "./hooks/useMessages";
-export { useMessage } from "./hooks/useMessage";
 export { useSendMessage } from "./hooks/useSendMessage";
+export { useResendMessage } from "./hooks/useResendMessage";
 export { useStreamAllMessages } from "./hooks/useStreamAllMessages";
 export { useStreamMessages } from "./hooks/useStreamMessages";
 
