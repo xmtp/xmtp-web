@@ -934,7 +934,25 @@ export const SendCustomContentTypeMessage: React.FC<{
 
 ### Handle unsupported content types
 
-<!--coming from ry-->
+Messages that contain unsupported content types are stored in the local cache, but are not processed. The `content` property of an unsupported message will be `undefined` . Each time a client is initialized, any messages that were previously unprocessed because their content type was unsupported at the time, will attempt to be reprocessed.
+
+If you wish to display an unsupported content type, there’s a `contentFallback` property that may include a useful string; however, it is recommended to manually process unsupported content types.
+
+Example
+
+```ts
+import { ContentTypeId } from "@xmtp/xmtp-js";
+import { ContentTypeAttachment } from "@xmtp/content-type-remote-attachment";
+
+const MessageContent = ({ message }) => {
+  if (
+    message.content === undefined &&
+    ContentTypeId.fromString(message.contentType).sameAs(ContentTypeAttachment)
+  ) {
+    return "This message contains an attachment, which is not supported by this client.";
+  }
+};
+```
 
 ## Developing
 
