@@ -4,7 +4,10 @@ import { ContentTypeId } from "@xmtp/xmtp-js";
 import type { Dexie } from "dexie";
 import { z } from "zod";
 import type { CachedMessage } from "@/helpers/caching/messages";
-import type { CacheConfiguration, CachedMessageProcessor } from "../db";
+import type {
+  ContentTypeConfiguration,
+  ContentTypeMessageProcessor,
+} from "../db";
 import { getMessageByXmtpID, updateMessageMetadata } from "../messages";
 
 const NAMESPACE = "replies";
@@ -108,7 +111,7 @@ const isValidReplyContent = (content: unknown) => {
  * Saves the reply message to the cache and updates the metadata of the
  * original message with the new reply.
  */
-export const processReply: CachedMessageProcessor = async ({
+export const processReply: ContentTypeMessageProcessor = async ({
   message,
   db,
   persist,
@@ -128,7 +131,7 @@ export const processReply: CachedMessageProcessor = async ({
   }
 };
 
-export const repliesCacheConfig: CacheConfiguration = {
+export const replyContentTypeConfig: ContentTypeConfiguration = {
   codecs: [new ReplyCodec()],
   namespace: NAMESPACE,
   processors: {

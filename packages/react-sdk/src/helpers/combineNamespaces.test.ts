@@ -8,20 +8,20 @@ import { ContentTypeReadReceipt } from "@xmtp/content-type-read-receipt";
 import { ContentTypeReply } from "@xmtp/content-type-reply";
 import { ContentTypeText } from "@xmtp/xmtp-js";
 import { combineNamespaces } from "@/helpers/combineNamespaces";
-import { attachmentsCacheConfig } from "@/helpers/caching/contentTypes/attachment";
-import { reactionsCacheConfig } from "@/helpers/caching/contentTypes/reaction";
-import { readReceiptsCacheConfig } from "@/helpers/caching/contentTypes/readReceipt";
-import { repliesCacheConfig } from "@/helpers/caching/contentTypes/reply";
+import { attachmentContentTypeConfig } from "@/helpers/caching/contentTypes/attachment";
+import { reactionContentTypeConfig } from "@/helpers/caching/contentTypes/reaction";
+import { readReceiptContentTypeConfig } from "@/helpers/caching/contentTypes/readReceipt";
+import { replyContentTypeConfig } from "@/helpers/caching/contentTypes/reply";
 
 const testCacheConfig = [
-  attachmentsCacheConfig,
-  reactionsCacheConfig,
-  readReceiptsCacheConfig,
-  repliesCacheConfig,
+  attachmentContentTypeConfig,
+  reactionContentTypeConfig,
+  readReceiptContentTypeConfig,
+  replyContentTypeConfig,
 ];
 
 describe("combineNamespaces", () => {
-  it("should combine namespaces from a cache config", () => {
+  it("should combine namespaces from a content types config", () => {
     expect(combineNamespaces(testCacheConfig)).toEqual({
       [ContentTypeAttachment.toString()]: "attachment",
       [ContentTypeRemoteAttachment.toString()]: "attachment",
@@ -32,7 +32,7 @@ describe("combineNamespaces", () => {
     });
   });
 
-  it("should only have a text namespace without a cache config", () => {
+  it("should only have a text namespace without a content types config", () => {
     expect(combineNamespaces()).toEqual({
       [ContentTypeText.toString()]: "text",
     });
@@ -43,11 +43,12 @@ describe("combineNamespaces", () => {
       combineNamespaces([
         {
           namespace: "text",
+          codecs: [],
           processors: {
             foo: [() => Promise.resolve()],
           },
         },
       ]),
-    ).toThrow(`Duplicate cache config namespace detected: "text"`);
+    ).toThrow(`Duplicate content types config namespace detected: "text"`);
   });
 });

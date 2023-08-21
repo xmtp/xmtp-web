@@ -8,10 +8,10 @@ import { mainnet } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import {
   XMTPProvider,
-  attachmentsCacheConfig,
-  reactionsCacheConfig,
-  readReceiptsCacheConfig,
-  repliesCacheConfig,
+  attachmentContentTypeConfig,
+  reactionContentTypeConfig,
+  readReceiptContentTypeConfig,
+  replyContentTypeConfig,
 } from "@xmtp/react-sdk";
 import App from "./components/App";
 import "@xmtp/react-components/styles.css";
@@ -20,11 +20,11 @@ import "./index.css";
 
 const DB_VERSION = 1;
 
-const cacheConfig = [
-  attachmentsCacheConfig,
-  reactionsCacheConfig,
-  readReceiptsCacheConfig,
-  repliesCacheConfig,
+const contentTypeConfigs = [
+  attachmentContentTypeConfig,
+  reactionContentTypeConfig,
+  readReceiptContentTypeConfig,
+  replyContentTypeConfig,
 ];
 
 const { chains, provider, webSocketProvider } = configureChains(
@@ -51,7 +51,9 @@ createRoot(document.getElementById("root") as HTMLElement).render(
     <RainbowKitProvider chains={chains}>
       <StrictMode>
         <WalletProvider>
-          <XMTPProvider dbVersion={DB_VERSION} cacheConfig={cacheConfig}>
+          <XMTPProvider
+            dbVersion={DB_VERSION}
+            contentTypeConfigs={contentTypeConfigs}>
             <App />
           </XMTPProvider>
         </WalletProvider>

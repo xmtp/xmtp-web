@@ -9,33 +9,33 @@ import { ContentTypeReply } from "@xmtp/content-type-reply";
 import { ContentTypeText } from "@xmtp/xmtp-js";
 import { combineMessageProcessors } from "@/helpers/combineMessageProcessors";
 import {
-  attachmentsCacheConfig,
+  attachmentContentTypeConfig,
   processAttachment,
   processRemoteAttachment,
 } from "@/helpers/caching/contentTypes/attachment";
 import {
   processReaction,
-  reactionsCacheConfig,
+  reactionContentTypeConfig,
 } from "@/helpers/caching/contentTypes/reaction";
 import {
   processReadReceipt,
-  readReceiptsCacheConfig,
+  readReceiptContentTypeConfig,
 } from "@/helpers/caching/contentTypes/readReceipt";
 import {
   processReply,
-  repliesCacheConfig,
+  replyContentTypeConfig,
 } from "@/helpers/caching/contentTypes/reply";
 import { processText } from "@/helpers/caching/contentTypes/text";
 
 const testCacheConfig = [
-  attachmentsCacheConfig,
-  reactionsCacheConfig,
-  readReceiptsCacheConfig,
-  repliesCacheConfig,
+  attachmentContentTypeConfig,
+  reactionContentTypeConfig,
+  readReceiptContentTypeConfig,
+  replyContentTypeConfig,
 ];
 
 describe("combineMessageProcessors", () => {
-  it("should combine message processors from a cache config", () => {
+  it("should combine message processors from a content types config", () => {
     expect(combineMessageProcessors(testCacheConfig)).toEqual({
       [ContentTypeAttachment.toString()]: [processAttachment],
       [ContentTypeRemoteAttachment.toString()]: [processRemoteAttachment],
@@ -46,7 +46,7 @@ describe("combineMessageProcessors", () => {
     });
   });
 
-  it("should only have text message processors without a cache config", () => {
+  it("should only have text message processors without a content types config", () => {
     expect(combineMessageProcessors()).toEqual({
       [ContentTypeText.toString()]: [processText],
     });

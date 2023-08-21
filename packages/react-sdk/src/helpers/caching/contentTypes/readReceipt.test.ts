@@ -16,12 +16,12 @@ import {
   getReadReceipt,
   hasReadReceipt,
   processReadReceipt,
-  readReceiptsCacheConfig,
+  readReceiptContentTypeConfig,
 } from "@/helpers/caching/contentTypes/readReceipt";
 
 const testWallet = Wallet.createRandom();
 const db = getDbInstance({
-  cacheConfig: [readReceiptsCacheConfig],
+  contentTypeConfigs: [readReceiptContentTypeConfig],
 });
 
 describe("ContentTypeReadReceipt caching", () => {
@@ -29,14 +29,16 @@ describe("ContentTypeReadReceipt caching", () => {
     await clearCache(db);
   });
 
-  it("should have the correct cache config", () => {
-    expect(readReceiptsCacheConfig.namespace).toEqual("readReceipt");
-    expect(readReceiptsCacheConfig.codecs?.length).toEqual(1);
-    expect(readReceiptsCacheConfig.codecs?.[0]).toBeInstanceOf(
+  it("should have the correct content types config", () => {
+    expect(readReceiptContentTypeConfig.namespace).toEqual("readReceipt");
+    expect(readReceiptContentTypeConfig.codecs?.length).toEqual(1);
+    expect(readReceiptContentTypeConfig.codecs?.[0]).toBeInstanceOf(
       ReadReceiptCodec,
     );
     expect(
-      readReceiptsCacheConfig.processors[ContentTypeReadReceipt.toString()],
+      readReceiptContentTypeConfig.processors[
+        ContentTypeReadReceipt.toString()
+      ],
     ).toEqual([processReadReceipt]);
   });
 
@@ -85,7 +87,7 @@ describe("ContentTypeReadReceipt caching", () => {
         message: testReadReceiptMessage,
         persist,
         updateConversationMetadata,
-        processors: readReceiptsCacheConfig.processors,
+        processors: readReceiptContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
       expect(updateConversationMetadata).toHaveBeenCalledWith(
@@ -128,7 +130,7 @@ describe("ContentTypeReadReceipt caching", () => {
         message: testTextMessage,
         persist,
         updateConversationMetadata,
-        processors: readReceiptsCacheConfig.processors,
+        processors: readReceiptContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
       expect(updateConversationMetadata).not.toHaveBeenCalled();

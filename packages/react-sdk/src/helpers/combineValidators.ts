@@ -1,22 +1,27 @@
-import { defaultCacheConfig } from "@/helpers/caching/db";
+import { defaultContentTypeConfigs } from "@/helpers/caching/db";
 import type {
-  CachedMessageValidators,
-  CacheConfiguration,
+  ContentTypeMessageValidators,
+  ContentTypeConfiguration,
 } from "@/helpers/caching/db";
 
 /**
  * Combines all content validators into a single object
  *
- * @param cacheConfig The cache configuration to extract the content validators from
+ * @param contentTypeConfigs The content types configuration to extract the content validators from
  * @returns An object that maps content types to their respective content validator
  */
-export const combineValidators = (cacheConfig?: CacheConfiguration[]) => {
+export const combineValidators = (
+  contentTypeConfigs?: ContentTypeConfiguration[],
+) => {
   // merge default config with passed in config
-  const finalCacheConfig = [...defaultCacheConfig, ...(cacheConfig ?? [])];
+  const finalCacheConfig = [
+    ...defaultContentTypeConfigs,
+    ...(contentTypeConfigs ?? []),
+  ];
   // array of validator content types for detecting duplicates
   const validatorContentTypes: string[] = [];
   return finalCacheConfig.reduce((result, config) => {
-    const validators: CachedMessageValidators = {};
+    const validators: ContentTypeMessageValidators = {};
     // prevent duplicate content type validators
     Object.entries(config.validators ?? {}).forEach(
       ([contentType, validator]) => {
@@ -33,5 +38,5 @@ export const combineValidators = (cacheConfig?: CacheConfiguration[]) => {
       ...result,
       ...validators,
     };
-  }, {} as CachedMessageValidators);
+  }, {} as ContentTypeMessageValidators);
 };

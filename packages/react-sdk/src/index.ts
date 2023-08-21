@@ -55,7 +55,7 @@ export {
 // attachments
 export type { CachedAttachmentsMetadata } from "./helpers/caching/contentTypes/attachment";
 export {
-  attachmentsCacheConfig,
+  attachmentContentTypeConfig,
   getAttachment,
 } from "./helpers/caching/contentTypes/attachment";
 
@@ -68,13 +68,13 @@ export type {
 export {
   getReactionsByXmtpID,
   hasReaction,
-  reactionsCacheConfig,
+  reactionContentTypeConfig,
 } from "./helpers/caching/contentTypes/reaction";
 
 // read receipts
 export type { CachedReadReceiptMetadata } from "./helpers/caching/contentTypes/readReceipt";
 export {
-  readReceiptsCacheConfig,
+  readReceiptContentTypeConfig,
   hasReadReceipt,
   getReadReceipt,
 } from "./helpers/caching/contentTypes/readReceipt";
@@ -84,11 +84,11 @@ export type { CachedRepliesMetadata } from "./helpers/caching/contentTypes/reply
 export {
   hasReply,
   getOriginalMessageFromReply,
-  repliesCacheConfig,
+  replyContentTypeConfig,
 } from "./helpers/caching/contentTypes/reply";
 
 // text
-export { textCacheConfig } from "./helpers/caching/contentTypes/text";
+export { textContentTypeConfig } from "./helpers/caching/contentTypes/text";
 
 export {
   Client,

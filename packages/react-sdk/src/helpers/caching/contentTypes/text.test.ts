@@ -10,19 +10,19 @@ import { getDbInstance } from "@/helpers/caching/db";
 import type { CachedConversationWithId } from "@/helpers/caching/conversations";
 import {
   processText,
-  textCacheConfig,
+  textContentTypeConfig,
 } from "@/helpers/caching/contentTypes/text";
 
 const testWallet = Wallet.createRandom();
 const db = getDbInstance();
 
 describe("ContentTypeText caching", () => {
-  it("should have the correct cache config", () => {
-    expect(textCacheConfig.namespace).toEqual("text");
-    expect(textCacheConfig.codecs).toBeUndefined();
-    expect(textCacheConfig.processors[ContentTypeText.toString()]).toEqual([
-      processText,
-    ]);
+  it("should have the correct content types config", () => {
+    expect(textContentTypeConfig.namespace).toEqual("text");
+    expect(textContentTypeConfig.codecs).toEqual([]);
+    expect(
+      textContentTypeConfig.processors[ContentTypeText.toString()],
+    ).toEqual([processText]);
   });
 
   describe("processText", () => {
@@ -61,7 +61,7 @@ describe("ContentTypeText caching", () => {
         message: testMessage,
         persist,
         updateConversationMetadata,
-        processors: textCacheConfig.processors,
+        processors: textContentTypeConfig.processors,
       });
       expect(persist).toHaveBeenCalledWith();
     });
@@ -105,7 +105,7 @@ describe("ContentTypeText caching", () => {
         message: testMessage,
         persist,
         updateConversationMetadata,
-        processors: textCacheConfig.processors,
+        processors: textContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
     });

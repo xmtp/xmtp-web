@@ -1,9 +1,9 @@
 import type { Conversation, Client, InvitationContext } from "@xmtp/xmtp-js";
 import type { Table } from "dexie";
 import type Dexie from "dexie";
-import type { CachedMetadata, CachedMetadataValues } from "./db";
+import type { ContentTypeMetadata, ContentTypeMetadataValues } from "./db";
 
-export type CachedConversation<M = CachedMetadata> = {
+export type CachedConversation<M = ContentTypeMetadata> = {
   context?: InvitationContext;
   createdAt: Date;
   id?: number;
@@ -122,7 +122,7 @@ export const updateConversation = async (
 export const updateConversationMetadata = async (
   topic: string,
   namespace: string,
-  data: CachedMetadataValues,
+  data: ContentTypeMetadataValues,
   db: Dexie,
 ) => {
   const existing = await getCachedConversationByTopic(topic, db);

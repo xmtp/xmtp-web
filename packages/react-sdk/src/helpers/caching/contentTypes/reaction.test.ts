@@ -8,7 +8,7 @@ import {
 } from "@xmtp/content-type-reaction";
 import type { CachedReaction, CachedReactionsTable } from "./reaction";
 import {
-  reactionsCacheConfig,
+  reactionContentTypeConfig,
   processReaction,
   getReactionsByXmtpID,
   hasReaction,
@@ -24,7 +24,7 @@ import type { CachedConversationWithId } from "@/helpers/caching/conversations";
 
 const testWallet = Wallet.createRandom();
 const db = getDbInstance({
-  cacheConfig: [reactionsCacheConfig],
+  contentTypeConfigs: [reactionContentTypeConfig],
 });
 
 describe("ContentTypeReaction caching", () => {
@@ -32,12 +32,12 @@ describe("ContentTypeReaction caching", () => {
     await clearCache(db);
   });
 
-  it("should have the correct cache config", () => {
-    expect(reactionsCacheConfig.namespace).toEqual("reactions");
-    expect(reactionsCacheConfig.codecs?.length).toEqual(1);
-    expect(reactionsCacheConfig.codecs?.[0]).toBeInstanceOf(ReactionCodec);
+  it("should have the correct content types config", () => {
+    expect(reactionContentTypeConfig.namespace).toEqual("reactions");
+    expect(reactionContentTypeConfig.codecs?.length).toEqual(1);
+    expect(reactionContentTypeConfig.codecs?.[0]).toBeInstanceOf(ReactionCodec);
     expect(
-      reactionsCacheConfig.processors[ContentTypeReaction.toString()],
+      reactionContentTypeConfig.processors[ContentTypeReaction.toString()],
     ).toEqual([processReaction]);
   });
 
@@ -127,7 +127,7 @@ describe("ContentTypeReaction caching", () => {
         message: testReactionMessage,
         persist,
         updateConversationMetadata,
-        processors: reactionsCacheConfig.processors,
+        processors: reactionContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
 
@@ -169,7 +169,7 @@ describe("ContentTypeReaction caching", () => {
         message: testReactionMessage2,
         persist,
         updateConversationMetadata,
-        processors: reactionsCacheConfig.processors,
+        processors: reactionContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
 
@@ -215,7 +215,7 @@ describe("ContentTypeReaction caching", () => {
         message: testMessage,
         persist,
         updateConversationMetadata,
-        processors: reactionsCacheConfig.processors,
+        processors: reactionContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
       const reactionsTable = db.table("reactions") as CachedReactionsTable;

@@ -1,19 +1,22 @@
-import { defaultCacheConfig } from "@/helpers/caching/db";
+import { defaultContentTypeConfigs } from "@/helpers/caching/db";
 import type {
-  CachedMessageProcessors,
-  CacheConfiguration,
+  ContentTypeMessageProcessors,
+  ContentTypeConfiguration,
 } from "@/helpers/caching/db";
 
 /**
  * Combines all message processors into a single object
  *
- * @param cacheConfig The cache configuration to extract the processors from
+ * @param contentTypeConfigs The content types configuration to extract the processors from
  * @returns An object that maps content types to their respective message processors
  */
 export const combineMessageProcessors = (
-  cacheConfig?: CacheConfiguration[],
+  contentTypeConfigs?: ContentTypeConfiguration[],
 ) => {
-  const finalCacheConfig = [...defaultCacheConfig, ...(cacheConfig ?? [])];
+  const finalCacheConfig = [
+    ...defaultContentTypeConfigs,
+    ...(contentTypeConfigs ?? []),
+  ];
   return {
     ...finalCacheConfig.reduce((result, config) => {
       const update = Object.entries(config.processors).reduce(
@@ -21,12 +24,12 @@ export const combineMessageProcessors = (
           ...updateResult,
           [contentType]: [...(result[contentType] ?? []), ...contentProcessors],
         }),
-        {} as CachedMessageProcessors,
+        {} as ContentTypeMessageProcessors,
       );
       return {
         ...result,
         ...update,
       };
-    }, {} as CachedMessageProcessors),
+    }, {} as ContentTypeMessageProcessors),
   };
 };

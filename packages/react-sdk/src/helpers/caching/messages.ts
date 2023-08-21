@@ -5,10 +5,10 @@ import type Dexie from "dexie";
 import { isAfter } from "date-fns";
 import { v4 } from "uuid";
 import type {
-  CachedMessageProcessors,
-  CachedMessageValidators,
-  CachedMetadata,
-  CachedMetadataValues,
+  ContentTypeMessageProcessors,
+  ContentTypeMessageValidators,
+  ContentTypeMetadata,
+  ContentTypeMetadataValues,
   InternalPersistMessage,
 } from "./db";
 import type { CachedConversation } from "./conversations";
@@ -18,7 +18,7 @@ import {
   updateConversationMetadata as _updateConversationMetadata,
 } from "./conversations";
 
-export type CachedMessage<C = any, M = CachedMetadata> = {
+export type CachedMessage<C = any, M = ContentTypeMetadata> = {
   content: C;
   contentBytes?: Uint8Array;
   contentFallback?: string;
@@ -165,7 +165,7 @@ export const updateMessage = async (
 export const updateMessageMetadata = async (
   message: CachedMessage,
   namespace: string,
-  data: CachedMetadataValues,
+  data: ContentTypeMetadataValues,
   db: Dexie,
 ) => {
   const metadata = message.metadata || {};
@@ -237,8 +237,8 @@ export type ProcessMessageOptions = {
   db: Dexie;
   message: CachedMessage;
   namespaces: Record<string, string>;
-  processors: CachedMessageProcessors;
-  validators: CachedMessageValidators;
+  processors: ContentTypeMessageProcessors;
+  validators: ContentTypeMessageValidators;
 };
 
 export type ReprocessMessageOptions = ProcessMessageOptions & {
@@ -305,7 +305,9 @@ export const processMessage = async (
   };
 
   // internal updater function with preset namespace
-  const updateConversationMetadata = async (data: CachedMetadataValues) => {
+  const updateConversationMetadata = async (
+    data: ContentTypeMetadataValues,
+  ) => {
     await _updateConversationMetadata(conversation.topic, namespace, data, db);
   };
 

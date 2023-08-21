@@ -1,5 +1,8 @@
 import { ContentTypeId, ContentTypeText } from "@xmtp/xmtp-js";
-import type { CacheConfiguration, CachedMessageProcessor } from "../db";
+import type {
+  ContentTypeConfiguration,
+  ContentTypeMessageProcessor,
+} from "../db";
 
 const NAMESPACE = "text";
 
@@ -16,7 +19,7 @@ const isValidTextContent = (content: unknown) => typeof content === "string";
  *
  * Saves the message to the cache.
  */
-export const processText: CachedMessageProcessor = async ({
+export const processText: ContentTypeMessageProcessor = async ({
   message,
   persist,
 }) => {
@@ -30,8 +33,10 @@ export const processText: CachedMessageProcessor = async ({
   }
 };
 
-export const textCacheConfig: CacheConfiguration = {
+export const textContentTypeConfig: ContentTypeConfiguration = {
   namespace: NAMESPACE,
+  // the text codec is registered automatically in the JS SDK
+  codecs: [],
   processors: {
     [ContentTypeText.toString()]: [processText],
   },

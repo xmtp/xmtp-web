@@ -6,7 +6,10 @@ import {
 import { ContentTypeId } from "@xmtp/xmtp-js";
 import { parseISO } from "date-fns";
 import { z } from "zod";
-import type { CacheConfiguration, CachedMessageProcessor } from "../db";
+import type {
+  ContentTypeConfiguration,
+  ContentTypeMessageProcessor,
+} from "../db";
 import type { CachedConversation } from "../conversations";
 
 const NAMESPACE = "readReceipt";
@@ -57,7 +60,7 @@ const isValidReadReceiptContent = (content: unknown) => {
  * Updates the metadata of its conversation with the timestamp of the
  * read receipt.
  */
-export const processReadReceipt: CachedMessageProcessor = async ({
+export const processReadReceipt: ContentTypeMessageProcessor = async ({
   message,
   conversation,
   updateConversationMetadata,
@@ -75,7 +78,7 @@ export const processReadReceipt: CachedMessageProcessor = async ({
   }
 };
 
-export const readReceiptsCacheConfig: CacheConfiguration = {
+export const readReceiptContentTypeConfig: ContentTypeConfiguration = {
   codecs: [new ReadReceiptCodec()],
   namespace: NAMESPACE,
   processors: {

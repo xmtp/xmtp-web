@@ -10,7 +10,10 @@ import {
 } from "@xmtp/content-type-remote-attachment";
 import { ContentTypeId } from "@xmtp/xmtp-js";
 import { z } from "zod";
-import type { CacheConfiguration, CachedMessageProcessor } from "../db";
+import type {
+  ContentTypeConfiguration,
+  ContentTypeMessageProcessor,
+} from "../db";
 import { type CachedMessage } from "../messages";
 
 const NAMESPACE = "attachment";
@@ -59,7 +62,7 @@ const isValidAttachmentContent = (content: unknown) => {
  *
  * The message content is also saved to the metadata of the message.
  */
-export const processAttachment: CachedMessageProcessor = async ({
+export const processAttachment: ContentTypeMessageProcessor = async ({
   message,
   persist,
 }) => {
@@ -103,7 +106,7 @@ const isValidRemoveAttachmentContent = (content: unknown) => {
  * Loads the attachment from the remote URL and saves it to the metadata
  * of the message.
  */
-export const processRemoteAttachment: CachedMessageProcessor = async ({
+export const processRemoteAttachment: ContentTypeMessageProcessor = async ({
   client,
   message,
   persist,
@@ -125,7 +128,7 @@ export const processRemoteAttachment: CachedMessageProcessor = async ({
   }
 };
 
-export const attachmentsCacheConfig: CacheConfiguration = {
+export const attachmentContentTypeConfig: ContentTypeConfiguration = {
   codecs: [new AttachmentCodec(), new RemoteAttachmentCodec()],
   namespace: NAMESPACE,
   processors: {
