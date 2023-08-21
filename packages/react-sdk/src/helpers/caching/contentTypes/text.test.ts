@@ -19,7 +19,7 @@ const db = getDbInstance();
 describe("ContentTypeText caching", () => {
   it("should have the correct content types config", () => {
     expect(textContentTypeConfig.namespace).toEqual("text");
-    expect(textContentTypeConfig.codecs).toBeUndefined();
+    expect(textContentTypeConfig.codecs).toEqual([]);
     expect(
       textContentTypeConfig.processors[ContentTypeText.toString()],
     ).toEqual([processText]);
