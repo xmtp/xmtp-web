@@ -1,8 +1,10 @@
 import type { Attachment } from "@xmtp/content-type-remote-attachment";
+import type { CachedMessage } from "@xmtp/react-sdk";
+import { useAttachment, useClient } from "@xmtp/react-sdk";
 import styles from "./Attachment.module.css";
 
 export type AttachmentProps = {
-  attachment?: Attachment;
+  message: CachedMessage;
 };
 
 /**
@@ -27,10 +29,15 @@ const getBlobURL = (attachment: Attachment) => {
   return blobCache.get(attachment.data)!;
 };
 
-export const AttachmentContent: React.FC<AttachmentProps> = ({
-  attachment,
-}) => {
-  if (!attachment) {
+export const AttachmentContent: React.FC<AttachmentProps> = ({ message }) => {
+  const { client } = useClient();
+  const { attachment, isLoading, error } = useAttachment(message, client);
+
+  if (error) {
+    return "Unable to load attachment";
+  }
+
+  if (isLoading || !attachment) {
     return "Loading...";
   }
 

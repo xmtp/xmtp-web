@@ -1,4 +1,4 @@
-import { ContentTypeId, ContentTypeText, getAttachment } from "@xmtp/react-sdk";
+import { ContentTypeId, ContentTypeText } from "@xmtp/react-sdk";
 import type { CachedMessage } from "@xmtp/react-sdk";
 import {
   ContentTypeAttachment,
@@ -33,7 +33,7 @@ export const MessageContent: React.FC<MessageContentProps> = ({
     contentType.sameAs(ContentTypeAttachment) ||
     contentType.sameAs(ContentTypeRemoteAttachment)
   ) {
-    content = <AttachmentContent attachment={getAttachment(message)} />;
+    content = <AttachmentContent message={message} />;
   }
 
   return (
