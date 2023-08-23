@@ -23,6 +23,9 @@ export { useResendMessage } from "./hooks/useResendMessage";
 export { useStreamAllMessages } from "./hooks/useStreamAllMessages";
 export { useStreamMessages } from "./hooks/useStreamMessages";
 
+// attachments
+export { useAttachment } from "./hooks/useAttachment";
+
 // reactions
 export { useReactions } from "./hooks/useReactions";
 
