@@ -8,14 +8,15 @@ import type {
   RemoteAttachment,
   Attachment,
 } from "@xmtp/content-type-remote-attachment";
-import type { Client } from "@xmtp/xmtp-js";
 import { useDb } from "./useDb";
 import type { CachedMessage } from "@/helpers/caching/messages";
+import { useClient } from "@/hooks/useClient";
 
 /**
  * This hook returns the attachment data of a cached message
  */
-export const useAttachment = (message: CachedMessage, client?: Client) => {
+export const useAttachment = (message: CachedMessage) => {
+  const { client } = useClient();
   const { db } = useDb();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | undefined>(undefined);
