@@ -53,7 +53,6 @@ export {
 } from "./helpers/caching/messages";
 
 // attachments
-export type { CachedAttachmentsMetadata } from "./helpers/caching/contentTypes/attachment";
 export {
   attachmentContentTypeConfig,
   getAttachment,

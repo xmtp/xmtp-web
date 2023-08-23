@@ -18,16 +18,23 @@ import { type CachedMessage } from "../messages";
 
 const NAMESPACE = "attachment";
 
-export type CachedAttachmentsMetadata = Attachment | undefined;
-
 /**
  * Get the attachment data from a cached message
  *
  * @param message Cached message
- * @returns The attachment data, or `undefined` if the message has no attachment
+ * @returns The attachment data, or `undefined` if the message is not an
+ * attachment content type
  */
-export const getAttachment = (message: CachedMessage) =>
-  message?.metadata?.[NAMESPACE] as CachedAttachmentsMetadata;
+export const getAttachment = (message: CachedMessage) => {
+  switch (message.contentType) {
+    case ContentTypeAttachment.toString():
+      return message.content as Attachment;
+    case ContentTypeRemoteAttachment.toString():
+      return message.content as RemoteAttachment;
+    default:
+      return undefined;
+  }
+};
 
 /**
  * Check if a cached message has an attachment
@@ -60,7 +67,7 @@ const isValidAttachmentContent = (content: unknown) => {
 /**
  * Process an attachment message
  *
- * The message content is also saved to the metadata of the message.
+ * Saves the message to the cache.
  */
 export const processAttachment: ContentTypeMessageProcessor = async ({
   message,
@@ -71,10 +78,8 @@ export const processAttachment: ContentTypeMessageProcessor = async ({
     ContentTypeAttachment.sameAs(contentType) &&
     isValidAttachmentContent(message.content)
   ) {
-    // save message to cache with the attachment metadata
-    await persist({
-      metadata: message.content as Attachment,
-    });
+    // save message to cache
+    await persist();
   }
 };
 
@@ -103,11 +108,9 @@ const isValidRemoveAttachmentContent = (content: unknown) => {
 /**
  * Process a remote attachment message
  *
- * Loads the attachment from the remote URL and saves it to the metadata
- * of the message.
+ * Saves the message to the cache.
  */
 export const processRemoteAttachment: ContentTypeMessageProcessor = async ({
-  client,
   message,
   persist,
 }) => {
@@ -116,15 +119,8 @@ export const processRemoteAttachment: ContentTypeMessageProcessor = async ({
     ContentTypeRemoteAttachment.sameAs(contentType) &&
     isValidRemoveAttachmentContent(message.content)
   ) {
-    const attachment = await RemoteAttachmentCodec.load<Attachment>(
-      message.content as RemoteAttachment,
-      client,
-    );
-
-    // save message to cache with the attachment metadata
-    await persist({
-      metadata: attachment,
-    });
+    // save message to cache
+    await persist();
   }
 };
 
