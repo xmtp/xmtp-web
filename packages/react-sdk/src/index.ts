@@ -23,6 +23,9 @@ export { useResendMessage } from "./hooks/useResendMessage";
 export { useStreamAllMessages } from "./hooks/useStreamAllMessages";
 export { useStreamMessages } from "./hooks/useStreamMessages";
 
+// attachments
+export { useAttachment } from "./hooks/useAttachment";
+
 // reactions
 export { useReactions } from "./hooks/useReactions";
 
@@ -53,7 +56,6 @@ export {
 } from "./helpers/caching/messages";
 
 // attachments
-export type { CachedAttachmentsMetadata } from "./helpers/caching/contentTypes/attachment";
 export {
   attachmentContentTypeConfig,
   getAttachment,

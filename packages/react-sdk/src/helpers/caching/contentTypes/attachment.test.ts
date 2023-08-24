@@ -48,7 +48,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
   });
 
   describe("processAttachment", () => {
-    it("should save a message to the cache with attachment metadata", async () => {
+    it("should save a message to the cache", async () => {
       const testClient = await Client.create(testWallet, { env: "local" });
       const testConversation = {
         id: 1,
@@ -89,9 +89,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         updateConversationMetadata,
         processors: attachmentContentTypeConfig.processors,
       });
-      expect(persist).toHaveBeenCalledWith({
-        metadata: testMessage.content,
-      });
+      expect(persist).toHaveBeenCalledWith();
     });
 
     it("should not process a message with the wrong content type", async () => {
@@ -136,15 +134,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
   });
 
   describe("processRemoteAttachment", () => {
-    it("should save a message to the cache with attachment metadata", async () => {
-      const testMetadata = {
-        filename: "testFilename",
-        mimeType: "testMimeType",
-        data: new Uint8Array(),
-      } satisfies Attachment;
-      const spy = vi
-        .spyOn(RemoteAttachmentCodec, "load")
-        .mockImplementationOnce(async () => Promise.resolve(testMetadata));
+    it("should save a message to the cache", async () => {
       const testClient = await Client.create(testWallet, { env: "local" });
       const testConversation = {
         id: 1,
@@ -190,10 +180,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         updateConversationMetadata,
         processors: attachmentContentTypeConfig.processors,
       });
-      expect(spy).toHaveBeenCalledWith(testMessage.content, testClient);
-      expect(persist).toHaveBeenCalledWith({
-        metadata: testMetadata,
-      });
+      expect(persist).toHaveBeenCalledWith();
     });
 
     it("should not process a message with the wrong content type", async () => {
@@ -238,8 +225,8 @@ describe("ContentTypeRemoteAttachment caching", () => {
   });
 
   describe("getAttachment", () => {
-    it("should return an attachment from cached message metadata (if present)", () => {
-      const testMetadata = {
+    it("should return an attachment from cached message", () => {
+      const testContent = {
         filename: "testFilename",
         mimeType: "testMimeType",
         data: new Uint8Array(),
@@ -248,7 +235,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         id: 1,
         walletAddress: testWallet.address,
         conversationTopic: "testTopic",
-        content: testMetadata,
+        content: testContent,
         contentType: ContentTypeAttachment.toString(),
         isSending: false,
         hasSendError: false,
@@ -257,25 +244,62 @@ describe("ContentTypeRemoteAttachment caching", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid",
         xmtpID: "testXmtpId",
-        metadata: {
-          [attachmentContentTypeConfig.namespace]: testMetadata,
-        },
       } satisfies CachedMessageWithId<Attachment>;
 
       const attachment = getAttachment(testMessage);
-      expect(attachment).toEqual(testMetadata);
+      expect(attachment).toEqual(testContent);
 
-      const attachment2 = getAttachment({
-        ...testMessage,
-        metadata: {},
-      });
-      expect(attachment2).toBeUndefined();
+      const testContent2 = {
+        url: "testUrl",
+        contentDigest: "testContentDigest",
+        salt: new Uint8Array(),
+        nonce: new Uint8Array(),
+        secret: new Uint8Array(),
+        scheme: "testScheme",
+        contentLength: 0,
+        filename: "testFilename",
+      } satisfies RemoteAttachment;
+      const testMessage2 = {
+        id: 2,
+        walletAddress: testWallet.address,
+        conversationTopic: "testTopic",
+        content: testContent2,
+        contentType: ContentTypeRemoteAttachment.toString(),
+        isSending: false,
+        hasSendError: false,
+        sentAt: new Date(),
+        status: "unprocessed",
+        senderAddress: "testWalletAddress",
+        uuid: "testUuid",
+        xmtpID: "testXmtpId",
+      } satisfies CachedMessageWithId<RemoteAttachment>;
+
+      const attachment2 = getAttachment(testMessage2);
+      expect(attachment2).toEqual(testContent2);
+
+      const testMessage3 = {
+        id: 3,
+        walletAddress: testWallet.address,
+        conversationTopic: "testTopic",
+        content: "foo",
+        contentType: ContentTypeText.toString(),
+        isSending: false,
+        hasSendError: false,
+        sentAt: new Date(),
+        status: "unprocessed",
+        senderAddress: "testWalletAddress",
+        uuid: "testUuid",
+        xmtpID: "testXmtpId",
+      } satisfies CachedMessageWithId;
+
+      const attachment3 = getAttachment(testMessage3);
+      expect(attachment3).toBeUndefined();
     });
   });
 
   describe("hasAttachment", () => {
-    it("should return true if attachment metadata exists", () => {
-      const testMetadata = {
+    it("should return true if message is an attachment content type", () => {
+      const testContent = {
         filename: "testFilename",
         mimeType: "testMimeType",
         data: new Uint8Array(),
@@ -284,7 +308,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         id: 1,
         walletAddress: testWallet.address,
         conversationTopic: "testTopic",
-        content: testMetadata,
+        content: testContent,
         contentType: ContentTypeAttachment.toString(),
         isSending: false,
         hasSendError: false,
@@ -293,18 +317,27 @@ describe("ContentTypeRemoteAttachment caching", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid",
         xmtpID: "testXmtpId",
-        metadata: {
-          [attachmentContentTypeConfig.namespace]: testMetadata,
-        },
       } satisfies CachedMessageWithId<Attachment>;
 
       const attachment = hasAttachment(testMessage);
       expect(attachment).toBe(true);
 
-      const attachment2 = hasAttachment({
-        ...testMessage,
-        metadata: {},
-      });
+      const testMessage2 = {
+        id: 2,
+        walletAddress: testWallet.address,
+        conversationTopic: "testTopic",
+        content: "foo",
+        contentType: ContentTypeText.toString(),
+        isSending: false,
+        hasSendError: false,
+        sentAt: new Date(),
+        status: "unprocessed",
+        senderAddress: "testWalletAddress",
+        uuid: "testUuid",
+        xmtpID: "testXmtpId",
+      } satisfies CachedMessageWithId;
+
+      const attachment2 = hasAttachment(testMessage2);
       expect(attachment2).toBe(false);
     });
   });
