@@ -398,7 +398,6 @@ export const StartConversation: React.FC = () => {
 
   const { startConversation } = useStartConversation();
 
-
   const handleAddressChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       setPeerAddress(e.target.value);
