@@ -53,10 +53,11 @@ export const useAttachment = (message: CachedMessage) => {
           // if this call fails, it's not a big deal
           // on the next render, the attachment data will be fetched again
         }
-        setIsLoading(false);
         setAttachment(loadedAttachment);
       } catch (e) {
         setError(new Error("Unable to load remote attachment"));
+      } finally {
+        setIsLoading(false);
       }
     } else {
       setError(new Error("XMTP client is required to load remote attachments"));
