@@ -254,6 +254,9 @@ export type ReprocessMessageOptions = ProcessMessageOptions & {
   decode?: typeof decodeContent;
 };
 
+// XMTP IDs of messages currently being processed
+const processQueue: string[] = [];
+
 /**
  * Process a cached message using the passed parameters. Optionally remove
  * an existing message before processing.
@@ -270,17 +273,13 @@ export const processMessage = async (
   }: ProcessMessageOptions,
   removeExisting = false,
 ) => {
-  const existingMessage = await getMessageByXmtpID(message.xmtpID, db);
-  // don't re-process an existing message
-  if (existingMessage && existingMessage.status === "processed") {
+  // don't process a message if it's already in the queue
+  if (processQueue.includes(message.xmtpID)) {
     return message;
   }
 
-  // don't process invalid message content
-  const isContentValid = validators[message.contentType];
-  if (isContentValid && !isContentValid(message.content)) {
-    return message;
-  }
+  // add message to the processing queue
+  processQueue.push(message.xmtpID);
 
   let persistedMessage: CachedMessageWithId | undefined;
   const namespace = namespaces[message.contentType];
@@ -304,58 +303,83 @@ export const processMessage = async (
     return persistedMessage;
   };
 
-  // internal updater function with preset namespace
-  const updateConversationMetadata = async (
-    data: ContentTypeMetadataValues,
-  ) => {
-    await _updateConversationMetadata(conversation.topic, namespace, data, db);
-  };
-
-  // message content type is not supported, skip processing
-  if (message.content === undefined) {
-    // don't persist the message if it already exists in the cache
-    if (!(await getMessageByXmtpID(message.xmtpID, db))) {
-      // persist the message to cache so that it can be processed later
-      const savedMessage = await saveMessage(message, db);
-      return savedMessage;
+  try {
+    const existingMessage = await getMessageByXmtpID(message.xmtpID, db);
+    // don't re-process an existing message that's already processed
+    if (existingMessage && existingMessage.status === "processed") {
+      return message;
     }
-    return message;
-  }
 
-  // remove existing message if requested
-  if (
-    removeExisting &&
-    message.id &&
-    (await getMessageByXmtpID(message.xmtpID, db))
-  ) {
-    await deleteMessage(message as CachedMessageWithId, db);
-  }
+    // don't process invalid message content
+    const isContentValid = validators[message.contentType];
+    if (isContentValid && !isContentValid(message.content)) {
+      return message;
+    }
 
-  if (processors[message.contentType]) {
-    // run all content processors for this content type
-    await Promise.all(
-      processors[message.contentType].map((processor) =>
-        processor({
-          client,
-          conversation,
-          db,
-          message: message as CachedMessageWithId,
-          processors,
-          persist,
-          updateConversationMetadata,
-        }),
-      ),
-    );
-  }
+    // internal updater function with preset namespace
+    const updateConversationMetadata = async (
+      data: ContentTypeMetadataValues,
+    ) => {
+      await _updateConversationMetadata(
+        conversation.topic,
+        namespace,
+        data,
+        db,
+      );
+    };
 
-  // update conversation's last message time
-  if (isAfter(message.sentAt, conversation.updatedAt)) {
-    await setConversationUpdatedAt(conversation.topic, message.sentAt, db);
-  }
+    // message content type is not supported, skip processing
+    if (message.content === undefined) {
+      // don't persist the message if it already exists in the cache
+      if (!(await getMessageByXmtpID(message.xmtpID, db))) {
+        // persist the message to cache so that it can be processed later
+        const savedMessage = await saveMessage(message, db);
+        return savedMessage;
+      }
+      return message;
+    }
 
-  // if the message was cached, update its `status` to `processed`
-  if (persistedMessage) {
-    await updateMessage(persistedMessage, { status: "processed" }, db);
+    // remove existing message if requested
+    if (
+      removeExisting &&
+      message.id &&
+      (await getMessageByXmtpID(message.xmtpID, db))
+    ) {
+      await deleteMessage(message as CachedMessageWithId, db);
+    }
+
+    if (processors[message.contentType]) {
+      // run all content processors for this content type
+      await Promise.all(
+        processors[message.contentType].map((processor) =>
+          processor({
+            client,
+            conversation,
+            db,
+            message: message as CachedMessageWithId,
+            processors,
+            persist,
+            updateConversationMetadata,
+          }),
+        ),
+      );
+    }
+
+    // update conversation's last message time
+    if (isAfter(message.sentAt, conversation.updatedAt)) {
+      await setConversationUpdatedAt(conversation.topic, message.sentAt, db);
+    }
+
+    // if the message was cached, update its `status` to `processed`
+    if (persistedMessage) {
+      await updateMessage(persistedMessage, { status: "processed" }, db);
+    }
+  } finally {
+    // always remove message from the processing queue
+    const index = processQueue.indexOf(message.xmtpID);
+    if (index > -1) {
+      processQueue.splice(index, 1);
+    }
   }
 
   return persistedMessage ?? message;
