@@ -1,5 +1,12 @@
 # @xmtp/react-sdk
 
+## 1.1.1
+
+### Patch Changes
+
+- [#65](https://github.com/xmtp/xmtp-web/pull/65) [`3c37ddb`](https://github.com/xmtp/xmtp-web/commit/3c37ddb10dfc5cdcc50514fc1d8189510f2ae003) Thanks [@rygine](https://github.com/rygine)! - \* Add remote attachment data to the cache after load
+  - Update streaming hooks to prevent duplicate streams
+
 ## 1.1.0
 
 ### Minor Changes
