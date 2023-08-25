@@ -10,11 +10,12 @@ import {
 } from "@xmtp/content-type-remote-attachment";
 import { ContentTypeId } from "@xmtp/xmtp-js";
 import { z } from "zod";
+import type Dexie from "dexie";
 import type {
   ContentTypeConfiguration,
   ContentTypeMessageProcessor,
 } from "../db";
-import { type CachedMessage } from "../messages";
+import { updateMessageMetadata, type CachedMessage } from "../messages";
 
 const NAMESPACE = "attachment";
 
@@ -34,6 +35,38 @@ export const getAttachment = (message: CachedMessage) => {
     default:
       return undefined;
   }
+};
+
+/**
+ * Update the attachment data of a remote attachment message
+ *
+ * @param message Cached message
+ * @param data The attachment data
+ * @param db Database instance
+ */
+export const updateAttachmentData = async (
+  message: CachedMessage,
+  data: Attachment,
+  db: Dexie,
+) => {
+  if (message.contentType === ContentTypeRemoteAttachment.toString()) {
+    await updateMessageMetadata(message, NAMESPACE, data, db);
+  }
+};
+
+/**
+ * Get the attachment data from a remote attachment message
+ *
+ * @param message Cached message
+ * @returns The attachment data, or `undefined` if the message is not an
+ * attachment content type
+ */
+export const getAttachmentData = (message: CachedMessage) => {
+  if (message.contentType === ContentTypeRemoteAttachment.toString()) {
+    const metadata = message.metadata?.[NAMESPACE] as Attachment | undefined;
+    return metadata;
+  }
+  return undefined;
 };
 
 /**

@@ -9,8 +9,12 @@ import type {
   Attachment,
 } from "@xmtp/content-type-remote-attachment";
 import { useDb } from "./useDb";
-import type { CachedMessage } from "@/helpers/caching/messages";
+import { type CachedMessage } from "@/helpers/caching/messages";
 import { useClient } from "@/hooks/useClient";
+import {
+  getAttachmentData,
+  updateAttachmentData,
+} from "@/helpers/caching/contentTypes/attachment";
 
 /**
  * This hook returns the attachment data of a cached message
@@ -25,13 +29,30 @@ export const useAttachment = (message: CachedMessage) => {
   );
 
   const loadRemoteAttachment = useCallback(async () => {
-    if (client) {
+    if (
+      client &&
+      message.contentType === ContentTypeRemoteAttachment.toString()
+    ) {
+      // check if attachment data is already cached
+      const attachmentData = getAttachmentData(message);
+      if (attachmentData) {
+        setAttachment(attachmentData);
+        return;
+      }
+
       try {
         setIsLoading(true);
         const loadedAttachment = await RemoteAttachmentCodec.load<Attachment>(
           message.content as RemoteAttachment,
           client,
         );
+        // cache attachment data
+        try {
+          await updateAttachmentData(message, loadedAttachment, db);
+        } catch {
+          // if this call fails, it's not a big deal
+          // on the next render, the attachment data will be fetched again
+        }
         setIsLoading(false);
         setAttachment(loadedAttachment);
       } catch (e) {
@@ -40,7 +61,7 @@ export const useAttachment = (message: CachedMessage) => {
     } else {
       setError(new Error("XMTP client is required to load remote attachments"));
     }
-  }, [client, message.content]);
+  }, [client, db, message]);
 
   useEffect(() => {
     const getAttachment = async () => {
