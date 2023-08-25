@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 1.1.2
+
+### Patch Changes
+
+- Fix `useAttachment` hook by resetting loading state when an error occurs during the loading of a remote attachment
+
 ## 1.1.1
 
 ### Patch Changes
