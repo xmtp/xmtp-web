@@ -1,6 +1,7 @@
 import type { Conversation, Client, InvitationContext } from "@xmtp/xmtp-js";
 import type { Table } from "dexie";
 import type Dexie from "dexie";
+import { Mutex } from "async-mutex";
 import type { ContentTypeMetadata, ContentTypeMetadataValues } from "./db";
 
 export type CachedConversation<M = ContentTypeMetadata> = {
@@ -170,6 +171,8 @@ export const toCachedConversation = (
   walletAddress,
 });
 
+const saveConversationMutex = new Mutex();
+
 /**
  * Save a conversation to the cache
  *
@@ -178,20 +181,22 @@ export const toCachedConversation = (
 export const saveConversation = async (
   conversation: CachedConversation,
   db: Dexie,
-) => {
-  const conversations = db.table("conversations") as CachedConversationsTable;
+) =>
+  // ensure that only 1 conversation is saved at a time to prevent duplicates
+  saveConversationMutex.runExclusive(async () => {
+    const conversations = db.table("conversations") as CachedConversationsTable;
 
-  const existing = await conversations
-    .where("topic")
-    .equals(conversation.topic)
-    .first();
+    const existing = await conversations
+      .where("topic")
+      .equals(conversation.topic)
+      .first();
 
-  if (existing) {
-    return existing as CachedConversationWithId;
-  }
+    if (existing) {
+      return existing as CachedConversationWithId;
+    }
 
-  // eslint-disable-next-line no-param-reassign
-  conversation.id = await conversations.add(conversation);
+    // eslint-disable-next-line no-param-reassign
+    conversation.id = await conversations.add(conversation);
 
-  return conversation as CachedConversationWithId;
-};
+    return conversation as CachedConversationWithId;
+  });

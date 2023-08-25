@@ -75,13 +75,17 @@ export const useStreamMessages = (
       }
 
       try {
+        // check if stream exists again just in case this hook unmounted
+        // while this function was executing
+        if (streamRef.current) {
+          return;
+        }
         // it's important not to await the stream here so that we can cleanup
         // consistently if this hook unmounts during this call
         streamRef.current = networkConversation.streamMessages();
         stream = streamRef.current;
 
         for await (const message of await stream) {
-          // TODO: figure out why this is happening twice per send
           await processMessage(
             conversation,
             toCachedMessage(message, client.address),

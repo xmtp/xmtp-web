@@ -47,6 +47,11 @@ export const useStreamConversations = (
     const endStream = endStreamRef.current;
 
     const streamConversations = async () => {
+      // don't start a stream if there's already one active
+      if (streamRef.current) {
+        return;
+      }
+
       // we can't do anything without a client
       if (client === undefined) {
         const clientError = new Error("XMTP client is not available");
@@ -56,12 +61,12 @@ export const useStreamConversations = (
         return;
       }
 
-      // don't start a stream if there's already one active
-      if (streamRef.current) {
-        return;
-      }
-
       try {
+        // check if stream exists again just in case this hook unmounted
+        // while this function was executing
+        if (streamRef.current) {
+          return;
+        }
         // it's important not to await the stream here so that we can cleanup
         // consistently if this hook unmounts during this call
         streamRef.current = client.conversations.stream();
