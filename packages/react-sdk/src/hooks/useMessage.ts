@@ -8,6 +8,7 @@ import {
   updateMessageAfterSending as _updateMessageAfterSending,
   prepareMessageForSending,
   getMessageByXmtpID as _getMessageByXmtpID,
+  deleteMessage as _deleteMessage,
 } from "@/helpers/caching/messages";
 import type {
   CachedMessage,
@@ -73,6 +74,11 @@ export const useMessage = () => {
   const getMessageByXmtpID = useCallback<
     RemoveLastParameter<typeof _getMessageByXmtpID>
   >(async (xmtpID) => _getMessageByXmtpID(xmtpID, db), [db]);
+
+  const deleteMessage = useCallback<RemoveLastParameter<typeof _deleteMessage>>(
+    async (message) => _deleteMessage(message, db),
+    [db],
+  );
 
   /**
    * Send a message to a conversation on the XMTP network
@@ -210,6 +216,7 @@ export const useMessage = () => {
   );
 
   return {
+    deleteMessage,
     getMessageByXmtpID,
     processMessage,
     resendMessage,
