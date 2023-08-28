@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- [#70](https://github.com/xmtp/xmtp-web/pull/70) [`15ff442`](https://github.com/xmtp/xmtp-web/commit/15ff442874e075f16facac02478650e36e417004) Thanks [@rygine](https://github.com/rygine)! - Add `cancel` function to `useResendMessage` hook, rename `resendMessage` to `resend`.
+- Add `cancel` function to `useResendMessage` hook, rename `resendMessage` to `resend`.
 
 ## 1.1.2
 
