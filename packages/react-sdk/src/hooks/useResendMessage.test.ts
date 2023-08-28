@@ -4,25 +4,25 @@ import { ContentTypeText } from "@xmtp/xmtp-js";
 import { useResendMessage } from "@/hooks/useResendMessage";
 import type { CachedMessageWithId } from "@/helpers/caching/messages";
 
-const resendMessageMock = vi.hoisted(() => vi.fn());
+const resendMock = vi.hoisted(() => vi.fn());
 
 vi.mock("@/hooks/useMessage", async () => {
   const actual = await import("@/hooks/useMessage");
   return {
     useMessage: () => ({
       ...actual.useMessage,
-      resendMessage: resendMessageMock,
+      resendMessage: resendMock,
     }),
   };
 });
 
 describe("useResendMessage", () => {
   beforeEach(() => {
-    resendMessageMock.mockReset();
+    resendMock.mockReset();
   });
 
   it("should resend a previously failed message", async () => {
-    resendMessageMock.mockResolvedValueOnce({ id: 1 });
+    resendMock.mockResolvedValueOnce({ id: 1 });
     const onSuccessMock = vi.fn();
 
     const testMessage = {
@@ -47,19 +47,19 @@ describe("useResendMessage", () => {
     );
 
     await act(async () => {
-      const sentMessage = await result.current.resendMessage(testMessage);
+      const sentMessage = await result.current.resend(testMessage);
       expect(sentMessage).toEqual({ id: 1 });
       expect(onSuccessMock).toHaveBeenCalledTimes(1);
       expect(onSuccessMock).toHaveBeenCalledWith(sentMessage);
     });
 
-    expect(resendMessageMock).toHaveBeenCalledTimes(1);
-    expect(resendMessageMock).toHaveBeenCalledWith(testMessage);
+    expect(resendMock).toHaveBeenCalledTimes(1);
+    expect(resendMock).toHaveBeenCalledWith(testMessage);
   });
 
   it("should have an error when resending fails", async () => {
     const testError = new Error("testError");
-    resendMessageMock.mockRejectedValueOnce(testError);
+    resendMock.mockRejectedValueOnce(testError);
     const onErrorMock = vi.fn();
 
     const testMessage = {
@@ -85,11 +85,11 @@ describe("useResendMessage", () => {
 
     await act(async () => {
       try {
-        await result.current.resendMessage(testMessage);
+        await result.current.resend(testMessage);
       } catch (e) {
         expect(e).toEqual(testError);
       } finally {
-        expect(resendMessageMock).toHaveBeenCalledTimes(1);
+        expect(resendMock).toHaveBeenCalledTimes(1);
         expect(onErrorMock).toHaveBeenCalledTimes(1);
         expect(onErrorMock).toHaveBeenCalledWith(testError);
       }
