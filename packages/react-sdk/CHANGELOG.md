@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 1.2.0
+
+### Minor Changes
+
+- Add `cancel` function to `useResendMessage` hook, rename `resendMessage` to `resend`.
+
 ## 1.1.2
 
 ### Patch Changes
