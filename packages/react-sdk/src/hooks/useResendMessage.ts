@@ -4,23 +4,23 @@ import type { UseSendMessageOptions } from "@/hooks/useSendMessage";
 import type { CachedMessageWithId } from "@/helpers/caching/messages";
 
 /**
- * This hook resends a cached message that previously failed to send.
+ * This hook can be used to resend a previously failed message, or cancel it.
  */
 export const useResendMessage = (options?: UseSendMessageOptions) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const { resendMessage: _resendMessage } = useMessage();
+  const { resendMessage, deleteMessage } = useMessage();
 
   // destructure options for more granular dependency array
   const { onError, onSuccess } = options ?? {};
 
-  const resendMessage = useCallback(
+  const resend = useCallback(
     async (message: CachedMessageWithId) => {
       setIsLoading(true);
       setError(null);
 
       try {
-        const sentMessage = await _resendMessage(message);
+        const sentMessage = await resendMessage(message);
         onSuccess?.(sentMessage);
         return sentMessage;
       } catch (e) {
@@ -32,12 +32,27 @@ export const useResendMessage = (options?: UseSendMessageOptions) => {
         setIsLoading(false);
       }
     },
-    [_resendMessage, onError, onSuccess],
+    [resendMessage, onError, onSuccess],
+  );
+
+  const cancel = useCallback(
+    async (message: CachedMessageWithId) => {
+      try {
+        await deleteMessage(message);
+      } catch (e) {
+        setError(e as Error);
+        onError?.(e as Error);
+        // re-throw error for upstream consumption
+        throw e;
+      }
+    },
+    [deleteMessage, onError],
   );
 
   return {
+    cancel,
     error,
     isLoading,
-    resendMessage,
+    resend,
   };
 };
