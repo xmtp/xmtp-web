@@ -1,5 +1,18 @@
 # @xmtp/react-sdk
 
+## 1.3.0
+
+### Minor Changes
+
+- Refactor `useAttachment` hook
+  - Added options `disableAutoload` and `autoloadMaxFileSize`
+  - Added `status` export
+  - Removed `isLoading` export
+  - Renamed `retry` => `load`
+  - Prevent autoload from occurring if there was previously a load error
+- Added `hasLoadError` property to `CachedMessage` for when message content loading fails (this only applies to remote attachments for now)
+- Updated the type of the `messages` export of the `useMessages` hook to be `CachedMessageWithId[]`
+
 ## 1.2.0
 
 ### Minor Changes
