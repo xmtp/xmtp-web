@@ -48,6 +48,7 @@ describe("useLastMessage", () => {
       content: "test",
       contentType: ContentTypeText.toString(),
       isSending: false,
+      hasLoadError: false,
       hasSendError: false,
       sentAt: new Date(),
       status: "processed",

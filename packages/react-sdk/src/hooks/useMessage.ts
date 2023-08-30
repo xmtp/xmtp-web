@@ -221,5 +221,6 @@ export const useMessage = () => {
     processMessage,
     resendMessage,
     sendMessage,
+    updateMessage,
   };
 };
