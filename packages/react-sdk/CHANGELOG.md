@@ -4,17 +4,14 @@
 
 ### Minor Changes
 
-- [#72](https://github.com/xmtp/xmtp-web/pull/72) [`79742c1`](https://github.com/xmtp/xmtp-web/commit/79742c1088bd3ef0d7fad1829b1130f520737dc7) Thanks [@rygine](https://github.com/rygine)! - Refactor `useAttachment` hook
-
+- Refactor `useAttachment` hook
   - Added options `disableAutoload` and `autoloadMaxFileSize`
   - Added `status` export
   - Removed `isLoading` export
   - Renamed `retry` => `load`
   - Prevent autoload from occurring if there was previously a load error
-
-  Added `hasLoadError` property to `CachedMessage` for when message content loading fails (this only applies to remote attachments for now)
-
-  Updated the type of the `messages` export of the `useMessages` hook to be `CachedMessageWithId[]`
+- Added `hasLoadError` property to `CachedMessage` for when message content loading fails (this only applies to remote attachments for now)
+- Updated the type of the `messages` export of the `useMessages` hook to be `CachedMessageWithId[]`
 
 ## 1.2.0
 
