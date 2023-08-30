@@ -15,77 +15,125 @@ import {
   getAttachmentData,
   updateAttachmentData,
 } from "@/helpers/caching/contentTypes/attachment";
+import { useMessage } from "@/hooks/useMessage";
+
+export type UseAttachmentOptions = {
+  autoload?: boolean;
+  autoloadMaxFileSize?: number;
+};
+
+export type AttachmentStatus =
+  | "init"
+  | "loading"
+  | "error"
+  | "loaded"
+  | "fileSizeLimitExceeded";
+
+// 10MB
+const defaultAutoloadMaxFileSize = 10 * 1024 * 1024;
 
 /**
  * This hook returns the attachment data of a cached message
  */
-export const useAttachment = (message: CachedMessage) => {
+export const useAttachment = (
+  message: CachedMessage,
+  options?: UseAttachmentOptions,
+) => {
   const { client } = useClient();
   const { db } = useDb();
-  const [isLoading, setIsLoading] = useState(false);
+  const { updateMessage } = useMessage();
   const [error, setError] = useState<Error | undefined>(undefined);
+  const [status, setStatus] = useState<AttachmentStatus>("init");
   const [attachment, setAttachment] = useState<Attachment | undefined>(
     undefined,
   );
 
-  const loadRemoteAttachment = useCallback(async () => {
-    if (
-      client &&
-      message.contentType === ContentTypeRemoteAttachment.toString()
-    ) {
-      // check if attachment data is already cached
-      const attachmentData = getAttachmentData(message);
-      if (attachmentData) {
-        setAttachment(attachmentData);
-        return;
-      }
+  const { autoload = true, autoloadMaxFileSize = defaultAutoloadMaxFileSize } =
+    options ?? {};
 
-      try {
-        setIsLoading(true);
-        const loadedAttachment = await RemoteAttachmentCodec.load<Attachment>(
-          message.content as RemoteAttachment,
-          client,
-        );
-        // cache attachment data
-        try {
-          await updateAttachmentData(message, loadedAttachment, db);
-        } catch {
-          // if this call fails, it's not a big deal
-          // on the next render, the attachment data will be fetched again
+  const loadRemoteAttachment = useCallback(
+    async (force: boolean = false) => {
+      if (
+        client &&
+        message.contentType === ContentTypeRemoteAttachment.toString() &&
+        // if the attachment already failed to load, don't automatically reload
+        // unless forced
+        ((message.hasLoadError && force) || !message.hasLoadError)
+      ) {
+        // check if attachment data is already cached
+        const attachmentData = getAttachmentData(message);
+        if (attachmentData) {
+          setAttachment(attachmentData);
+          setStatus("loaded");
+          return;
         }
-        setAttachment(loadedAttachment);
-      } catch (e) {
-        setError(new Error("Unable to load remote attachment"));
-      } finally {
-        setIsLoading(false);
+
+        try {
+          setStatus("loading");
+          const loadedAttachment = await RemoteAttachmentCodec.load<Attachment>(
+            message.content as RemoteAttachment,
+            client,
+          );
+          // cache attachment data
+          try {
+            await updateAttachmentData(message, loadedAttachment, db);
+          } catch {
+            // if this call fails, it's not a big deal
+            // on the next load, the attachment data will be fetched again
+          }
+          setAttachment(loadedAttachment);
+          setStatus("loaded");
+        } catch (e) {
+          setError(new Error("Unable to load remote attachment"));
+          void updateMessage(message, { hasLoadError: true });
+          setStatus("error");
+        }
+      } else {
+        setError(
+          new Error("XMTP client is required to load remote attachments"),
+        );
+        setStatus("error");
       }
-    } else {
-      setError(new Error("XMTP client is required to load remote attachments"));
-    }
-  }, [client, db, message]);
+    },
+    [client, db, message, updateMessage],
+  );
+
+  const forceLoadRemoteAttachment = useCallback(() => {
+    void loadRemoteAttachment(true);
+  }, [loadRemoteAttachment]);
 
   useEffect(() => {
     const getAttachment = async () => {
       switch (message.contentType) {
         case ContentTypeAttachment.toString(): {
           setAttachment(message.content as Attachment);
+          setStatus("loaded");
           break;
         }
         case ContentTypeRemoteAttachment.toString(): {
-          await loadRemoteAttachment();
+          const remoteAttachmentData = message.content as RemoteAttachment;
+          if (remoteAttachmentData.contentLength > autoloadMaxFileSize) {
+            setStatus("fileSizeLimitExceeded");
+            return;
+          }
+          if (autoload) {
+            await loadRemoteAttachment();
+          }
           break;
         }
-        default:
+        default: {
           setError(new Error("Message is not an attachment content type"));
+          setStatus("error");
+        }
       }
     };
     void getAttachment();
-  }, [db, loadRemoteAttachment, message]);
+  }, [autoload, autoloadMaxFileSize, db, loadRemoteAttachment, message]);
 
   return {
     attachment,
     error,
-    isLoading,
-    retry: loadRemoteAttachment,
+    load: forceLoadRemoteAttachment,
+    status,
   };
 };
