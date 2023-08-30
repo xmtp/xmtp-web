@@ -18,7 +18,7 @@ import {
 import { useMessage } from "@/hooks/useMessage";
 
 export type UseAttachmentOptions = {
-  autoload?: boolean;
+  disableAutoload?: boolean;
   autoloadMaxFileSize?: number;
 };
 
@@ -27,7 +27,7 @@ export type AttachmentStatus =
   | "loading"
   | "error"
   | "loaded"
-  | "fileSizeLimitExceeded";
+  | "autoloadMaxFileSizeExceeded";
 
 // 10MB
 const defaultAutoloadMaxFileSize = 10 * 1024 * 1024;
@@ -48,8 +48,10 @@ export const useAttachment = (
     undefined,
   );
 
-  const { autoload = true, autoloadMaxFileSize = defaultAutoloadMaxFileSize } =
-    options ?? {};
+  const {
+    disableAutoload = false,
+    autoloadMaxFileSize = defaultAutoloadMaxFileSize,
+  } = options ?? {};
 
   const loadRemoteAttachment = useCallback(
     async (force: boolean = false) => {
@@ -113,10 +115,10 @@ export const useAttachment = (
         case ContentTypeRemoteAttachment.toString(): {
           const remoteAttachmentData = message.content as RemoteAttachment;
           if (remoteAttachmentData.contentLength > autoloadMaxFileSize) {
-            setStatus("fileSizeLimitExceeded");
+            setStatus("autoloadMaxFileSizeExceeded");
             return;
           }
-          if (autoload) {
+          if (!disableAutoload) {
             await loadRemoteAttachment();
           }
           break;
@@ -128,7 +130,7 @@ export const useAttachment = (
       }
     };
     void getAttachment();
-  }, [autoload, autoloadMaxFileSize, db, loadRemoteAttachment, message]);
+  }, [autoloadMaxFileSize, db, disableAutoload, loadRemoteAttachment, message]);
 
   return {
     attachment,
