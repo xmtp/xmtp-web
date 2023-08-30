@@ -247,6 +247,7 @@ describe("useStartConversation", () => {
       conversationTopic: "testTopic",
       content: "test",
       contentType: ContentTypeText.toString(),
+      hasLoadError: false,
       hasSendError: false,
       isSending: false,
       senderAddress: "testWalletAddress",

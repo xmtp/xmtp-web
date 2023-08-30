@@ -24,6 +24,7 @@ export type CachedMessage<C = any, M = ContentTypeMetadata> = {
   contentFallback?: string;
   contentType: string;
   conversationTopic: string;
+  hasLoadError: boolean;
   hasSendError: boolean;
   id?: number;
   isSending: boolean;
@@ -68,6 +69,7 @@ export const toCachedMessage = (
     contentType: message.contentType.toString(),
     conversationTopic: message.contentTopic,
     status: "unprocessed",
+    hasLoadError: false,
     hasSendError: false,
     isSending: false,
     senderAddress: message.senderAddress,
@@ -147,6 +149,7 @@ export const updateMessage = async (
       | "sentAt"
       | "xmtpID"
       | "metadata"
+      | "hasLoadError"
       | "hasSendError"
       | "sendOptions"
     >
@@ -198,6 +201,7 @@ export const prepareMessageForSending = ({
     content,
     contentType: contentType ?? ContentTypeText.toString(),
     conversationTopic: conversation.topic,
+    hasLoadError: false,
     hasSendError: false,
     isSending: true,
     senderAddress: client.address,
