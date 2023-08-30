@@ -30,13 +30,13 @@ const getBlobURL = (attachment: Attachment) => {
 };
 
 export const AttachmentContent: React.FC<AttachmentProps> = ({ message }) => {
-  const { attachment, isLoading, error } = useAttachment(message);
+  const { attachment, status } = useAttachment(message);
 
-  if (error) {
+  if (status === "error") {
     return "Unable to load attachment";
   }
 
-  if (isLoading || !attachment) {
+  if (status === "loading" || !attachment) {
     return "Loading...";
   }
 
