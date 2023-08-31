@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- [#76](https://github.com/xmtp/xmtp-web/pull/76) [`1a59c46`](https://github.com/xmtp/xmtp-web/commit/1a59c4683c9383550d7926ebffeaacfaedb4daed) Thanks [@rygine](https://github.com/rygine)! - Upgrade JS SDK to 10.2.1 for deterministic topic fix
+- Upgrade JS SDK to 10.2.1 for deterministic topic fix
 
 ## 1.3.1
 
