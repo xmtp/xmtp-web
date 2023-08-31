@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 1.3.2
+
+### Patch Changes
+
+- Upgrade JS SDK to 10.2.1 for deterministic topic fix
+
 ## 1.3.1
 
 ### Patch Changes
