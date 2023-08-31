@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useRef, useState } from "react";
 import type { ClientOptions, Signer } from "@xmtp/xmtp-js";
 import { Client } from "@xmtp/xmtp-js";
 import { XMTPContext } from "../contexts/XMTPContext";
@@ -31,10 +31,6 @@ export const useClient = (onError?: OnError["onError"]) => {
   const [error, setError] = useState<Error | null>(null);
   // client is initializing
   const initializingRef = useRef(false);
-  // unprocessed messages are being processed
-  const processingRef = useRef(false);
-  // unprocessed messages have been processed
-  const processedRef = useRef(false);
 
   const {
     client,
@@ -89,13 +85,37 @@ export const useClient = (onError?: OnError["onError"]) => {
         }
 
         setIsLoading(false);
-        initializingRef.current = false;
+
+        // process unprocessed messages
+        try {
+          await processUnprocessedMessages({
+            client: xmtpClient,
+            db,
+            processors,
+            namespaces,
+            validators,
+          });
+        } catch (e) {
+          onError?.(e as Error);
+        } finally {
+          initializingRef.current = false;
+        }
 
         return xmtpClient;
       }
       return client;
     },
-    [client, codecs, onError, setClient, setClientSigner],
+    [
+      client,
+      codecs,
+      db,
+      namespaces,
+      onError,
+      processors,
+      setClient,
+      setClientSigner,
+      validators,
+    ],
   );
 
   /**
@@ -108,35 +128,6 @@ export const useClient = (onError?: OnError["onError"]) => {
       setClientSigner(undefined);
     }
   }, [client, setClient, setClientSigner]);
-
-  /**
-   * Process unprocessed messages when there's an available client, but only
-   * do it once
-   */
-  useEffect(() => {
-    if (client && !processingRef.current && !processedRef.current) {
-      processingRef.current = true;
-      setIsLoading(true);
-      const reprocess = async () => {
-        try {
-          await processUnprocessedMessages({
-            client,
-            db,
-            processors,
-            namespaces,
-            validators,
-          });
-          processedRef.current = true;
-        } catch (e) {
-          onError?.(e as Error);
-        } finally {
-          processingRef.current = false;
-          setIsLoading(false);
-        }
-      };
-      void reprocess();
-    }
-  }, [client, db, namespaces, onError, processors, validators]);
 
   return {
     client,

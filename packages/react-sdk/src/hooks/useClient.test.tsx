@@ -71,7 +71,7 @@ describe("useClient", () => {
     expect(clientCreateSpy).not.toHaveBeenCalled();
 
     await waitFor(() => {
-      expect(processUnprocessedMessagesMock).toBeCalledTimes(1);
+      expect(processUnprocessedMessagesMock).not.toHaveBeenCalled();
     });
   });
 
@@ -136,11 +136,7 @@ describe("useClient", () => {
     processUnprocessedMessagesMock.mockRejectedValue(testError);
 
     const { result } = renderHook(() => useClient(onErrorMock), {
-      wrapper: ({ children }) => (
-        <TestWrapper client={mockClient as unknown as Client}>
-          {children}
-        </TestWrapper>
-      ),
+      wrapper: ({ children }) => <TestWrapper>{children}</TestWrapper>,
     });
 
     await act(async () => {

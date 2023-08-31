@@ -61,7 +61,7 @@ export const updateAttachmentData = async (
  * @returns The attachment data, or `undefined` if the message is not an
  * attachment content type
  */
-export const getAttachmentData = (message: CachedMessage) => {
+export const getRemoteAttachmentData = (message: CachedMessage) => {
   if (message.contentType === ContentTypeRemoteAttachment.toString()) {
     const metadata = message.metadata?.[NAMESPACE] as Attachment | undefined;
     return metadata;
