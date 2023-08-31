@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 1.3.1
+
+### Patch Changes
+
+- Fix `useClient` and `useAttachment` performance
+
 ## 1.3.0
 
 ### Minor Changes
