@@ -51,7 +51,6 @@ export type {
 } from "./helpers/caching/messages";
 export {
   getMessageByXmtpID,
-  processUnprocessedMessages,
   toCachedMessage,
 } from "./helpers/caching/messages";
 
