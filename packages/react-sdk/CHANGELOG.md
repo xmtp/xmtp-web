@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 1.3.1
+
+### Patch Changes
+
+- [#74](https://github.com/xmtp/xmtp-web/pull/74) [`f0cc46b`](https://github.com/xmtp/xmtp-web/commit/f0cc46b68b37d14624c0567baeb8b18c96120946) Thanks [@rygine](https://github.com/rygine)! - Fix `useClient` and `useAttachment` performance
+
 ## 1.3.0
 
 ### Minor Changes
