@@ -34,7 +34,7 @@ describe("ContentTypeReply caching", () => {
     expect(replyContentTypeConfig.codecs?.length).toEqual(1);
     expect(replyContentTypeConfig.codecs?.[0]).toBeInstanceOf(ReplyCodec);
     expect(
-      replyContentTypeConfig.processors[ContentTypeReply.toString()],
+      replyContentTypeConfig.processors?.[ContentTypeReply.toString()],
     ).toEqual([processReply]);
   });
 

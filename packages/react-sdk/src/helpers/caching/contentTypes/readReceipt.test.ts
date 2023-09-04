@@ -36,7 +36,7 @@ describe("ContentTypeReadReceipt caching", () => {
       ReadReceiptCodec,
     );
     expect(
-      readReceiptContentTypeConfig.processors[
+      readReceiptContentTypeConfig.processors?.[
         ContentTypeReadReceipt.toString()
       ],
     ).toEqual([processReadReceipt]);

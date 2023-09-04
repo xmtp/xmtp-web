@@ -29,7 +29,7 @@ export const combineNamespaces = (
       }
       namespaces.push(config.namespace);
       // assign namespaces to content types
-      const names = Object.entries(config.processors).reduce(
+      const names = Object.entries(config.processors ?? []).reduce(
         (namespacesResult, [contentType]) => ({
           ...namespacesResult,
           [contentType]: config.namespace,

@@ -38,10 +38,12 @@ describe("ContentTypeRemoteAttachment caching", () => {
       RemoteAttachmentCodec,
     );
     expect(
-      attachmentContentTypeConfig.processors[ContentTypeAttachment.toString()],
+      attachmentContentTypeConfig.processors?.[
+        ContentTypeAttachment.toString()
+      ],
     ).toEqual([processAttachment]);
     expect(
-      attachmentContentTypeConfig.processors[
+      attachmentContentTypeConfig.processors?.[
         ContentTypeRemoteAttachment.toString()
       ],
     ).toEqual([processRemoteAttachment]);
