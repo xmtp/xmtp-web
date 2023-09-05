@@ -1,5 +1,12 @@
 # @xmtp/react-sdk
 
+## 1.3.3
+
+### Patch Changes
+
+- Make content type config processors optional
+- Add type exports for content type configs
+
 ## 1.3.2
 
 ### Patch Changes
