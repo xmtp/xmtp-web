@@ -4,8 +4,8 @@
 
 ### Patch Changes
 
-- [#78](https://github.com/xmtp/xmtp-web/pull/78) [`5f00343`](https://github.com/xmtp/xmtp-web/commit/5f003430307116e3a8b642e69058dbf9e7ba8e71) Thanks [@rygine](https://github.com/rygine)! - - Make content type config processors optional
-  - Add type exports for content type configs
+- Make content type config processors optional
+- Add type exports for content type configs
 
 ## 1.3.2
 
