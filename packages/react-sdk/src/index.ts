@@ -35,6 +35,16 @@ export { useReply } from "./hooks/useReply";
 // caching
 export { getDbInstance } from "./helpers/caching/db";
 
+export type {
+  ContentTypeMetadataValue,
+  ContentTypeConfiguration,
+  ContentTypeMessageProcessor,
+  ContentTypeMessageProcessors,
+  ContentTypeMessageValidators,
+  ContentTypeMetadata,
+  ContentTypeMetadataValues,
+} from "./helpers/caching/db";
+
 // conversations
 export type {
   CachedConversation,

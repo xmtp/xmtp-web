@@ -37,7 +37,7 @@ describe("ContentTypeReaction caching", () => {
     expect(reactionContentTypeConfig.codecs?.length).toEqual(1);
     expect(reactionContentTypeConfig.codecs?.[0]).toBeInstanceOf(ReactionCodec);
     expect(
-      reactionContentTypeConfig.processors[ContentTypeReaction.toString()],
+      reactionContentTypeConfig.processors?.[ContentTypeReaction.toString()],
     ).toEqual([processReaction]);
   });
 

@@ -39,7 +39,7 @@ export type ContentTypeMessageProcessor<C = any> = (options: {
   conversation: CachedConversation;
   db: Dexie;
   message: CachedMessageWithId<C>;
-  processors: ContentTypeMessageProcessors;
+  processors?: ContentTypeMessageProcessors;
   persist: InternalPersistMessage;
   updateConversationMetadata: (
     data: ContentTypeMetadataValues,
@@ -54,7 +54,7 @@ export type ContentTypeMessageValidators = Record<
 export type ContentTypeConfiguration = {
   codecs: ContentCodec<any>[];
   namespace: string;
-  processors: ContentTypeMessageProcessors;
+  processors?: ContentTypeMessageProcessors;
   schema?: Record<string, string>;
   validators?: ContentTypeMessageValidators;
 };

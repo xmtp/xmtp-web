@@ -21,7 +21,7 @@ describe("ContentTypeText caching", () => {
     expect(textContentTypeConfig.namespace).toEqual("text");
     expect(textContentTypeConfig.codecs).toEqual([]);
     expect(
-      textContentTypeConfig.processors[ContentTypeText.toString()],
+      textContentTypeConfig.processors?.[ContentTypeText.toString()],
     ).toEqual([processText]);
   });
 

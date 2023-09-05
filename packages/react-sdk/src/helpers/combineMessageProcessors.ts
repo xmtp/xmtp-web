@@ -19,7 +19,7 @@ export const combineMessageProcessors = (
   ];
   return {
     ...finalCacheConfig.reduce((result, config) => {
-      const update = Object.entries(config.processors).reduce(
+      const update = Object.entries(config.processors ?? []).reduce(
         (updateResult, [contentType, contentProcessors]) => ({
           ...updateResult,
           [contentType]: [...(result[contentType] ?? []), ...contentProcessors],
