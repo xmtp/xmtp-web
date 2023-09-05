@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 1.3.4
+
+### Patch Changes
+
+- Prevent DB versioning when DB is already open
+
 ## 1.3.3
 
 ### Patch Changes
