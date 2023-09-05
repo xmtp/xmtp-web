@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- [#80](https://github.com/xmtp/xmtp-web/pull/80) [`450a6b9`](https://github.com/xmtp/xmtp-web/commit/450a6b9ddaeee13606749ea0f7d8bf4385de6b16) Thanks [@rygine](https://github.com/rygine)! - - Prevent DB versioning when DB is already open
+- Prevent DB versioning when DB is already open
 
 ## 1.3.3
 
