@@ -75,42 +75,45 @@ export type GetDBInstanceOptions = {
 export const getDbInstance = (options?: GetDBInstanceOptions) => {
   const db = options?.db ?? new Dexie("__XMTP__");
 
-  // note that duplicate keys will be overwritten
-  const customSchema = options?.contentTypeConfigs?.reduce(
-    (result, { schema }) => ({
-      ...result,
-      ...schema,
-    }),
-    {} as Record<string, string>,
-  );
+  // do not attempt to version the db if it is already open
+  if (!db.isOpen()) {
+    // note that duplicate keys will be overwritten
+    const customSchema = options?.contentTypeConfigs?.reduce(
+      (result, { schema }) => ({
+        ...result,
+        ...schema,
+      }),
+      {} as Record<string, string>,
+    );
 
-  const version = options?.version ?? 1;
+    const version = options?.version ?? 1;
 
-  db.version(version).stores({
-    ...customSchema,
-    conversations: `
-      ++id,
-      [topic+walletAddress],
-      createdAt,
-      peerAddress,
-      topic,
-      updatedAt,
-      walletAddress
-    `,
-    messages: `
-      ++id,
-      [conversationTopic+walletAddress],
-      contentFallback,
-      contentType,
-      conversationTopic,
-      senderAddress,
-      sentAt,
-      status,
-      uuid,
-      walletAddress,
-      xmtpID
-    `,
-  });
+    db.version(version).stores({
+      ...customSchema,
+      conversations: `
+        ++id,
+        [topic+walletAddress],
+        createdAt,
+        peerAddress,
+        topic,
+        updatedAt,
+        walletAddress
+      `,
+      messages: `
+        ++id,
+        [conversationTopic+walletAddress],
+        contentFallback,
+        contentType,
+        conversationTopic,
+        senderAddress,
+        sentAt,
+        status,
+        uuid,
+        walletAddress,
+        xmtpID
+      `,
+    });
+  }
 
   return db;
 };
