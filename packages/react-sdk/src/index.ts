@@ -51,6 +51,12 @@ export type {
   CachedConversationWithId,
   CachedConversationsTable,
 } from "./helpers/caching/conversations";
+export {
+  getCachedConversationByPeerAddress,
+  getCachedConversationByTopic,
+  getConversationByTopic,
+  toCachedConversation,
+} from "./helpers/caching/conversations";
 
 // messages
 export type {
