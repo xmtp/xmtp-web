@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- [#82](https://github.com/xmtp/xmtp-web/pull/82) [`b121750`](https://github.com/xmtp/xmtp-web/commit/b121750f33f42ee40a9d3a5b4d196c433d1209e5) Thanks [@neekolas](https://github.com/neekolas)! - Update xmtp-js to version 11
+- Update xmtp-js to version 11 [`b121750`](https://github.com/xmtp/xmtp-web/commit/b121750f33f42ee40a9d3a5b4d196c433d1209e5)
 
 ## 1.3.4
 
