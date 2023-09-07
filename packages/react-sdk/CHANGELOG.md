@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- [#85](https://github.com/xmtp/xmtp-web/pull/85) [`6b62a6d`](https://github.com/xmtp/xmtp-web/commit/6b62a6dd1d59b8c645f147735de7a400aa159e03) Thanks [@rygine](https://github.com/rygine)! - - Export some conversation helpers
+- Export some conversation helpers
 
 ## 1.3.4
 
