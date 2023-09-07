@@ -105,7 +105,6 @@ describe("useSendMessage", () => {
       testAttachment,
       ContentTypeAttachment,
       {
-        contentFallback: "test",
         onError: onErrorMock,
         onSuccess: onSuccessMock,
       },
