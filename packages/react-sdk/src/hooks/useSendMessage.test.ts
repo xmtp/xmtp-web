@@ -94,7 +94,6 @@ describe("useSendMessage", () => {
         testConversation,
         testAttachment,
         ContentTypeAttachment,
-        {},
       );
       expect(sentMessage).toEqual({ id: 1 });
     });
