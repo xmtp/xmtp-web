@@ -7458,18 +7458,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmtp/proto@npm:^3.24.0":
-  version: 3.25.0
-  resolution: "@xmtp/proto@npm:3.25.0"
-  dependencies:
-    long: ^5.2.0
-    protobufjs: ^7.0.0
-    rxjs: ^7.8.0
-    undici: ^5.8.1
-  checksum: 9673abcbe5b53252d12216bd24743c1176e4c7578c0214333668009fa1ef98dd9a422c388122096d5a175fc886651b87107d35d7cb836e6d647c9923b290fd77
-  languageName: node
-  linkType: hard
-
 "@xmtp/proto@npm:^3.25.0, @xmtp/proto@npm:^3.26.0":
   version: 3.26.0
   resolution: "@xmtp/proto@npm:3.26.0"
@@ -7479,6 +7467,18 @@ __metadata:
     rxjs: ^7.8.0
     undici: ^5.8.1
   checksum: 2d29c5fdcaa3332577fac20a65a7ca837e937b8aab5c6bb2f20a198e5d07c9d76b534676fcc98b5375ef00f5f9f54f858d55524b3da40b8fe1db4225e1c4fdd7
+  languageName: node
+  linkType: hard
+
+"@xmtp/proto@npm:^3.28.0-beta.1":
+  version: 3.28.0-beta.1
+  resolution: "@xmtp/proto@npm:3.28.0-beta.1"
+  dependencies:
+    long: ^5.2.0
+    protobufjs: ^7.0.0
+    rxjs: ^7.8.0
+    undici: ^5.8.1
+  checksum: d222356318e72359bf54aea0fb967c3beeac94c82649c2e9c8cdb0a5a01ecf5c1264af1f1a4d2eeffb0d8b05561f0e3ee9b1ee44fa5742edfb0e1b288af8b96d
   languageName: node
   linkType: hard
 
@@ -7571,7 +7571,7 @@ __metadata:
     "@xmtp/content-type-remote-attachment": ^1.0.7
     "@xmtp/content-type-reply": ^1.0.0
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": ^10.2.1
+    "@xmtp/xmtp-js": ^11.0.0-beta.8
     async-mutex: ^0.4.0
     date-fns: ^2.30.0
     dexie: ^3.2.4
@@ -7593,7 +7593,7 @@ __metadata:
     vitest: ^0.34.2
     zod: ^3.22.1
   peerDependencies:
-    "@xmtp/xmtp-js": ^10.2.1
+    "@xmtp/xmtp-js": ^11.0.0-beta.8
     react: ">=16.14"
   languageName: unknown
   linkType: soft
@@ -7604,17 +7604,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xmtp/xmtp-js@npm:^10.2.0":
-  version: 10.2.0
-  resolution: "@xmtp/xmtp-js@npm:10.2.0"
+"@xmtp/xmtp-js@npm:^11.0.0-beta.8":
+  version: 11.0.0-beta.8
+  resolution: "@xmtp/xmtp-js@npm:11.0.0-beta.8"
   dependencies:
     "@noble/secp256k1": ^1.5.2
-    "@xmtp/proto": ^3.24.0
+    "@xmtp/proto": ^3.28.0-beta.1
     async-mutex: ^0.4.0
     elliptic: ^6.5.4
     ethers: ^5.5.3
     long: ^5.2.0
-  checksum: 116a34b4232c817494f292082d24c5ab84ec4536203b950e7cc079a4acbe5b43da594a6e52bffacab51cea3a4b00ac006dec9f32aba69919acf5098c5b22cf2a
+  checksum: 2b2f1c1e7cd5aa202246a57728ea40024056a63ba1bceaa07bc5a9e5ab6d7308ebadbc64baaa730a43d5160f90173651f774eb89b86ca8e23088446eadc72f8a
   languageName: node
   linkType: hard
 
