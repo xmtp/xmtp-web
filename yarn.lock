@@ -7421,15 +7421,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmtp/content-type-read-receipt@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@xmtp/content-type-read-receipt@npm:1.0.1"
+"@xmtp/content-type-reaction@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@xmtp/content-type-reaction@npm:1.1.0"
+  dependencies:
+    "@xmtp/xmtp-js": ^9.1.7
+  peerDependencies:
+    "@xmtp/xmtp-js": ^9.1.7
+  checksum: 0a01e35c53e7719045e72e196e8931475fefc39dba277923410f4f94a1f7bcaa8bd25d9829039d2d4bc98570597bdd963c0c4f2976240c81248f52093e083ffb
+  languageName: node
+  linkType: hard
+
+"@xmtp/content-type-read-receipt@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@xmtp/content-type-read-receipt@npm:1.1.0"
   dependencies:
     "@xmtp/proto": ^3.26.0
     "@xmtp/xmtp-js": ^9.2.0
   peerDependencies:
     "@xmtp/xmtp-js": ^9.2.0
-  checksum: 106445a2fd5ce6c6535abb646fefaf912f4ef434abe5226e6395fc41571e92863c8854ece8c619eccfce785ae3305e07e3f56b71350fff9d0ab874ebe6d46d07
+  checksum: 337b23b3c7479444bace54149e20719e13eecc18fa81b17da741553f81121a29e491196de6cffb61c9885c17106b08584ee6f4d194e5050164e4a0fc465a19b9
   languageName: node
   linkType: hard
 
@@ -7446,6 +7457,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xmtp/content-type-remote-attachment@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@xmtp/content-type-remote-attachment@npm:1.1.0"
+  dependencies:
+    "@noble/secp256k1": ^1.7.1
+    "@xmtp/proto": ^3.25.0
+    "@xmtp/xmtp-js": ^9.1.7
+  peerDependencies:
+    "@xmtp/xmtp-js": ^9.1.7
+  checksum: 02c3693f7653bce1d24dc46fca8a400fd2493c4b843bcb2e7b8f53a2919ef3d617d8af4eefd092a73295bb2f4b8a33a376266adf74966a846a050923c4382e31
+  languageName: node
+  linkType: hard
+
 "@xmtp/content-type-reply@npm:^1.0.0":
   version: 1.0.0
   resolution: "@xmtp/content-type-reply@npm:1.0.0"
@@ -7455,6 +7479,18 @@ __metadata:
   peerDependencies:
     "@xmtp/xmtp-js": ^9.2.0
   checksum: 7f204eab598d55a755d88328cd957aa713dad7281437ced0113a29801f67d759e8d2ac1852e69874b7ab72bc9f29e2a10a52cf105ae1a8aab5126ad0ce0a0758
+  languageName: node
+  linkType: hard
+
+"@xmtp/content-type-reply@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@xmtp/content-type-reply@npm:1.1.0"
+  dependencies:
+    "@xmtp/proto": ^3.26.0
+    "@xmtp/xmtp-js": ^9.2.0
+  peerDependencies:
+    "@xmtp/xmtp-js": ^9.2.0
+  checksum: df1737da76281539e2a2d7303887ddd18c8c66c9035f0d07d4f1c922806476cdbfad1322e710d29a42d11a852025d2ff44db0ecd08d3f5e42df36baaab426280
   languageName: node
   linkType: hard
 
@@ -7566,10 +7602,10 @@ __metadata:
     "@types/uuid": ^9.0.2
     "@vitejs/plugin-react": ^4.0.4
     "@vitest/coverage-v8": ^0.34.2
-    "@xmtp/content-type-reaction": ^1.0.1
-    "@xmtp/content-type-read-receipt": ^1.0.1
-    "@xmtp/content-type-remote-attachment": ^1.0.7
-    "@xmtp/content-type-reply": ^1.0.0
+    "@xmtp/content-type-reaction": ^1.1.0
+    "@xmtp/content-type-read-receipt": ^1.1.0
+    "@xmtp/content-type-remote-attachment": ^1.1.0
+    "@xmtp/content-type-reply": ^1.1.0
     "@xmtp/tsconfig": "workspace:*"
     "@xmtp/xmtp-js": ^11.0.0-beta.8
     async-mutex: ^0.4.0
