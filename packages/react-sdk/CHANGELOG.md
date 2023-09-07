@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 1.4.0-beta.0
+
+### Minor Changes
+
+- Update xmtp-js to version 11 [`b121750`](https://github.com/xmtp/xmtp-web/commit/b121750f33f42ee40a9d3a5b4d196c433d1209e5)
+
 ## 1.3.4
 
 ### Patch Changes
