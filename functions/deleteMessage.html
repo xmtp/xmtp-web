@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>getOriginalMessageFromReply | @xmtp/react-sdk</title><meta name="description" content="Documentation for @xmtp/react-sdk"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/search.js" id="tsd-search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>deleteMessage | @xmtp/react-sdk</title><meta name="description" content="Documentation for @xmtp/react-sdk"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/search.js" id="tsd-search-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
 <div class="tsd-toolbar-contents container">
 <div class="table-cell" id="tsd-search" data-base="..">
 <div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M15.7824 13.833L12.6666 10.7177C12.5259 10.5771 12.3353 10.499 12.1353 10.499H11.6259C12.4884 9.39596 13.001 8.00859 13.001 6.49937C13.001 2.90909 10.0914 0 6.50048 0C2.90959 0 0 2.90909 0 6.49937C0 10.0896 2.90959 12.9987 6.50048 12.9987C8.00996 12.9987 9.39756 12.4863 10.5008 11.6239V12.1332C10.5008 12.3332 10.5789 12.5238 10.7195 12.6644L13.8354 15.7797C14.1292 16.0734 14.6042 16.0734 14.8948 15.7797L15.7793 14.8954C16.0731 14.6017 16.0731 14.1267 15.7824 13.833ZM6.50048 10.499C4.29094 10.499 2.50018 8.71165 2.50018 6.49937C2.50018 4.29021 4.28781 2.49976 6.50048 2.49976C8.71001 2.49976 10.5008 4.28708 10.5008 6.49937C10.5008 8.70852 8.71314 10.499 6.50048 10.499Z" fill="var(--color-text)"></path></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
@@ -13,32 +13,25 @@
 <div class="tsd-page-title">
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">@xmtp/react-sdk</a></li>
-<li><a href="getOriginalMessageFromReply.html">getOriginalMessageFromReply</a></li></ul>
-<h1>Function getOriginalMessageFromReply</h1></div>
+<li><a href="deleteMessage.html">deleteMessage</a></li></ul>
+<h1>Function deleteMessage</h1></div>
 <section class="tsd-panel">
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="getOriginalMessageFromReply"><span class="tsd-kind-call-signature">get<wbr/>Original<wbr/>Message<wbr/>From<wbr/>Reply</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">message</span>, <span class="tsd-kind-parameter">db</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../types/CachedMessageWithId.html" class="tsd-signature-type tsd-kind-type-alias">CachedMessageWithId</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><a href="#getOriginalMessageFromReply" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icon-anchor"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></g></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="deleteMessage"><span class="tsd-kind-call-signature">delete<wbr/>Message</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">message</span>, <span class="tsd-kind-parameter">db</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><a href="#deleteMessage" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><g stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" id="icon-anchor"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5"></path></g></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Get the original message from a reply message</p>
+<div class="tsd-comment tsd-typography"><p>Remove a message from the cache</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
 <ul class="tsd-parameter-list">
 <li>
-<h5><span class="tsd-kind-parameter">message</span>: <a href="../types/CachedMessage.html" class="tsd-signature-type tsd-kind-type-alias">CachedMessage</a></h5>
-<div class="tsd-comment tsd-typography"><p>Cached message</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li>
+<h5><span class="tsd-kind-parameter">message</span>: <a href="../types/CachedMessageWithId.html" class="tsd-signature-type tsd-kind-type-alias">CachedMessageWithId</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h5></li>
 <li>
-<h5><span class="tsd-kind-parameter">db</span>: <span class="tsd-signature-type ">Dexie</span></h5>
-<div class="tsd-comment tsd-typography"><p>Database instance</p>
-</div>
-<div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../types/CachedMessageWithId.html" class="tsd-signature-type tsd-kind-type-alias">CachedMessageWithId</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4><p>The original message, or <code>undefined</code> if the reply message is invalid</p>
-
+<h5><span class="tsd-kind-parameter">db</span>: <span class="tsd-signature-type ">Dexie</span></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type ">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/xmtp/xmtp-web/blob/e911a1a/packages/react-sdk/src/helpers/caching/contentTypes/reply.ts#L71">packages/react-sdk/src/helpers/caching/contentTypes/reply.ts:71</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/xmtp/xmtp-web/blob/e911a1a/packages/react-sdk/src/helpers/caching/messages.ts#L126">packages/react-sdk/src/helpers/caching/messages.ts:126</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -79,7 +72,7 @@
 <li><a href="../variables/replyContentTypeConfig.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-32"></use></svg><span>reply<wbr/>Content<wbr/>Type<wbr/>Config</span></a></li>
 <li><a href="../variables/textContentTypeConfig.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-32"></use></svg><span>text<wbr/>Content<wbr/>Type<wbr/>Config</span></a></li>
 <li><a href="XMTPProvider.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><g id="icon-64"><rect fill="var(--color-icon-background)" stroke="var(--color-ts-function)" stroke-width="1.5" x="1" y="1" width="22" height="22" rx="6"></rect><path d="M9.39 16V7.24H14.55V8.224H10.446V11.128H14.238V12.112H10.47V16H9.39Z" fill="var(--color-text)"></path></g></svg><span>XMTPProvider</span></a></li>
-<li><a href="deleteMessage.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>delete<wbr/>Message</span></a></li>
+<li><a href="deleteMessage.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>delete<wbr/>Message</span></a></li>
 <li><a href="getAttachment.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>get<wbr/>Attachment</span></a></li>
 <li><a href="getCachedConversationByPeerAddress.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>get<wbr/>Cached<wbr/>Conversation<wbr/>By<wbr/>Peer<wbr/>Address</span></a></li>
 <li><a href="getCachedConversationByTopic.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>get<wbr/>Cached<wbr/>Conversation<wbr/>By<wbr/>Topic</span></a></li>
@@ -87,7 +80,7 @@
 <li><a href="getDbInstance.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>get<wbr/>Db<wbr/>Instance</span></a></li>
 <li><a href="getLastMessage.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>get<wbr/>Last<wbr/>Message</span></a></li>
 <li><a href="getMessageByXmtpID.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>get<wbr/>Message<wbr/>By<wbr/>XmtpID</span></a></li>
-<li><a href="getOriginalMessageFromReply.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>get<wbr/>Original<wbr/>Message<wbr/>From<wbr/>Reply</span></a></li>
+<li><a href="getOriginalMessageFromReply.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>get<wbr/>Original<wbr/>Message<wbr/>From<wbr/>Reply</span></a></li>
 <li><a href="getReactionsByXmtpID.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>get<wbr/>Reactions<wbr/>By<wbr/>XmtpID</span></a></li>
 <li><a href="getReadReceipt.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>get<wbr/>Read<wbr/>Receipt</span></a></li>
 <li><a href="hasConversationTopic.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-64"></use></svg><span>has<wbr/>Conversation<wbr/>Topic</span></a></li>
