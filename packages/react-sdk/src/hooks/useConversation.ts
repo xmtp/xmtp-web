@@ -4,7 +4,7 @@ import type { CachedConversation } from "@/helpers/caching/conversations";
 import {
   getCachedConversationByTopic,
   getConversationByTopic,
-  hasTopic as _hasTopic,
+  hasConversationTopic as _hasConversationTopic,
   saveConversation as _saveConversation,
   updateConversation as _updateConversation,
   updateConversationMetadata,
@@ -84,16 +84,15 @@ export const useConversation = () => {
     RemoveLastParameter<typeof _getLastMessage>
   >(async (topic) => _getLastMessage(topic, db), [db]);
 
-  const hasTopic = useCallback<RemoveLastParameter<typeof _hasTopic>>(
-    async (topic) => _hasTopic(topic, db),
-    [db],
-  );
+  const hasConversationTopic = useCallback<
+    RemoveLastParameter<typeof _hasConversationTopic>
+  >(async (topic) => _hasConversationTopic(topic, db), [db]);
 
   return {
     getByTopic,
     getCachedByTopic,
     getCachedByPeerAddress,
     getLastMessage,
-    hasTopic,
+    hasConversationTopic,
   };
 };

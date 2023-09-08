@@ -7,7 +7,7 @@ import {
   getCachedConversationByPeerAddress,
   getCachedConversationByTopic,
   getConversationByTopic,
-  hasTopic,
+  hasConversationTopic,
   saveConversation,
   setConversationUpdatedAt,
   toCachedConversation,
@@ -198,7 +198,7 @@ describe("setConversationUpdatedAt", () => {
   });
 });
 
-describe("hasTopic", () => {
+describe("hasConversationTopic", () => {
   it("should return true if the topic exists", async () => {
     const createdAt = new Date();
     const testConversation = {
@@ -213,11 +213,11 @@ describe("hasTopic", () => {
     const cachedConversation = await saveConversation(testConversation, db);
     expect(cachedConversation).toEqual(testConversation);
 
-    expect(await hasTopic("testTopic", db)).toBe(true);
+    expect(await hasConversationTopic("testTopic", db)).toBe(true);
   });
 
   it("should return false if the topic does not exist", async () => {
-    expect(await hasTopic("testTopic", db)).toBe(false);
+    expect(await hasConversationTopic("testTopic", db)).toBe(false);
   });
 });
 
