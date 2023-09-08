@@ -1,5 +1,12 @@
 # @xmtp/react-sdk
 
+## 1.3.6
+
+### Patch Changes
+
+- [#87](https://github.com/xmtp/xmtp-web/pull/87) [`921d711`](https://github.com/xmtp/xmtp-web/commit/921d711b71d0e05192f5223a6f2043ab1df33ffa) Thanks [@rygine](https://github.com/rygine)! - - Rename `hasTopic` => `hasConversationTopic`
+  - Add exports for `hasConversationTopic`, `saveConversation`, `setConversationUpdatedAt`, `updateConversation`, `updateConversationMetadata`, `deleteMessage`, `getLastMessage`, `saveMessage`, `updateMessage`, and `updateMessageMetadata`
+
 ## 1.3.5
 
 ### Patch Changes
