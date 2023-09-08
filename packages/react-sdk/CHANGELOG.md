@@ -1,5 +1,12 @@
 # @xmtp/react-sdk
 
+## 1.3.6
+
+### Patch Changes
+
+- Rename `hasTopic` => `hasConversationTopic`
+- Add exports for `hasConversationTopic`, `saveConversation`, `setConversationUpdatedAt`, `updateConversation`, `updateConversationMetadata`, `deleteMessage`, `getLastMessage`, `saveMessage`, `updateMessage`, and `updateMessageMetadata`
+
 ## 1.3.5
 
 ### Patch Changes
