@@ -148,7 +148,7 @@ export const setConversationUpdatedAt = async (
 /**
  * Check to see if a topic exists in the conversations cache
  */
-export const hasTopic = async (topic: string, db: Dexie) => {
+export const hasConversationTopic = async (topic: string, db: Dexie) => {
   const existing = await getCachedConversationByTopic(topic, db);
   return !!existing;
 };
