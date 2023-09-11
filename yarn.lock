@@ -7607,7 +7607,7 @@ __metadata:
     "@xmtp/content-type-remote-attachment": ^1.1.0
     "@xmtp/content-type-reply": ^1.1.0
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": ^11.0.0-beta.8
+    "@xmtp/xmtp-js": ^11.0.0-beta.9
     async-mutex: ^0.4.0
     date-fns: ^2.30.0
     dexie: ^3.2.4
@@ -7629,7 +7629,7 @@ __metadata:
     vitest: ^0.34.2
     zod: ^3.22.1
   peerDependencies:
-    "@xmtp/xmtp-js": ^11.0.0-beta.8
+    "@xmtp/xmtp-js": ^11.0.0-beta.9
     react: ">=16.14"
   languageName: unknown
   linkType: soft
@@ -7640,9 +7640,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xmtp/xmtp-js@npm:^11.0.0-beta.8":
-  version: 11.0.0-beta.8
-  resolution: "@xmtp/xmtp-js@npm:11.0.0-beta.8"
+"@xmtp/xmtp-js@npm:^11.0.0-beta.9":
+  version: 11.0.0-beta.9
+  resolution: "@xmtp/xmtp-js@npm:11.0.0-beta.9"
   dependencies:
     "@noble/secp256k1": ^1.5.2
     "@xmtp/proto": ^3.28.0-beta.1
@@ -7650,7 +7650,7 @@ __metadata:
     elliptic: ^6.5.4
     ethers: ^5.5.3
     long: ^5.2.0
-  checksum: 2b2f1c1e7cd5aa202246a57728ea40024056a63ba1bceaa07bc5a9e5ab6d7308ebadbc64baaa730a43d5160f90173651f774eb89b86ca8e23088446eadc72f8a
+  checksum: 1c90cc07802201f2e78370c412dc53bcc9081519afa0bb34a9d6a851d40003d842f94790933147199c77f8a25a4d65bf9eadfab68eb86c4fb39c65c212020abc
   languageName: node
   linkType: hard
 
