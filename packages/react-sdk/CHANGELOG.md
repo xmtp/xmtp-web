@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 1.4.0-beta.1
+
+### Minor Changes
+
+- Upgrade xmtp-js to beta.9
+
 ## 1.4.0-beta.0
 
 ### Minor Changes
