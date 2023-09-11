@@ -7,10 +7,8 @@ services:
     command:
       - --ws
       - --store
-      - --message-db-connection-string=postgres://postgres:xmtp@db:5432/postgres?sslmode=disable
-      - --message-db-reader-connection-string=postgres://postgres:xmtp@db:5432/postgres?sslmode=disable
-      - --lightpush
-      - --filter
+      - --store.message-db-connection-string=postgres://postgres:xmtp@db:5432/postgres?sslmode=disable
+      - --store.message-db-reader-connection-string=postgres://postgres:xmtp@db:5432/postgres?sslmode=disable
       - --ws-port=9001
       - --wait-for-db=30s
       - --api.authn.enable
