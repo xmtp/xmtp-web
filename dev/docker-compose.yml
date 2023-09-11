@@ -8,7 +8,7 @@ services:
       - --ws
       - --store.enable
       - --store.db-connection-string=postgres://postgres:xmtp@db:5432/postgres?sslmode=disable
-      - --store.db-reader-connection-string=postgres://postgres:xmtp@db:5432/postgres?sslmode=disable
+      - --store.reader-db-connection-string=postgres://postgres:xmtp@db:5432/postgres?sslmode=disable
       - --ws-port=9001
       - --wait-for-db=30s
       - --api.authn.enable
