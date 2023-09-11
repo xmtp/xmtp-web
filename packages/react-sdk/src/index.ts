@@ -51,6 +51,17 @@ export type {
   CachedConversationWithId,
   CachedConversationsTable,
 } from "./helpers/caching/conversations";
+export {
+  getCachedConversationByPeerAddress,
+  getCachedConversationByTopic,
+  getConversationByTopic,
+  hasConversationTopic,
+  saveConversation,
+  setConversationUpdatedAt,
+  toCachedConversation,
+  updateConversation,
+  updateConversationMetadata,
+} from "./helpers/caching/conversations";
 
 // messages
 export type {
@@ -60,8 +71,13 @@ export type {
   ProcessUnprocessedMessagesOptions,
 } from "./helpers/caching/messages";
 export {
+  deleteMessage,
+  getLastMessage,
   getMessageByXmtpID,
+  saveMessage,
   toCachedMessage,
+  updateMessage,
+  updateMessageMetadata,
 } from "./helpers/caching/messages";
 
 // attachments

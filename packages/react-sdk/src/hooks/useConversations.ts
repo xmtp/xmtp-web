@@ -28,7 +28,7 @@ export const useConversations = (options?: UseConversationsOptions) => {
   const { client } = useClient();
   const { processMessage } = useMessage();
   const { saveConversation } = useConversationInternal();
-  const { hasTopic } = useConversation();
+  const { hasConversationTopic } = useConversation();
   const conversations = useCachedConversations();
   // to prevent conversations from being fetched multiple times
   const loadingRef = useRef(false);
@@ -66,7 +66,7 @@ export const useConversations = (options?: UseConversationsOptions) => {
           conversationList.map(async (conversation) => {
             // only save the conversation and fetch its latest message if it
             // doesn't already exist
-            if (!(await hasTopic(conversation.topic))) {
+            if (!(await hasConversationTopic(conversation.topic))) {
               const cachedConversation = await saveConversation(
                 toCachedConversation(conversation, client.address),
               );
@@ -106,7 +106,7 @@ export const useConversations = (options?: UseConversationsOptions) => {
     client,
     saveConversation,
     processMessage,
-    hasTopic,
+    hasConversationTopic,
   ]);
 
   return {
