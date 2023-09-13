@@ -92,7 +92,8 @@ export const getDbInstance = (options?: GetDBInstanceOptions) => {
       ...customSchema,
       conversations: `
         ++id,
-        [topic+walletAddress],
+        [walletAddress+topic],
+        [walletAddress+peerAddress],
         createdAt,
         peerAddress,
         topic,

@@ -325,6 +325,7 @@ export const processMessage = async (
       data: ContentTypeMetadataValues,
     ) => {
       await _updateConversationMetadata(
+        client.address,
         conversation.topic,
         namespace,
         data,
@@ -503,6 +504,7 @@ export const processUnprocessedMessages = async ({
     unprocessed.map(async (unprocessedMessage) => {
       // get message's conversation from cache
       const conversation = await getCachedConversationByTopic(
+        client.address,
         unprocessedMessage.conversationTopic,
         db,
       );
