@@ -1,5 +1,14 @@
 # @xmtp/react-sdk
 
+## 1.3.7
+
+### Patch Changes
+
+- Add `isLoaded` state to the `useMessages` and `useConversations` hooks
+- Add `clearCache` to exports
+- Minor refactor of `useStartConversation` hook to export `conversation` when no initial message is sent
+- Access all cached conversations using the client's wallet address
+
 ## 1.3.6
 
 ### Patch Changes
