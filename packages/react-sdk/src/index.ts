@@ -33,7 +33,7 @@ export { useReactions } from "./hooks/useReactions";
 export { useReply } from "./hooks/useReply";
 
 // caching
-export { getDbInstance } from "./helpers/caching/db";
+export { getDbInstance, clearCache } from "./helpers/caching/db";
 
 export type {
   ContentTypeMetadataValue,

@@ -27,6 +27,7 @@ export const useMessages = (
   conversation: CachedConversation,
   options?: UseMessagesOptions,
 ) => {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const { processMessage } = useMessage();
@@ -57,8 +58,9 @@ export const useMessages = (
 
     loadingRef.current = true;
 
-    // reset loading state
+    // reset loading states
     setIsLoading(true);
+    setIsLoaded(false);
     // reset error state
     setError(null);
 
@@ -96,6 +98,7 @@ export const useMessages = (
         await updateConversation(conversation.topic, { isReady: true });
       }
 
+      setIsLoaded(true);
       onMessages?.(networkMessages);
     } catch (e) {
       setError(e as Error);
@@ -122,6 +125,7 @@ export const useMessages = (
 
   return {
     error,
+    isLoaded,
     isLoading,
     messages,
   };

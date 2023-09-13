@@ -24,6 +24,7 @@ export type UseConversationsOptions = OnError & {
  */
 export const useConversations = (options?: UseConversationsOptions) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const { client } = useClient();
   const { processMessage } = useMessage();
@@ -58,6 +59,7 @@ export const useConversations = (options?: UseConversationsOptions) => {
       loadingRef.current = true;
 
       setIsLoading(true);
+      setIsLoaded(false);
       setError(null);
 
       try {
@@ -87,6 +89,7 @@ export const useConversations = (options?: UseConversationsOptions) => {
             }
           }),
         );
+        setIsLoaded(true);
         onConversations?.(conversationList);
       } catch (e) {
         setError(e as Error);
@@ -112,6 +115,7 @@ export const useConversations = (options?: UseConversationsOptions) => {
   return {
     conversations,
     error,
+    isLoaded,
     isLoading,
   };
 };

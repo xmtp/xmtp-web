@@ -25,7 +25,7 @@ type ToFunctionArgs<T> = {
 }[keyof T];
 
 type GetCachedConversationBy = (
-  ...args: [...ToFunctionArgs<SearchableProperties>, Dexie]
+  ...args: [string, ...ToFunctionArgs<SearchableProperties>, Dexie]
 ) => Promise<CachedConversationWithId | undefined>;
 
 export type CachedConversationsTable = Table<CachedConversation, number>;
@@ -40,6 +40,7 @@ export type CachedConversationWithId = CachedConversation & {
  * @returns The cached conversation if found, otherwise `undefined`
  */
 export const getCachedConversationBy: GetCachedConversationBy = async (
+  walletAddress,
   key,
   value,
   db,
@@ -48,8 +49,10 @@ export const getCachedConversationBy: GetCachedConversationBy = async (
     "conversations",
   ) as CachedConversationsTable;
   const conversation = await conversationsTable
-    .where(key)
-    .equals(value)
+    .where({
+      walletAddress,
+      [key]: value,
+    })
     .first();
   return conversation ? (conversation as CachedConversationWithId) : undefined;
 };
@@ -59,8 +62,11 @@ export const getCachedConversationBy: GetCachedConversationBy = async (
  *
  * @returns The cached conversation if found, otherwise `undefined`
  */
-export const getCachedConversationByTopic = async (topic: string, db: Dexie) =>
-  getCachedConversationBy("topic", topic, db);
+export const getCachedConversationByTopic = async (
+  walletAddress: string,
+  topic: string,
+  db: Dexie,
+) => getCachedConversationBy(walletAddress, "topic", topic, db);
 
 /**
  * Retrieve a cached conversation by peer address
@@ -68,9 +74,10 @@ export const getCachedConversationByTopic = async (topic: string, db: Dexie) =>
  * @returns The cached conversation if found, otherwise `undefined`
  */
 export const getCachedConversationByPeerAddress = async (
+  walletAddress: string,
   peerAddress: string,
   db: Dexie,
-) => getCachedConversationBy("peerAddress", peerAddress, db);
+) => getCachedConversationBy(walletAddress, "peerAddress", peerAddress, db);
 
 /**
  * Retrieve a conversation from the XMTP client by a topic
@@ -121,12 +128,13 @@ export const updateConversation = async (
  * This is not meant to be called directly
  */
 export const updateConversationMetadata = async (
+  walletAddress: string,
   topic: string,
   namespace: string,
   data: ContentTypeMetadataValues,
   db: Dexie,
 ) => {
-  const existing = await getCachedConversationByTopic(topic, db);
+  const existing = await getCachedConversationByTopic(walletAddress, topic, db);
   if (existing) {
     const metadata = existing.metadata || {};
     metadata[namespace] = data;
@@ -148,8 +156,12 @@ export const setConversationUpdatedAt = async (
 /**
  * Check to see if a topic exists in the conversations cache
  */
-export const hasConversationTopic = async (topic: string, db: Dexie) => {
-  const existing = await getCachedConversationByTopic(topic, db);
+export const hasConversationTopic = async (
+  walletAddress: string,
+  topic: string,
+  db: Dexie,
+) => {
+  const existing = await getCachedConversationByTopic(walletAddress, topic, db);
   return !!existing;
 };
 

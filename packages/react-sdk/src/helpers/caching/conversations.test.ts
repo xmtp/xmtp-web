@@ -31,22 +31,34 @@ beforeEach(async () => {
 describe("getCachedConversationBy", () => {
   it("should return undefined if no conversation is found", async () => {
     const conversation = await getCachedConversationBy(
+      "testWalletAddress",
       "topic",
       "testTopic",
       db,
     );
     expect(conversation).toBeUndefined();
-    const conversation2 = await getCachedConversationBy("id", 1, db);
+    const conversation2 = await getCachedConversationBy(
+      "testWalletAddress",
+      "id",
+      1,
+      db,
+    );
     expect(conversation2).toBeUndefined();
     const conversation3 = await getCachedConversationBy(
+      "testWalletAddress",
       "peerAddress",
       "testPeerAddress",
       db,
     );
     expect(conversation3).toBeUndefined();
-    const conversation4 = await getCachedConversationByTopic("testTopic", db);
+    const conversation4 = await getCachedConversationByTopic(
+      "testWalletAddress",
+      "testTopic",
+      db,
+    );
     expect(conversation4).toBeUndefined();
     const conversation5 = await getCachedConversationByPeerAddress(
+      "testWalletAddress",
       "testPeerAddress",
       db,
     );
@@ -65,22 +77,34 @@ describe("getCachedConversationBy", () => {
     } satisfies CachedConversationWithId;
     const cachedConversation = await saveConversation(testConversation, db);
     const conversation = await getCachedConversationBy(
+      "testWalletAddress",
       "topic",
       "testTopic",
       db,
     );
     expect(conversation).toEqual(cachedConversation);
-    const conversation2 = await getCachedConversationBy("id", 1, db);
+    const conversation2 = await getCachedConversationBy(
+      "testWalletAddress",
+      "id",
+      1,
+      db,
+    );
     expect(conversation2).toEqual(cachedConversation);
     const conversation3 = await getCachedConversationBy(
+      "testWalletAddress",
       "peerAddress",
       "testPeerAddress",
       db,
     );
     expect(conversation3).toEqual(cachedConversation);
-    const conversation4 = await getCachedConversationByTopic("testTopic", db);
+    const conversation4 = await getCachedConversationByTopic(
+      "testWalletAddress",
+      "testTopic",
+      db,
+    );
     expect(conversation4).toEqual(cachedConversation);
     const conversation5 = await getCachedConversationByPeerAddress(
+      "testWalletAddress",
       "testPeerAddress",
       db,
     );
@@ -138,6 +162,7 @@ describe("updateConversation", () => {
     );
 
     const updatedConversation = await getCachedConversationByTopic(
+      "testWalletAddress",
       "testTopic",
       db,
     );
@@ -163,9 +188,16 @@ describe("updateConversationMetadata", () => {
     const cachedConversation = await saveConversation(testConversation, db);
     expect(cachedConversation).toEqual(testConversation);
 
-    await updateConversationMetadata("testTopic", "test", { test: "test" }, db);
+    await updateConversationMetadata(
+      "testWalletAddress",
+      "testTopic",
+      "test",
+      { test: "test" },
+      db,
+    );
 
     const updatedConversation = await getCachedConversationByTopic(
+      "testWalletAddress",
       "testTopic",
       db,
     );
@@ -193,7 +225,11 @@ describe("setConversationUpdatedAt", () => {
 
     await setConversationUpdatedAt("testTopic", updatedAt, db);
 
-    const conversation = await getCachedConversationByTopic("testTopic", db);
+    const conversation = await getCachedConversationByTopic(
+      "testWalletAddress",
+      "testTopic",
+      db,
+    );
     expect(conversation?.updatedAt).toEqual(updatedAt);
   });
 });
@@ -213,11 +249,15 @@ describe("hasConversationTopic", () => {
     const cachedConversation = await saveConversation(testConversation, db);
     expect(cachedConversation).toEqual(testConversation);
 
-    expect(await hasConversationTopic("testTopic", db)).toBe(true);
+    expect(
+      await hasConversationTopic("testWalletAddress", "testTopic", db),
+    ).toBe(true);
   });
 
   it("should return false if the topic does not exist", async () => {
-    expect(await hasConversationTopic("testTopic", db)).toBe(false);
+    expect(
+      await hasConversationTopic("testWalletAddress", "testTopic", db),
+    ).toBe(false);
   });
 });
 

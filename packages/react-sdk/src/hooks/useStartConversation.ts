@@ -61,19 +61,19 @@ export const useStartConversation = (options?: UseStartConversation) => {
           toCachedConversation(conversation, client.address),
         );
 
-        if (content === undefined) {
-          return {
-            cachedConversation,
-            cachedMessage: undefined,
-            conversation: undefined,
-          };
-        }
-
         if (!cachedConversation) {
           return {
             cachedConversation: undefined,
             cachedMessage: undefined,
-            conversation: undefined,
+            conversation,
+          };
+        }
+
+        if (content === undefined) {
+          return {
+            cachedConversation,
+            cachedMessage: undefined,
+            conversation,
           };
         }
 
