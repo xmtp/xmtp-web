@@ -4,10 +4,10 @@
 
 ### Patch Changes
 
-- [#92](https://github.com/xmtp/xmtp-web/pull/92) [`48e1438`](https://github.com/xmtp/xmtp-web/commit/48e1438807aa0fa918f7b51d5b920e856e805f97) Thanks [@rygine](https://github.com/rygine)! - - Add `isLoaded` state to the `useMessages` and `useConversations` hooks
-  - Add `clearCache` to exports
-  - Minor refactor of `useStartConversation` hook to export `conversation` when no initial message is sent
-  - Access all cached conversations using the client's wallet address
+- Add `isLoaded` state to the `useMessages` and `useConversations` hooks
+- Add `clearCache` to exports
+- Minor refactor of `useStartConversation` hook to export `conversation` when no initial message is sent
+- Access all cached conversations using the client's wallet address
 
 ## 1.3.6
 
