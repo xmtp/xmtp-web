@@ -50,8 +50,8 @@ export const getCachedConversationBy: GetCachedConversationBy = async (
   ) as CachedConversationsTable;
   const conversation = await conversationsTable
     .where({
-      walletAddress,
-      [key]: value,
+      walletAddress: walletAddress.toLowerCase(),
+      [key]: key === "peerAddress" ? value.toLowerCase() : value,
     })
     .first();
   return conversation ? (conversation as CachedConversationWithId) : undefined;
@@ -77,7 +77,13 @@ export const getCachedConversationByPeerAddress = async (
   walletAddress: string,
   peerAddress: string,
   db: Dexie,
-) => getCachedConversationBy(walletAddress, "peerAddress", peerAddress, db);
+) =>
+  getCachedConversationBy(
+    walletAddress,
+    "peerAddress",
+    peerAddress.toLowerCase(),
+    db,
+  );
 
 /**
  * Retrieve a conversation from the XMTP client by a topic
@@ -177,10 +183,10 @@ export const toCachedConversation = (
   context: conversation.context,
   createdAt: conversation.createdAt,
   isReady: false,
-  peerAddress: conversation.peerAddress,
+  peerAddress: conversation.peerAddress.toLowerCase(),
   topic: conversation.topic,
   updatedAt: conversation.createdAt,
-  walletAddress,
+  walletAddress: walletAddress.toLowerCase(),
 });
 
 const saveConversationMutex = new Mutex();
@@ -207,8 +213,14 @@ export const saveConversation = async (
       return existing as CachedConversationWithId;
     }
 
-    // eslint-disable-next-line no-param-reassign
-    conversation.id = await conversations.add(conversation);
+    const updatedConversation = {
+      ...conversation,
+      peerAddress: conversation.peerAddress.toLowerCase(),
+      walletAddress: conversation.walletAddress.toLowerCase(),
+    };
 
-    return conversation as CachedConversationWithId;
+    // eslint-disable-next-line no-param-reassign
+    updatedConversation.id = await conversations.add(updatedConversation);
+
+    return updatedConversation as CachedConversationWithId;
   });

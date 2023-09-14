@@ -72,10 +72,10 @@ export const toCachedMessage = (
     hasLoadError: false,
     hasSendError: false,
     isSending: false,
-    senderAddress: message.senderAddress,
+    senderAddress: message.senderAddress.toLowerCase(),
     sentAt: message.sent,
     uuid: v4(),
-    walletAddress,
+    walletAddress: walletAddress.toLowerCase(),
     xmtpID: message.id,
   } satisfies CachedMessage;
 };
@@ -114,10 +114,17 @@ export const saveMessage = async (message: CachedMessage, db: Dexie) => {
     return existing as CachedMessageWithId;
   }
 
-  // eslint-disable-next-line no-param-reassign
-  message.id = await messages.add(message);
+  // lowercase addresses
+  const updatedMessage = {
+    ...message,
+    senderAddress: message.senderAddress.toLowerCase(),
+    walletAddress: message.walletAddress.toLowerCase(),
+  };
 
-  return message as CachedMessageWithId;
+  // eslint-disable-next-line no-param-reassign
+  updatedMessage.id = await messages.add(updatedMessage);
+
+  return updatedMessage as CachedMessageWithId;
 };
 
 /**
@@ -204,11 +211,11 @@ export const prepareMessageForSending = ({
     hasLoadError: false,
     hasSendError: false,
     isSending: true,
-    senderAddress: client.address,
+    senderAddress: client.address.toLowerCase(),
     sentAt,
     status: "unprocessed",
     uuid: v4(),
-    walletAddress: client.address,
+    walletAddress: client.address.toLowerCase(),
     // this will be updated after it's sent
     xmtpID: sentAt.getTime().toString(),
   };
@@ -277,9 +284,16 @@ export const processMessage = async (
   }: ProcessMessageOptions,
   removeExisting = false,
 ) => {
+  // lower case addresses
+  const finalMessage = {
+    ...message,
+    senderAddress: message.senderAddress.toLowerCase(),
+    walletAddress: message.walletAddress.toLowerCase(),
+  } satisfies CachedMessage;
+
   // don't process a message if it's already in the queue
   if (processQueue.includes(message.xmtpID)) {
-    return message;
+    return finalMessage;
   }
 
   // add message to the processing queue
@@ -311,13 +325,13 @@ export const processMessage = async (
     const existingMessage = await getMessageByXmtpID(message.xmtpID, db);
     // don't re-process an existing message that's already processed
     if (existingMessage && existingMessage.status === "processed") {
-      return message;
+      return finalMessage;
     }
 
     // don't process invalid message content
     const isContentValid = validators[message.contentType];
     if (isContentValid && !isContentValid(message.content)) {
-      return message;
+      return finalMessage;
     }
 
     // internal updater function with preset namespace
@@ -325,7 +339,7 @@ export const processMessage = async (
       data: ContentTypeMetadataValues,
     ) => {
       await _updateConversationMetadata(
-        client.address,
+        client.address.toLowerCase(),
         conversation.topic,
         namespace,
         data,
@@ -341,7 +355,7 @@ export const processMessage = async (
         const savedMessage = await saveMessage(message, db);
         return savedMessage;
       }
-      return message;
+      return finalMessage;
     }
 
     // remove existing message if requested
@@ -387,7 +401,7 @@ export const processMessage = async (
     }
   }
 
-  return persistedMessage ?? message;
+  return persistedMessage ?? finalMessage;
 };
 
 /**

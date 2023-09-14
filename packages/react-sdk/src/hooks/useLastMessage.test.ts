@@ -62,7 +62,11 @@ describe("useLastMessage", () => {
     const { result } = renderHook(() => useLastMessage(testTopic));
 
     await waitFor(() => {
-      expect(result.current).toEqual(testMessage);
+      expect(result.current).toEqual({
+        ...testMessage,
+        senderAddress: testWalletAddress.toLowerCase(),
+        walletAddress: testWalletAddress.toLowerCase(),
+      });
     });
   });
 });

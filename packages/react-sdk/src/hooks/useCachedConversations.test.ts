@@ -56,7 +56,11 @@ describe("useCachedConversations", () => {
 
     await waitFor(() => {
       expect(result.current.length).toBe(1);
-      expect(result.current[0]).toEqual(testConversation);
+      expect(result.current[0]).toEqual({
+        ...testConversation,
+        peerAddress: testPeerAddress.toLowerCase(),
+        walletAddress: testWalletAddress.toLowerCase(),
+      });
     });
   });
 });

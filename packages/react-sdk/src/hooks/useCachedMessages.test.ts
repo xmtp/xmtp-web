@@ -63,7 +63,11 @@ describe("useCachedMessages", () => {
 
     await waitFor(() => {
       expect(result.current.length).toBe(1);
-      expect(result.current[0]).toEqual(testMessage);
+      expect(result.current[0]).toEqual({
+        ...testMessage,
+        senderAddress: testWalletAddress.toLowerCase(),
+        walletAddress: testWalletAddress.toLowerCase(),
+      });
     });
   });
 });

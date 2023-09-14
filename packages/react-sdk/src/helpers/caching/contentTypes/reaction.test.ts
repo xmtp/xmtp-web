@@ -140,7 +140,7 @@ describe("ContentTypeReaction caching", () => {
         testReactionContent.reference,
       );
       expect(reactions[0].schema).toEqual(testReactionContent.schema);
-      expect(reactions[0].senderAddress).toBe("testWalletAddress");
+      expect(reactions[0].senderAddress).toBe("testwalletaddress");
       expect(reactions[0].xmtpID).toEqual("testXmtpId2");
 
       const originalMessage = await getMessageByXmtpID("testXmtpId1", db);

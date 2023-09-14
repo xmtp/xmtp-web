@@ -67,9 +67,9 @@ describe("toCachedMessage", () => {
     expect(cachedMessage.status).toBe("unprocessed");
     expect(cachedMessage.hasSendError).toBe(false);
     expect(cachedMessage.isSending).toBe(false);
-    expect(cachedMessage.senderAddress).toBe("testSenderAddress");
+    expect(cachedMessage.senderAddress).toBe("testsenderaddress");
     expect(cachedMessage.sentAt).toBe(sentAt);
-    expect(cachedMessage.walletAddress).toBe("testWalletAddress");
+    expect(cachedMessage.walletAddress).toBe("testwalletaddress");
     expect(cachedMessage.xmtpID).toBe("testId");
   });
 });
@@ -117,14 +117,19 @@ describe("saveMessage", () => {
     } satisfies CachedMessage;
 
     const cachedMessage = await saveMessage(testMessage, db);
-    expect(cachedMessage).toEqual(testMessage);
+    expect(cachedMessage).toEqual({
+      ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
 
     const message = await getMessageByXmtpID("testXmtpId", db);
-    expect(message).toEqual(testMessage);
+    expect(message).toEqual(cachedMessage);
   });
 
   it("should return a duplicate message", async () => {
     const testMessage = {
+      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test",
@@ -139,9 +144,17 @@ describe("saveMessage", () => {
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
     const cachedMessage = await saveMessage(testMessage, db);
-    expect(cachedMessage).toEqual(testMessage);
+    expect(cachedMessage).toEqual({
+      ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
     const cachedMessage2 = await saveMessage(testMessage, db);
-    expect(cachedMessage2).toEqual(testMessage);
+    expect(cachedMessage2).toEqual({
+      ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
     expect(cachedMessage.id).toBe(cachedMessage2.id);
   });
 });
@@ -166,7 +179,11 @@ describe("deleteMessage", () => {
 
     await saveMessage(testMessage, db);
     const message = await getMessageByXmtpID("testXmtpId", db);
-    expect(message).toEqual(testMessage);
+    expect(message).toEqual({
+      ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
 
     if (message) {
       await deleteMessage(message, db);
@@ -195,7 +212,11 @@ describe("updateMessage", () => {
     } satisfies CachedMessage;
 
     const cachedMessage = await saveMessage(testMessage, db);
-    expect(cachedMessage).toEqual(testMessage);
+    expect(cachedMessage).toEqual({
+      ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
 
     await updateMessage(
       cachedMessage,
@@ -212,6 +233,8 @@ describe("updateMessage", () => {
       ...testMessage,
       isSending: false,
       status: "processed",
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
     });
   });
 });
@@ -235,7 +258,11 @@ describe("updateMessageMetadata", () => {
     } satisfies CachedMessage;
 
     const cachedMessage = await saveMessage(testMessage, db);
-    expect(cachedMessage).toEqual(testMessage);
+    expect(cachedMessage).toEqual({
+      ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
 
     await updateMessageMetadata(
       cachedMessage,
@@ -296,7 +323,7 @@ describe("prepareMessageForSending", () => {
     expect(preparedMessage.hasSendError).toBe(false);
     expect(preparedMessage.isSending).toBe(true);
     expect(preparedMessage.status).toBe("unprocessed");
-    expect(preparedMessage.walletAddress).toBe("testWalletAddress");
+    expect(preparedMessage.walletAddress).toBe("testwalletaddress");
   });
 
   it("should prepare a message for sending without a content type", () => {
@@ -320,7 +347,7 @@ describe("prepareMessageForSending", () => {
     expect(preparedMessage.hasSendError).toBe(false);
     expect(preparedMessage.isSending).toBe(true);
     expect(preparedMessage.status).toBe("unprocessed");
-    expect(preparedMessage.walletAddress).toBe("testWalletAddress");
+    expect(preparedMessage.walletAddress).toBe("testwalletaddress");
   });
 });
 
@@ -343,7 +370,11 @@ describe("updateMessageAfterSending", () => {
     } satisfies CachedMessage;
 
     const cachedMessage = await saveMessage(testMessage, db);
-    expect(cachedMessage).toEqual(testMessage);
+    expect(cachedMessage).toEqual({
+      ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
 
     const sentAt = new Date();
 
@@ -353,6 +384,8 @@ describe("updateMessageAfterSending", () => {
 
     expect(updatedMessage).toEqual({
       ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
       sentAt,
       xmtpID: "testXmtpId2",
       isSending: false,
@@ -397,9 +430,17 @@ describe("getLastMessage", () => {
     } satisfies CachedMessage;
 
     const cachedMessage = await saveMessage(testMessage, db);
-    expect(cachedMessage).toEqual(testMessage);
+    expect(cachedMessage).toEqual({
+      ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
     const cachedMessage2 = await saveMessage(testMessage2, db);
-    expect(cachedMessage2).toEqual(testMessage2);
+    expect(cachedMessage2).toEqual({
+      ...testMessage2,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
 
     const lastMessage = await getLastMessage("testTopic", db);
     expect(lastMessage).toEqual(cachedMessage2);
@@ -442,13 +483,25 @@ describe("getUnprocessedMessages", () => {
     } satisfies CachedMessage;
 
     const cachedMessage = await saveMessage(testMessage, db);
-    expect(cachedMessage).toEqual(testMessage);
+    expect(cachedMessage).toEqual({
+      ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
     const cachedMessage2 = await saveMessage(testMessage2, db);
-    expect(cachedMessage2).toEqual(testMessage2);
+    expect(cachedMessage2).toEqual({
+      ...testMessage2,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
 
     const unprocessedMessages = await getUnprocessedMessages(db);
     expect(unprocessedMessages.length).toBe(1);
-    expect(unprocessedMessages[0]).toEqual(testMessage2);
+    expect(unprocessedMessages[0]).toEqual({
+      ...testMessage2,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
   });
 });
 
@@ -511,7 +564,11 @@ describe("processMessage", () => {
       processors: testProcessors,
       validators: testValidators,
     });
-    expect(cachedMessage).toEqual(testMessage);
+    expect(cachedMessage).toEqual({
+      ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
     expect(mockProcessor1).toHaveBeenCalledTimes(1);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(mockProcessor1.mock.calls[0][0].client).toBe(testClient);
@@ -522,7 +579,7 @@ describe("processMessage", () => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(mockProcessor1.mock.calls[0][0].db).toBe(db);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(mockProcessor1.mock.calls[0][0].message).toBe(cachedMessage);
+    expect(mockProcessor1.mock.calls[0][0].message).toBe(testMessage);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(mockProcessor1.mock.calls[0][0].processors).toBe(testProcessors);
     expect(mockProcessor2).toHaveBeenCalledTimes(1);
@@ -535,7 +592,7 @@ describe("processMessage", () => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(mockProcessor2.mock.calls[0][0].db).toBe(db);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(mockProcessor2.mock.calls[0][0].message).toBe(cachedMessage);
+    expect(mockProcessor2.mock.calls[0][0].message).toBe(testMessage);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(mockProcessor2.mock.calls[0][0].processors).toBe(testProcessors);
     expect(mockProcessor3).not.toHaveBeenCalled();
@@ -589,7 +646,11 @@ describe("processMessage", () => {
       processors: testProcessors,
       validators: testValidators,
     });
-    expect(cachedMessage).toEqual(testMessage);
+    expect(cachedMessage).toEqual({
+      ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
     expect(mockProcessor1).not.toHaveBeenCalled();
     expect(mockProcessor2).not.toHaveBeenCalled();
     expect(mockProcessor3).not.toHaveBeenCalled();
@@ -638,7 +699,11 @@ describe("processMessage", () => {
       processors: testProcessors,
       validators: textContentTypeConfig.validators ?? {},
     });
-    expect(cachedMessage).toEqual(testMessage);
+    expect(cachedMessage).toEqual({
+      ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
     expect(mockProcessor1).not.toHaveBeenCalled();
     expect(mockProcessor2).not.toHaveBeenCalled();
     expect(mockProcessor3).not.toHaveBeenCalled();
@@ -680,7 +745,11 @@ describe("processMessage", () => {
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
     const savedMessage = await saveMessage(testMessage, db);
-    expect(savedMessage).toEqual(testMessage);
+    expect(savedMessage).toEqual({
+      ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
     const cachedMessage = await processMessage(
       {
         client: testClient,
@@ -693,7 +762,11 @@ describe("processMessage", () => {
       },
       true,
     );
-    expect(cachedMessage).toEqual(testMessage);
+    expect(cachedMessage).toEqual({
+      ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
     expect(mockProcessor1).toHaveBeenCalled();
     expect(mockProcessor2).toHaveBeenCalled();
     expect(mockProcessor3).not.toHaveBeenCalled();
@@ -742,13 +815,21 @@ describe("processMessage", () => {
       },
       true,
     );
-    expect(cachedMessage).toEqual(testMessage);
+    expect(cachedMessage).toEqual({
+      ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
     expect(mockProcessor1).not.toHaveBeenCalled();
     expect(mockProcessor2).not.toHaveBeenCalled();
     expect(mockProcessor3).not.toHaveBeenCalled();
 
     const savedMessage = await getMessageByXmtpID("testXmtpId", db);
-    expect(savedMessage).toEqual(testMessage);
+    expect(savedMessage).toEqual({
+      ...testMessage,
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
+    });
   });
 
   it("should cache a message if persist is called in its processor", async () => {
@@ -795,6 +876,8 @@ describe("processMessage", () => {
     const updatedMessage = {
       ...testMessage,
       status: "processed",
+      senderAddress: "testwalletaddress",
+      walletAddress: "testwalletaddress",
     };
 
     expect(cachedMessage).toEqual(updatedMessage);
@@ -859,6 +942,8 @@ describe("processMessage", () => {
       ...testMessage,
       content: "foo",
       status: "processed",
+      senderAddress: testMessage.senderAddress.toLowerCase(),
+      walletAddress: testMessage.walletAddress.toLowerCase(),
       metadata: {
         [testNamepaces[ContentTypeText.toString()]]: {
           foo: "bar",
@@ -921,7 +1006,11 @@ describe("processMessage", () => {
       validators: testValidators,
     });
 
-    expect(cachedMessage).toEqual(testMessage);
+    expect(cachedMessage).toEqual({
+      ...testMessage,
+      senderAddress: testMessage.senderAddress.toLowerCase(),
+      walletAddress: testMessage.walletAddress.toLowerCase(),
+    });
     expect(mockProcessor1).toHaveBeenCalledTimes(1);
     expect(mockProcessor2).toHaveBeenCalledTimes(1);
     expect(mockProcessor3).not.toHaveBeenCalled();
@@ -1138,7 +1227,11 @@ describe("processUnprocessedMessages", () => {
       conversation: cachedConversation,
       client: testClient,
       db,
-      message: testMessage1,
+      message: {
+        ...testMessage1,
+        senderAddress: testMessage1.senderAddress.toLowerCase(),
+        walletAddress: testMessage1.walletAddress.toLowerCase(),
+      },
       namespaces,
       processors,
       validators,

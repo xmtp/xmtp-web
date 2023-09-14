@@ -39,7 +39,7 @@ export const useConversationInternal = () => {
     async (conversation, namespace, data) => {
       if (client) {
         await updateConversationMetadata(
-          client.address,
+          client.address.toLowerCase(),
           conversation,
           namespace,
           data,

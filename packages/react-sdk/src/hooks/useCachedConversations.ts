@@ -20,7 +20,7 @@ export const useCachedConversations = () => {
       }
       return (db.table("conversations") as CachedConversationsTable)
         .where("walletAddress")
-        .equals(client.address)
+        .equals(client.address.toLowerCase())
         .reverse()
         .sortBy("updatedAt");
     }, [client?.address]) ?? []

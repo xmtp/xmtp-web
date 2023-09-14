@@ -53,7 +53,7 @@ export const findReaction = async (reaction: CachedReaction, db: Dexie) => {
     content: reaction.content,
     referenceXmtpID: reaction.referenceXmtpID,
     schema: reaction.schema,
-    senderAddress: reaction.senderAddress,
+    senderAddress: reaction.senderAddress.toLowerCase(),
   };
 
   const found = await reactionsTable.where(reactionQuery).first();
@@ -78,7 +78,10 @@ export const saveReaction = async (reaction: CachedReaction, db: Dexie) => {
     return existing.id;
   }
 
-  return reactionsTable.add(reaction);
+  return reactionsTable.add({
+    ...reaction,
+    senderAddress: reaction.senderAddress.toLowerCase(),
+  });
 };
 
 /**

@@ -21,7 +21,7 @@ export const useCachedMessages = (topic: string) => {
       return (db.table("messages") as CachedMessagesTable)
         .where({
           conversationTopic: topic,
-          walletAddress: client.address,
+          walletAddress: client.address.toLowerCase(),
         })
         .sortBy("sentAt");
     }, [topic]) ?? []

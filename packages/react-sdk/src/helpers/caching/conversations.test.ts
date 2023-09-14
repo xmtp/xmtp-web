@@ -147,7 +147,11 @@ describe("updateConversation", () => {
       walletAddress: "testWalletAddress",
     } satisfies CachedConversationWithId;
     const cachedConversation = await saveConversation(testConversation, db);
-    expect(cachedConversation).toEqual(testConversation);
+    expect(cachedConversation).toEqual({
+      ...testConversation,
+      peerAddress: testConversation.peerAddress.toLowerCase(),
+      walletAddress: testConversation.walletAddress.toLowerCase(),
+    });
 
     const updatedAt = adjustDate(createdAt, 1000);
 
@@ -186,7 +190,11 @@ describe("updateConversationMetadata", () => {
       walletAddress: "testWalletAddress",
     } satisfies CachedConversationWithId;
     const cachedConversation = await saveConversation(testConversation, db);
-    expect(cachedConversation).toEqual(testConversation);
+    expect(cachedConversation).toEqual({
+      ...testConversation,
+      peerAddress: testConversation.peerAddress.toLowerCase(),
+      walletAddress: testConversation.walletAddress.toLowerCase(),
+    });
 
     await updateConversationMetadata(
       "testWalletAddress",
@@ -247,7 +255,11 @@ describe("hasConversationTopic", () => {
       walletAddress: "testWalletAddress",
     } satisfies CachedConversationWithId;
     const cachedConversation = await saveConversation(testConversation, db);
-    expect(cachedConversation).toEqual(testConversation);
+    expect(cachedConversation).toEqual({
+      ...testConversation,
+      peerAddress: testConversation.peerAddress.toLowerCase(),
+      walletAddress: testConversation.walletAddress.toLowerCase(),
+    });
 
     expect(
       await hasConversationTopic("testWalletAddress", "testTopic", db),
@@ -274,12 +286,17 @@ describe("saveConversation", () => {
       walletAddress: "testWalletAddress",
     } satisfies CachedConversationWithId;
     const cachedConversation = await saveConversation(testConversation, db);
-    expect(cachedConversation).toEqual(testConversation);
+    expect(cachedConversation).toEqual({
+      ...testConversation,
+      peerAddress: testConversation.peerAddress.toLowerCase(),
+      walletAddress: testConversation.walletAddress.toLowerCase(),
+    });
   });
 
   it("should return a duplicate conversation", async () => {
     const createdAt = new Date();
     const testConversation = {
+      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,
@@ -288,9 +305,17 @@ describe("saveConversation", () => {
       walletAddress: "testWalletAddress",
     } satisfies CachedConversation;
     const cachedConversation = await saveConversation(testConversation, db);
-    expect(cachedConversation).toEqual(testConversation);
+    expect(cachedConversation).toEqual({
+      ...testConversation,
+      peerAddress: testConversation.peerAddress.toLowerCase(),
+      walletAddress: testConversation.walletAddress.toLowerCase(),
+    });
     const cachedConversation2 = await saveConversation(testConversation, db);
-    expect(cachedConversation2).toEqual(testConversation);
+    expect(cachedConversation2).toEqual({
+      ...testConversation,
+      peerAddress: testConversation.peerAddress.toLowerCase(),
+      walletAddress: testConversation.walletAddress.toLowerCase(),
+    });
     expect(cachedConversation2.id).toBe(cachedConversation.id);
   });
 });
@@ -311,10 +336,10 @@ describe("toCachedConversation", () => {
       context: undefined,
       createdAt: testConversation.createdAt,
       isReady: false,
-      peerAddress: testConversation.peerAddress,
+      peerAddress: testConversation.peerAddress.toLowerCase(),
       topic: testConversation.topic,
       updatedAt: testConversation.createdAt,
-      walletAddress: testWallet1.address,
+      walletAddress: testWallet1.address.toLowerCase(),
     });
   });
 });
