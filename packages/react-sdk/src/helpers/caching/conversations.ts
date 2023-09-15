@@ -2,7 +2,11 @@ import type { Conversation, Client, InvitationContext } from "@xmtp/xmtp-js";
 import type { Table } from "dexie";
 import type Dexie from "dexie";
 import { Mutex } from "async-mutex";
-import type { ContentTypeMetadata, ContentTypeMetadataValues } from "./db";
+import type {
+  ContentTypeMetadata,
+  ContentTypeMetadataValues,
+  ConversationProcessors,
+} from "./db";
 
 export type CachedConversation<M = ContentTypeMetadata> = {
   context?: InvitationContext;
@@ -212,3 +216,83 @@ export const saveConversation = async (
 
     return conversation as CachedConversationWithId;
   });
+
+export type ProcessConversationOptions = {
+  client: Client;
+  conversation: CachedConversation;
+  db: Dexie;
+  processors?: ConversationProcessors;
+};
+
+// XMTP conversation topics currently being processed
+const processQueue: string[] = [];
+
+/**
+ * Process a cached conversation using the passed parameters, then save it to
+ * the cache
+ */
+export const processConversation = async ({
+  client,
+  conversation,
+  db,
+  processors,
+}: ProcessConversationOptions) => {
+  // don't process a conversation if it's already in the queue
+  if (processQueue.includes(conversation.topic)) {
+    return conversation;
+  }
+
+  // add conversation topic to the processing queue
+  processQueue.push(conversation.topic);
+
+  try {
+    const existingConversation = await getCachedConversationByTopic(
+      client.address,
+      conversation.topic,
+      db,
+    );
+    // don't re-process an existing conversation
+    if (existingConversation) {
+      return conversation;
+    }
+
+    // run all conversation processors
+    if (processors) {
+      await Promise.all(
+        Object.keys(processors).map((namespace) =>
+          processors[namespace].map((processor) => {
+            // internal updater function with preset namespace
+            // eslint-disable-next-line no-underscore-dangle
+            const _updateConversationMetadata = async (
+              data: ContentTypeMetadataValues,
+            ) => {
+              await updateConversationMetadata(
+                client.address,
+                conversation.topic,
+                namespace,
+                data,
+                db,
+              );
+            };
+            return processor({
+              client,
+              conversation,
+              db,
+              updateMetadata: _updateConversationMetadata,
+            });
+          }),
+        ),
+      );
+    }
+
+    // always cache the conversation
+    const savedConversation = await saveConversation(conversation, db);
+    return savedConversation;
+  } finally {
+    // always remove message from the processing queue
+    const index = processQueue.indexOf(conversation.topic);
+    if (index > -1) {
+      processQueue.splice(index, 1);
+    }
+  }
+};

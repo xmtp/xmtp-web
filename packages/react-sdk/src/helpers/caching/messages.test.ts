@@ -523,8 +523,6 @@ describe("processMessage", () => {
     expect(mockProcessor1.mock.calls[0][0].db).toBe(db);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(mockProcessor1.mock.calls[0][0].message).toBe(cachedMessage);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(mockProcessor1.mock.calls[0][0].processors).toBe(testProcessors);
     expect(mockProcessor2).toHaveBeenCalledTimes(1);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(mockProcessor2.mock.calls[0][0].client).toBe(testClient);
@@ -536,8 +534,6 @@ describe("processMessage", () => {
     expect(mockProcessor2.mock.calls[0][0].db).toBe(db);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     expect(mockProcessor2.mock.calls[0][0].message).toBe(cachedMessage);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(mockProcessor2.mock.calls[0][0].processors).toBe(testProcessors);
     expect(mockProcessor3).not.toHaveBeenCalled();
 
     const updatedConversation = await getCachedConversationByTopic(

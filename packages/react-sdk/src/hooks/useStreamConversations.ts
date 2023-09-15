@@ -33,7 +33,7 @@ export const useStreamConversations = (
   });
 
   const { client } = useClient();
-  const { saveConversation } = useConversationInternal();
+  const { processConversation } = useConversationInternal();
 
   // destructure options for more granular dependency array
   const { onConversation, onError } = options ?? {};
@@ -73,7 +73,7 @@ export const useStreamConversations = (
         stream = streamRef.current;
 
         for await (const conversation of await stream) {
-          await saveConversation(
+          await processConversation(
             toCachedConversation(conversation, client.address),
           );
           onConversation?.(conversation);
@@ -93,7 +93,7 @@ export const useStreamConversations = (
     return () => {
       void endStream(stream);
     };
-  }, [client, saveConversation, onError, onConversation]);
+  }, [client, onError, onConversation, processConversation]);
 
   return {
     error,

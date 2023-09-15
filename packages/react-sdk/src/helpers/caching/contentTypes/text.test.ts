@@ -62,7 +62,6 @@ describe("ContentTypeText caching", () => {
         message: testMessage,
         persist,
         updateConversationMetadata,
-        processors: textContentTypeConfig.processors,
       });
       expect(persist).toHaveBeenCalledWith();
     });
@@ -107,7 +106,6 @@ describe("ContentTypeText caching", () => {
         message: testMessage,
         persist,
         updateConversationMetadata,
-        processors: textContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
     });

@@ -99,7 +99,6 @@ describe("ContentTypeReply caching", () => {
         message: testReplyMessage,
         persist,
         updateConversationMetadata,
-        processors: replyContentTypeConfig.processors,
       });
       expect(persist).toHaveBeenCalledWith();
       // since we mocked persist, we need to manually save the message
@@ -155,7 +154,6 @@ describe("ContentTypeReply caching", () => {
         message: testMessage,
         persist,
         updateConversationMetadata,
-        processors: replyContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
     });

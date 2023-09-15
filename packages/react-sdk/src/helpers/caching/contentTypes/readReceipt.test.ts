@@ -9,8 +9,8 @@ import {
 import { type CachedMessageWithId } from "@/helpers/caching/messages";
 import { getDbInstance, clearCache } from "@/helpers/caching/db";
 import {
-  saveConversation,
   type CachedConversationWithId,
+  processConversation,
 } from "@/helpers/caching/conversations";
 import {
   getReadReceipt,
@@ -55,7 +55,11 @@ describe("ContentTypeReadReceipt caching", () => {
         walletAddress: testWallet.address,
       } satisfies CachedConversationWithId;
 
-      await saveConversation(testConversation, db);
+      await processConversation({
+        client: testClient,
+        conversation: testConversation,
+        db,
+      });
 
       const readReceiptDate = new Date();
 
@@ -88,7 +92,6 @@ describe("ContentTypeReadReceipt caching", () => {
         message: testReadReceiptMessage,
         persist,
         updateConversationMetadata,
-        processors: readReceiptContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
       expect(updateConversationMetadata).toHaveBeenCalledWith(
@@ -132,7 +135,6 @@ describe("ContentTypeReadReceipt caching", () => {
         message: testTextMessage,
         persist,
         updateConversationMetadata,
-        processors: readReceiptContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
       expect(updateConversationMetadata).not.toHaveBeenCalled();

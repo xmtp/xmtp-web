@@ -1,10 +1,11 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import { getLastMessage as _getLastMessage } from "@/helpers/caching/messages";
 import type { CachedConversation } from "@/helpers/caching/conversations";
 import {
   getCachedConversationByTopic,
   getConversationByTopic,
   hasConversationTopic as _hasConversationTopic,
+  processConversation as _processConversation,
   saveConversation as _saveConversation,
   updateConversation as _updateConversation,
   updateConversationMetadata,
@@ -13,10 +14,26 @@ import {
 import type { RemoveLastParameter } from "@/sharedTypes";
 import { useClient } from "@/hooks/useClient";
 import { useDb } from "@/hooks/useDb";
+import { XMTPContext } from "@/contexts/XMTPContext";
 
 export const useConversationInternal = () => {
+  const xmtpContext = useContext(XMTPContext);
+  const { conversationProcessors } = xmtpContext;
   const { client } = useClient();
   const { db } = useDb();
+
+  const processConversation = useCallback(
+    async (conversation: CachedConversation) =>
+      client
+        ? _processConversation({
+            client,
+            conversation,
+            db,
+            processors: conversationProcessors,
+          })
+        : undefined,
+    [client, conversationProcessors, db],
+  );
 
   const saveConversation = useCallback(
     (conversation: CachedConversation) =>
@@ -51,6 +68,7 @@ export const useConversationInternal = () => {
   );
 
   return {
+    processConversation,
     saveConversation,
     updateConversation,
     updateMetadata,

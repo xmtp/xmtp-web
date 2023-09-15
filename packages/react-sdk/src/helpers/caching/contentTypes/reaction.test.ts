@@ -129,7 +129,6 @@ describe("ContentTypeReaction caching", () => {
         message: testReactionMessage,
         persist,
         updateConversationMetadata,
-        processors: reactionContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
 
@@ -172,7 +171,6 @@ describe("ContentTypeReaction caching", () => {
         message: testReactionMessage2,
         persist,
         updateConversationMetadata,
-        processors: reactionContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
 
@@ -219,7 +217,6 @@ describe("ContentTypeReaction caching", () => {
         message: testMessage,
         persist,
         updateConversationMetadata,
-        processors: reactionContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
       const reactionsTable = db.table("reactions") as CachedReactionsTable;

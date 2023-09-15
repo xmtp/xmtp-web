@@ -5,12 +5,14 @@ import type {
   ContentTypeConfiguration,
   ContentTypeMessageProcessors,
   ContentTypeMessageValidators,
+  ConversationProcessors,
 } from "@/helpers/caching/db";
 import { getDbInstance } from "@/helpers/caching/db";
 import { combineNamespaces } from "@/helpers/combineNamespaces";
 import { combineMessageProcessors } from "@/helpers/combineMessageProcessors";
 import { combineCodecs } from "@/helpers/combineCodecs";
 import { combineValidators } from "@/helpers/combineValidators";
+import { combineConversationProcessors } from "@/helpers/combineConversationProcessors";
 
 export type XMTPContextValue = {
   /**
@@ -33,6 +35,10 @@ export type XMTPContextValue = {
    * Message processors for caching
    */
   processors: ContentTypeMessageProcessors;
+  /**
+   * Conversation processors for caching
+   */
+  conversationProcessors: ConversationProcessors;
   /**
    * Set the XMTP client instance
    */
@@ -58,6 +64,7 @@ export const XMTPContext = createContext<XMTPContextValue>({
   db: initialDb,
   namespaces: {},
   processors: {},
+  conversationProcessors: {},
   setClient: () => {},
   setClientSigner: () => {},
   validators: {},
@@ -74,6 +81,11 @@ export type XMTPProviderProps = React.PropsWithChildren & {
    */
   contentTypeConfigs?: ContentTypeConfiguration[];
   /**
+   * An array of conversation configurations to support the processing of
+   * conversations
+   */
+  conversationConfigs?: ConversationProcessors[];
+  /**
    * Database version to use for the local cache
    *
    * This number should be incremented when adding support for additional
@@ -86,6 +98,7 @@ export const XMTPProvider: React.FC<XMTPProviderProps> = ({
   children,
   client: initialClient,
   contentTypeConfigs,
+  conversationConfigs,
   dbVersion,
 }) => {
   const [client, setClient] = useState<Client | undefined>(initialClient);
@@ -97,6 +110,12 @@ export const XMTPProvider: React.FC<XMTPProviderProps> = ({
   const processors = useMemo(
     () => combineMessageProcessors(contentTypeConfigs ?? []),
     [contentTypeConfigs],
+  );
+
+  // combine all conversation processors
+  const conversationProcessors = useMemo(
+    () => combineConversationProcessors(conversationConfigs ?? []),
+    [conversationConfigs],
   );
 
   // combine all codecs
@@ -136,12 +155,22 @@ export const XMTPProvider: React.FC<XMTPProviderProps> = ({
       db,
       namespaces,
       processors,
+      conversationProcessors,
       setClient,
       setClientSigner,
       signer: clientSigner,
       validators,
     }),
-    [client, clientSigner, codecs, db, namespaces, processors, validators],
+    [
+      client,
+      clientSigner,
+      codecs,
+      conversationProcessors,
+      db,
+      namespaces,
+      processors,
+      validators,
+    ],
   );
 
   return <XMTPContext.Provider value={value}>{children}</XMTPContext.Provider>;

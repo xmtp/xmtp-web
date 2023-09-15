@@ -362,7 +362,6 @@ export const processMessage = async (
             conversation,
             db,
             message: message as CachedMessageWithId,
-            processors,
             persist,
             updateConversationMetadata,
           }),

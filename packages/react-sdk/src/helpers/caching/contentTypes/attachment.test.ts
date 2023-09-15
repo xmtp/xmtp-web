@@ -90,7 +90,6 @@ describe("ContentTypeRemoteAttachment caching", () => {
         message: testMessage,
         persist,
         updateConversationMetadata,
-        processors: attachmentContentTypeConfig.processors,
       });
       expect(persist).toHaveBeenCalledWith();
     });
@@ -131,7 +130,6 @@ describe("ContentTypeRemoteAttachment caching", () => {
         message: testMessage,
         persist,
         updateConversationMetadata,
-        processors: attachmentContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
     });
@@ -183,7 +181,6 @@ describe("ContentTypeRemoteAttachment caching", () => {
         message: testMessage,
         persist,
         updateConversationMetadata,
-        processors: attachmentContentTypeConfig.processors,
       });
       expect(persist).toHaveBeenCalledWith();
     });
@@ -224,7 +221,6 @@ describe("ContentTypeRemoteAttachment caching", () => {
         message: testMessage,
         persist,
         updateConversationMetadata,
-        processors: attachmentContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
     });

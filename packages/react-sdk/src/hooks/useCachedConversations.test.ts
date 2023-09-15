@@ -1,12 +1,15 @@
 import { it, expect, describe, beforeEach } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
+import { Client } from "@xmtp/xmtp-js";
+import { Wallet } from "ethers";
 import { getDbInstance, clearCache } from "@/helpers/caching/db";
 import type { CachedConversation } from "@/helpers/caching/conversations";
-import { saveConversation } from "@/helpers/caching/conversations";
+import { processConversation } from "@/helpers/caching/conversations";
 
 const db = getDbInstance();
 const testWalletAddress = "testAddress";
 const testPeerAddress = "testPeerAddress";
+const testWallet = Wallet.createRandom();
 
 vi.mock("./useDb", () => ({
   useDb: () => ({
@@ -40,6 +43,7 @@ describe("useCachedConversations", () => {
   });
 
   it("should return conversations when they're added to the cache", async () => {
+    const testClient = await Client.create(testWallet, { env: "local" });
     const testConversation = {
       id: 1,
       createdAt: new Date(),
@@ -50,7 +54,11 @@ describe("useCachedConversations", () => {
       peerAddress: testPeerAddress,
     } satisfies CachedConversation;
 
-    await saveConversation(testConversation, db);
+    await processConversation({
+      client: testClient,
+      conversation: testConversation,
+      db,
+    });
 
     const { result } = renderHook(() => useCachedConversations());
 

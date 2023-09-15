@@ -39,7 +39,6 @@ export type ContentTypeMessageProcessor<C = any> = (options: {
   conversation: CachedConversation;
   db: Dexie;
   message: CachedMessageWithId<C>;
-  processors?: ContentTypeMessageProcessors;
   persist: InternalPersistMessage;
   updateConversationMetadata: (
     data: ContentTypeMetadataValues,
@@ -51,6 +50,13 @@ export type ContentTypeMessageValidators = Record<
   (content: unknown) => boolean
 >;
 
+export type ConversationProcessor = (options: {
+  client: Client;
+  conversation: CachedConversation;
+  db: Dexie;
+  updateMetadata: (data: ContentTypeMetadataValues) => Promise<void>;
+}) => Promise<void>;
+
 export type ContentTypeConfiguration = {
   codecs: ContentCodec<any>[];
   namespace: string;
@@ -61,6 +67,10 @@ export type ContentTypeConfiguration = {
 
 export type ContentTypeMessageProcessors = {
   [contentType: string]: ContentTypeMessageProcessor[];
+};
+
+export type ConversationProcessors = {
+  [namespace: string]: ConversationProcessor[];
 };
 
 export type GetDBInstanceOptions = {
