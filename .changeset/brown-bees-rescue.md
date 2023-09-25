@@ -2,4 +2,4 @@
 "@xmtp/react-sdk": patch
 ---
 
-Sync with main
+Synced with main

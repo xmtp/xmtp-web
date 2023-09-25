@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- [#99](https://github.com/xmtp/xmtp-web/pull/99) [`0b25490`](https://github.com/xmtp/xmtp-web/commit/0b25490d5facccd2aed50224e1f1ecf76cff873d) Thanks [@daria-github](https://github.com/daria-github)! - Sync with main
+- [#99](https://github.com/xmtp/xmtp-web/pull/99) [`0b25490`](https://github.com/xmtp/xmtp-web/commit/0b25490d5facccd2aed50224e1f1ecf76cff873d) Thanks [@daria-github](https://github.com/daria-github)! - Synced with main
 
 ## 1.4.0-beta.1
 
