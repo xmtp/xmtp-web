@@ -12,6 +12,15 @@
 
 - Update xmtp-js to version 11 [`b121750`](https://github.com/xmtp/xmtp-web/commit/b121750f33f42ee40a9d3a5b4d196c433d1209e5)\
 
+## 1.3.7
+
+### Patch Changes
+
+- Add `isLoaded` state to the `useMessages` and `useConversations` hooks
+- Add `clearCache` to exports
+- Minor refactor of `useStartConversation` hook to export `conversation` when no initial message is sent
+- Access all cached conversations using the client's wallet address
+
 ## 1.3.6
 
 ### Patch Changes

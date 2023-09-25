@@ -541,6 +541,7 @@ describe("processMessage", () => {
     expect(mockProcessor3).not.toHaveBeenCalled();
 
     const updatedConversation = await getCachedConversationByTopic(
+      "testWalletAddress",
       "testTopic",
       db,
     );
@@ -594,6 +595,7 @@ describe("processMessage", () => {
     expect(mockProcessor3).not.toHaveBeenCalled();
 
     const updatedConversation = await getCachedConversationByTopic(
+      "testWalletAddress",
       "testTopic",
       db,
     );
@@ -642,6 +644,7 @@ describe("processMessage", () => {
     expect(mockProcessor3).not.toHaveBeenCalled();
 
     const updatedConversation = await getCachedConversationByTopic(
+      "testWalletAddress",
       "testTopic",
       db,
     );
@@ -882,13 +885,13 @@ describe("processMessage", () => {
       isReady: false,
       topic: "testTopic",
       peerAddress: "testPeerAddress",
-      walletAddress: "testWalletAddress",
+      walletAddress: testClient.address,
     } satisfies CachedConversation;
     const cachedConversation = await saveConversation(testConversation, db);
     const sentAt = adjustDate(createdAt, 1000);
     const testMessage = {
       id: 1,
-      walletAddress: "testWalletAddress",
+      walletAddress: testClient.address,
       conversationTopic: "testTopic",
       content: "test",
       contentType: ContentTypeText.toString(),
@@ -897,7 +900,7 @@ describe("processMessage", () => {
       hasSendError: false,
       sentAt,
       status: "unprocessed",
-      senderAddress: "testWalletAddress",
+      senderAddress: testClient.address,
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
@@ -924,6 +927,7 @@ describe("processMessage", () => {
     expect(mockProcessor3).not.toHaveBeenCalled();
 
     const updatedConversation = await getCachedConversationByTopic(
+      testClient.address,
       "testTopic",
       db,
     );

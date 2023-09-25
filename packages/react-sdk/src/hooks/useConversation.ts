@@ -37,9 +37,17 @@ export const useConversationInternal = () => {
     RemoveLastParameter<typeof updateConversationMetadata>
   >(
     async (conversation, namespace, data) => {
-      await updateConversationMetadata(conversation, namespace, data, db);
+      if (client) {
+        await updateConversationMetadata(
+          client.address,
+          conversation,
+          namespace,
+          data,
+          db,
+        );
+      }
     },
-    [db],
+    [client, db],
   );
 
   return {
@@ -57,36 +65,38 @@ export const useConversation = () => {
   const { client } = useClient();
   const { db } = useDb();
 
-  const getByTopic = useCallback<
-    RemoveLastParameter<typeof getConversationByTopic>
-  >(
-    async (topic) => {
-      if (client) {
-        return getConversationByTopic(topic, client);
-      }
-      return undefined;
-    },
+  const getByTopic = useCallback(
+    async (topic: string) =>
+      client ? getConversationByTopic(topic, client) : undefined,
     [client],
   );
 
-  const getCachedByTopic = useCallback<
-    RemoveLastParameter<typeof getCachedConversationByTopic>
-  >(async (topic) => getCachedConversationByTopic(topic, db), [db]);
+  const getCachedByTopic = useCallback(
+    async (topic: string) =>
+      client
+        ? getCachedConversationByTopic(client.address, topic, db)
+        : undefined,
+    [client, db],
+  );
 
-  const getCachedByPeerAddress = useCallback<
-    RemoveLastParameter<typeof getCachedConversationByPeerAddress>
-  >(
-    async (peerAddress) => getCachedConversationByPeerAddress(peerAddress, db),
+  const getCachedByPeerAddress = useCallback(
+    async (peerAddress: string) =>
+      client
+        ? getCachedConversationByPeerAddress(client.address, peerAddress, db)
+        : undefined,
+    [client, db],
+  );
+
+  const getLastMessage = useCallback(
+    async (topic: string) => _getLastMessage(topic, db),
     [db],
   );
 
-  const getLastMessage = useCallback<
-    RemoveLastParameter<typeof _getLastMessage>
-  >(async (topic) => _getLastMessage(topic, db), [db]);
-
-  const hasConversationTopic = useCallback<
-    RemoveLastParameter<typeof _hasConversationTopic>
-  >(async (topic) => _hasConversationTopic(topic, db), [db]);
+  const hasConversationTopic = useCallback(
+    async (topic: string) =>
+      client ? _hasConversationTopic(client.address, topic, db) : false,
+    [client, db],
+  );
 
   return {
     getByTopic,
