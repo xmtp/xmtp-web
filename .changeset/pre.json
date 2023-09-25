@@ -9,6 +9,7 @@
     "@xmtp/tsconfig": "0.0.0"
   },
   "changesets": [
+    "brown-bees-rescue",
     "kind-moose-hang",
     "six-flowers-vanish"
   ]
