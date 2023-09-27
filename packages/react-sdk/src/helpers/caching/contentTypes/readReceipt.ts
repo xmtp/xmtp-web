@@ -1,4 +1,3 @@
-import type { ReadReceipt } from "@xmtp/content-type-read-receipt";
 import {
   ReadReceiptCodec,
   ContentTypeReadReceipt,
@@ -39,9 +38,7 @@ export const getReadReceipt = (conversation: CachedConversation) => {
 export const hasReadReceipt = (conversation: CachedConversation) =>
   getReadReceipt(conversation) !== undefined;
 
-const ReadReceiptContentSchema = z.object({
-  timestamp: z.string().refine((value) => !!parseISO(value)),
-});
+const ReadReceiptContentSchema = z.object({}).strict();
 
 /**
  * Validate the content of a read receipt message
@@ -71,10 +68,8 @@ export const processReadReceipt: ContentTypeMessageProcessor = async ({
     conversation &&
     isValidReadReceiptContent(message.content)
   ) {
-    // update message's conversation with the read receipt metadata
-    await updateConversationMetadata(
-      (message.content as ReadReceipt).timestamp,
-    );
+    // update message's conversation with the message timestamp
+    await updateConversationMetadata(message.sentAt.toISOString());
   }
 };
 
