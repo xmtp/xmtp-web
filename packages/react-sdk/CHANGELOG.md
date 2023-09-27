@@ -1,5 +1,15 @@
 # @xmtp/react-sdk
 
+## 1.4.0
+
+### Minor Changes
+
+- Upgrade JS SDK to v11
+- Upgrade all standards-track content types
+- Replace `ethers` with `viem`
+- Update read receipt processor for updated content type
+- Update client signer type
+
 ## 1.3.7
 
 ### Patch Changes
