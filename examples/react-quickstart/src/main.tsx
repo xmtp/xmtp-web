@@ -2,9 +2,19 @@ import "./polyfills";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "@rainbow-me/rainbowkit/styles.css";
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { configureChains, createClient, WagmiConfig } from "wagmi";
-import { mainnet } from "wagmi/chains";
+import {
+  connectorsForWallets,
+  RainbowKitProvider,
+} from "@rainbow-me/rainbowkit";
+import {
+  coinbaseWallet,
+  metaMaskWallet,
+  rainbowWallet,
+  trustWallet,
+  walletConnectWallet,
+} from "@rainbow-me/rainbowkit/wallets";
+import { createConfig, configureChains, mainnet, WagmiConfig } from "wagmi";
+import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
 import {
   XMTPProvider,
@@ -27,27 +37,39 @@ const contentTypeConfigs = [
   replyContentTypeConfig,
 ];
 
-const { chains, provider, webSocketProvider } = configureChains(
+const { chains, publicClient } = configureChains(
   [mainnet],
-  [publicProvider()],
+  [
+    infuraProvider({ apiKey: import.meta.env.VITE_INFURA_ID }),
+    publicProvider(),
+  ],
 );
 
-const { connectors } = getDefaultWallets({
-  appName: "XMTP React RainbowKit Example",
-  chains,
-  // now required for WalletConnect V2
-  projectId: import.meta.env.VITE_PROJECT_ID,
-});
+const projectId = import.meta.env.VITE_PROJECT_ID;
+const appName = "XMTP React Quickstart";
 
-const wagmiClient = createClient({
+const connectors = connectorsForWallets([
+  {
+    groupName: "Wallets",
+    wallets: [
+      // Alpha order
+      coinbaseWallet({ appName, chains }),
+      metaMaskWallet({ chains, projectId }),
+      rainbowWallet({ chains, projectId }),
+      trustWallet({ projectId, chains }),
+      walletConnectWallet({ chains, projectId }),
+    ],
+  },
+]);
+
+const wagmiConfig = createConfig({
   autoConnect: true,
   connectors,
-  provider,
-  webSocketProvider,
+  publicClient,
 });
 
 createRoot(document.getElementById("root") as HTMLElement).render(
-  <WagmiConfig client={wagmiClient}>
+  <WagmiConfig config={wagmiConfig}>
     <RainbowKitProvider chains={chains}>
       <StrictMode>
         <WalletProvider>
