@@ -1,5 +1,5 @@
 ---
-"@xmtp/react-sdk": patch
+"@xmtp/react-sdk": minor
 ---
 
 * Upgrade JS SDK to v11
