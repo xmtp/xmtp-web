@@ -279,7 +279,7 @@ describe("useStartConversation", () => {
     expect(saveConversationMock).toHaveBeenCalledTimes(1);
     expect(saveConversationMock).toHaveBeenCalledWith(
       toCachedConversation(
-        mockConversation as unknown as ConversationV2,
+        mockConversation as unknown as ConversationV2<string>,
         "testWalletAddress",
       ),
     );
