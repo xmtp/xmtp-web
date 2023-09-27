@@ -10,7 +10,6 @@ import {
   RemoteAttachmentCodec,
 } from "@xmtp/content-type-remote-attachment";
 import { Client, ContentTypeText } from "@xmtp/xmtp-js";
-import { Wallet } from "ethers";
 import {
   getAttachment,
   hasAttachment,
@@ -21,8 +20,9 @@ import {
 import { type CachedMessageWithId } from "@/helpers/caching/messages";
 import { getDbInstance } from "@/helpers/caching/db";
 import type { CachedConversationWithId } from "@/helpers/caching/conversations";
+import { createRandomWallet } from "@/helpers/testing";
 
-const testWallet = Wallet.createRandom();
+const testWallet = createRandomWallet();
 const db = getDbInstance({
   contentTypeConfigs: [attachmentContentTypeConfig],
 });
@@ -59,11 +59,11 @@ describe("ContentTypeRemoteAttachment caching", () => {
         isReady: false,
         topic: "testTopic",
         peerAddress: "testPeerAddress",
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
       } satisfies CachedConversationWithId;
       const testMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: {
           filename: "testFilename",
@@ -104,11 +104,11 @@ describe("ContentTypeRemoteAttachment caching", () => {
         isReady: false,
         topic: "testTopic",
         peerAddress: "testPeerAddress",
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
       } satisfies CachedConversationWithId;
       const testMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
         contentType: ContentTypeText.toString(),
@@ -147,11 +147,11 @@ describe("ContentTypeRemoteAttachment caching", () => {
         isReady: false,
         topic: "testTopic",
         peerAddress: "testPeerAddress",
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
       } satisfies CachedConversationWithId;
       const testMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: {
           contentDigest: "testContentDigest",
@@ -197,11 +197,11 @@ describe("ContentTypeRemoteAttachment caching", () => {
         isReady: false,
         topic: "testTopic",
         peerAddress: "testPeerAddress",
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
       } satisfies CachedConversationWithId;
       const testMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
         contentType: ContentTypeText.toString(),
@@ -239,7 +239,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
       } satisfies Attachment;
       const testMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: testContent,
         contentType: ContentTypeAttachment.toString(),
@@ -268,7 +268,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
       } satisfies RemoteAttachment;
       const testMessage2 = {
         id: 2,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: testContent2,
         contentType: ContentTypeRemoteAttachment.toString(),
@@ -287,7 +287,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
 
       const testMessage3 = {
         id: 3,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "foo",
         contentType: ContentTypeText.toString(),
@@ -315,7 +315,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
       } satisfies Attachment;
       const testMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: testContent,
         contentType: ContentTypeAttachment.toString(),
@@ -334,7 +334,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
 
       const testMessage2 = {
         id: 2,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "foo",
         contentType: ContentTypeText.toString(),

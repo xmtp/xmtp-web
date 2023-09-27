@@ -1,10 +1,10 @@
 import { it, expect, describe, vi, beforeEach } from "vitest";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { Client } from "@xmtp/xmtp-js";
-import { Wallet } from "ethers";
 import type { PropsWithChildren } from "react";
 import { useClient } from "@/hooks/useClient";
 import { XMTPProvider } from "@/contexts/XMTPContext";
+import { createRandomWallet } from "@/helpers/testing";
 
 const processUnprocessedMessagesMock = vi.hoisted(() => vi.fn());
 
@@ -54,7 +54,7 @@ describe("useClient", () => {
       address: "testWalletAddress",
     };
     const clientCreateSpy = vi.spyOn(Client, "create");
-    const testWallet = Wallet.createRandom();
+    const testWallet = createRandomWallet();
 
     const { result } = renderHook(() => useClient(), {
       wrapper: ({ children }) => (
@@ -76,7 +76,7 @@ describe("useClient", () => {
   });
 
   it("should initialize a client if one is not active", async () => {
-    const testWallet = Wallet.createRandom();
+    const testWallet = createRandomWallet();
     const mockClient = {
       address: "testWalletAddress",
     } as unknown as Client;
@@ -105,7 +105,7 @@ describe("useClient", () => {
   });
 
   it("should throw an error if client initialization fails", async () => {
-    const testWallet = Wallet.createRandom();
+    const testWallet = createRandomWallet();
     const testError = new Error("testError");
     vi.spyOn(Client, "create").mockRejectedValue(testError);
     const onErrorMock = vi.fn();
@@ -126,7 +126,7 @@ describe("useClient", () => {
   });
 
   it("should should call the onError callback if processing unprocessed messages fails", async () => {
-    const testWallet = Wallet.createRandom();
+    const testWallet = createRandomWallet();
     const testError = new Error("testError");
     const mockClient = {
       address: "testWalletAddress",

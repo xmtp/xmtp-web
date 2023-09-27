@@ -1,6 +1,5 @@
 import { it, expect, describe, vi } from "vitest";
 import { Client, ContentTypeText } from "@xmtp/xmtp-js";
-import { Wallet } from "ethers";
 import {
   ContentTypeAttachment,
   type Attachment,
@@ -12,8 +11,9 @@ import {
   processText,
   textContentTypeConfig,
 } from "@/helpers/caching/contentTypes/text";
+import { createRandomWallet } from "@/helpers/testing";
 
-const testWallet = Wallet.createRandom();
+const testWallet = createRandomWallet();
 const db = getDbInstance();
 
 describe("ContentTypeText caching", () => {
@@ -35,11 +35,11 @@ describe("ContentTypeText caching", () => {
         isReady: false,
         topic: "testTopic",
         peerAddress: "testPeerAddress",
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
       } satisfies CachedConversationWithId;
       const testMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
         contentType: ContentTypeText.toString(),
@@ -76,11 +76,11 @@ describe("ContentTypeText caching", () => {
         isReady: false,
         topic: "testTopic",
         peerAddress: "testPeerAddress",
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
       } satisfies CachedConversationWithId;
       const testMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: {
           filename: "testFilename",

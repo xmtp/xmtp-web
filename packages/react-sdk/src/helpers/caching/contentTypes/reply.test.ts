@@ -1,6 +1,5 @@
 import { it, expect, describe, vi, beforeEach } from "vitest";
 import { Client, ContentTypeText } from "@xmtp/xmtp-js";
-import { Wallet } from "ethers";
 import type { Reply } from "@xmtp/content-type-reply";
 import { ContentTypeReply, ReplyCodec } from "@xmtp/content-type-reply";
 import {
@@ -18,8 +17,9 @@ import {
 } from "@/helpers/caching/messages";
 import { getDbInstance, clearCache } from "@/helpers/caching/db";
 import type { CachedConversationWithId } from "@/helpers/caching/conversations";
+import { createRandomWallet } from "@/helpers/testing";
 
-const testWallet = Wallet.createRandom();
+const testWallet = createRandomWallet();
 const db = getDbInstance({
   contentTypeConfigs: [replyContentTypeConfig],
 });
@@ -48,11 +48,11 @@ describe("ContentTypeReply caching", () => {
         isReady: false,
         topic: "testTopic",
         peerAddress: "testPeerAddress",
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
       } satisfies CachedConversationWithId;
       const testTextMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
         contentType: ContentTypeText.toString(),
@@ -76,7 +76,7 @@ describe("ContentTypeReply caching", () => {
 
       const testReplyMessage = {
         id: 2,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: testReplyContent,
         contentType: ContentTypeReply.toString(),
@@ -128,11 +128,11 @@ describe("ContentTypeReply caching", () => {
         isReady: false,
         topic: "testTopic",
         peerAddress: "testPeerAddress",
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
       } satisfies CachedConversationWithId;
       const testMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
         contentType: ContentTypeText.toString(),
@@ -165,7 +165,7 @@ describe("ContentTypeReply caching", () => {
     it("should return undefined if the message isn't a processed reply", async () => {
       const testTextMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
         contentType: ContentTypeText.toString(),
@@ -187,7 +187,7 @@ describe("ContentTypeReply caching", () => {
 
       const testReplyMessage = {
         id: 2,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: {
           content: "test",
@@ -217,7 +217,7 @@ describe("ContentTypeReply caching", () => {
     it("should return empty array if no metadata is present", () => {
       const testTextMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
         contentType: ContentTypeText.toString(),
@@ -240,7 +240,7 @@ describe("ContentTypeReply caching", () => {
     it("should create multiple replies in message metadata", async () => {
       const testTextMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
         contentType: ContentTypeText.toString(),

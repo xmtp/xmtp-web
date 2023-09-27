@@ -1,6 +1,5 @@
 import { it, expect, describe, vi, beforeEach } from "vitest";
 import { Client, ContentTypeText } from "@xmtp/xmtp-js";
-import { Wallet } from "ethers";
 import type { ReadReceipt } from "@xmtp/content-type-read-receipt";
 import {
   ContentTypeReadReceipt,
@@ -18,8 +17,9 @@ import {
   processReadReceipt,
   readReceiptContentTypeConfig,
 } from "@/helpers/caching/contentTypes/readReceipt";
+import { createRandomWallet } from "@/helpers/testing";
 
-const testWallet = Wallet.createRandom();
+const testWallet = createRandomWallet();
 const db = getDbInstance({
   contentTypeConfigs: [readReceiptContentTypeConfig],
 });
@@ -52,27 +52,23 @@ describe("ContentTypeReadReceipt caching", () => {
         isReady: false,
         topic: "testTopic",
         peerAddress: "testPeerAddress",
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
       } satisfies CachedConversationWithId;
 
       await saveConversation(testConversation, db);
 
-      const readReceiptDate = new Date();
-
-      const testReadReceiptContent = {
-        timestamp: readReceiptDate.toString(),
-      } satisfies ReadReceipt;
+      const sentAt = new Date();
 
       const testReadReceiptMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
-        content: testReadReceiptContent,
+        content: {},
         contentType: ContentTypeReadReceipt.toString(),
         isSending: false,
         hasLoadError: false,
         hasSendError: false,
-        sentAt: new Date(),
+        sentAt,
         status: "unprocessed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid1",
@@ -92,7 +88,7 @@ describe("ContentTypeReadReceipt caching", () => {
       });
       expect(persist).not.toHaveBeenCalled();
       expect(updateConversationMetadata).toHaveBeenCalledWith(
-        readReceiptDate.toString(),
+        sentAt.toISOString(),
       );
     });
 
@@ -105,11 +101,11 @@ describe("ContentTypeReadReceipt caching", () => {
         isReady: false,
         topic: "testTopic",
         peerAddress: "testPeerAddress",
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
       } satisfies CachedConversationWithId;
       const testTextMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
         contentType: ContentTypeText.toString(),
@@ -149,7 +145,7 @@ describe("ContentTypeReadReceipt caching", () => {
         isReady: false,
         topic: "testTopic",
         peerAddress: "testPeerAddress",
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         metadata: {
           readReceipt: readReceiptDate.toISOString(),
         },
@@ -168,7 +164,7 @@ describe("ContentTypeReadReceipt caching", () => {
         isReady: false,
         topic: "testTopic",
         peerAddress: "testPeerAddress",
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
       } satisfies CachedConversationWithId;
       expect(getReadReceipt(testConversation)).toBe(undefined);
     });
@@ -183,7 +179,7 @@ describe("ContentTypeReadReceipt caching", () => {
         isReady: false,
         topic: "testTopic",
         peerAddress: "testPeerAddress",
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         metadata: {
           readReceipt: new Date().toString(),
         },
@@ -200,7 +196,7 @@ describe("ContentTypeReadReceipt caching", () => {
         isReady: false,
         topic: "testTopic",
         peerAddress: "testPeerAddress",
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
       } satisfies CachedConversationWithId;
       expect(hasReadReceipt(testConversation)).toBe(false);
     });

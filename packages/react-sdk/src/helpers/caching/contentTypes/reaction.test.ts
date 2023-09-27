@@ -1,6 +1,5 @@
 import { it, expect, describe, vi, beforeEach } from "vitest";
 import { Client, ContentTypeText } from "@xmtp/xmtp-js";
-import { Wallet } from "ethers";
 import type { Reaction } from "@xmtp/content-type-reaction";
 import {
   ContentTypeReaction,
@@ -21,8 +20,9 @@ import {
 } from "@/helpers/caching/messages";
 import { getDbInstance, clearCache } from "@/helpers/caching/db";
 import type { CachedConversationWithId } from "@/helpers/caching/conversations";
+import { createRandomWallet } from "@/helpers/testing";
 
-const testWallet = Wallet.createRandom();
+const testWallet = createRandomWallet();
 const db = getDbInstance({
   contentTypeConfigs: [reactionContentTypeConfig],
 });
@@ -77,11 +77,11 @@ describe("ContentTypeReaction caching", () => {
         isReady: false,
         topic: "testTopic",
         peerAddress: "testPeerAddress",
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
       } satisfies CachedConversationWithId;
       const testTextMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
         contentType: ContentTypeText.toString(),
@@ -106,7 +106,7 @@ describe("ContentTypeReaction caching", () => {
 
       const testReactionMessage = {
         id: 2,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: testReactionContent,
         contentType: ContentTypeReaction.toString(),
@@ -148,7 +148,7 @@ describe("ContentTypeReaction caching", () => {
 
       const testReactionMessage2 = {
         id: 3,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: {
           ...testReactionContent,
@@ -192,11 +192,11 @@ describe("ContentTypeReaction caching", () => {
         isReady: false,
         topic: "testTopic",
         peerAddress: "testPeerAddress",
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
       } satisfies CachedConversationWithId;
       const testMessage = {
         id: 1,
-        walletAddress: testWallet.address,
+        walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
         contentType: ContentTypeText.toString(),
