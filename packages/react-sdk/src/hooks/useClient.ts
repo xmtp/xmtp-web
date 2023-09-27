@@ -1,6 +1,7 @@
 import { useCallback, useContext, useRef, useState } from "react";
 import type { ClientOptions, Signer } from "@xmtp/xmtp-js";
 import { Client } from "@xmtp/xmtp-js";
+import type { WalletClient } from "viem";
 import { XMTPContext } from "../contexts/XMTPContext";
 import type { OnError } from "@/sharedTypes";
 import { processUnprocessedMessages } from "@/helpers/caching/messages";
@@ -19,7 +20,7 @@ export type InitializeClientOptions = {
   /**
    * The signer (wallet) to associate with the XMTP client
    */
-  signer?: Signer | null;
+  signer?: Signer | WalletClient | null;
 };
 
 /**

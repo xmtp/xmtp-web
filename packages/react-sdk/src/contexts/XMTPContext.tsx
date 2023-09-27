@@ -1,6 +1,7 @@
 import { createContext, useMemo, useState } from "react";
 import type { Client, ContentCodec, Signer } from "@xmtp/xmtp-js";
 import Dexie from "dexie";
+import type { WalletClient } from "viem";
 import type {
   ContentTypeConfiguration,
   ContentTypeMessageProcessors,
@@ -40,11 +41,13 @@ export type XMTPContextValue = {
   /**
    * Set the signer (wallet) to associate with the XMTP client instance
    */
-  setClientSigner: React.Dispatch<React.SetStateAction<Signer | undefined>>;
+  setClientSigner: React.Dispatch<
+    React.SetStateAction<Signer | WalletClient | undefined>
+  >;
   /**
    * The signer (wallet) associated with the XMTP client instance
    */
-  signer?: Signer | null;
+  signer?: Signer | WalletClient | null;
   /**
    * Message content validators for content types
    */
@@ -89,9 +92,9 @@ export const XMTPProvider: React.FC<XMTPProviderProps> = ({
   dbVersion,
 }) => {
   const [client, setClient] = useState<Client | undefined>(initialClient);
-  const [clientSigner, setClientSigner] = useState<Signer | undefined>(
-    undefined,
-  );
+  const [clientSigner, setClientSigner] = useState<
+    Signer | WalletClient | undefined
+  >(undefined);
 
   // combine all message processors
   const processors = useMemo(
