@@ -23,20 +23,20 @@
     "@xmtp/react-sdk": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "viem": "^1.12.2",
+    "viem": "^1.13.0",
     "wagmi": "^1.4.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.20",
-    "@types/react-dom": "^18.2.7",
-    "@vitejs/plugin-react": "^4.0.4",
+    "@types/react-dom": "^18.2.8",
+    "@vitejs/plugin-react": "^4.1.0",
     "@xmtp/tsconfig": "workspace:*",
-    "autoprefixer": "^10.4.15",
-    "eslint": "^8.47.0",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.50.0",
     "eslint-config-xmtp-web": "workspace:*",
-    "postcss": "^8.4.25",
-    "postcss-preset-env": "^8.5.1",
-    "typescript": "^5.1.6",
+    "postcss": "^8.4.30",
+    "postcss-preset-env": "^9.1.4",
+    "typescript": "^5.2.2",
     "vite": "^4.4.9"
   }
 }
