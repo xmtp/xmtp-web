@@ -1,22 +1,22 @@
 import { LinkIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { useClient } from "@xmtp/react-sdk";
 import { useCallback } from "react";
+import { useWalletClient } from "wagmi";
 import { Notification } from "./Notification";
-import { useWallet } from "../hooks/useWallet";
 
 type XMTPConnectButtonProps = {
   label: string;
 };
 
 const XMTPConnectButton: React.FC<XMTPConnectButtonProps> = ({ label }) => {
-  const { signer } = useWallet();
   const { initialize } = useClient();
+  const { data: walletClient } = useWalletClient();
 
   const handleConnect = useCallback(() => {
     void initialize({
-      signer,
+      signer: walletClient,
     });
-  }, [initialize, signer]);
+  }, [initialize, walletClient]);
 
   return (
     <button className="Button" type="button" onClick={handleConnect}>

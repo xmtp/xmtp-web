@@ -1,7 +1,6 @@
 import type { ArgumentsType } from "vitest";
 import { it, expect, describe, beforeEach } from "vitest";
 import { Client, ContentTypeText, DecodedMessage } from "@xmtp/xmtp-js";
-import { Wallet } from "ethers";
 import type { CachedMessage } from "@/helpers/caching/messages";
 import {
   saveMessage,
@@ -27,10 +26,11 @@ import {
 } from "@/helpers/caching/conversations";
 import { adjustDate } from "@/helpers/adjustDate";
 import { textContentTypeConfig } from "@/helpers/caching/contentTypes/text";
+import { createRandomWallet } from "@/helpers/testing";
 
 const db = getDbInstance();
-const testWallet1 = Wallet.createRandom();
-const testWallet2 = Wallet.createRandom();
+const testWallet1 = createRandomWallet();
+const testWallet2 = createRandomWallet();
 
 beforeEach(async () => {
   await clearCache(db);
@@ -41,7 +41,7 @@ describe("toCachedMessage", () => {
     const testClient1 = await Client.create(testWallet1, { env: "local" });
     await Client.create(testWallet2, { env: "local" });
     const testConversation = await testClient1.conversations.newConversation(
-      testWallet2.address,
+      testWallet2.account.address,
       undefined,
     );
     const sentAt = new Date();
@@ -1082,12 +1082,12 @@ describe("processUnprocessedMessages", () => {
       isReady: false,
       topic: "testTopic",
       peerAddress: "testPeerAddress",
-      walletAddress: testWallet1.address,
+      walletAddress: testWallet1.account.address,
     } satisfies CachedConversation;
     const cachedConversation = await saveConversation(testConversation, db);
     const testMessage1 = {
       id: 1,
-      walletAddress: testWallet1.address,
+      walletAddress: testWallet1.account.address,
       conversationTopic: "testTopic",
       content: "test",
       contentType: ContentTypeText.toString(),
@@ -1096,14 +1096,14 @@ describe("processUnprocessedMessages", () => {
       hasSendError: false,
       sentAt,
       status: "unprocessed",
-      senderAddress: testWallet1.address,
+      senderAddress: testWallet1.account.address,
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
     await saveMessage(testMessage1, db);
     const testMessage2 = {
       id: 1,
-      walletAddress: testWallet1.address,
+      walletAddress: testWallet1.account.address,
       conversationTopic: "testTopic",
       content: "test",
       contentType: ContentTypeText.toString(),
@@ -1112,7 +1112,7 @@ describe("processUnprocessedMessages", () => {
       hasSendError: false,
       sentAt,
       status: "processed",
-      senderAddress: testWallet1.address,
+      senderAddress: testWallet1.account.address,
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
@@ -1151,7 +1151,7 @@ describe("processUnprocessedMessages", () => {
     const sentAt = adjustDate(createdAt, 1000);
     const testMessage1 = {
       id: 1,
-      walletAddress: testWallet1.address,
+      walletAddress: testWallet1.account.address,
       conversationTopic: "testTopic",
       content: "test",
       contentType: ContentTypeText.toString(),
@@ -1160,7 +1160,7 @@ describe("processUnprocessedMessages", () => {
       hasSendError: false,
       sentAt,
       status: "unprocessed",
-      senderAddress: testWallet1.address,
+      senderAddress: testWallet1.account.address,
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;

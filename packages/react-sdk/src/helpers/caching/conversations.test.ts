@@ -1,5 +1,4 @@
 import { it, expect, describe, beforeEach } from "vitest";
-import { Wallet } from "ethers";
 import { Client } from "@xmtp/xmtp-js";
 import { getDbInstance, clearCache } from "@/helpers/caching/db";
 import {
@@ -19,9 +18,11 @@ import type {
   CachedConversationWithId,
 } from "@/helpers/caching/conversations";
 import { adjustDate } from "@/helpers/adjustDate";
+import { createRandomWallet } from "@/helpers/testing";
 
-const testWallet1 = Wallet.createRandom();
-const testWallet2 = Wallet.createRandom();
+const testWallet1 = createRandomWallet();
+const testWallet2 = createRandomWallet();
+
 const db = getDbInstance();
 
 beforeEach(async () => {
@@ -123,7 +124,7 @@ describe("getConversationByTopic", () => {
     const testClient1 = await Client.create(testWallet1, { env: "local" });
     await Client.create(testWallet2, { env: "local" });
     const testConversation = await testClient1.conversations.newConversation(
-      testWallet2.address,
+      testWallet2.account.address,
       undefined,
     );
     const conversation = await getConversationByTopic(
@@ -300,12 +301,12 @@ describe("toCachedConversation", () => {
     const testClient1 = await Client.create(testWallet1, { env: "local" });
     await Client.create(testWallet2, { env: "local" });
     const testConversation = await testClient1.conversations.newConversation(
-      testWallet2.address,
+      testWallet2.account.address,
       undefined,
     );
     const cachedConversation = toCachedConversation(
       testConversation,
-      testWallet1.address,
+      testWallet1.account.address,
     );
     expect(cachedConversation).toEqual({
       context: undefined,
@@ -314,7 +315,7 @@ describe("toCachedConversation", () => {
       peerAddress: testConversation.peerAddress,
       topic: testConversation.topic,
       updatedAt: testConversation.createdAt,
-      walletAddress: testWallet1.address,
+      walletAddress: testWallet1.account.address,
     });
   });
 });

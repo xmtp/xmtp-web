@@ -94,9 +94,6 @@ describe("useSendMessage", () => {
         testConversation,
         testAttachment,
         ContentTypeAttachment,
-        {
-          contentFallback: "test",
-        },
       );
       expect(sentMessage).toEqual({ id: 1 });
     });
@@ -107,7 +104,6 @@ describe("useSendMessage", () => {
       testAttachment,
       ContentTypeAttachment,
       {
-        contentFallback: "test",
         onError: onErrorMock,
         onSuccess: onSuccessMock,
       },
