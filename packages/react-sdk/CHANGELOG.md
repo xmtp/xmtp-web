@@ -1,5 +1,15 @@
 # @xmtp/react-sdk
 
+## 1.4.0
+
+### Minor Changes
+
+- [#101](https://github.com/xmtp/xmtp-web/pull/101) [`66137d9`](https://github.com/xmtp/xmtp-web/commit/66137d949e0de1e4b6576fc5e486e21613807824) Thanks [@rygine](https://github.com/rygine)! - \* Upgrade JS SDK to v11
+  - Upgrade all standards-track content types
+  - Replace `ethers` with `viem`
+  - Update read receipt processor for updated content type
+  - Update client signer type
+
 ## 1.3.7
 
 ### Patch Changes
