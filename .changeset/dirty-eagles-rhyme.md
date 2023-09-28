@@ -10,4 +10,5 @@
 
 * Fix client initialization when using only keys
 * Add test for client initialization with keys
+* Upgraded dependencies
 
