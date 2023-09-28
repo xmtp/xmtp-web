@@ -1,5 +1,19 @@
 # @xmtp/react-sdk
 
+## 2.0.0
+
+### Major Changes
+
+**BREAKING CHANGES**
+
+- Remove `signer` and `setClientSigner` from `XMTPContext`
+
+**OTHER CHANGES**
+
+- Fix client initialization when using only keys
+- Add test for client initialization with keys
+- Upgraded dependencies
+
 ## 1.4.0
 
 ### Minor Changes
