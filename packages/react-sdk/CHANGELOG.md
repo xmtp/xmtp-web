@@ -4,15 +4,15 @@
 
 ### Major Changes
 
-- [#104](https://github.com/xmtp/xmtp-web/pull/104) [`678654e`](https://github.com/xmtp/xmtp-web/commit/678654e2ee0f7bf0655a155ea20ee540b49477a8) Thanks [@rygine](https://github.com/rygine)! - \*\*\* BREAKING CHANGES
+**BREAKING CHANGES**
 
-  - Remove `signer` and `setClientSigner` from `XMTPContext`
+- Remove `signer` and `setClientSigner` from `XMTPContext`
 
-  \*\*\* OTHER CHANGES
+**OTHER CHANGES**
 
-  - Fix client initialization when using only keys
-  - Add test for client initialization with keys
-  - Upgraded dependencies
+- Fix client initialization when using only keys
+- Add test for client initialization with keys
+- Upgraded dependencies
 
 ## 1.4.0
 
