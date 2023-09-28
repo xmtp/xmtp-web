@@ -33,17 +33,8 @@ export const useClient = (onError?: OnError["onError"]) => {
   // client is initializing
   const initializingRef = useRef(false);
 
-  const {
-    client,
-    setClient,
-    setClientSigner,
-    signer: clientSigner,
-    codecs,
-    db,
-    processors,
-    namespaces,
-    validators,
-  } = useContext(XMTPContext);
+  const { client, setClient, codecs, db, processors, namespaces, validators } =
+    useContext(XMTPContext);
 
   /**
    * Initialize an XMTP client
@@ -51,7 +42,7 @@ export const useClient = (onError?: OnError["onError"]) => {
   const initialize = useCallback(
     async ({ keys, options, signer }: InitializeClientOptions) => {
       // only initialize a client if one doesn't already exist
-      if (!client && signer) {
+      if (!client && (signer || keys)) {
         // if the client is already initializing, don't do anything
         if (initializingRef.current) {
           return undefined;
@@ -69,16 +60,14 @@ export const useClient = (onError?: OnError["onError"]) => {
 
         try {
           // create a new XMTP client with the provided keys, or a wallet
-          xmtpClient = await Client.create(keys ? null : signer, {
+          xmtpClient = await Client.create(signer ?? null, {
             ...options,
             codecs,
             privateKeyOverride: keys,
           });
           setClient(xmtpClient);
-          setClientSigner(signer);
         } catch (e) {
           setClient(undefined);
-          setClientSigner(undefined);
           setError(e as Error);
           onError?.(e as Error);
           // re-throw error for upstream consumption
@@ -114,7 +103,6 @@ export const useClient = (onError?: OnError["onError"]) => {
       onError,
       processors,
       setClient,
-      setClientSigner,
       validators,
     ],
   );
@@ -126,9 +114,8 @@ export const useClient = (onError?: OnError["onError"]) => {
     if (client) {
       await client.close();
       setClient(undefined);
-      setClientSigner(undefined);
     }
-  }, [client, setClient, setClientSigner]);
+  }, [client, setClient]);
 
   return {
     client,
@@ -136,6 +123,5 @@ export const useClient = (onError?: OnError["onError"]) => {
     error,
     initialize,
     isLoading,
-    signer: clientSigner,
   };
 };
