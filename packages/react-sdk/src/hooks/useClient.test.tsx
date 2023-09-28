@@ -1,12 +1,13 @@
 import { it, expect, describe, vi, beforeEach } from "vitest";
 import { act, renderHook, waitFor } from "@testing-library/react";
-import { Client } from "@xmtp/xmtp-js";
+import { Client, TextCodec } from "@xmtp/xmtp-js";
 import type { PropsWithChildren } from "react";
 import { useClient } from "@/hooks/useClient";
 import { XMTPProvider } from "@/contexts/XMTPContext";
 import { createRandomWallet } from "@/helpers/testing";
 
 const processUnprocessedMessagesMock = vi.hoisted(() => vi.fn());
+const clientCreateSpy = vi.spyOn(Client, "create");
 
 const TestWrapper: React.FC<PropsWithChildren & { client?: Client }> = ({
   children,
@@ -23,6 +24,7 @@ vi.mock("@/helpers/caching/messages", async () => {
 
 describe("useClient", () => {
   beforeEach(() => {
+    clientCreateSpy.mockClear();
     processUnprocessedMessagesMock.mockReset();
   });
 
@@ -53,7 +55,6 @@ describe("useClient", () => {
     const mockClient = {
       address: "testWalletAddress",
     };
-    const clientCreateSpy = vi.spyOn(Client, "create");
     const testWallet = createRandomWallet();
 
     const { result } = renderHook(() => useClient(), {
@@ -75,29 +76,66 @@ describe("useClient", () => {
     });
   });
 
-  it("should initialize a client if one is not active", async () => {
+  it("should initialize a client with a signer", async () => {
     const testWallet = createRandomWallet();
-    const mockClient = {
-      address: "testWalletAddress",
-    } as unknown as Client;
-    const clientCreateSpy = vi
-      .spyOn(Client, "create")
-      .mockResolvedValue(mockClient);
 
     const { result } = renderHook(() => useClient(), {
       wrapper: ({ children }) => <TestWrapper>{children}</TestWrapper>,
     });
 
+    let client: Client | undefined;
+
     await act(async () => {
-      await result.current.initialize({ signer: testWallet });
+      client = await result.current.initialize({
+        signer: testWallet,
+        options: { env: "local" },
+      });
     });
 
     expect(clientCreateSpy).toHaveBeenCalledWith(testWallet, {
-      codecs: [],
+      env: "local",
+      codecs: [new TextCodec()],
       privateKeyOverride: undefined,
     });
-    expect(result.current.client).toBe(mockClient);
-    expect(result.current.signer).toBe(testWallet);
+    expect(result.current.client).toBe(client);
+
+    await waitFor(() => {
+      expect(processUnprocessedMessagesMock).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it("should initialize a client with keys", async () => {
+    const testWallet = createRandomWallet();
+
+    const keys = await Client.getKeys(testWallet, {
+      skipContactPublishing: true,
+      persistConversations: false,
+      env: "local",
+    });
+
+    const { result } = renderHook(() => useClient(), {
+      wrapper: ({ children }) => <TestWrapper>{children}</TestWrapper>,
+    });
+
+    let client: Client | undefined;
+
+    await act(async () => {
+      client = await result.current.initialize({
+        keys,
+        options: {
+          env: "local",
+        },
+      });
+    });
+
+    expect(clientCreateSpy.mock.calls[1][0]).toBe(null);
+    expect(clientCreateSpy.mock.calls[1][1]).toEqual({
+      env: "local",
+      codecs: [new TextCodec()],
+      privateKeyOverride: keys,
+    });
+
+    expect(result.current.client).toBe(client);
 
     await waitFor(() => {
       expect(processUnprocessedMessagesMock).toHaveBeenCalledTimes(1);
@@ -107,7 +145,7 @@ describe("useClient", () => {
   it("should throw an error if client initialization fails", async () => {
     const testWallet = createRandomWallet();
     const testError = new Error("testError");
-    vi.spyOn(Client, "create").mockRejectedValue(testError);
+    clientCreateSpy.mockRejectedValue(testError);
     const onErrorMock = vi.fn();
 
     const { result } = renderHook(() => useClient(onErrorMock));
@@ -121,18 +159,14 @@ describe("useClient", () => {
     expect(onErrorMock).toBeCalledTimes(1);
     expect(onErrorMock).toHaveBeenCalledWith(testError);
     expect(result.current.client).toBeUndefined();
-    expect(result.current.signer).toBeUndefined();
     expect(result.current.error).toEqual(testError);
+    clientCreateSpy.mockReset();
   });
 
   it("should should call the onError callback if processing unprocessed messages fails", async () => {
     const testWallet = createRandomWallet();
     const testError = new Error("testError");
-    const mockClient = {
-      address: "testWalletAddress",
-    } as unknown as Client;
     const onErrorMock = vi.fn();
-    vi.spyOn(Client, "create").mockResolvedValue(mockClient);
     processUnprocessedMessagesMock.mockRejectedValue(testError);
 
     const { result } = renderHook(() => useClient(onErrorMock), {
@@ -140,7 +174,10 @@ describe("useClient", () => {
     });
 
     await act(async () => {
-      await result.current.initialize({ signer: testWallet });
+      await result.current.initialize({
+        signer: testWallet,
+        options: { env: "local" },
+      });
     });
 
     await waitFor(() => {
