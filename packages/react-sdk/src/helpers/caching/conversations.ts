@@ -9,6 +9,7 @@ export type CachedConversation<M = ContentTypeMetadata> = {
   createdAt: Date;
   id?: number;
   isReady: boolean;
+  lastSyncedAt?: Date;
   metadata?: M;
   peerAddress: string;
   topic: string;
@@ -106,7 +107,10 @@ export const getConversationByTopic = async (
 export const updateConversation = async (
   topic: string,
   update: Partial<
-    Pick<CachedConversation, "updatedAt" | "isReady" | "metadata">
+    Pick<
+      CachedConversation,
+      "updatedAt" | "isReady" | "metadata" | "lastSyncedAt"
+    >
   >,
   db: Dexie,
 ) => {

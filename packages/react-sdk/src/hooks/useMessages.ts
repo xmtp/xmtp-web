@@ -1,10 +1,11 @@
 import { SortDirection, type DecodedMessage } from "@xmtp/xmtp-js";
 import { useCallback, useEffect, useRef, useState } from "react";
+import min from "date-fns/min";
+import subSeconds from "date-fns/subSeconds";
 import type { OnError } from "../sharedTypes";
 import { useCachedMessages } from "./useCachedMessages";
 import type { CachedMessageWithId } from "@/helpers/caching/messages";
 import { toCachedMessage } from "@/helpers/caching/messages";
-import { adjustDate } from "@/helpers/adjustDate";
 import { getConversationByTopic } from "@/helpers/caching/conversations";
 import type { CachedConversation } from "@/helpers/caching/conversations";
 import { useClient } from "./useClient";
@@ -16,6 +17,11 @@ export type UseMessagesOptions = OnError & {
    * Callback function to execute when new messages are fetched
    */
   onMessages?: (messages: DecodedMessage[]) => void;
+  /**
+   * Whether or not to disable automatic syncing of messages when the
+   * browser tab becomes visible
+   */
+  disableAutoSync?: boolean;
 };
 
 /**
@@ -40,7 +46,7 @@ export const useMessages = (
   const loadingRef = useRef(false);
 
   // destructure options for more granular dependency arrays
-  const { onError, onMessages } = options ?? {};
+  const { disableAutoSync, onError, onMessages } = options ?? {};
 
   const getMessages = useCallback(async () => {
     // already in progress
@@ -64,11 +70,23 @@ export const useMessages = (
     // reset error state
     setError(null);
 
+    // fetch messages from the network starting from this time
     let startTime: Date | undefined;
+
     // if the conversation messages have already been loaded
     if (conversation.isReady) {
-      // only fetch messages after the most recent message in the conversation
-      startTime = adjustDate(conversation.updatedAt, 1);
+      /**
+       * the time of the latest message in the conversation may come after the
+       * last time the conversation was synced. in this case, we want to fetch
+       * messages after the last sync to ensure no messages are missed.
+       */
+      const syncFrom = min([
+        // if the conversation is ready, `lastSyncedAt` should be defined
+        conversation.lastSyncedAt ?? Date.now(),
+        conversation.updatedAt,
+      ]);
+      // account for clock drift
+      startTime = subSeconds(syncFrom, 10);
     }
 
     try {
@@ -76,6 +94,11 @@ export const useMessages = (
         conversation.topic,
         client,
       );
+
+      // message timestamps are user-generated and can't be trusted to
+      // determine the last synced time
+      const lastSyncedAt = new Date();
+
       const networkMessages =
         (await networkConversation?.messages({
           // be explicit in case the default changes
@@ -97,6 +120,11 @@ export const useMessages = (
         // mark the conversation as ready
         await updateConversation(conversation.topic, { isReady: true });
       }
+
+      // update the conversation's last synced time
+      await updateConversation(conversation.topic, {
+        lastSyncedAt,
+      });
 
       setIsLoaded(true);
       onMessages?.(networkMessages);
@@ -122,6 +150,19 @@ export const useMessages = (
   useEffect(() => {
     void getMessages();
   }, [getMessages]);
+
+  // fetch conversation messages when the page becomes visible
+  useEffect(() => {
+    const onVisibilityChange = () => {
+      if (!document.hidden && !disableAutoSync) {
+        void getMessages();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
+  }, [getMessages, disableAutoSync]);
 
   return {
     error,
