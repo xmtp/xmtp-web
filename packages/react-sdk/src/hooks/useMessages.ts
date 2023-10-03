@@ -121,7 +121,7 @@ export const useMessages = (
         await updateConversation(conversation.topic, { isReady: true });
       }
 
-      // set the last synced time to the time of the most recent message
+      // update the conversation's last synced time
       await updateConversation(conversation.topic, {
         lastSyncedAt,
       });
