@@ -4,10 +4,10 @@
 
 ### Minor Changes
 
-- [#106](https://github.com/xmtp/xmtp-web/pull/106) [`e0a360b`](https://github.com/xmtp/xmtp-web/commit/e0a360beee832ca2ebc9526eb462595587bd87c0) Thanks [@rygine](https://github.com/rygine)! - \* Added `lastSyncedAt` property to cached conversations to track when a conversation's messages were last synced
-  - When loading new messages, use the `lastSyncedAt` time if it comes before the last message
-  - When an inactive tab becomes active again, the `useMessages` hook will re-sync the conversation messages from the network
-  - Added a new `disableAutoSync` option to `useMessages` hook to disable automatic syncing when a tab becomes active
+- Added `lastSyncedAt` property to cached conversations to track when a conversation's messages were last synced
+- When loading new messages, use the `lastSyncedAt` time if it comes before the last message
+- When an inactive tab becomes active again, the `useMessages` hook will re-sync the conversation messages from the network
+- Added a new `disableAutoSync` option to `useMessages` hook to disable automatic syncing when a tab becomes active
 
 ## 2.0.0
 
