@@ -1,11 +1,11 @@
 import { SortDirection, type DecodedMessage } from "@xmtp/xmtp-js";
 import { useCallback, useEffect, useRef, useState } from "react";
 import min from "date-fns/min";
+import subSeconds from "date-fns/subSeconds";
 import type { OnError } from "../sharedTypes";
 import { useCachedMessages } from "./useCachedMessages";
 import type { CachedMessageWithId } from "@/helpers/caching/messages";
 import { toCachedMessage } from "@/helpers/caching/messages";
-import { adjustDate } from "@/helpers/adjustDate";
 import { getConversationByTopic } from "@/helpers/caching/conversations";
 import type { CachedConversation } from "@/helpers/caching/conversations";
 import { useClient } from "./useClient";
@@ -85,8 +85,8 @@ export const useMessages = (
         conversation.lastSyncedAt ?? Date.now(),
         conversation.updatedAt,
       ]);
-      // only fetch messages after the most recent message in the conversation
-      startTime = adjustDate(syncFrom, 1);
+      // account for clock drift
+      startTime = subSeconds(syncFrom, 10);
     }
 
     try {
