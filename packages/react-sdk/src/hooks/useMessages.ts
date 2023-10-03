@@ -1,5 +1,6 @@
 import { SortDirection, type DecodedMessage } from "@xmtp/xmtp-js";
 import { useCallback, useEffect, useRef, useState } from "react";
+import min from "date-fns/min";
 import type { OnError } from "../sharedTypes";
 import { useCachedMessages } from "./useCachedMessages";
 import type { CachedMessageWithId } from "@/helpers/caching/messages";
@@ -64,11 +65,23 @@ export const useMessages = (
     // reset error state
     setError(null);
 
+    // fetch messages from the network starting from this time
     let startTime: Date | undefined;
+
     // if the conversation messages have already been loaded
     if (conversation.isReady) {
+      /**
+       * the time of the latest message in the conversation may come after the
+       * last time the conversation was synced. in this case, we want to fetch
+       * messages after the last sync to ensure no messages are missed.
+       */
+      const syncFrom = min([
+        // if the conversation is ready, `lastSyncedAt` should be defined
+        conversation.lastSyncedAt ?? Date.now(),
+        conversation.updatedAt,
+      ]);
       // only fetch messages after the most recent message in the conversation
-      startTime = adjustDate(conversation.updatedAt, 1);
+      startTime = adjustDate(syncFrom, 1);
     }
 
     try {
@@ -98,6 +111,11 @@ export const useMessages = (
         await updateConversation(conversation.topic, { isReady: true });
       }
 
+      // set the last synced time to the time of the most recent message
+      await updateConversation(conversation.topic, {
+        lastSyncedAt: networkMessages[networkMessages.length - 1]?.sent,
+      });
+
       setIsLoaded(true);
       onMessages?.(networkMessages);
     } catch (e) {
@@ -121,6 +139,19 @@ export const useMessages = (
   // fetch conversation messages on mount
   useEffect(() => {
     void getMessages();
+  }, [getMessages]);
+
+  // fetch conversation messages when the page becomes visible
+  useEffect(() => {
+    const onVisibilityChange = () => {
+      if (!document.hidden) {
+        void getMessages();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
   }, [getMessages]);
 
   return {
