@@ -17,6 +17,11 @@ export type UseMessagesOptions = OnError & {
    * Callback function to execute when new messages are fetched
    */
   onMessages?: (messages: DecodedMessage[]) => void;
+  /**
+   * Whether or not to disable automatic syncing of messages when the
+   * browser tab becomes visible
+   */
+  disableAutoSync?: boolean;
 };
 
 /**
@@ -41,7 +46,7 @@ export const useMessages = (
   const loadingRef = useRef(false);
 
   // destructure options for more granular dependency arrays
-  const { onError, onMessages } = options ?? {};
+  const { disableAutoSync, onError, onMessages } = options ?? {};
 
   const getMessages = useCallback(async () => {
     // already in progress
@@ -89,6 +94,11 @@ export const useMessages = (
         conversation.topic,
         client,
       );
+
+      // message timestamps are user-generated and can't be trusted to
+      // determine the last synced time
+      const lastSyncedAt = new Date();
+
       const networkMessages =
         (await networkConversation?.messages({
           // be explicit in case the default changes
@@ -113,7 +123,7 @@ export const useMessages = (
 
       // set the last synced time to the time of the most recent message
       await updateConversation(conversation.topic, {
-        lastSyncedAt: networkMessages[networkMessages.length - 1]?.sent,
+        lastSyncedAt,
       });
 
       setIsLoaded(true);
@@ -144,7 +154,7 @@ export const useMessages = (
   // fetch conversation messages when the page becomes visible
   useEffect(() => {
     const onVisibilityChange = () => {
-      if (!document.hidden) {
+      if (!document.hidden && !disableAutoSync) {
         void getMessages();
       }
     };
@@ -152,7 +162,7 @@ export const useMessages = (
     return () => {
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-  }, [getMessages]);
+  }, [getMessages, disableAutoSync]);
 
   return {
     error,
