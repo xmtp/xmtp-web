@@ -17,7 +17,7 @@ export const useReactions = (message?: CachedMessage) => {
         return await reactionsTable
           .where("referenceXmtpID")
           .equals(message.xmtpID)
-          .toArray();
+          .sortBy("sentAt");
       } catch {
         return [];
       }
