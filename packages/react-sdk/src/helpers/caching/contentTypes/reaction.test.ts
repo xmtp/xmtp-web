@@ -43,27 +43,39 @@ describe("ContentTypeReaction caching", () => {
 
   describe("saveReaction", () => {
     it("should save a reaction to the cache", async () => {
+      const firstSentAt = new Date();
       const testReaction = {
         content: "test",
         referenceXmtpID: "testXmtpId",
         schema: "custom",
         senderAddress: "testWalletAddress",
+        sentAt: firstSentAt,
         xmtpID: "testXmtpId",
       } satisfies CachedReaction;
 
       const reactionId = await saveReaction(testReaction, db);
       expect(reactionId).toEqual(1);
 
+      const testReactions = await getReactionsByXmtpID("testXmtpId", db);
+      expect(testReactions.length).toEqual(1);
+      expect(testReactions[0].sentAt).toEqual(firstSentAt);
+
+      const secondSentAt = new Date();
       const testReaction2 = {
         content: "test",
         referenceXmtpID: "testXmtpId",
         schema: "custom",
         senderAddress: "testWalletAddress",
+        sentAt: secondSentAt,
         xmtpID: "testXmtpId",
       } satisfies CachedReaction;
 
       const reactionId2 = await saveReaction(testReaction2, db);
       expect(reactionId2).toEqual(1);
+
+      const testReactions2 = await getReactionsByXmtpID("testXmtpId", db);
+      expect(testReactions2.length).toEqual(1);
+      expect(testReactions2[0].sentAt).toEqual(secondSentAt);
     });
   });
 

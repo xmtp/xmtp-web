@@ -21,6 +21,7 @@ export type CachedReaction = {
   referenceXmtpID: Reaction["reference"];
   schema: Reaction["schema"];
   senderAddress: string;
+  sentAt: Date;
   xmtpID: string;
 };
 
@@ -75,6 +76,10 @@ export const saveReaction = async (reaction: CachedReaction, db: Dexie) => {
   // check if reaction already exists
   const existing = await findReaction(reaction, db);
   if (existing) {
+    // update when the reaction was sent
+    await reactionsTable.update(existing.id, {
+      sentAt: reaction.sentAt,
+    });
     return existing.id;
   }
 
@@ -108,7 +113,7 @@ export const getReactionsByXmtpID = async (
   db: Dexie,
 ) => {
   const reactionsTable = db.table("reactions") as CachedReactionsTable;
-  return reactionsTable.where({ referenceXmtpID: xmtpID }).toArray();
+  return reactionsTable.where({ referenceXmtpID: xmtpID }).sortBy("sentAt");
 };
 
 /**
@@ -178,6 +183,7 @@ export const processReaction: ContentTypeMessageProcessor = async ({
       referenceXmtpID: reaction.reference,
       schema: reaction.schema,
       senderAddress: message.senderAddress,
+      sentAt: message.sentAt,
       xmtpID: message.xmtpID,
     } satisfies CachedReaction;
 
@@ -210,6 +216,7 @@ export const reactionContentTypeConfig: ContentTypeConfiguration = {
       content,
       schema,
       senderAddress,
+      sentAt,
       xmtpID
     `,
   },
