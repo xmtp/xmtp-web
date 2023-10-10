@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- [#111](https://github.com/xmtp/xmtp-web/pull/111) [`457bbc6`](https://github.com/xmtp/xmtp-web/commit/457bbc62927e359a7c39e94f5f872bb702cc20ee) Thanks [@rygine](https://github.com/rygine)! - - Added a mutex to the reaction message processor so that messages are processed in order, which is important for determining the state of a message's reactions
+- Added a mutex to the reaction message processor so that messages are processed in order, which is important for determining the state of a message's reactions
 
 ## 2.2.0
 
