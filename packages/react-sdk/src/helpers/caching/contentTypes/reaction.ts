@@ -5,6 +5,7 @@ import {
 } from "@xmtp/content-type-reaction";
 import { ContentTypeId } from "@xmtp/xmtp-js";
 import type { Dexie, Table } from "dexie";
+import { Mutex } from "async-mutex";
 import { z } from "zod";
 import type {
   ContentTypeConfiguration,
@@ -162,6 +163,8 @@ const isValidReactionContent = (content: unknown) => {
   return success;
 };
 
+const processReactionMutex = new Mutex();
+
 /**
  * Process a reaction message
  *
@@ -172,34 +175,37 @@ export const processReaction: ContentTypeMessageProcessor = async ({
   message,
   db,
 }) => {
-  const contentType = ContentTypeId.fromString(message.contentType);
-  if (
-    ContentTypeReaction.sameAs(contentType) &&
-    isValidReactionContent(message.content)
-  ) {
-    const reaction = message.content as Reaction;
-    const cachedReaction = {
-      content: reaction.content,
-      referenceXmtpID: reaction.reference,
-      schema: reaction.schema,
-      senderAddress: message.senderAddress,
-      sentAt: message.sentAt,
-      xmtpID: message.xmtpID,
-    } satisfies CachedReaction;
+  // ensure that only 1 reaction message is processed at a time to preserve order
+  await processReactionMutex.runExclusive(async () => {
+    const contentType = ContentTypeId.fromString(message.contentType);
+    if (
+      ContentTypeReaction.sameAs(contentType) &&
+      isValidReactionContent(message.content)
+    ) {
+      const reaction = message.content as Reaction;
+      const cachedReaction = {
+        content: reaction.content,
+        referenceXmtpID: reaction.reference,
+        schema: reaction.schema,
+        senderAddress: message.senderAddress,
+        sentAt: message.sentAt,
+        xmtpID: message.xmtpID,
+      } satisfies CachedReaction;
 
-    switch (reaction.action) {
-      case "added":
-        await saveReaction(cachedReaction, db);
-        break;
-      case "removed":
-        await deleteReaction(cachedReaction, db);
-        break;
-      // no default
+      switch (reaction.action) {
+        case "added":
+          await saveReaction(cachedReaction, db);
+          break;
+        case "removed":
+          await deleteReaction(cachedReaction, db);
+          break;
+        // no default
+      }
+
+      // update reactions metadata on the referenced message
+      await updateReactionsMetadata(reaction.reference, db);
     }
-
-    // update reactions metadata on the referenced message
-    await updateReactionsMetadata(reaction.reference, db);
-  }
+  });
 };
 
 export const reactionContentTypeConfig: ContentTypeConfiguration = {
