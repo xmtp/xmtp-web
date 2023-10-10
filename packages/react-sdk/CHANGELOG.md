@@ -4,9 +4,9 @@
 
 ### Minor Changes
 
-- [#109](https://github.com/xmtp/xmtp-web/pull/109) [`65275f1`](https://github.com/xmtp/xmtp-web/commit/65275f131b04d76482a8033abfa74bd5b4f160c4) Thanks [@rygine](https://github.com/rygine)! - \* Added `sentAt` field to cached reactions to track when a reaction was made
-  - Updated `getReactionsByXmtpID` to return reactions sorted by `sentAt`
-  - Updated `useReactions` hook to return reactions sorted by `sentAt`
+- Added `sentAt` field to cached reactions to track when a reaction was made
+- Updated `getReactionsByXmtpID` to return reactions sorted by `sentAt`
+- Updated `useReactions` hook to return reactions sorted by `sentAt`
 
 ## 2.1.0
 
