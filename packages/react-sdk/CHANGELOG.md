@@ -1,5 +1,13 @@
 # @xmtp/react-sdk
 
+## 2.2.0
+
+### Minor Changes
+
+- Added `sentAt` field to cached reactions to track when a reaction was made
+- Updated `getReactionsByXmtpID` to return reactions sorted by `sentAt`
+- Updated `useReactions` hook to return reactions sorted by `sentAt`
+
 ## 2.1.0
 
 ### Minor Changes
