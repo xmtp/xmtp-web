@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 2.2.1
+
+### Patch Changes
+
+- Added a mutex to the reaction message processor so that messages are processed in order, which is important for determining the state of a message's reactions
+
 ## 2.2.0
 
 ### Minor Changes
