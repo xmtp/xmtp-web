@@ -1,5 +1,12 @@
 # @xmtp/react-sdk
 
+## 2.2.2
+
+### Patch Changes
+
+- Refactored the read receipt processor to ignore read receipts older than the current one or if the read receipt was sent by the current client
+- Added tests for both cases outlined above
+
 ## 2.2.1
 
 ### Patch Changes
