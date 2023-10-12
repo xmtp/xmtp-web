@@ -5,6 +5,7 @@ import {
 import { ContentTypeId } from "@xmtp/xmtp-js";
 import { parseISO } from "date-fns";
 import { z } from "zod";
+import isAfter from "date-fns/isAfter";
 import type {
   ContentTypeConfiguration,
   ContentTypeMessageProcessor,
@@ -58,15 +59,21 @@ const isValidReadReceiptContent = (content: unknown) => {
  * read receipt.
  */
 export const processReadReceipt: ContentTypeMessageProcessor = async ({
+  client,
   message,
   conversation,
   updateConversationMetadata,
 }) => {
   const contentType = ContentTypeId.fromString(message.contentType);
+  const readReceiptDate = getReadReceipt(conversation);
   if (
     ContentTypeReadReceipt.sameAs(contentType) &&
     conversation &&
-    isValidReadReceiptContent(message.content)
+    isValidReadReceiptContent(message.content) &&
+    // ignore read receipts sent by the client
+    message.senderAddress !== client.address &&
+    // ignore read receipts that are older than the current one
+    (!readReceiptDate || isAfter(message.sentAt, readReceiptDate))
   ) {
     // update message's conversation with the message timestamp
     await updateConversationMetadata(message.sentAt.toISOString());
