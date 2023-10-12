@@ -5,6 +5,7 @@ import {
   ContentTypeReadReceipt,
   ReadReceiptCodec,
 } from "@xmtp/content-type-read-receipt";
+import subSeconds from "date-fns/subSeconds";
 import { type CachedMessageWithId } from "@/helpers/caching/messages";
 import { getDbInstance, clearCache } from "@/helpers/caching/db";
 import {
@@ -43,7 +44,7 @@ describe("ContentTypeReadReceipt caching", () => {
   });
 
   describe("processReadReceipt", () => {
-    it("should update conversation in cache", async () => {
+    it("should update conversation metadata with timestamp", async () => {
       const testClient = await Client.create(testWallet, { env: "local" });
       const testConversation = {
         id: 1,
@@ -90,6 +91,127 @@ describe("ContentTypeReadReceipt caching", () => {
       expect(updateConversationMetadata).toHaveBeenCalledWith(
         sentAt.toISOString(),
       );
+    });
+
+    it("should ignore read receipts that come before the current one", async () => {
+      const testClient = await Client.create(testWallet, { env: "local" });
+      const testConversation = {
+        id: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        isReady: false,
+        topic: "testTopic",
+        peerAddress: "testPeerAddress",
+        walletAddress: testWallet.account.address,
+      } satisfies CachedConversationWithId;
+
+      await saveConversation(testConversation, db);
+
+      const sentAt = new Date();
+      const persist = vi.fn();
+      const updateConversationMetadata = vi.fn();
+
+      const testReadReceiptMessage = {
+        id: 1,
+        walletAddress: testWallet.account.address,
+        conversationTopic: "testTopic",
+        content: {},
+        contentType: ContentTypeReadReceipt.toString(),
+        isSending: false,
+        hasLoadError: false,
+        hasSendError: false,
+        sentAt,
+        status: "unprocessed",
+        senderAddress: "testWalletAddress",
+        uuid: "testUuid1",
+        xmtpID: "testXmtpId1",
+      } satisfies CachedMessageWithId<ReadReceipt>;
+
+      await processReadReceipt({
+        client: testClient,
+        conversation: testConversation,
+        db,
+        message: testReadReceiptMessage,
+        persist,
+        updateConversationMetadata,
+        processors: readReceiptContentTypeConfig.processors,
+      });
+      expect(persist).not.toHaveBeenCalled();
+      expect(updateConversationMetadata).toHaveBeenCalledWith(
+        sentAt.toISOString(),
+      );
+
+      const testReadReceiptMessage2 = {
+        id: 2,
+        walletAddress: testWallet.account.address,
+        conversationTopic: "testTopic",
+        content: {},
+        contentType: ContentTypeReadReceipt.toString(),
+        isSending: false,
+        hasLoadError: false,
+        hasSendError: false,
+        sentAt: subSeconds(sentAt, 1),
+        status: "unprocessed",
+        senderAddress: "testWalletAddress",
+        uuid: "testUuid1",
+        xmtpID: "testXmtpId1",
+      } satisfies CachedMessageWithId<ReadReceipt>;
+
+      await processReadReceipt({
+        client: testClient,
+        conversation: testConversation,
+        db,
+        message: testReadReceiptMessage2,
+        persist,
+        updateConversationMetadata,
+        processors: readReceiptContentTypeConfig.processors,
+      });
+      expect(persist).not.toHaveBeenCalled();
+      expect(updateConversationMetadata).toHaveBeenCalledWith(
+        sentAt.toISOString(),
+      );
+    });
+
+    it("should ignore a read receipt from same client", async () => {
+      const testClient = await Client.create(testWallet, { env: "local" });
+      const testConversation = {
+        id: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        isReady: false,
+        topic: "testTopic",
+        peerAddress: "testPeerAddress",
+        walletAddress: testWallet.account.address,
+      } satisfies CachedConversationWithId;
+      const testMessage = {
+        id: 1,
+        walletAddress: testWallet.account.address,
+        conversationTopic: "testTopic",
+        content: {},
+        contentType: ContentTypeReadReceipt.toString(),
+        isSending: false,
+        hasLoadError: false,
+        hasSendError: false,
+        sentAt: new Date(),
+        status: "unprocessed",
+        senderAddress: testClient.address,
+        uuid: "testUuid1",
+        xmtpID: "testXmtpId1",
+      } satisfies CachedMessageWithId;
+
+      const persist = vi.fn();
+      const updateConversationMetadata = vi.fn();
+      await processReadReceipt({
+        client: testClient,
+        conversation: testConversation,
+        db,
+        message: testMessage,
+        persist,
+        updateConversationMetadata,
+        processors: readReceiptContentTypeConfig.processors,
+      });
+      expect(persist).not.toHaveBeenCalled();
+      expect(updateConversationMetadata).not.toHaveBeenCalled();
     });
 
     it("should not process a message with the wrong content type", async () => {
