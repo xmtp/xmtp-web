@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 2.2.5
+
+### Patch Changes
+
+- Upgraded JS SDK and content types to get latest `@xmtp/proto` changes
+
 ## 2.2.4
 
 ### Patch Changes
