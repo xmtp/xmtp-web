@@ -18,7 +18,7 @@
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@rainbow-me/rainbowkit": "^1.0.11",
-    "@xmtp/content-type-remote-attachment": "^1.1.2",
+    "@xmtp/content-type-remote-attachment": "^1.1.3",
     "@xmtp/react-components": "workspace:*",
     "@xmtp/react-sdk": "workspace:*",
     "react": "^18.2.0",
