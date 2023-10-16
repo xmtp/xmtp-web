@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 2.2.4
+
+### Patch Changes
+
+- [#119](https://github.com/xmtp/xmtp-web/pull/119) [`56f8bc7`](https://github.com/xmtp/xmtp-web/commit/56f8bc70418021f26b3028167761996eeba398df) Thanks [@rygine](https://github.com/rygine)! - - Upgraded standards-track content types
+
 ## 2.2.3
 
 ### Patch Changes
