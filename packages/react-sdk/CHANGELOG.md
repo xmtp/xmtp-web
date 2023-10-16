@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 2.2.4
+
+### Patch Changes
+
+- Upgraded standards-track content types
+
 ## 2.2.3
 
 ### Patch Changes
