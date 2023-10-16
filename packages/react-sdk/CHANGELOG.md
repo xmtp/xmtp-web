@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 2.2.3
+
+### Patch Changes
+
+- [#117](https://github.com/xmtp/xmtp-web/pull/117) [`618f445`](https://github.com/xmtp/xmtp-web/commit/618f445788fab9dc97e7b78e78be0009cd2640e4) Thanks [@rygine](https://github.com/rygine)! - - Added export for `getReplies` function
+
 ## 2.2.2
 
 ### Patch Changes
