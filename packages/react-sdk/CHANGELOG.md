@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- [#121](https://github.com/xmtp/xmtp-web/pull/121) [`8631c9e`](https://github.com/xmtp/xmtp-web/commit/8631c9e2f631f94c82dec5d71d9588c7de340051) Thanks [@rygine](https://github.com/rygine)! - - Upgraded JS SDK and content types to get latest `@xmtp/proto` changes
+- Upgraded JS SDK and content types to get latest `@xmtp/proto` changes
 
 ## 2.2.4
 
