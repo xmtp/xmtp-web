@@ -109,8 +109,9 @@ export {
 // replies
 export type { CachedRepliesMetadata } from "./helpers/caching/contentTypes/reply";
 export {
-  hasReply,
+  getReplies,
   getOriginalMessageFromReply,
+  hasReply,
   replyContentTypeConfig,
 } from "./helpers/caching/contentTypes/reply";
 
