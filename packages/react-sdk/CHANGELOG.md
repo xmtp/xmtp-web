@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 2.2.3
+
+### Patch Changes
+
+- Added export for `getReplies` function
+
 ## 2.2.2
 
 ### Patch Changes
