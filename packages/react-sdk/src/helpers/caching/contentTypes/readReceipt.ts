@@ -5,7 +5,7 @@ import {
 import { ContentTypeId } from "@xmtp/xmtp-js";
 import { parseISO } from "date-fns";
 import { z } from "zod";
-import isAfter from "date-fns/isAfter";
+import { isAfter } from "date-fns";
 import type {
   ContentTypeConfiguration,
   ContentTypeMessageProcessor,
