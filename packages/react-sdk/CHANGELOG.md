@@ -1,5 +1,26 @@
 # @xmtp/react-sdk
 
+## 2.2.6
+
+### Patch Changes
+
+- [#125](https://github.com/xmtp/xmtp-web/pull/125) [`4c71f14`](https://github.com/xmtp/xmtp-web/commit/4c71f14575cb1e2beff6c6fab0b9b181fdd3a54d) Thanks [@hoesele](https://github.com/hoesele)! - ### Fixed imports of `date-fns` package for Next.js compatibility
+
+  - **Issue**: [Fix of reported bug #124](https://github.com/xmtp/xmtp-web/issues/124)
+  - **Changes**:
+    - Changed imports from:
+      ```javascript
+      import xxx from "date-fns/xxx";
+      ```
+      to:
+      ```javascript
+      import { xxx } from "date-fns";
+      ```
+  - **Affected Files**:
+    - `packages/react-sdk/src/helpers/caching/contentTypes/readReceipt.test.ts`
+    - `packages/react-sdk/src/helpers/caching/contentTypes/readReceipt.ts`
+    - `packages/react-sdk/src/hooks/useMessages.ts`
+
 ## 2.2.5
 
 ### Patch Changes
