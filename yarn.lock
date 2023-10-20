@@ -8011,18 +8011,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmtp/proto@npm:^3.28.0-beta.1":
-  version: 3.28.0-beta.1
-  resolution: "@xmtp/proto@npm:3.28.0-beta.1"
-  dependencies:
-    long: ^5.2.0
-    protobufjs: ^7.0.0
-    rxjs: ^7.8.0
-    undici: ^5.8.1
-  checksum: d222356318e72359bf54aea0fb967c3beeac94c82649c2e9c8cdb0a5a01ecf5c1264af1f1a4d2eeffb0d8b05561f0e3ee9b1ee44fa5742edfb0e1b288af8b96d
-  languageName: node
-  linkType: hard
-
 "@xmtp/proto@npm:^3.29.0":
   version: 3.29.0
   resolution: "@xmtp/proto@npm:3.29.0"
@@ -8124,7 +8112,7 @@ __metadata:
     "@xmtp/content-type-remote-attachment": ^1.1.4
     "@xmtp/content-type-reply": ^1.1.5
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": ^11.1.2
+    "@xmtp/xmtp-js": ^11.2.0
     async-mutex: ^0.4.0
     date-fns: ^2.30.0
     dexie: ^3.2.4
@@ -8146,7 +8134,7 @@ __metadata:
     vitest: ^0.34.2
     zod: ^3.22.2
   peerDependencies:
-    "@xmtp/xmtp-js": ^11.1.1
+    "@xmtp/xmtp-js": ^11.2.0
     react: ">=16.14"
   languageName: unknown
   linkType: soft
@@ -8157,17 +8145,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xmtp/xmtp-js@npm:^11.1.1":
-  version: 11.1.1
-  resolution: "@xmtp/xmtp-js@npm:11.1.1"
+"@xmtp/xmtp-js@npm:^11.2.0":
+  version: 11.2.0
+  resolution: "@xmtp/xmtp-js@npm:11.2.0"
   dependencies:
     "@noble/secp256k1": ^1.5.2
-    "@xmtp/proto": ^3.28.0-beta.1
+    "@xmtp/proto": ^3.29.0
     async-mutex: ^0.4.0
     elliptic: ^6.5.4
     ethers: ^5.5.3
     long: ^5.2.0
-  checksum: 208c5606c1d207d8141867067708b872a495cad27ca3327f0797479ac76f3e6c5d2c163bf6c2416cf7b06a33bcb3e00ee51077d902236339e4387bc2113bfa90
+  checksum: 11fbe2d051fd7c121cde43c49de1acedc3b275106b1e09a444fbb0a4bce8b8111a4bc20c4fcbe8d0a474d876b3d3117eebea6453efb18065391afa7fa7334105
   languageName: node
   linkType: hard
 
