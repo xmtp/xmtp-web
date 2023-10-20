@@ -17,9 +17,9 @@
 <h1>Function hasReadReceipt</h1></div>
 <section class="tsd-panel">
 <ul class="tsd-signatures">
-<li class="tsd-signature tsd-anchor-link" id="hasReadReceipt"><span class="tsd-kind-call-signature">has<wbr/>Read<wbr/>Receipt</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">conversation</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#hasReadReceipt" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-signature tsd-anchor-link" id="hasReadReceipt"><span class="tsd-kind-call-signature">has<wbr/>Read<wbr/>Receipt</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">conversation</span>, <span class="tsd-kind-parameter">type</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><a href="#hasReadReceipt" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
 <li class="tsd-description">
-<div class="tsd-comment tsd-typography"><p>Check if a cached conversation has a read receipt</p>
+<div class="tsd-comment tsd-typography"><p>Check if a cached conversation has a read receipt for the given type</p>
 </div>
 <div class="tsd-parameters">
 <h4 class="tsd-parameters-title">Parameters</h4>
@@ -28,12 +28,15 @@
 <h5><span class="tsd-kind-parameter">conversation</span>: <a href="../types/CachedConversation.html" class="tsd-signature-type tsd-kind-type-alias">CachedConversation</a></h5>
 <div class="tsd-comment tsd-typography"><p>Cached conversation</p>
 </div>
-<div class="tsd-comment tsd-typography"></div></li></ul></div>
-<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p><code>true</code> if the conversation has a read receipt, <code>false</code> otherwise</p>
+<div class="tsd-comment tsd-typography"></div></li>
+<li>
+<h5><span class="tsd-kind-parameter">type</span>: <span class="tsd-signature-symbol">keyof </span><a href="../types/CachedReadReceiptMetadata.html" class="tsd-signature-type tsd-kind-type-alias">CachedReadReceiptMetadata</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4><p><code>true</code> if the conversation has a read receipt for the given type,
+<code>false</code> otherwise</p>
 
 <div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/xmtp/xmtp-web/blob/ded27b1/packages/react-sdk/src/helpers/caching/contentTypes/readReceipt.ts#L38">packages/react-sdk/src/helpers/caching/contentTypes/readReceipt.ts:38</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/xmtp/xmtp-web/blob/e428697/packages/react-sdk/src/helpers/caching/contentTypes/readReceipt.ts#L51">packages/react-sdk/src/helpers/caching/contentTypes/readReceipt.ts:51</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
