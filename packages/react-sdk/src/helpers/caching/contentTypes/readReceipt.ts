@@ -3,9 +3,8 @@ import {
   ContentTypeReadReceipt,
 } from "@xmtp/content-type-read-receipt";
 import { ContentTypeId } from "@xmtp/xmtp-js";
-import { parseISO } from "date-fns";
 import { z } from "zod";
-import isAfter from "date-fns/isAfter";
+import { isAfter, parseISO } from "date-fns";
 import type {
   ContentTypeConfiguration,
   ContentTypeMessageProcessor,

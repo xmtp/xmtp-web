@@ -1,7 +1,6 @@
 import { SortDirection, type DecodedMessage } from "@xmtp/xmtp-js";
 import { useCallback, useEffect, useRef, useState } from "react";
-import min from "date-fns/min";
-import subSeconds from "date-fns/subSeconds";
+import { min, subSeconds } from "date-fns";
 import type { OnError } from "../sharedTypes";
 import { useCachedMessages } from "./useCachedMessages";
 import type { CachedMessageWithId } from "@/helpers/caching/messages";
