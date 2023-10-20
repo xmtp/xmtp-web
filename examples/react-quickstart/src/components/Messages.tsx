@@ -1,11 +1,14 @@
 import {
+  ContentTypeId,
   useClient,
   useMessages,
   useSendMessage,
   useStreamMessages,
 } from "@xmtp/react-sdk";
 import type { CachedConversation } from "@xmtp/react-sdk";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { ContentTypeReadReceipt } from "@xmtp/content-type-read-receipt";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ContentTypeReaction } from "@xmtp/content-type-reaction";
 import "./Messages.css";
 import {
   AddressInput,
@@ -26,6 +29,22 @@ export const Messages: React.FC<ConversationMessagesProps> = ({
   const { client } = useClient();
   useStreamMessages(conversation);
   const { sendMessage } = useSendMessage();
+
+  const filteredMessages = useMemo(
+    () =>
+      messages.filter((message) => {
+        const contentType = ContentTypeId.fromString(message.contentType);
+        return (
+          // supported content types
+          message.content !== undefined &&
+          // not reactions
+          !contentType.sameAs(ContentTypeReaction) &&
+          // not read receipts
+          !contentType.sameAs(ContentTypeReadReceipt)
+        );
+      }),
+    [messages],
+  );
 
   const handleSendMessage = useCallback(
     async (message: string) => {
@@ -51,7 +70,7 @@ export const Messages: React.FC<ConversationMessagesProps> = ({
       <MessagesList
         conversation={conversation}
         isLoading={isLoading}
-        messages={messages.filter((message) => message.content !== undefined)}
+        messages={filteredMessages}
         clientAddress={client?.address}
       />
       <div className="MessageInputWrapper">
