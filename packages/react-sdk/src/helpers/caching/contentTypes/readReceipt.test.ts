@@ -5,7 +5,7 @@ import {
   ContentTypeReadReceipt,
   ReadReceiptCodec,
 } from "@xmtp/content-type-read-receipt";
-import { subSeconds } from "date-fns";
+import subSeconds from "date-fns/subSeconds";
 import { type CachedMessageWithId } from "@/helpers/caching/messages";
 import { getDbInstance, clearCache } from "@/helpers/caching/db";
 import {
