@@ -1,5 +1,5 @@
 {
-  "name": "@xmtp/react-sdk",
+  "name": "@ens-vision-pte-ltd/xmtp-react-sdk",
   "description": "XMTP client SDK for React apps written in TypeScript",
   "version": "2.2.5",
   "author": "XMTP Labs <eng@xmtp.com>",
@@ -8,6 +8,9 @@
   "main": "lib/index.cjs",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@ens-vision-pte-ltd"
+  },
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
@@ -21,7 +24,7 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "git@github.com:xmtp/xmtp-web.git",
+    "url": "git@github.com:ENS-Vision-PTE-LTD/xmtp-web-vision.git",
     "directory": "packages/react-sdk"
   },
   "homepage": "https://github.com/xmtp/xmtp-web",
@@ -42,9 +45,6 @@
     "react-hooks",
     "hooks"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "browserslist": {
     "production": [
       ">0.2%",
