@@ -88,9 +88,39 @@ describe("ContentTypeReadReceipt caching", () => {
         processors: readReceiptContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
-      expect(updateConversationMetadata).toHaveBeenCalledWith(
-        sentAt.toISOString(),
-      );
+      expect(updateConversationMetadata).toHaveBeenCalledWith({
+        incoming: sentAt.toISOString(),
+      });
+
+      const testReadReceiptMessage2 = {
+        id: 2,
+        walletAddress: testWallet.account.address,
+        conversationTopic: "testTopic",
+        content: {},
+        contentType: ContentTypeReadReceipt.toString(),
+        isSending: false,
+        hasLoadError: false,
+        hasSendError: false,
+        sentAt,
+        status: "unprocessed",
+        senderAddress: testWallet.account.address,
+        uuid: "testUuid1",
+        xmtpID: "testXmtpId1",
+      } satisfies CachedMessageWithId<ReadReceipt>;
+
+      await processReadReceipt({
+        client: testClient,
+        conversation: testConversation,
+        db,
+        message: testReadReceiptMessage2,
+        persist,
+        updateConversationMetadata,
+        processors: readReceiptContentTypeConfig.processors,
+      });
+      expect(persist).not.toHaveBeenCalled();
+      expect(updateConversationMetadata).toHaveBeenCalledWith({
+        outgoing: sentAt.toISOString(),
+      });
     });
 
     it("should ignore read receipts that come before the current one", async () => {
@@ -137,9 +167,9 @@ describe("ContentTypeReadReceipt caching", () => {
         processors: readReceiptContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
-      expect(updateConversationMetadata).toHaveBeenCalledWith(
-        sentAt.toISOString(),
-      );
+      expect(updateConversationMetadata).toHaveBeenCalledWith({
+        incoming: sentAt.toISOString(),
+      });
 
       const testReadReceiptMessage2 = {
         id: 2,
@@ -167,9 +197,9 @@ describe("ContentTypeReadReceipt caching", () => {
         processors: readReceiptContentTypeConfig.processors,
       });
       expect(persist).not.toHaveBeenCalled();
-      expect(updateConversationMetadata).toHaveBeenCalledWith(
-        sentAt.toISOString(),
-      );
+      expect(updateConversationMetadata).toHaveBeenCalledWith({
+        incoming: sentAt.toISOString(),
+      });
     });
 
     it("should ignore a read receipt from same client", async () => {
@@ -269,13 +299,19 @@ describe("ContentTypeReadReceipt caching", () => {
         peerAddress: "testPeerAddress",
         walletAddress: testWallet.account.address,
         metadata: {
-          readReceipt: readReceiptDate.toISOString(),
+          readReceipt: {
+            incoming: readReceiptDate.toISOString(),
+            outgoing: readReceiptDate.toISOString(),
+          },
         },
       } satisfies CachedConversationWithId;
 
-      expect(getReadReceipt(testConversationWithReadReceipt)).toEqual(
-        readReceiptDate,
-      );
+      expect(
+        getReadReceipt(testConversationWithReadReceipt, "incoming"),
+      ).toEqual(readReceiptDate);
+      expect(
+        getReadReceipt(testConversationWithReadReceipt, "outgoing"),
+      ).toEqual(readReceiptDate);
     });
 
     it("should not return read receipt if conversation does not have one", () => {
@@ -288,7 +324,8 @@ describe("ContentTypeReadReceipt caching", () => {
         peerAddress: "testPeerAddress",
         walletAddress: testWallet.account.address,
       } satisfies CachedConversationWithId;
-      expect(getReadReceipt(testConversation)).toBe(undefined);
+      expect(getReadReceipt(testConversation, "incoming")).toBe(undefined);
+      expect(getReadReceipt(testConversation, "outgoing")).toBe(undefined);
     });
   });
 
@@ -303,11 +340,19 @@ describe("ContentTypeReadReceipt caching", () => {
         peerAddress: "testPeerAddress",
         walletAddress: testWallet.account.address,
         metadata: {
-          readReceipt: new Date().toString(),
+          readReceipt: {
+            incoming: new Date().toISOString(),
+            outgoing: new Date().toISOString(),
+          },
         },
       } satisfies CachedConversationWithId;
 
-      expect(hasReadReceipt(testConversationWithReadReceipt)).toBe(true);
+      expect(hasReadReceipt(testConversationWithReadReceipt, "incoming")).toBe(
+        true,
+      );
+      expect(hasReadReceipt(testConversationWithReadReceipt, "outgoing")).toBe(
+        true,
+      );
     });
 
     it("should return false if conversation does not have a read receipt", () => {
@@ -320,7 +365,8 @@ describe("ContentTypeReadReceipt caching", () => {
         peerAddress: "testPeerAddress",
         walletAddress: testWallet.account.address,
       } satisfies CachedConversationWithId;
-      expect(hasReadReceipt(testConversation)).toBe(false);
+      expect(hasReadReceipt(testConversation, "incoming")).toBe(false);
+      expect(hasReadReceipt(testConversation, "outgoing")).toBe(false);
     });
   });
 });

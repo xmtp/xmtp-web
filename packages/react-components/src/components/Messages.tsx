@@ -1,9 +1,10 @@
-import { isAfter, isBefore, isSameDay } from "date-fns";
+import { isBefore, isEqual, isSameDay } from "date-fns";
 import { Fragment, useMemo } from "react";
 import {
   getReadReceipt,
   type CachedConversation,
   type CachedMessage,
+  useClient,
 } from "@xmtp/react-sdk";
 import { MessageSkeletonLoader } from "./SkeletonLoaders/MessageSkeletonLoader";
 import { Message } from "./Message";
@@ -26,28 +27,38 @@ export type MessagesProps = {
   messages?: CachedMessage[];
 };
 
-// TODO: account for messages sent at the same time
-const hasMessageReadAfter = (
-  messages: CachedMessage[],
-  afterSent: Date,
-  readReceipt: Date,
-) =>
-  messages.some(
-    (message) =>
-      isAfter(message.sentAt, afterSent) &&
-      isBefore(message.sentAt, readReceipt),
-  );
-
 export const Messages: React.FC<MessagesProps> = ({
   clientAddress = "",
   conversation,
   isLoading = false,
   messages = [],
 }) => {
-  const outgoingMessages = useMemo(
-    () => messages.filter((message) => message.senderAddress === clientAddress),
-    [messages, clientAddress],
-  );
+  const { client } = useClient();
+
+  // get the last read message of a client's outgoing messages
+  const lastReadMessage = useMemo(() => {
+    const readReceipt = getReadReceipt(conversation, "incoming");
+    const outgoingMessages = messages.filter(
+      (message) => message.senderAddress === client?.address,
+    );
+    let lastRead: CachedMessage | undefined;
+    // there's no read messages without a read receipt
+    if (readReceipt) {
+      outgoingMessages.some((message) => {
+        // outgoing message is before or equal to the read receipt date
+        if (
+          isBefore(message.sentAt, readReceipt) ||
+          isEqual(message.sentAt, readReceipt)
+        ) {
+          lastRead = message;
+          return true;
+        }
+        // outgoing message comes after read receipt, stop checking
+        return false;
+      });
+    }
+    return lastRead;
+  }, [client?.address, conversation, messages]);
 
   if (isLoading && !messages.length) {
     return (
@@ -62,7 +73,6 @@ export const Messages: React.FC<MessagesProps> = ({
   }
 
   const renderedDates: Date[] = [];
-  const readReceipt = getReadReceipt(conversation);
 
   return (
     <div data-testid="message-tile-container" className={styles.wrapper}>
@@ -72,7 +82,6 @@ export const Messages: React.FC<MessagesProps> = ({
         }
         const lastRenderedDate = renderedDates.at(-1) as Date;
         const isIncoming = message.senderAddress !== clientAddress;
-        const isOutgoing = message.senderAddress === clientAddress;
         const isFirstMessage = idx === 0;
         const isLastMessage = idx === filteredMessages.length - 1;
         const isSameDate = isSameDay(lastRenderedDate, message.sentAt);
@@ -82,24 +91,6 @@ export const Messages: React.FC<MessagesProps> = ({
         if (shouldDisplayDate && !isLastMessage) {
           renderedDates.push(message.sentAt);
         }
-
-        // determine if this message should display a read receipt, which
-        // we only want to display on the last read outgoing message
-        const isRead =
-          // conversation must have a valid read receipt, and...
-          readReceipt &&
-          // this message must be outgoing, and...
-          isOutgoing &&
-          // this message must be sent before the read receipt, and...
-          isBefore(message.sentAt, readReceipt) &&
-          // this message is the last message, or...
-          (isLastMessage ||
-            // the next outgoing message was sent after the read receipt
-            !hasMessageReadAfter(
-              outgoingMessages,
-              message.sentAt,
-              readReceipt,
-            ));
 
         return (
           <Fragment key={message.id}>
@@ -111,7 +102,7 @@ export const Messages: React.FC<MessagesProps> = ({
               conversation={conversation}
               message={message}
               isIncoming={isIncoming}
-              isRead={isRead}
+              isRead={lastReadMessage?.xmtpID === message.xmtpID}
             />
           </Fragment>
         );
