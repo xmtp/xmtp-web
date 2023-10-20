@@ -1,37 +1,35 @@
 import { it, expect, describe, vi, beforeEach } from "vitest";
 import { act, renderHook } from "@testing-library/react";
-import { ContentTypeText } from "@xmtp/xmtp-js";
-import { createContext } from "react";
+import { Client, ContentTypeText } from "@xmtp/xmtp-js";
+import type { PropsWithChildren } from "react";
 import { useMessage } from "@/hooks/useMessage";
 import { clearCache, getDbInstance } from "@/helpers/caching/db";
-import type { CachedConversation } from "@/helpers/caching/conversations";
+import {
+  toCachedConversation,
+  type CachedConversation,
+} from "@/helpers/caching/conversations";
 import type { CachedMessage } from "@/helpers/caching/messages";
+import { createRandomWallet } from "@/helpers/testing";
+import { XMTPProvider } from "@/contexts/XMTPContext";
+import { isValidTextContent } from "@/helpers/caching/contentTypes/text";
 
-const useClientMock = vi.hoisted(() => vi.fn());
 const prepareMessageForSendingMock = vi.hoisted(() => vi.fn());
 const processMessageMock = vi.hoisted(() => vi.fn());
 const updateMessageMock = vi.hoisted(() => vi.fn());
 const updateMessageAfterSendingMock = vi.hoisted(() => vi.fn());
-const getConversationByTopicMock = vi.hoisted(() => vi.fn());
 const db = getDbInstance();
-const testWalletAddress = "testAddress";
-const testPeerAddress = "testPeerAddress";
+const testWallet1 = createRandomWallet();
+const testWallet2 = createRandomWallet();
 
-vi.mock("@/contexts/XMTPContext", () => ({
-  XMTPContext: createContext({
-    namespaces: "namespaces",
-    processors: "processors",
-  }),
-}));
+const testWrapper =
+  (client: Client): React.FC<PropsWithChildren> =>
+  // eslint-disable-next-line react/display-name
+  ({ children }) => <XMTPProvider client={client}>{children}</XMTPProvider>;
 
 vi.mock("@/hooks/useDb", () => ({
   useDb: () => ({
     db,
   }),
-}));
-
-vi.mock("@/hooks/useClient", () => ({
-  useClient: useClientMock,
 }));
 
 vi.mock("@/helpers/caching/messages", async () => {
@@ -46,32 +44,17 @@ vi.mock("@/helpers/caching/messages", async () => {
   };
 });
 
-vi.mock("@/helpers/caching/conversations", async () => {
-  const actual = await import("@/helpers/caching/conversations");
-
-  return {
-    ...actual,
-    getConversationByTopic: getConversationByTopicMock,
-  };
-});
-
 describe("useMessage", () => {
   beforeEach(async () => {
     await clearCache(db);
-    useClientMock.mockReset();
     prepareMessageForSendingMock.mockReset();
     processMessageMock.mockReset();
     updateMessageMock.mockReset();
     updateMessageAfterSendingMock.mockReset();
-    getConversationByTopicMock.mockReset();
   });
 
   describe("sendMessage", () => {
     it("should throw an error if no client is available", async () => {
-      useClientMock.mockImplementation(() => ({
-        client: undefined,
-      }));
-
       const { result } = renderHook(() => useMessage());
 
       await act(async () => {
@@ -82,9 +65,9 @@ describe("useMessage", () => {
               createdAt: new Date(),
               updatedAt: new Date(),
               isReady: false,
-              walletAddress: testWalletAddress,
+              walletAddress: testWallet1.account.address,
               topic: "testTopic",
-              peerAddress: testPeerAddress,
+              peerAddress: testWallet2.account.address,
             } satisfies CachedConversation,
             "testMessage",
             ContentTypeText,
@@ -93,36 +76,68 @@ describe("useMessage", () => {
       });
     });
 
+    it("should throw an error if message content is undefined", async () => {
+      const client = await Client.create(testWallet1, { env: "local" });
+      const { result } = renderHook(() => useMessage(), {
+        wrapper: testWrapper(client),
+      });
+
+      await act(async () => {
+        await expect(
+          result.current.sendMessage(
+            {
+              id: 1,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              isReady: false,
+              walletAddress: testWallet1.account.address,
+              topic: "testTopic",
+              peerAddress: testWallet2.account.address,
+            } satisfies CachedConversation,
+            undefined,
+            ContentTypeText,
+          ),
+        ).rejects.toThrow("Message content is required to send a message");
+      });
+    });
+
     it("should throw an error if sending failed", async () => {
-      useClientMock.mockImplementation(() => ({
-        client: {
-          address: testWalletAddress,
-        },
-      }));
+      const client = await Client.create(testWallet1, { env: "local" });
+      await Client.create(testWallet2, { env: "local" });
+      const conversation = await client.conversations.newConversation(
+        testWallet2.account.address,
+        undefined,
+      );
+      const testConversation = toCachedConversation(
+        conversation,
+        testWallet1.account.address,
+      );
       const testError = new Error("testError");
       const sendMock = vi.fn().mockRejectedValueOnce(testError);
       const onErrorMock = vi.fn();
       const onSuccessMock = vi.fn();
-      prepareMessageForSendingMock.mockImplementationOnce(
-        () => "preparedMessage",
+      prepareMessageForSendingMock.mockImplementationOnce(() =>
+        Promise.resolve({
+          message: {
+            id: 1,
+          },
+          preparedMessage: {
+            send: sendMock,
+          },
+        }),
       );
-      processMessageMock.mockImplementationOnce(() => ({
-        id: 1,
-      }));
-      getConversationByTopicMock.mockImplementationOnce(() => ({
-        send: sendMock,
-      }));
-      const testConversation = {
-        id: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isReady: false,
-        walletAddress: testWalletAddress,
-        topic: "testTopic",
-        peerAddress: testPeerAddress,
-      } satisfies CachedConversation;
+      processMessageMock.mockImplementationOnce(() =>
+        Promise.resolve({
+          status: "processed",
+          message: {
+            id: 1,
+          },
+        }),
+      );
 
-      const { result } = renderHook(() => useMessage());
+      const { result } = renderHook(() => useMessage(), {
+        wrapper: testWrapper(client),
+      });
 
       await act(async () => {
         await expect(
@@ -152,90 +167,45 @@ describe("useMessage", () => {
       );
     });
 
-    it("should throw an error if a conversation is not found", async () => {
-      useClientMock.mockImplementation(() => ({
-        client: {
-          address: testWalletAddress,
-        },
-      }));
-      const onErrorMock = vi.fn();
-      const onSuccessMock = vi.fn();
-      prepareMessageForSendingMock.mockImplementationOnce(
-        () => "preparedMessage",
-      );
-      processMessageMock.mockImplementationOnce(() => ({
-        id: 1,
-      }));
-      getConversationByTopicMock.mockImplementationOnce(() => undefined);
-      const testConversation = {
-        id: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isReady: false,
-        walletAddress: testWalletAddress,
-        topic: "testTopic",
-        peerAddress: testPeerAddress,
-      } satisfies CachedConversation;
-
-      const { result } = renderHook(() => useMessage());
-
-      await act(async () => {
-        await expect(
-          result.current.sendMessage(
-            testConversation,
-            "testMessage",
-            ContentTypeText,
-            {
-              onSuccess: onSuccessMock,
-              onError: onErrorMock,
-            },
-          ),
-        ).rejects.toThrow(
-          "Conversation not found in XMTP client, unable to send message",
-        );
-      });
-
-      expect(onSuccessMock).not.toHaveBeenCalled();
-      expect(onErrorMock).toHaveBeenCalledWith(
-        new Error(
-          "Conversation not found in XMTP client, unable to send message",
-        ),
-      );
-      expect(updateMessageMock).not.toHaveBeenCalled();
-    });
-
     it("should send a message", async () => {
-      useClientMock.mockImplementation(() => ({
-        client: {
-          address: testWalletAddress,
-        },
-      }));
+      const client = await Client.create(testWallet1, { env: "local" });
+      await Client.create(testWallet2, { env: "local" });
+      const conversation = await client.conversations.newConversation(
+        testWallet2.account.address,
+        undefined,
+      );
+      const testConversation = toCachedConversation(
+        conversation,
+        testWallet1.account.address,
+      );
       const sentAt = new Date();
       const sendMock = vi.fn().mockImplementation(() => ({
         id: 1,
         sent: sentAt,
       }));
       const onSuccessMock = vi.fn();
-      prepareMessageForSendingMock.mockImplementationOnce(
-        () => "preparedMessage",
+      prepareMessageForSendingMock.mockImplementationOnce(() =>
+        Promise.resolve({
+          message: {
+            id: 1,
+          },
+          preparedMessage: {
+            send: sendMock,
+          },
+        }),
       );
-      processMessageMock.mockImplementationOnce(() => ({
-        id: 1,
-      }));
-      getConversationByTopicMock.mockImplementationOnce(() => ({
-        send: sendMock,
-      }));
-      const testConversation = {
-        id: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        isReady: false,
-        walletAddress: testWalletAddress,
-        topic: "testTopic",
-        peerAddress: testPeerAddress,
-      } satisfies CachedConversation;
+      processMessageMock.mockImplementationOnce(() =>
+        Promise.resolve({
+          status: "processed",
+          message: {
+            id: 1,
+          },
+        }),
+      );
 
-      const { result } = renderHook(() => useMessage());
+      const { result } = renderHook(() => useMessage(), {
+        wrapper: testWrapper(client),
+      });
 
       await act(async () => {
         const { cachedMessage, sentMessage } = await result.current.sendMessage(
@@ -253,38 +223,23 @@ describe("useMessage", () => {
         });
       });
 
-      expect(prepareMessageForSendingMock).toHaveBeenCalledWith({
-        client: {
-          address: testWalletAddress,
-        },
-        content: "testMessage",
-        contentType: ContentTypeText.toString(),
-        conversation: testConversation,
-      });
-
       expect(processMessageMock).toHaveBeenCalledWith({
-        client: {
-          address: testWalletAddress,
-        },
+        client,
         conversation: testConversation,
         db,
-        message: "preparedMessage",
-        namespaces: "namespaces",
-        processors: "processors",
-      });
-
-      expect(getConversationByTopicMock).toHaveBeenCalledWith("testTopic", {
-        address: testWalletAddress,
-      });
-
-      expect(sendMock).toHaveBeenCalledWith("testMessage", {
-        contentType: {
-          authorityId: "xmtp.org",
-          typeId: "text",
-          versionMajor: 1,
-          versionMinor: 0,
+        message: {
+          id: 1,
+        },
+        namespaces: {
+          [ContentTypeText.toString()]: "text",
+        },
+        processors: {},
+        validators: {
+          [ContentTypeText.toString()]: isValidTextContent,
         },
       });
+
+      expect(sendMock).toHaveBeenCalled();
       expect(onSuccessMock).toHaveBeenCalledWith({
         id: 1,
         sent: sentAt,
@@ -292,7 +247,6 @@ describe("useMessage", () => {
       expect(updateMessageAfterSendingMock).toHaveBeenCalledWith(
         { id: 1 },
         sentAt,
-        1,
         db,
       );
     });
@@ -300,10 +254,6 @@ describe("useMessage", () => {
 
   describe("resendMessage", () => {
     it("should throw an error if the message never failed to send", async () => {
-      useClientMock.mockImplementation(() => ({
-        client: undefined,
-      }));
-
       const { result } = renderHook(() => useMessage());
 
       await act(async () => {
@@ -316,11 +266,11 @@ describe("useMessage", () => {
             hasSendError: false,
             conversationTopic: "testTopic",
             isSending: false,
-            senderAddress: testWalletAddress,
+            senderAddress: testWallet1.account.address,
             sentAt: new Date(),
             status: "processed",
             uuid: "testUuid",
-            walletAddress: testWalletAddress,
+            walletAddress: testWallet1.account.address,
             xmtpID: "testXmtpId",
           } satisfies CachedMessage),
         ).rejects.toThrow(
@@ -330,10 +280,6 @@ describe("useMessage", () => {
     });
 
     it("should throw an error if no client is available", async () => {
-      useClientMock.mockImplementation(() => ({
-        client: undefined,
-      }));
-
       const { result } = renderHook(() => useMessage());
 
       await act(async () => {
@@ -346,11 +292,11 @@ describe("useMessage", () => {
             hasSendError: true,
             conversationTopic: "testTopic",
             isSending: false,
-            senderAddress: testWalletAddress,
+            senderAddress: testWallet1.account.address,
             sentAt: new Date(),
             status: "processed",
             uuid: "testUuid",
-            walletAddress: testWalletAddress,
+            walletAddress: testWallet1.account.address,
             xmtpID: "testXmtpId",
           } satisfies CachedMessage),
         ).rejects.toThrow("XMTP client is required to send a message");
@@ -358,14 +304,11 @@ describe("useMessage", () => {
     });
 
     it("should throw an error if a conversation is not found", async () => {
-      useClientMock.mockImplementation(() => ({
-        client: {
-          address: testWalletAddress,
-        },
-      }));
-      getConversationByTopicMock.mockImplementationOnce(() => undefined);
+      const client = await Client.create(testWallet1, { env: "local" });
 
-      const { result } = renderHook(() => useMessage());
+      const { result } = renderHook(() => useMessage(), {
+        wrapper: testWrapper(client),
+      });
 
       await act(async () => {
         await expect(
@@ -377,11 +320,11 @@ describe("useMessage", () => {
             hasSendError: true,
             conversationTopic: "testTopic",
             isSending: false,
-            senderAddress: testWalletAddress,
+            senderAddress: testWallet1.account.address,
             sentAt: new Date(),
             status: "processed",
             uuid: "testUuid",
-            walletAddress: testWalletAddress,
+            walletAddress: testWallet1.account.address,
             xmtpID: "testXmtpId",
           } satisfies CachedMessage),
         ).rejects.toThrow(
@@ -391,21 +334,17 @@ describe("useMessage", () => {
     });
 
     it("should resend a message", async () => {
-      useClientMock.mockImplementation(() => ({
-        client: {
-          address: testWalletAddress,
-        },
-      }));
+      const client = await Client.create(testWallet1, { env: "local" });
+      await Client.create(testWallet2, { env: "local" });
+      const conversation = await client.conversations.newConversation(
+        testWallet2.account.address,
+        undefined,
+      );
       const sentAt = new Date();
-      const sendMock = vi.fn().mockImplementation(() => ({
-        id: 1,
-        sent: sentAt,
-      }));
-      getConversationByTopicMock.mockImplementationOnce(() => ({
-        send: sendMock,
-      }));
 
-      const { result } = renderHook(() => useMessage());
+      const { result } = renderHook(() => useMessage(), {
+        wrapper: testWrapper(client),
+      });
 
       const cachedMessage = {
         id: 1,
@@ -413,13 +352,13 @@ describe("useMessage", () => {
         contentType: ContentTypeText.toString(),
         hasLoadError: false,
         hasSendError: true,
-        conversationTopic: "testTopic",
+        conversationTopic: conversation.topic,
         isSending: false,
-        senderAddress: testWalletAddress,
-        sentAt: new Date(),
+        senderAddress: testWallet1.account.address,
+        sentAt,
         status: "processed",
         uuid: "testUuid",
-        walletAddress: testWalletAddress,
+        walletAddress: testWallet1.account.address,
         xmtpID: "testXmtpId",
         sendOptions: {
           contentType: ContentTypeText,
@@ -428,26 +367,16 @@ describe("useMessage", () => {
 
       await act(async () => {
         const sentMessage = await result.current.resendMessage(cachedMessage);
-        expect(sentMessage).toEqual({
-          id: 1,
-          sent: sentAt,
-        });
-      });
+        expect(sentMessage.content).toEqual("test");
+        expect(sentMessage.conversation.topic).toEqual(conversation.topic);
+        expect(sentMessage.senderAddress).toEqual(testWallet1.account.address);
 
-      expect(sendMock).toHaveBeenCalledWith("test", {
-        contentType: {
-          authorityId: "xmtp.org",
-          typeId: "text",
-          versionMajor: 1,
-          versionMinor: 0,
-        },
+        expect(updateMessageAfterSendingMock).toHaveBeenCalledWith(
+          cachedMessage,
+          sentMessage.sent,
+          db,
+        );
       });
-      expect(updateMessageAfterSendingMock).toHaveBeenCalledWith(
-        cachedMessage,
-        sentAt,
-        1,
-        db,
-      );
     });
   });
 });

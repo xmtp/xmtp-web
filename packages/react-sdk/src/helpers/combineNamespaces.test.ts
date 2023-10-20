@@ -44,9 +44,7 @@ describe("combineNamespaces", () => {
         {
           namespace: "text",
           codecs: [],
-          processors: {
-            foo: [() => Promise.resolve()],
-          },
+          contentTypes: [ContentTypeText.toString()],
         },
       ]),
     ).toThrow(`Duplicate content types config namespace detected: "text"`);

@@ -25,7 +25,7 @@ const db = getDbInstance({
   contentTypeConfigs: [readReceiptContentTypeConfig],
 });
 
-describe("ContentTypeReadReceipt caching", () => {
+describe("ContentTypeReadReceipt", () => {
   beforeEach(async () => {
     await clearCache(db);
   });
@@ -76,18 +76,15 @@ describe("ContentTypeReadReceipt caching", () => {
         xmtpID: "testXmtpId1",
       } satisfies CachedMessageWithId<ReadReceipt>;
 
-      const persist = vi.fn();
       const updateConversationMetadata = vi.fn();
       await processReadReceipt({
         client: testClient,
         conversation: testConversation,
         db,
         message: testReadReceiptMessage,
-        persist,
         updateConversationMetadata,
         processors: readReceiptContentTypeConfig.processors,
       });
-      expect(persist).not.toHaveBeenCalled();
       expect(updateConversationMetadata).toHaveBeenCalledWith({
         incoming: sentAt.toISOString(),
       });
@@ -113,11 +110,9 @@ describe("ContentTypeReadReceipt caching", () => {
         conversation: testConversation,
         db,
         message: testReadReceiptMessage2,
-        persist,
         updateConversationMetadata,
         processors: readReceiptContentTypeConfig.processors,
       });
-      expect(persist).not.toHaveBeenCalled();
       expect(updateConversationMetadata).toHaveBeenCalledWith({
         outgoing: sentAt.toISOString(),
       });
@@ -138,7 +133,6 @@ describe("ContentTypeReadReceipt caching", () => {
       await saveConversation(testConversation, db);
 
       const sentAt = new Date();
-      const persist = vi.fn();
       const updateConversationMetadata = vi.fn();
 
       const testReadReceiptMessage = {
@@ -162,11 +156,9 @@ describe("ContentTypeReadReceipt caching", () => {
         conversation: testConversation,
         db,
         message: testReadReceiptMessage,
-        persist,
         updateConversationMetadata,
         processors: readReceiptContentTypeConfig.processors,
       });
-      expect(persist).not.toHaveBeenCalled();
       expect(updateConversationMetadata).toHaveBeenCalledWith({
         incoming: sentAt.toISOString(),
       });
@@ -192,11 +184,9 @@ describe("ContentTypeReadReceipt caching", () => {
         conversation: testConversation,
         db,
         message: testReadReceiptMessage2,
-        persist,
         updateConversationMetadata,
         processors: readReceiptContentTypeConfig.processors,
       });
-      expect(persist).not.toHaveBeenCalled();
       expect(updateConversationMetadata).toHaveBeenCalledWith({
         incoming: sentAt.toISOString(),
       });
@@ -229,18 +219,15 @@ describe("ContentTypeReadReceipt caching", () => {
         xmtpID: "testXmtpId1",
       } satisfies CachedMessageWithId;
 
-      const persist = vi.fn();
       const updateConversationMetadata = vi.fn();
       await processReadReceipt({
         client: testClient,
         conversation: testConversation,
         db,
         message: testMessage,
-        persist,
         updateConversationMetadata,
         processors: readReceiptContentTypeConfig.processors,
       });
-      expect(persist).not.toHaveBeenCalled();
       expect(updateConversationMetadata).not.toHaveBeenCalled();
     });
 
@@ -271,18 +258,15 @@ describe("ContentTypeReadReceipt caching", () => {
         xmtpID: "testXmtpId1",
       } satisfies CachedMessageWithId;
 
-      const persist = vi.fn();
       const updateConversationMetadata = vi.fn();
       await processReadReceipt({
         client: testClient,
         conversation: testConversation,
         db,
         message: testTextMessage,
-        persist,
         updateConversationMetadata,
         processors: readReceiptContentTypeConfig.processors,
       });
-      expect(persist).not.toHaveBeenCalled();
       expect(updateConversationMetadata).not.toHaveBeenCalled();
     });
   });

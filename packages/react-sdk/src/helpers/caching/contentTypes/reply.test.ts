@@ -24,7 +24,7 @@ const db = getDbInstance({
   contentTypeConfigs: [replyContentTypeConfig],
 });
 
-describe("ContentTypeReply caching", () => {
+describe("ContentTypeReply", () => {
   beforeEach(async () => {
     await clearCache(db);
   });
@@ -33,6 +33,9 @@ describe("ContentTypeReply caching", () => {
     expect(replyContentTypeConfig.namespace).toEqual("replies");
     expect(replyContentTypeConfig.codecs?.length).toEqual(1);
     expect(replyContentTypeConfig.codecs?.[0]).toBeInstanceOf(ReplyCodec);
+    expect(replyContentTypeConfig.contentTypes).toEqual([
+      ContentTypeReply.toString(),
+    ]);
     expect(
       replyContentTypeConfig.processors?.[ContentTypeReply.toString()],
     ).toEqual([processReply]);
@@ -90,26 +93,23 @@ describe("ContentTypeReply caching", () => {
         xmtpID: "testXmtpId2",
       } satisfies CachedMessageWithId<Reply>;
 
-      const persist = vi.fn();
+      await saveMessage(testReplyMessage, db);
+
       const updateConversationMetadata = vi.fn();
       await processReply({
         client: testClient,
         conversation: testConversation,
         db,
         message: testReplyMessage,
-        persist,
         updateConversationMetadata,
         processors: replyContentTypeConfig.processors,
       });
-      expect(persist).toHaveBeenCalledWith();
-      // since we mocked persist, we need to manually save the message
-      await saveMessage(testReplyMessage, db);
 
       const originalMessage = await getMessageByXmtpID("testXmtpId1", db);
-      const replies = getReplies(originalMessage!);
+      const replies = await getReplies(originalMessage!, db);
       expect(replies.length).toEqual(1);
-      expect(replies).toEqual(["testXmtpId2"]);
-      expect(hasReply(originalMessage!)).toBe(true);
+      expect(replies).toEqual([testReplyMessage]);
+      expect(await hasReply(originalMessage!, db)).toBe(true);
 
       const replyMessage = await getMessageByXmtpID("testXmtpId2", db);
       const originalMessageFromReply = await getOriginalMessageFromReply(
@@ -146,18 +146,15 @@ describe("ContentTypeReply caching", () => {
         xmtpID: "testXmtpId",
       } satisfies CachedMessageWithId;
 
-      const persist = vi.fn();
       const updateConversationMetadata = vi.fn();
       await processReply({
         client: testClient,
         conversation: testConversation,
         db,
         message: testMessage,
-        persist,
         updateConversationMetadata,
         processors: replyContentTypeConfig.processors,
       });
-      expect(persist).not.toHaveBeenCalled();
     });
   });
 
@@ -214,7 +211,7 @@ describe("ContentTypeReply caching", () => {
   });
 
   describe("getReplies", () => {
-    it("should return empty array if no metadata is present", () => {
+    it("should return empty array if no metadata is present", async () => {
       const testTextMessage = {
         id: 1,
         walletAddress: testWallet.account.address,
@@ -231,13 +228,13 @@ describe("ContentTypeReply caching", () => {
         xmtpID: "testXmtpId1",
       } satisfies CachedMessageWithId;
 
-      const replies = getReplies(testTextMessage);
+      const replies = await getReplies(testTextMessage, db);
       expect(replies).toEqual([]);
     });
   });
 
   describe("addReply", () => {
-    it("should create multiple replies in message metadata", async () => {
+    it("should create multiple replies", async () => {
       const testTextMessage = {
         id: 1,
         walletAddress: testWallet.account.address,
@@ -254,14 +251,55 @@ describe("ContentTypeReply caching", () => {
         xmtpID: "testXmtpId1",
       } satisfies CachedMessageWithId;
 
-      await saveMessage(testTextMessage, db);
+      const testReplyMessage1 = {
+        id: 2,
+        walletAddress: testWallet.account.address,
+        conversationTopic: "testTopic",
+        content: {
+          content: "foo",
+          contentType: ContentTypeText,
+          reference: "testXmtpId1",
+        } satisfies Reply,
+        contentType: ContentTypeReply.toString(),
+        isSending: false,
+        hasLoadError: false,
+        hasSendError: false,
+        sentAt: new Date(),
+        status: "processed",
+        senderAddress: "testWalletAddress",
+        uuid: "testUuid2",
+        xmtpID: "testXmtpId2",
+      } satisfies CachedMessageWithId;
+
+      await saveMessage(testReplyMessage1, db);
+
+      const testReplyMessage2 = {
+        id: 3,
+        walletAddress: testWallet.account.address,
+        conversationTopic: "testTopic",
+        content: {
+          content: "bar",
+          contentType: ContentTypeText,
+          reference: "testXmtpId1",
+        } satisfies Reply,
+        contentType: ContentTypeReply.toString(),
+        isSending: false,
+        hasLoadError: false,
+        hasSendError: false,
+        sentAt: new Date(),
+        status: "processed",
+        senderAddress: "testWalletAddress",
+        uuid: "testUuid3",
+        xmtpID: "testXmtpId3",
+      } satisfies CachedMessageWithId;
+
+      await saveMessage(testReplyMessage2, db);
+
       await addReply("testXmtpId1", "testXmtpId2", db);
       await addReply("testXmtpId1", "testXmtpId3", db);
 
-      const textMessage = await getMessageByXmtpID("testXmtpId1", db);
-
-      const replies = getReplies(textMessage!);
-      expect(replies).toEqual(["testXmtpId2", "testXmtpId3"]);
+      const replies = await getReplies(testTextMessage, db);
+      expect(replies).toEqual([testReplyMessage1, testReplyMessage2]);
     });
   });
 });

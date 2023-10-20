@@ -147,7 +147,6 @@ const isValidReplyContent = (content: unknown) => {
 export const processReply: ContentTypeMessageProcessor = async ({
   message,
   db,
-  persist,
 }) => {
   const contentType = ContentTypeId.fromString(message.contentType);
   if (
@@ -158,14 +157,12 @@ export const processReply: ContentTypeMessageProcessor = async ({
 
     // save the reply to cache
     await addReply(reply.reference, message.xmtpID, db);
-
-    // save the message to cache
-    await persist();
   }
 };
 
 export const replyContentTypeConfig: ContentTypeConfiguration = {
   codecs: [new ReplyCodec()],
+  contentTypes: [ContentTypeReply.toString()],
   namespace: NAMESPACE,
   processors: {
     [ContentTypeReply.toString()]: [processReply],
