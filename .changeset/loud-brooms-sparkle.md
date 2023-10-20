@@ -1,5 +1,5 @@
 ---
-"@xmtp/react-sdk": major
+"@xmtp/react-sdk": patch
 ---
 
 ### Fixed imports of `date-fns` package for Next.js compatibility
