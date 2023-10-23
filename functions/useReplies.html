@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>CachedRepliesMetadata | @xmtp/react-sdk</title><meta name="description" content="Documentation for @xmtp/react-sdk"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
+<!DOCTYPE html><html class="default" lang="en"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>useReplies | @xmtp/react-sdk</title><meta name="description" content="Documentation for @xmtp/react-sdk"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os"</script><header class="tsd-page-toolbar">
 <div class="tsd-toolbar-contents container">
 <div class="table-cell" id="tsd-search" data-base="..">
 <div class="field"><label for="tsd-search-field" class="tsd-widget tsd-toolbar-icon search no-caption"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><use href="#icon-search"></use></svg></label><input type="text" id="tsd-search-field" aria-label="Search"/></div>
@@ -13,11 +13,23 @@
 <div class="tsd-page-title">
 <ul class="tsd-breadcrumb">
 <li><a href="../modules.html">@xmtp/react-sdk</a></li>
-<li><a href="CachedRepliesMetadata.html">CachedRepliesMetadata</a></li></ul>
-<h1>Type alias CachedRepliesMetadata</h1></div>
-<div class="tsd-signature"><span class="tsd-kind-type-alias">Cached<wbr/>Replies<wbr/>Metadata</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div><aside class="tsd-sources">
+<li><a href="useReplies.html">useReplies</a></li></ul>
+<h1>Function useReplies</h1></div>
+<section class="tsd-panel">
+<ul class="tsd-signatures">
+<li class="tsd-signature tsd-anchor-link" id="useReplies"><span class="tsd-kind-call-signature">use<wbr/>Replies</span><span class="tsd-signature-symbol">(</span><span class="tsd-kind-parameter">message</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../types/CachedMessageWithId.html" class="tsd-signature-type tsd-kind-type-alias">CachedMessageWithId</a><span class="tsd-signature-symbol">[]</span><a href="#useReplies" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24"><use href="#icon-anchor"></use></svg></a></li>
+<li class="tsd-description">
+<div class="tsd-comment tsd-typography"><p>This hook returns cached replies to a message from the local cache</p>
+</div>
+<div class="tsd-parameters">
+<h4 class="tsd-parameters-title">Parameters</h4>
+<ul class="tsd-parameter-list">
+<li>
+<h5><code class="tsd-tag ts-flagOptional">Optional</code> <span class="tsd-kind-parameter">message</span>: <a href="../types/CachedMessage.html" class="tsd-signature-type tsd-kind-type-alias">CachedMessage</a></h5></li></ul></div>
+<h4 class="tsd-returns-title">Returns <a href="../types/CachedMessageWithId.html" class="tsd-signature-type tsd-kind-type-alias">CachedMessageWithId</a><span class="tsd-signature-symbol">[]</span></h4>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/xmtp/xmtp-web/blob/e428697/packages/react-sdk/src/helpers/caching/contentTypes/reply.ts#L15">packages/react-sdk/src/helpers/caching/contentTypes/reply.ts:15</a></li></ul></aside></div>
+<li>Defined in <a href="https://github.com/xmtp/xmtp-web/blob/3cfe9ab/packages/react-sdk/src/hooks/useReplies.ts#L9">packages/react-sdk/src/hooks/useReplies.ts:9</a></li></ul></aside></li></ul></section></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">
@@ -33,27 +45,27 @@
 <div class="site-menu">
 <nav class="tsd-navigation"><a href="../modules.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-1"></use></svg><span>@xmtp/react-sdk</span></a>
 <ul class="tsd-small-nested-navigation" id="tsd-nav-container" data-base="..">
-<li><a href="CachedConversation.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedConversation</a></li>
-<li><a href="CachedConversationWithId.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedConversationWithId</a></li>
-<li><a href="CachedConversationsTable.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedConversationsTable</a></li>
-<li><a href="CachedMessage.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedMessage</a></li>
-<li><a href="CachedMessageWithId.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedMessageWithId</a></li>
-<li><a href="CachedMessagesTable.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedMessagesTable</a></li>
-<li><a href="CachedReaction.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedReaction</a></li>
-<li><a href="CachedReactionsMetadata.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedReactionsMetadata</a></li>
-<li><a href="CachedReactionsTable.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedReactionsTable</a></li>
-<li><a href="CachedReadReceiptMetadata.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedReadReceiptMetadata</a></li>
-<li><a href="CachedRepliesMetadata.html" class="current"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedRepliesMetadata</a></li>
-<li><a href="ContentTypeConfiguration.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>ContentTypeConfiguration</a></li>
-<li><a href="ContentTypeMessageProcessor.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>ContentTypeMessageProcessor</a></li>
-<li><a href="ContentTypeMessageProcessors.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>ContentTypeMessageProcessors</a></li>
-<li><a href="ContentTypeMessageValidators.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>ContentTypeMessageValidators</a></li>
-<li><a href="ContentTypeMetadata.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>ContentTypeMetadata</a></li>
-<li><a href="ContentTypeMetadataValue.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>ContentTypeMetadataValue</a></li>
-<li><a href="ContentTypeMetadataValues.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>ContentTypeMetadataValues</a></li>
-<li><a href="ProcessUnprocessedMessagesOptions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>ProcessUnprocessedMessagesOptions</a></li>
+<li><a href="../types/CachedConversation.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedConversation</a></li>
+<li><a href="../types/CachedConversationWithId.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedConversationWithId</a></li>
+<li><a href="../types/CachedConversationsTable.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedConversationsTable</a></li>
+<li><a href="../types/CachedMessage.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedMessage</a></li>
+<li><a href="../types/CachedMessageWithId.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedMessageWithId</a></li>
+<li><a href="../types/CachedMessagesTable.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedMessagesTable</a></li>
+<li><a href="../types/CachedReaction.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedReaction</a></li>
+<li><a href="../types/CachedReactionsMetadata.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedReactionsMetadata</a></li>
+<li><a href="../types/CachedReactionsTable.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedReactionsTable</a></li>
+<li><a href="../types/CachedReadReceiptMetadata.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>CachedReadReceiptMetadata</a></li>
+<li><a href="../types/ContentTypeConfiguration.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>ContentTypeConfiguration</a></li>
+<li><a href="../types/ContentTypeMessageProcessor.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>ContentTypeMessageProcessor</a></li>
+<li><a href="../types/ContentTypeMessageProcessors.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>ContentTypeMessageProcessors</a></li>
+<li><a href="../types/ContentTypeMessageValidators.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>ContentTypeMessageValidators</a></li>
+<li><a href="../types/ContentTypeMetadata.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>ContentTypeMetadata</a></li>
+<li><a href="../types/ContentTypeMetadataValue.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>ContentTypeMetadataValue</a></li>
+<li><a href="../types/ContentTypeMetadataValues.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>ContentTypeMetadataValues</a></li>
+<li><a href="../types/ProcessUnprocessedMessagesOptions.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-2097152"></use></svg>ProcessUnprocessedMessagesOptions</a></li>
 <li><a href="../variables/attachmentContentTypeConfig.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-32"></use></svg>attachmentContentTypeConfig</a></li>
 <li><a href="../variables/reactionContentTypeConfig.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-32"></use></svg>reactionContentTypeConfig</a></li>
+<li><a href="../variables/readReceiptContentTypeConfig.html"><svg class="tsd-kind-icon" viewBox="0 0 24 24"><use href="#icon-32"></use></svg>readReceiptContentTypeConfig</a></li>
 <li>Loading...</li></ul></nav></div></div></div>
 <div class="tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" rel="noopener" target="_blank">TypeDoc</a></p></div>
