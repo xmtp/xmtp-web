@@ -5,6 +5,7 @@ import type { Dexie, Table } from "dexie";
 import { z } from "zod";
 import type {
   CachedMessage,
+  CachedMessageWithId,
   CachedMessagesTable,
 } from "@/helpers/caching/messages";
 import type {
@@ -74,7 +75,7 @@ export const getReplies = async (message: CachedMessage, db: Dexie) => {
       .where("xmtpID")
       .anyOf(replies.map((reply) => reply.xmtpID))
       .sortBy("sentAt");
-    return replyMessages;
+    return replyMessages as CachedMessageWithId[];
   }
   return [];
 };
