@@ -8,13 +8,9 @@ import {
   ContentTypeRemoteAttachment,
   RemoteAttachmentCodec,
 } from "@xmtp/content-type-remote-attachment";
-import { ContentTypeId } from "@xmtp/xmtp-js";
 import { z } from "zod";
 import type Dexie from "dexie";
-import type {
-  ContentTypeConfiguration,
-  ContentTypeMessageProcessor,
-} from "../db";
+import type { ContentTypeConfiguration } from "../db";
 import { updateMessageMetadata, type CachedMessage } from "../messages";
 
 const NAMESPACE = "attachment";
@@ -97,25 +93,6 @@ const isValidAttachmentContent = (content: unknown) => {
   return success;
 };
 
-/**
- * Process an attachment message
- *
- * Saves the message to the cache.
- */
-export const processAttachment: ContentTypeMessageProcessor = async ({
-  message,
-  persist,
-}) => {
-  const contentType = ContentTypeId.fromString(message.contentType);
-  if (
-    ContentTypeAttachment.sameAs(contentType) &&
-    isValidAttachmentContent(message.content)
-  ) {
-    // save message to cache
-    await persist();
-  }
-};
-
 const RemoveAttachmentContentSchema = z.object({
   url: z.string(),
   contentDigest: z.string(),
@@ -138,32 +115,13 @@ const isValidRemoveAttachmentContent = (content: unknown) => {
   return success;
 };
 
-/**
- * Process a remote attachment message
- *
- * Saves the message to the cache.
- */
-export const processRemoteAttachment: ContentTypeMessageProcessor = async ({
-  message,
-  persist,
-}) => {
-  const contentType = ContentTypeId.fromString(message.contentType);
-  if (
-    ContentTypeRemoteAttachment.sameAs(contentType) &&
-    isValidRemoveAttachmentContent(message.content)
-  ) {
-    // save message to cache
-    await persist();
-  }
-};
-
 export const attachmentContentTypeConfig: ContentTypeConfiguration = {
   codecs: [new AttachmentCodec(), new RemoteAttachmentCodec()],
+  contentTypes: [
+    ContentTypeAttachment.toString(),
+    ContentTypeRemoteAttachment.toString(),
+  ],
   namespace: NAMESPACE,
-  processors: {
-    [ContentTypeAttachment.toString()]: [processAttachment],
-    [ContentTypeRemoteAttachment.toString()]: [processRemoteAttachment],
-  },
   validators: {
     [ContentTypeAttachment.toString()]: isValidAttachmentContent,
     [ContentTypeRemoteAttachment.toString()]: isValidRemoveAttachmentContent,

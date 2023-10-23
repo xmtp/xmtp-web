@@ -27,7 +27,7 @@ const db = getDbInstance({
   contentTypeConfigs: [reactionContentTypeConfig],
 });
 
-describe("ContentTypeReaction caching", () => {
+describe("ContentTypeReaction", () => {
   beforeEach(async () => {
     await clearCache(db);
   });
@@ -132,18 +132,15 @@ describe("ContentTypeReaction caching", () => {
         xmtpID: "testXmtpId2",
       } satisfies CachedMessageWithId<Reaction>;
 
-      const persist = vi.fn();
       const updateConversationMetadata = vi.fn();
       await processReaction({
         client: testClient,
         conversation: testConversation,
         db,
         message: testReactionMessage,
-        persist,
         updateConversationMetadata,
         processors: reactionContentTypeConfig.processors,
       });
-      expect(persist).not.toHaveBeenCalled();
 
       const reactions = await getReactionsByXmtpID("testXmtpId1", db);
       expect(reactions.length).toEqual(1);
@@ -182,11 +179,9 @@ describe("ContentTypeReaction caching", () => {
         conversation: testConversation,
         db,
         message: testReactionMessage2,
-        persist,
         updateConversationMetadata,
         processors: reactionContentTypeConfig.processors,
       });
-      expect(persist).not.toHaveBeenCalled();
 
       const reactions2 = await getReactionsByXmtpID("testXmtpId1", db);
       expect(reactions2.length).toEqual(0);
@@ -222,18 +217,15 @@ describe("ContentTypeReaction caching", () => {
         xmtpID: "testXmtpId",
       } satisfies CachedMessageWithId;
 
-      const persist = vi.fn();
       const updateConversationMetadata = vi.fn();
       await processReaction({
         client: testClient,
         conversation: testConversation,
         db,
         message: testMessage,
-        persist,
         updateConversationMetadata,
         processors: reactionContentTypeConfig.processors,
       });
-      expect(persist).not.toHaveBeenCalled();
       const reactionsTable = db.table("reactions") as CachedReactionsTable;
       const allReactions = await reactionsTable.toArray();
       expect(allReactions.length).toEqual(0);

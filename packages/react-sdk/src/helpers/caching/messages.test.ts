@@ -23,6 +23,7 @@ import {
   saveConversation,
   type CachedConversation,
   getCachedConversationByTopic,
+  toCachedConversation,
 } from "@/helpers/caching/conversations";
 import { adjustDate } from "@/helpers/adjustDate";
 import { textContentTypeConfig } from "@/helpers/caching/contentTypes/text";
@@ -177,7 +178,7 @@ describe("deleteMessage", () => {
 });
 
 describe("updateMessage", () => {
-  it("should update a message properties in the cache", async () => {
+  it("should update a message's properties in the cache", async () => {
     const testMessage = {
       id: 1,
       walletAddress: "testWalletAddress",
@@ -217,7 +218,7 @@ describe("updateMessage", () => {
 });
 
 describe("updateMessageMetadata", () => {
-  it("should update a message metadata in the cache", async () => {
+  it("should update a message's metadata in the cache", async () => {
     const testMessage = {
       id: 1,
       walletAddress: "testWalletAddress",
@@ -274,53 +275,82 @@ describe("updateMessageMetadata", () => {
 });
 
 describe("prepareMessageForSending", () => {
-  it("should prepare a message for sending", () => {
-    const client = {
-      address: "testWalletAddress",
-    } as Client;
+  it("should throw an error if the conversation is not found", async () => {
+    const client = await Client.create(testWallet1, { env: "local" });
 
-    const conversation = {
-      topic: "testTopic",
-    } as CachedConversation;
+    await expect(async () => {
+      await prepareMessageForSending({
+        client,
+        content: "test",
+        contentType: ContentTypeText.toString(),
+        conversation: {
+          createdAt: new Date(),
+          id: 1,
+          isReady: true,
+          peerAddress: "testPeerAddress",
+          topic: "testTopic",
+          updatedAt: new Date(),
+          walletAddress: "testWalletAddress",
+        } satisfies CachedConversation,
+      });
+    }).rejects.toThrow(
+      "Conversation not found in XMTP client, unable to prepare message",
+    );
+  });
 
-    const preparedMessage = prepareMessageForSending({
+  it("should prepare a message for sending", async () => {
+    const client = await Client.create(testWallet1, { env: "local" });
+    await Client.create(testWallet2, { env: "local" });
+
+    const conversation = await client.conversations.newConversation(
+      testWallet2.account.address,
+      undefined,
+    );
+
+    const { message, preparedMessage } = await prepareMessageForSending({
       client,
       content: "test",
       contentType: ContentTypeText.toString(),
-      conversation,
+      conversation: toCachedConversation(
+        conversation,
+        testWallet1.account.address,
+      ),
     });
 
-    expect(preparedMessage.content).toBe("test");
-    expect(preparedMessage.contentType).toBe(ContentTypeText.toString());
-    expect(preparedMessage.conversationTopic).toBe("testTopic");
-    expect(preparedMessage.hasSendError).toBe(false);
-    expect(preparedMessage.isSending).toBe(true);
-    expect(preparedMessage.status).toBe("unprocessed");
-    expect(preparedMessage.walletAddress).toBe("testWalletAddress");
+    expect(message.content).toBe("test");
+    expect(message.contentType).toBe(ContentTypeText.toString());
+    expect(message.hasSendError).toBe(false);
+    expect(message.isSending).toBe(true);
+    expect(message.status).toBe("unprocessed");
+    expect(message.walletAddress).toBe(testWallet1.account.address);
+    expect(message.xmtpID).toBe(await preparedMessage.messageID());
   });
 
-  it("should prepare a message for sending without a content type", () => {
-    const client = {
-      address: "testWalletAddress",
-    } as Client;
+  it("should prepare a message for sending without a content type", async () => {
+    const client = await Client.create(testWallet1, { env: "local" });
+    await Client.create(testWallet2, { env: "local" });
 
-    const conversation = {
-      topic: "testTopic",
-    } as CachedConversation;
+    const conversation = await client.conversations.newConversation(
+      testWallet2.account.address,
+      undefined,
+    );
 
-    const preparedMessage = prepareMessageForSending({
+    const { message, preparedMessage } = await prepareMessageForSending({
       client,
       content: "test",
-      conversation,
+      conversation: toCachedConversation(
+        conversation,
+        testWallet1.account.address,
+      ),
     });
 
-    expect(preparedMessage.content).toBe("test");
-    expect(preparedMessage.contentType).toBe(ContentTypeText.toString());
-    expect(preparedMessage.conversationTopic).toBe("testTopic");
-    expect(preparedMessage.hasSendError).toBe(false);
-    expect(preparedMessage.isSending).toBe(true);
-    expect(preparedMessage.status).toBe("unprocessed");
-    expect(preparedMessage.walletAddress).toBe("testWalletAddress");
+    expect(message.content).toBe("test");
+    expect(message.contentType).toBe(ContentTypeText.toString());
+    expect(message.hasSendError).toBe(false);
+    expect(message.isSending).toBe(true);
+    expect(message.status).toBe("unprocessed");
+    expect(message.walletAddress).toBe(testWallet1.account.address);
+    expect(message.xmtpID).toBe(await preparedMessage.messageID());
   });
 });
 
@@ -347,14 +377,13 @@ describe("updateMessageAfterSending", () => {
 
     const sentAt = new Date();
 
-    await updateMessageAfterSending(cachedMessage, sentAt, "testXmtpId2", db);
+    await updateMessageAfterSending(cachedMessage, sentAt, db);
 
-    const updatedMessage = await getMessageByXmtpID("testXmtpId2", db);
+    const updatedMessage = await getMessageByXmtpID("testXmtpId", db);
 
     expect(updatedMessage).toEqual({
       ...testMessage,
       sentAt,
-      xmtpID: "testXmtpId2",
       isSending: false,
       sendOptions: undefined,
     });
@@ -474,19 +503,19 @@ describe("processMessage", () => {
     mockProcessor3.mockReset();
   });
 
-  it("should process an unprocessed message with a supported content type", async () => {
-    const testClient = await Client.create(testWallet1, { env: "local" });
-    const createdAt = new Date();
-    const testConversation = {
-      createdAt,
-      updatedAt: createdAt,
-      isReady: false,
-      topic: "testTopic",
-      peerAddress: "testPeerAddress",
-      walletAddress: "testWalletAddress",
-    } satisfies CachedConversation;
-    const cachedConversation = await saveConversation(testConversation, db);
-    const sentAt = adjustDate(createdAt, 1000);
+  it("should not process a message without a client", async () => {
+    const client = await Client.create(testWallet1, { env: "local" });
+    await Client.create(testWallet2, { env: "local" });
+    const conversation = await client.conversations.newConversation(
+      testWallet2.account.address,
+      undefined,
+    );
+    const cachedConversation = await saveConversation(
+      toCachedConversation(conversation, testWallet1.account.address),
+      db,
+    );
+
+    const sentAt = new Date();
     const testMessage = {
       id: 1,
       walletAddress: "testWalletAddress",
@@ -502,8 +531,9 @@ describe("processMessage", () => {
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
-    const cachedMessage = await processMessage({
-      client: testClient,
+
+    const { status, message: cachedMessage } = await processMessage({
+      client: undefined,
       conversation: cachedConversation,
       db,
       message: testMessage,
@@ -511,59 +541,37 @@ describe("processMessage", () => {
       processors: testProcessors,
       validators: testValidators,
     });
+
+    expect(status).toBe("no_client");
     expect(cachedMessage).toEqual(testMessage);
-    expect(mockProcessor1).toHaveBeenCalledTimes(1);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(mockProcessor1.mock.calls[0][0].client).toBe(testClient);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(mockProcessor1.mock.calls[0][0].conversation).toBe(
-      cachedConversation,
-    );
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(mockProcessor1.mock.calls[0][0].db).toBe(db);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(mockProcessor1.mock.calls[0][0].message).toBe(cachedMessage);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(mockProcessor1.mock.calls[0][0].processors).toBe(testProcessors);
-    expect(mockProcessor2).toHaveBeenCalledTimes(1);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(mockProcessor2.mock.calls[0][0].client).toBe(testClient);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(mockProcessor2.mock.calls[0][0].conversation).toBe(
-      cachedConversation,
-    );
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(mockProcessor2.mock.calls[0][0].db).toBe(db);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(mockProcessor2.mock.calls[0][0].message).toBe(cachedMessage);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    expect(mockProcessor2.mock.calls[0][0].processors).toBe(testProcessors);
+    expect(mockProcessor1).not.toHaveBeenCalled();
+    expect(mockProcessor2).not.toHaveBeenCalled();
     expect(mockProcessor3).not.toHaveBeenCalled();
 
     const updatedConversation = await getCachedConversationByTopic(
-      "testWalletAddress",
-      "testTopic",
+      testWallet1.account.address,
+      conversation.topic,
       db,
     );
-    expect(updatedConversation?.updatedAt).toEqual(sentAt);
+    expect(updatedConversation?.updatedAt).not.toEqual(sentAt);
 
     const savedMessage = await getMessageByXmtpID("testXmtpId", db);
     expect(savedMessage).toBeUndefined();
   });
 
   it("should not process an already processed message", async () => {
-    const testClient = await Client.create(testWallet1, { env: "local" });
-    const createdAt = new Date();
-    const testConversation = {
-      createdAt,
-      updatedAt: createdAt,
-      isReady: false,
-      topic: "testTopic",
-      peerAddress: "testPeerAddress",
-      walletAddress: "testWalletAddress",
-    } satisfies CachedConversation;
-    const cachedConversation = await saveConversation(testConversation, db);
-    const sentAt = adjustDate(createdAt, 1000);
+    const client = await Client.create(testWallet1, { env: "local" });
+    await Client.create(testWallet2, { env: "local" });
+    const conversation = await client.conversations.newConversation(
+      testWallet2.account.address,
+      undefined,
+    );
+    const cachedConversation = await saveConversation(
+      toCachedConversation(conversation, testWallet1.account.address),
+      db,
+    );
+
+    const sentAt = new Date();
     const testMessage = {
       id: 1,
       walletAddress: "testWalletAddress",
@@ -579,9 +587,11 @@ describe("processMessage", () => {
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
+
     await saveMessage(testMessage, db);
-    const cachedMessage = await processMessage({
-      client: testClient,
+
+    const { status, message: cachedMessage } = await processMessage({
+      client,
       conversation: cachedConversation,
       db,
       message: testMessage,
@@ -589,6 +599,8 @@ describe("processMessage", () => {
       processors: testProcessors,
       validators: testValidators,
     });
+
+    expect(status).toBe("duplicate");
     expect(cachedMessage).toEqual(testMessage);
     expect(mockProcessor1).not.toHaveBeenCalled();
     expect(mockProcessor2).not.toHaveBeenCalled();
@@ -603,22 +615,23 @@ describe("processMessage", () => {
   });
 
   it("should not process a message with invalid content", async () => {
-    const testClient = await Client.create(testWallet1, { env: "local" });
-    const createdAt = new Date();
-    const testConversation = {
-      createdAt,
-      updatedAt: createdAt,
-      isReady: false,
-      topic: "testTopic",
-      peerAddress: "testPeerAddress",
-      walletAddress: "testWalletAddress",
-    } satisfies CachedConversation;
-    const sentAt = adjustDate(createdAt, 1000);
+    const client = await Client.create(testWallet1, { env: "local" });
+    await Client.create(testWallet2, { env: "local" });
+    const conversation = await client.conversations.newConversation(
+      testWallet2.account.address,
+      undefined,
+    );
+    const cachedConversation = await saveConversation(
+      toCachedConversation(conversation, testWallet1.account.address),
+      db,
+    );
+
+    const sentAt = new Date();
     const testMessage = {
       id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
-      content: 1,
+      content: undefined,
       contentType: ContentTypeText.toString(),
       isSending: false,
       hasLoadError: false,
@@ -629,15 +642,18 @@ describe("processMessage", () => {
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
-    const cachedMessage = await processMessage({
-      client: testClient,
-      conversation: testConversation,
+
+    const { status, message: cachedMessage } = await processMessage({
+      client,
+      conversation: cachedConversation,
       db,
       message: testMessage,
       namespaces: testNamepaces,
       processors: testProcessors,
       validators: textContentTypeConfig.validators ?? {},
     });
+
+    expect(status).toBe("invalid");
     expect(cachedMessage).toEqual(testMessage);
     expect(mockProcessor1).not.toHaveBeenCalled();
     expect(mockProcessor2).not.toHaveBeenCalled();
@@ -651,19 +667,19 @@ describe("processMessage", () => {
     expect(updatedConversation?.updatedAt).not.toEqual(sentAt);
   });
 
-  it("should remove an existing message if requested", async () => {
-    const testClient = await Client.create(testWallet1, { env: "local" });
-    const createdAt = new Date();
-    const testConversation = {
-      createdAt,
-      updatedAt: createdAt,
-      isReady: false,
-      topic: "testTopic",
-      peerAddress: "testPeerAddress",
-      walletAddress: "testWalletAddress",
-    } satisfies CachedConversation;
-    const cachedConversation = await saveConversation(testConversation, db);
-    const sentAt = adjustDate(createdAt, 1000);
+  it("should process an unprocessed message with a supported content type", async () => {
+    const client = await Client.create(testWallet1, { env: "local" });
+    await Client.create(testWallet2, { env: "local" });
+    const conversation = await client.conversations.newConversation(
+      testWallet2.account.address,
+      undefined,
+    );
+    const cachedConversation = await saveConversation(
+      toCachedConversation(conversation, testWallet1.account.address),
+      db,
+    );
+
+    const sentAt = new Date();
     const testMessage = {
       id: 1,
       walletAddress: "testWalletAddress",
@@ -679,42 +695,116 @@ describe("processMessage", () => {
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
-    const savedMessage = await saveMessage(testMessage, db);
-    expect(savedMessage).toEqual(testMessage);
-    const cachedMessage = await processMessage(
-      {
-        client: testClient,
-        conversation: cachedConversation,
-        db,
-        message: testMessage,
-        namespaces: testNamepaces,
-        processors: testProcessors,
-        validators: testValidators,
-      },
-      true,
+
+    const { status, message: cachedMessage } = await processMessage({
+      client,
+      conversation: cachedConversation,
+      db,
+      message: testMessage,
+      namespaces: testNamepaces,
+      processors: testProcessors,
+      validators: testValidators,
+    });
+
+    expect(status).toBe("processed");
+    expect(cachedMessage).toEqual({
+      ...testMessage,
+      status: "processed",
+    });
+    expect(mockProcessor1).toHaveBeenCalledTimes(1);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    expect(mockProcessor1.mock.calls[0][0].client).toBe(client);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    expect(mockProcessor1.mock.calls[0][0].conversation).toBe(
+      cachedConversation,
     );
-    expect(cachedMessage).toEqual(testMessage);
-    expect(mockProcessor1).toHaveBeenCalled();
-    expect(mockProcessor2).toHaveBeenCalled();
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    expect(mockProcessor1.mock.calls[0][0].db).toBe(db);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    expect(mockProcessor1.mock.calls[0][0].message).toBe(testMessage);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    expect(mockProcessor1.mock.calls[0][0].processors).toBe(testProcessors);
+    expect(mockProcessor2).toHaveBeenCalledTimes(1);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    expect(mockProcessor2.mock.calls[0][0].client).toBe(client);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    expect(mockProcessor2.mock.calls[0][0].conversation).toBe(
+      cachedConversation,
+    );
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    expect(mockProcessor2.mock.calls[0][0].db).toBe(db);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    expect(mockProcessor2.mock.calls[0][0].message).toBe(testMessage);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    expect(mockProcessor2.mock.calls[0][0].processors).toBe(testProcessors);
     expect(mockProcessor3).not.toHaveBeenCalled();
 
-    const removedMessage = await getMessageByXmtpID("testXmtpId", db);
-    expect(removedMessage).toBeUndefined();
+    const updatedConversation = await getCachedConversationByTopic(
+      testWallet1.account.address,
+      conversation.topic,
+      db,
+    );
+    expect(updatedConversation?.updatedAt).toEqual(sentAt);
+
+    const savedMessage = await getMessageByXmtpID("testXmtpId", db);
+    expect(savedMessage).toEqual({
+      ...testMessage,
+      status: "processed",
+    });
+
+    const testMessage2 = {
+      id: 2,
+      walletAddress: "testWalletAddress",
+      conversationTopic: "testTopic",
+      content: "test2",
+      contentType: ContentTypeText.toString(),
+      isSending: true,
+      hasLoadError: false,
+      hasSendError: false,
+      sentAt,
+      status: "unprocessed",
+      senderAddress: "testWalletAddress",
+      uuid: "testUuid2",
+      xmtpID: "testXmtpId2",
+    } satisfies CachedMessage;
+
+    const { status: status2, message: cachedMessage2 } = await processMessage({
+      client,
+      conversation: cachedConversation,
+      db,
+      message: testMessage2,
+      namespaces: testNamepaces,
+      processors: testProcessors,
+      validators: testValidators,
+    });
+
+    expect(status2).toBe("processed");
+    expect(cachedMessage2).toEqual({
+      ...testMessage2,
+      status: "processed",
+    });
+
+    const updatedConversation2 = await getCachedConversationByTopic(
+      testWallet1.account.address,
+      conversation.topic,
+      db,
+    );
+    expect(updatedConversation2?.updatedAt).toEqual(sentAt);
   });
 
   it("should cache but not process unsupported content types", async () => {
-    const testClient = await Client.create(testWallet1, { env: "local" });
-    const createdAt = new Date();
-    const testConversation = {
-      createdAt,
-      updatedAt: createdAt,
-      isReady: false,
-      topic: "testTopic",
-      peerAddress: "testPeerAddress",
-      walletAddress: "testWalletAddress",
-    } satisfies CachedConversation;
-    const cachedConversation = await saveConversation(testConversation, db);
-    const sentAt = adjustDate(createdAt, 1000);
+    const client = await Client.create(testWallet1, { env: "local" });
+    await Client.create(testWallet2, { env: "local" });
+    const conversation = await client.conversations.newConversation(
+      testWallet2.account.address,
+      undefined,
+    );
+    const cachedConversation = await saveConversation(
+      toCachedConversation(conversation, testWallet1.account.address),
+      db,
+    );
+
+    const sentAt = new Date();
     const testMessage = {
       id: 1,
       walletAddress: "testWalletAddress",
@@ -730,9 +820,10 @@ describe("processMessage", () => {
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
-    const cachedMessage = await processMessage(
+
+    const { status, message: cachedMessage } = await processMessage(
       {
-        client: testClient,
+        client,
         conversation: cachedConversation,
         db,
         message: testMessage,
@@ -742,6 +833,8 @@ describe("processMessage", () => {
       },
       true,
     );
+
+    expect(status).toBe("unsupported");
     expect(cachedMessage).toEqual(testMessage);
     expect(mockProcessor1).not.toHaveBeenCalled();
     expect(mockProcessor2).not.toHaveBeenCalled();
@@ -751,148 +844,23 @@ describe("processMessage", () => {
     expect(savedMessage).toEqual(testMessage);
   });
 
-  it("should cache a message if persist is called in its processor", async () => {
-    const testClient = await Client.create(testWallet1, { env: "local" });
-    const createdAt = new Date();
-    const testConversation = {
-      createdAt,
-      updatedAt: createdAt,
-      isReady: false,
-      topic: "testTopic",
-      peerAddress: "testPeerAddress",
-      walletAddress: "testWalletAddress",
-    } satisfies CachedConversation;
-    const cachedConversation = await saveConversation(testConversation, db);
-    const sentAt = adjustDate(createdAt, 1000);
-    const testMessage = {
-      id: 1,
-      walletAddress: "testWalletAddress",
-      conversationTopic: "testTopic",
-      content: "test",
-      contentType: ContentTypeText.toString(),
-      isSending: false,
-      hasLoadError: false,
-      hasSendError: false,
-      sentAt,
-      status: "unprocessed",
-      senderAddress: "testWalletAddress",
-      uuid: "testUuid",
-      xmtpID: "testXmtpId",
-    } satisfies CachedMessage;
-    mockProcessor1.mockImplementation(async ({ persist }) => {
-      await persist();
-    });
-    const cachedMessage = await processMessage({
-      client: testClient,
-      conversation: cachedConversation,
-      db,
-      message: testMessage,
-      namespaces: testNamepaces,
-      processors: testProcessors,
-      validators: testValidators,
-    });
-
-    const updatedMessage = {
-      ...testMessage,
-      status: "processed",
-    };
-
-    expect(cachedMessage).toEqual(updatedMessage);
-    expect(mockProcessor1).toHaveBeenCalledTimes(1);
-    expect(mockProcessor2).toHaveBeenCalledTimes(1);
-    expect(mockProcessor3).not.toHaveBeenCalled();
-
-    const savedMessage = await getMessageByXmtpID("testXmtpId", db);
-
-    expect(savedMessage).toEqual(updatedMessage);
-  });
-
-  it("should cache a message with updated properties and metadata if persist is called in its processor", async () => {
-    const testClient = await Client.create(testWallet1, { env: "local" });
-    const createdAt = new Date();
-    const testConversation = {
-      createdAt,
-      updatedAt: createdAt,
-      isReady: false,
-      topic: "testTopic",
-      peerAddress: "testPeerAddress",
-      walletAddress: "testWalletAddress",
-    } satisfies CachedConversation;
-    const cachedConversation = await saveConversation(testConversation, db);
-    const sentAt = adjustDate(createdAt, 1000);
-    const testMessage = {
-      id: 1,
-      walletAddress: "testWalletAddress",
-      conversationTopic: "testTopic",
-      content: "test",
-      contentType: ContentTypeText.toString(),
-      isSending: false,
-      hasLoadError: false,
-      hasSendError: false,
-      sentAt,
-      status: "unprocessed",
-      senderAddress: "testWalletAddress",
-      uuid: "testUuid",
-      xmtpID: "testXmtpId",
-    } satisfies CachedMessage;
-    mockProcessor1.mockImplementation(async ({ persist }) => {
-      await persist({
-        metadata: {
-          foo: "bar",
-        },
-        update: {
-          content: "foo",
-        },
-      });
-    });
-    const cachedMessage = await processMessage({
-      client: testClient,
-      conversation: cachedConversation,
-      db,
-      message: testMessage,
-      namespaces: testNamepaces,
-      processors: testProcessors,
-      validators: testValidators,
-    });
-
-    const updatedMessage = {
-      ...testMessage,
-      content: "foo",
-      status: "processed",
-      metadata: {
-        [testNamepaces[ContentTypeText.toString()]]: {
-          foo: "bar",
-        },
-      },
-    };
-
-    expect(cachedMessage).toEqual(updatedMessage);
-    expect(mockProcessor1).toHaveBeenCalledTimes(1);
-    expect(mockProcessor2).toHaveBeenCalledTimes(1);
-    expect(mockProcessor3).not.toHaveBeenCalled();
-
-    const savedMessage = await getMessageByXmtpID("testXmtpId", db);
-
-    expect(savedMessage).toEqual(updatedMessage);
-  });
-
   it("should update the conversation metadata of a cached message if updateConversationMetadata is called in its processor", async () => {
-    const testClient = await Client.create(testWallet1, { env: "local" });
-    const createdAt = new Date();
-    const testConversation = {
-      createdAt,
-      updatedAt: createdAt,
-      isReady: false,
-      topic: "testTopic",
-      peerAddress: "testPeerAddress",
-      walletAddress: testClient.address,
-    } satisfies CachedConversation;
-    const cachedConversation = await saveConversation(testConversation, db);
-    const sentAt = adjustDate(createdAt, 1000);
+    const client = await Client.create(testWallet1, { env: "local" });
+    await Client.create(testWallet2, { env: "local" });
+    const conversation = await client.conversations.newConversation(
+      testWallet2.account.address,
+      undefined,
+    );
+    const cachedConversation = await saveConversation(
+      toCachedConversation(conversation, testWallet1.account.address),
+      db,
+    );
+
+    const sentAt = new Date();
     const testMessage = {
       id: 1,
-      walletAddress: testClient.address,
-      conversationTopic: "testTopic",
+      walletAddress: client.address,
+      conversationTopic: conversation.topic,
       content: "test",
       contentType: ContentTypeText.toString(),
       isSending: false,
@@ -900,10 +868,11 @@ describe("processMessage", () => {
       hasSendError: false,
       sentAt,
       status: "unprocessed",
-      senderAddress: testClient.address,
+      senderAddress: client.address,
       uuid: "testUuid",
       xmtpID: "testXmtpId",
     } satisfies CachedMessage;
+
     mockProcessor1.mockImplementation(
       async ({ updateConversationMetadata }) => {
         await updateConversationMetadata({
@@ -911,8 +880,8 @@ describe("processMessage", () => {
         });
       },
     );
-    const cachedMessage = await processMessage({
-      client: testClient,
+    const { status, message: cachedMessage } = await processMessage({
+      client,
       conversation: cachedConversation,
       db,
       message: testMessage,
@@ -921,16 +890,21 @@ describe("processMessage", () => {
       validators: testValidators,
     });
 
-    expect(cachedMessage).toEqual(testMessage);
+    expect(status).toBe("processed");
+    expect(cachedMessage).toEqual({
+      ...testMessage,
+      status: "processed",
+    });
     expect(mockProcessor1).toHaveBeenCalledTimes(1);
     expect(mockProcessor2).toHaveBeenCalledTimes(1);
     expect(mockProcessor3).not.toHaveBeenCalled();
 
     const updatedConversation = await getCachedConversationByTopic(
-      testClient.address,
-      "testTopic",
+      client.address,
+      conversation.topic,
       db,
     );
+
     expect(updatedConversation).toEqual({
       ...cachedConversation,
       updatedAt: sentAt,

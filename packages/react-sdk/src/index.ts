@@ -31,6 +31,7 @@ export { useReactions } from "./hooks/useReactions";
 
 // replies
 export { useReply } from "./hooks/useReply";
+export { useReplies } from "./hooks/useReplies";
 
 // caching
 export { getDbInstance, clearCache } from "./helpers/caching/db";
@@ -107,7 +108,6 @@ export {
 } from "./helpers/caching/contentTypes/readReceipt";
 
 // replies
-export type { CachedRepliesMetadata } from "./helpers/caching/contentTypes/reply";
 export {
   getReplies,
   getOriginalMessageFromReply,

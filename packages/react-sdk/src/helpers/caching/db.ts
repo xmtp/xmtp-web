@@ -1,9 +1,6 @@
 import Dexie from "dexie";
 import type { Client, ContentCodec } from "@xmtp/xmtp-js";
-import type {
-  CachedMessage,
-  CachedMessageWithId,
-} from "@/helpers/caching/messages";
+import type { CachedMessage } from "@/helpers/caching/messages";
 import type { CachedConversation } from "./conversations";
 import { textContentTypeConfig } from "./contentTypes/text";
 
@@ -30,21 +27,16 @@ export type InternalPersistMessageOptions = {
   metadata?: ContentTypeMetadataValues;
 };
 
-export type InternalPersistMessage = (
-  options?: InternalPersistMessageOptions,
-) => Promise<CachedMessageWithId<any>>;
-
 export type ContentTypeMessageProcessor<C = any> = (options: {
   client: Client;
   conversation: CachedConversation;
   db: Dexie;
-  message: CachedMessageWithId<C>;
+  message: CachedMessage<C>;
   processors?: ContentTypeMessageProcessors;
-  persist: InternalPersistMessage;
   updateConversationMetadata: (
     data: ContentTypeMetadataValues,
   ) => Promise<void>;
-}) => Promise<void>;
+}) => void | Promise<void>;
 
 export type ContentTypeMessageValidators = Record<
   string,
@@ -53,6 +45,7 @@ export type ContentTypeMessageValidators = Record<
 
 export type ContentTypeConfiguration = {
   codecs: ContentCodec<any>[];
+  contentTypes: string[];
   namespace: string;
   processors?: ContentTypeMessageProcessors;
   schema?: Record<string, string>;

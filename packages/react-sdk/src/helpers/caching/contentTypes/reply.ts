@@ -1,24 +1,35 @@
 import type { Reply } from "@xmtp/content-type-reply";
 import { ReplyCodec, ContentTypeReply } from "@xmtp/content-type-reply";
 import { ContentTypeId } from "@xmtp/xmtp-js";
-import type { Dexie } from "dexie";
+import type { Dexie, Table } from "dexie";
 import { z } from "zod";
-import type { CachedMessage } from "@/helpers/caching/messages";
+import type {
+  CachedMessage,
+  CachedMessageWithId,
+  CachedMessagesTable,
+} from "@/helpers/caching/messages";
 import type {
   ContentTypeConfiguration,
   ContentTypeMessageProcessor,
 } from "../db";
-import { getMessageByXmtpID, updateMessageMetadata } from "../messages";
+import { getMessageByXmtpID } from "../messages";
 
 const NAMESPACE = "replies";
 
-export type CachedRepliesMetadata = string[];
+export type CachedReply = {
+  id?: number;
+  referenceXmtpID: Reply["reference"];
+  xmtpID: string;
+};
+
+export type CachedReplyWithId = CachedReply & {
+  id: number;
+};
+
+export type CachedRepliesTable = Table<CachedReply, number>;
 
 /**
- * Add a reply to the metadata of a cached message
- *
- * Replies are stored as an array of XMTP message IDs in the metadata of
- * the original message.
+ * Add a reply to the cache
  *
  * @param xmtpID XMTP message ID of the original message
  * @param replyXmtpID XMTP message ID of the reply message
@@ -29,37 +40,60 @@ export const addReply = async (
   replyXmtpID: string,
   db: Dexie,
 ) => {
-  const message = await getMessageByXmtpID(xmtpID, db);
-  if (message) {
-    const replies = (message.metadata?.[NAMESPACE] ??
-      []) as CachedRepliesMetadata;
-    const exists = replies.some((reply) => reply === replyXmtpID);
-    if (!exists) {
-      replies.push(replyXmtpID);
-      await updateMessageMetadata(message, NAMESPACE, replies, db);
-    }
-  }
+  const repliesTable = db.table("replies") as CachedRepliesTable;
+
+  const existing = await repliesTable
+    .where({
+      referenceXmtpID: xmtpID,
+      xmtpID: replyXmtpID,
+    })
+    .first();
+
+  return existing
+    ? (existing as CachedReplyWithId).id
+    : repliesTable.add({
+        referenceXmtpID: xmtpID,
+        xmtpID: replyXmtpID,
+      });
 };
 
 /**
  * Retrieve all replies to a cached message
  *
  * @param message Cached message
- * @returns An array of XMTP message IDs
+ * @param db Database instance
+ * @returns An array of reply messages
  */
-export const getReplies = (message: CachedMessage) => {
-  const metadata = message?.metadata?.[NAMESPACE] ?? [];
-  return metadata as CachedRepliesMetadata;
+export const getReplies = async (message: CachedMessage, db: Dexie) => {
+  const repliesTable = db.table("replies") as CachedRepliesTable;
+  const replies = await repliesTable
+    .where({ referenceXmtpID: message.xmtpID })
+    .toArray();
+  if (replies.length > 0) {
+    const messagesTable = db.table("messages") as CachedMessagesTable;
+    const replyMessages = await messagesTable
+      .where("xmtpID")
+      .anyOf(replies.map((reply) => reply.xmtpID))
+      .sortBy("sentAt");
+    return replyMessages as CachedMessageWithId[];
+  }
+  return [];
 };
 
 /**
  * Check if a cached message has any replies
  *
  * @param message Cached message
+ * @param db Database instance
  * @returns `true` if the message has any replies, `false` otherwise
  */
-export const hasReply = (message: CachedMessage) =>
-  getReplies(message).length > 0;
+export const hasReply = async (message: CachedMessage, db: Dexie) => {
+  const repliesTable = db.table("replies") as CachedRepliesTable;
+  const replies = await repliesTable
+    .where({ referenceXmtpID: message.xmtpID })
+    .toArray();
+  return replies.length > 0;
+};
 
 /**
  * Get the original message from a reply message
@@ -114,7 +148,6 @@ const isValidReplyContent = (content: unknown) => {
 export const processReply: ContentTypeMessageProcessor = async ({
   message,
   db,
-  persist,
 }) => {
   const contentType = ContentTypeId.fromString(message.contentType);
   if (
@@ -123,19 +156,25 @@ export const processReply: ContentTypeMessageProcessor = async ({
   ) {
     const reply = message.content as Reply;
 
-    // update replies metadata on the referenced message
+    // save the reply to cache
     await addReply(reply.reference, message.xmtpID, db);
-
-    // save the message to cache
-    await persist();
   }
 };
 
 export const replyContentTypeConfig: ContentTypeConfiguration = {
   codecs: [new ReplyCodec()],
+  contentTypes: [ContentTypeReply.toString()],
   namespace: NAMESPACE,
   processors: {
     [ContentTypeReply.toString()]: [processReply],
+  },
+  schema: {
+    replies: `
+      ++id,
+      [referenceXmtpID+xmtpID],
+      referenceXmtpID,
+      xmtpID
+    `,
   },
   validators: {
     [ContentTypeReply.toString()]: isValidReplyContent,

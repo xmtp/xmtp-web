@@ -210,6 +210,7 @@ export const processReaction: ContentTypeMessageProcessor = async ({
 
 export const reactionContentTypeConfig: ContentTypeConfiguration = {
   codecs: [new ReactionCodec()],
+  contentTypes: [ContentTypeReaction.toString()],
   namespace: NAMESPACE,
   processors: {
     [ContentTypeReaction.toString()]: [processReaction],

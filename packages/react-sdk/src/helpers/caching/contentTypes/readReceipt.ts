@@ -119,6 +119,7 @@ export const processReadReceipt: ContentTypeMessageProcessor = async ({
 
 export const readReceiptContentTypeConfig: ContentTypeConfiguration = {
   codecs: [new ReadReceiptCodec()],
+  contentTypes: [ContentTypeReadReceipt.toString()],
   namespace: NAMESPACE,
   processors: {
     [ContentTypeReadReceipt.toString()]: [processReadReceipt],

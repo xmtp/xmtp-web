@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 import { ContentTypeText } from "@xmtp/xmtp-js";
-import type { DecodedMessage, SendOptions, ContentTypeId } from "@xmtp/xmtp-js";
+import type { SendOptions, ContentTypeId } from "@xmtp/xmtp-js";
 import { XMTPContext } from "@/contexts/XMTPContext";
 import {
   updateMessage as _updateMessage,
@@ -14,17 +14,15 @@ import type {
   CachedMessage,
   CachedMessageWithId,
 } from "@/helpers/caching/messages";
-import { getConversationByTopic } from "@/helpers/caching/conversations";
+import {
+  getConversationByTopic,
+  setConversationUpdatedAt,
+} from "@/helpers/caching/conversations";
 import type { CachedConversation } from "@/helpers/caching/conversations";
 import type { RemoveLastParameter } from "@/sharedTypes";
 import type { UseSendMessageOptions } from "@/hooks/useSendMessage";
 import { useClient } from "@/hooks/useClient";
 import { useDb } from "@/hooks/useDb";
-
-type ProcessMessageCallback = (
-  conversation: CachedConversation,
-  message: CachedMessage,
-) => Promise<CachedMessage>;
 
 export type SendMessageOptions = Omit<SendOptions, "contentType"> &
   Pick<UseSendMessageOptions, "onSuccess" | "onError">;
@@ -38,36 +36,29 @@ export const useMessage = () => {
   const { client } = useClient();
   const { db } = useDb();
 
-  const processMessage = useCallback<ProcessMessageCallback>(
-    async (conversation, message) => {
-      if (client) {
-        return _processMessage({
-          client,
-          conversation,
-          db,
-          message,
-          namespaces,
-          processors,
-          validators,
-        });
-      }
-      return message;
-    },
+  const processMessage = useCallback(
+    async (conversation: CachedConversation, message: CachedMessage) =>
+      _processMessage({
+        client,
+        conversation,
+        db,
+        message,
+        namespaces,
+        processors,
+        validators,
+      }),
     [client, db, namespaces, processors, validators],
   );
 
   const updateMessage = useCallback<RemoveLastParameter<typeof _updateMessage>>(
-    async (message, update) => {
-      await _updateMessage(message, update, db);
-    },
+    async (message, update) => _updateMessage(message, update, db),
     [db],
   );
 
   const updateMessageAfterSending = useCallback<
     RemoveLastParameter<typeof _updateMessageAfterSending>
   >(
-    async (message, sentAt, xmtpID) =>
-      _updateMessageAfterSending(message, sentAt, xmtpID, db),
+    async (message, sentAt) => _updateMessageAfterSending(message, sentAt, db),
     [db],
   );
 
@@ -100,6 +91,10 @@ export const useMessage = () => {
         throw new Error("XMTP client is required to send a message");
       }
 
+      if (content === undefined) {
+        throw new Error("Message content is required to send a message");
+      }
+
       const { onSuccess, onError, ...sendOptions } = options ?? {};
 
       const finalSendOptions = {
@@ -107,62 +102,77 @@ export const useMessage = () => {
         contentType: contentType ?? ContentTypeText,
       };
 
-      const preparedMessage = prepareMessageForSending({
-        client,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        content,
-        contentType: finalSendOptions.contentType.toString(),
-        conversation,
-      });
-
-      const cachedMessage = await processMessage(conversation, preparedMessage);
-
-      const networkConversation = await getConversationByTopic(
-        conversation.topic,
-        client,
-      );
-
-      if (!networkConversation) {
-        const noConversationError = new Error(
-          "Conversation not found in XMTP client, unable to send message",
-        );
-        onError?.(noConversationError);
-        throw noConversationError;
-      }
-
-      let sentMessage: DecodedMessage | undefined;
-
       try {
-        sentMessage = await networkConversation.send(content, finalSendOptions);
+        const { message: messageToProcess, preparedMessage } =
+          await prepareMessageForSending({
+            client,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            content,
+            conversation,
+            sendOptions: finalSendOptions,
+          });
+
+        const { status, message } = await processMessage(
+          conversation,
+          messageToProcess,
+        );
+
+        // these are edge cases that shouldn't happen, but just in case,
+        // prevent sending the message if they occur
+        switch (status) {
+          case "invalid":
+            throw new Error("Unable to send message: content is invalid");
+          case "duplicate":
+            throw new Error("Unable to send message: message is a duplicate");
+          // no default
+        }
+
+        // only send the message if it's been processed
+        if (status === "processed") {
+          try {
+            const sentMessage = await preparedMessage.send();
+
+            // update conversation's last message time
+            await setConversationUpdatedAt(
+              conversation.topic,
+              sentMessage.sent,
+              db,
+            );
+
+            onSuccess?.(sentMessage);
+
+            // before updating, make sure the message was added to cache
+            if (message.id) {
+              await updateMessageAfterSending(message, sentMessage.sent);
+            }
+
+            return {
+              cachedMessage: message,
+              sentMessage,
+            };
+          } catch (e) {
+            // before updating, make sure the message is in the cache
+            if (message.id) {
+              await updateMessage(message, {
+                hasSendError: true,
+                sendOptions: finalSendOptions,
+              });
+            }
+            // re-throw error for outer catch
+            throw e;
+          }
+        }
+
+        return {
+          cachedMessage: message,
+        };
       } catch (e) {
-        await updateMessage(cachedMessage, {
-          hasSendError: true,
-          sendOptions: finalSendOptions,
-        });
         onError?.(e as Error);
         // re-throw error for upstream consumption
         throw e;
       }
-
-      if (sentMessage) {
-        onSuccess?.(sentMessage);
-
-        // before updating, make sure the message was added to cache
-        if (cachedMessage.id) {
-          await updateMessageAfterSending(
-            cachedMessage,
-            sentMessage.sent,
-            sentMessage.id,
-          );
-        }
-      }
-
-      return {
-        cachedMessage,
-        sentMessage,
-      };
     },
-    [client, processMessage, updateMessage, updateMessageAfterSending],
+    [client, db, processMessage, updateMessage, updateMessageAfterSending],
   );
 
   /**
@@ -203,16 +213,19 @@ export const useMessage = () => {
         message.sendOptions,
       );
 
-      // update cached message sentAt and xmtpID properties
-      await updateMessageAfterSending(
-        message,
+      // update conversation's last message time
+      await setConversationUpdatedAt(
+        networkConversation.topic,
         sentMessage.sent,
-        sentMessage.id,
+        db,
       );
+
+      // update cached message sentAt property
+      await updateMessageAfterSending(message, sentMessage.sent);
 
       return sentMessage;
     },
-    [client, updateMessageAfterSending],
+    [client, db, updateMessageAfterSending],
   );
 
   return {
