@@ -1,5 +1,19 @@
 # @xmtp/react-sdk
 
+## 3.0.0
+
+### Major Changes
+
+- [#123](https://github.com/xmtp/xmtp-web/pull/123) [`388d2b2`](https://github.com/xmtp/xmtp-web/commit/388d2b236fee077741b1b9076fa1c2f7ba00e8f4) Thanks [@rygine](https://github.com/rygine)! - \* Upgraded JS SDK to `11.2.0`
+  - Refactored message sending to prepare messages prior to sending
+  - Refactored message processing to always cache messages
+  - Added `contentTypes` to content type config
+  - Removed unnecessary processors from some content type configs
+  - Added guard to prevent sending messages that haven't been fully processed
+  - Added `replies` table to local cache
+  - Updated reply helpers to work with new `replies` table
+  - Added `useReplies` hook that return replies to a specified message
+
 ## 2.2.6
 
 ### Patch Changes
