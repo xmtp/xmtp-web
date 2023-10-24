@@ -1,5 +1,5 @@
 import { SortDirection, type DecodedMessage } from "@xmtp/xmtp-js";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { min, subSeconds } from "date-fns";
 import type { OnError } from "../sharedTypes";
 import { useCachedMessages } from "./useCachedMessages";
@@ -21,6 +21,11 @@ export type UseMessagesOptions = OnError & {
    * browser tab becomes visible
    */
   disableAutoSync?: boolean;
+  /**
+   * Whether or not to disable filtering of messages with an unsupported
+   * content type and no content fallback
+   */
+  disableUnsupportedNoFallbackFiltering?: boolean;
 };
 
 /**
@@ -45,7 +50,12 @@ export const useMessages = (
   const loadingRef = useRef(false);
 
   // destructure options for more granular dependency arrays
-  const { disableAutoSync, onError, onMessages } = options ?? {};
+  const {
+    disableAutoSync,
+    disableUnsupportedNoFallbackFiltering,
+    onError,
+    onMessages,
+  } = options ?? {};
 
   const getMessages = useCallback(async () => {
     // already in progress
@@ -163,10 +173,23 @@ export const useMessages = (
     };
   }, [getMessages, disableAutoSync]);
 
+  const filteredMessages = useMemo(() => {
+    if (!disableUnsupportedNoFallbackFiltering) {
+      return messages;
+    }
+    return messages.filter(
+      (message) =>
+        // content type is supported, or
+        message.content ||
+        // content type is not supported but there is a fallback
+        (message.content === undefined && message.contentFallback),
+    );
+  }, [disableUnsupportedNoFallbackFiltering, messages]);
+
   return {
     error,
     isLoaded,
     isLoading,
-    messages,
+    messages: filteredMessages,
   };
 };
