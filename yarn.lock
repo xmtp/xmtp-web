@@ -8011,6 +8011,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xmtp/ecies-bindings-wasm@npm:^0.1.7":
+  version: 0.1.7
+  resolution: "@xmtp/ecies-bindings-wasm@npm:0.1.7"
+  checksum: db5e512944ee328985a578f5724ad7a0406c4089ec112aa53855013db9099e901dec631c1f98313e94a6f7464efee0701f7810ba0938f420142a5de737783f85
+  languageName: node
+  linkType: hard
+
 "@xmtp/proto@npm:^3.29.0":
   version: 3.29.0
   resolution: "@xmtp/proto@npm:3.29.0"
@@ -8020,6 +8027,18 @@ __metadata:
     rxjs: ^7.8.0
     undici: ^5.8.1
   checksum: ceb28c9a2917e791ebe3edbae8b435ce42c6e896c044e9b2d4cdb17af3145f8046fd9d2f107ebab1ae5a7b54e56630bcf1afd517430251e68f2d1ebbde0c90fe
+  languageName: node
+  linkType: hard
+
+"@xmtp/proto@npm:^3.34.0":
+  version: 3.34.0
+  resolution: "@xmtp/proto@npm:3.34.0"
+  dependencies:
+    long: ^5.2.0
+    protobufjs: ^7.0.0
+    rxjs: ^7.8.0
+    undici: ^5.8.1
+  checksum: ca7a42e84bee49363cc352bcdfba2956af07d84de7d0a7c72947a19306903aa9ae9e6fdb099bc03fea154691bb600ccf93c05e635ea8470ee8fb89739beded78
   languageName: node
   linkType: hard
 
@@ -8094,6 +8113,7 @@ __metadata:
     typescript: ^5.2.2
     viem: ^1.13.0
     vite: ^4.4.9
+    vite-plugin-wasm: ^3.2.2
     wagmi: ^1.4.2
   languageName: unknown
   linkType: soft
@@ -8114,7 +8134,7 @@ __metadata:
     "@xmtp/content-type-remote-attachment": ^1.1.4
     "@xmtp/content-type-reply": ^1.1.5
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": ^11.2.0
+    "@xmtp/xmtp-js": ^11.3.0-beta.10
     async-mutex: ^0.4.0
     date-fns: ^2.30.0
     dexie: ^3.2.4
@@ -8136,7 +8156,7 @@ __metadata:
     vitest: ^0.34.2
     zod: ^3.22.2
   peerDependencies:
-    "@xmtp/xmtp-js": ^11.2.0
+    "@xmtp/xmtp-js": ^11.3.0-beta.10
     react: ">=16.14"
   languageName: unknown
   linkType: soft
@@ -8147,17 +8167,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xmtp/xmtp-js@npm:^11.2.0":
-  version: 11.2.0
-  resolution: "@xmtp/xmtp-js@npm:11.2.0"
+"@xmtp/xmtp-js@npm:^11.3.0-beta.10":
+  version: 11.3.0-beta.10
+  resolution: "@xmtp/xmtp-js@npm:11.3.0-beta.10"
   dependencies:
     "@noble/secp256k1": ^1.5.2
-    "@xmtp/proto": ^3.29.0
+    "@xmtp/ecies-bindings-wasm": ^0.1.7
+    "@xmtp/proto": ^3.34.0
     async-mutex: ^0.4.0
     elliptic: ^6.5.4
     ethers: ^5.5.3
     long: ^5.2.0
-  checksum: 11fbe2d051fd7c121cde43c49de1acedc3b275106b1e09a444fbb0a4bce8b8111a4bc20c4fcbe8d0a474d876b3d3117eebea6453efb18065391afa7fa7334105
+  checksum: 72eb03712bba309da38ecb4ebd1446f862a51287a852b9fa2bbd7a4bdaef19a42b6d554b9a3746539ec7f8603aa5e462cc607883d9f769e8aeabe3e46d3727f2
   languageName: node
   linkType: hard
 
@@ -18884,6 +18905,15 @@ __metadata:
   bin:
     vite-node: vite-node.mjs
   checksum: 7861ab0b55ca01a417f2afbe9d55cf39e9cb25183a7508aeec9c4f19ae2b112d823d1fccaf66012479a805f75889c1bfdfe28b5410768a671437096bc0a8fd3e
+  languageName: node
+  linkType: hard
+
+"vite-plugin-wasm@npm:^3.2.2":
+  version: 3.2.2
+  resolution: "vite-plugin-wasm@npm:3.2.2"
+  peerDependencies:
+    vite: ^2 || ^3 || ^4
+  checksum: ed9b56b3cd47e6376c21592f4d24f818334d5796226f6c1dfca89a4f744d69a34cb85dd5e06f164a2670827113ccfa5f03d0361e51210012706123374b0f8277
   languageName: node
   linkType: hard
 
