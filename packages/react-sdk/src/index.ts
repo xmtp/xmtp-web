@@ -4,7 +4,7 @@ export { XMTPProvider } from "./contexts/XMTPContext";
 // helpers
 export { isValidAddress } from "./helpers/isValidAddress";
 
-// hooks
+// client and DB hooks
 export { useClient } from "./hooks/useClient";
 export { useDb } from "./hooks/useDb";
 
@@ -14,39 +14,6 @@ export { useConversations } from "./hooks/useConversations";
 export { useStartConversation } from "./hooks/useStartConversation";
 export { useStreamConversations } from "./hooks/useStreamConversations";
 
-// messages
-export { useLastMessage } from "./hooks/useLastMessage";
-export { useCanMessage } from "./hooks/useCanMessage";
-export { useMessages } from "./hooks/useMessages";
-export { useSendMessage } from "./hooks/useSendMessage";
-export { useResendMessage } from "./hooks/useResendMessage";
-export { useStreamAllMessages } from "./hooks/useStreamAllMessages";
-export { useStreamMessages } from "./hooks/useStreamMessages";
-
-// attachments
-export { useAttachment } from "./hooks/useAttachment";
-
-// reactions
-export { useReactions } from "./hooks/useReactions";
-
-// replies
-export { useReply } from "./hooks/useReply";
-export { useReplies } from "./hooks/useReplies";
-
-// caching
-export { getDbInstance, clearCache } from "./helpers/caching/db";
-
-export type {
-  ContentTypeMetadataValue,
-  ContentTypeConfiguration,
-  ContentTypeMessageProcessor,
-  ContentTypeMessageProcessors,
-  ContentTypeMessageValidators,
-  ContentTypeMetadata,
-  ContentTypeMetadataValues,
-} from "./helpers/caching/db";
-
-// conversations
 export type {
   CachedConversation,
   CachedConversationWithId,
@@ -65,6 +32,14 @@ export {
 } from "./helpers/caching/conversations";
 
 // messages
+export { useLastMessage } from "./hooks/useLastMessage";
+export { useCanMessage } from "./hooks/useCanMessage";
+export { useMessages } from "./hooks/useMessages";
+export { useSendMessage } from "./hooks/useSendMessage";
+export { useResendMessage } from "./hooks/useResendMessage";
+export { useStreamAllMessages } from "./hooks/useStreamAllMessages";
+export { useStreamMessages } from "./hooks/useStreamMessages";
+
 export type {
   CachedMessage,
   CachedMessageWithId,
@@ -81,13 +56,35 @@ export {
   updateMessageMetadata,
 } from "./helpers/caching/messages";
 
+// caching
+export { getDbInstance, clearCache } from "./helpers/caching/db";
+
+// consent
+export { useConsent } from "./hooks/useConsent";
+export { useStreamConsentList } from "./hooks/useStreamConsentList";
+export type {
+  CachedConsentEntry,
+  CachedConsentTable,
+} from "./helpers/caching/consent";
+export {
+  bulkPutConsentState,
+  getCachedConsentEntries,
+  getCachedConsentState,
+  loadConsentListFromCache,
+  putConsentState,
+} from "./helpers/caching/consent";
+
 // attachments
+export { useAttachment } from "./hooks/useAttachment";
+
 export {
   attachmentContentTypeConfig,
   getAttachment,
 } from "./helpers/caching/contentTypes/attachment";
 
 // reactions
+export { useReactions } from "./hooks/useReactions";
+
 export type {
   CachedReaction,
   CachedReactionsMetadata,
@@ -99,6 +96,17 @@ export {
   reactionContentTypeConfig,
 } from "./helpers/caching/contentTypes/reaction";
 
+// replies
+export { useReply } from "./hooks/useReply";
+export { useReplies } from "./hooks/useReplies";
+
+export {
+  getReplies,
+  getOriginalMessageFromReply,
+  hasReply,
+  replyContentTypeConfig,
+} from "./helpers/caching/contentTypes/reply";
+
 // read receipts
 export type { CachedReadReceiptMetadata } from "./helpers/caching/contentTypes/readReceipt";
 export {
@@ -107,16 +115,19 @@ export {
   getReadReceipt,
 } from "./helpers/caching/contentTypes/readReceipt";
 
-// replies
-export {
-  getReplies,
-  getOriginalMessageFromReply,
-  hasReply,
-  replyContentTypeConfig,
-} from "./helpers/caching/contentTypes/reply";
-
 // text
 export { textContentTypeConfig } from "./helpers/caching/contentTypes/text";
+
+// caching types
+export type {
+  ContentTypeMetadataValue,
+  ContentTypeConfiguration,
+  ContentTypeMessageProcessor,
+  ContentTypeMessageProcessors,
+  ContentTypeMessageValidators,
+  ContentTypeMetadata,
+  ContentTypeMetadataValues,
+} from "./helpers/caching/db";
 
 export {
   Client,
