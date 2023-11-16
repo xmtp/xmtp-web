@@ -16,7 +16,6 @@ export { ReactionsBar } from "./components/ReactionsBar";
 
 // controllers
 export { ConversationPreview } from "./controllers/ConversationPreview";
-export { ConversationPreviewList } from "./controllers/ConversationPreviewList";
 
 // helpers
 export { shortAddress } from "./helpers/shortAddress";
