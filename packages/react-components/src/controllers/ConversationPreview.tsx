@@ -1,4 +1,8 @@
-import type { CachedConversation, CachedMessage } from "@xmtp/react-sdk";
+import type {
+  CachedConversation,
+  CachedMessage,
+  ConsentState,
+} from "@xmtp/react-sdk";
 import { useCallback } from "react";
 import { ConversationPreviewCard } from "../components/ConversationPreviewCard";
 
@@ -19,6 +23,7 @@ export type ConversationPreviewProps = {
    * Preview text to display
    */
   lastMessage?: CachedMessage;
+  consentState: ConsentState;
 };
 
 /**
@@ -30,6 +35,7 @@ export const ConversationPreview: React.FC<ConversationPreviewProps> = ({
   isSelected,
   onClick,
   lastMessage,
+  consentState,
 }) => {
   const handlePreviewClick = useCallback(() => {
     onClick?.(conversation);
@@ -37,6 +43,7 @@ export const ConversationPreview: React.FC<ConversationPreviewProps> = ({
 
   return (
     <ConversationPreviewCard
+      consentState={consentState}
       conversation={conversation}
       isSelected={isSelected}
       onClick={handlePreviewClick}

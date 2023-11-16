@@ -53,9 +53,53 @@
   min-height: 21px;
 }
 
+.extra {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  align-items: flex-end;
+}
+
 .time {
   text-align: right;
   color: var(--xmtp-text-color-tertiary);
   margin-left: 1rem;
   composes: text-xs from global;
+}
+
+.consent {
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  background-color: gray;
+  color: white;
+  composes: text-xs from global;
+  font-weight: bold;
+}
+
+.actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.action {
+  flex-grow: 1;
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  background-color: white;
+  color: #333;
+  composes: text-xs from global;
+  font-weight: bold;
+  border: 1px solid #eee;
+}
+
+.action:hover {
+  background-color: #eee;
+}
+
+.allow {
+  background-color: green;
+}
+
+.deny {
+  background-color: red;
 }

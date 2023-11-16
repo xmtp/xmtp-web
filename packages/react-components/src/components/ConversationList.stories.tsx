@@ -60,8 +60,20 @@ export const WithConversationPreviewCard = Template.bind({});
 WithConversationPreviewCard.storyName = "With ConversationPreviewCard";
 WithConversationPreviewCard.args = {
   conversations: [
-    <ConversationPreviewCard key="topic1" conversation={conversation1} />,
-    <ConversationPreviewCard key="topic2" conversation={conversation2} />,
-    <ConversationPreviewCard key="topic3" conversation={conversation3} />,
+    <ConversationPreviewCard
+      key="topic1"
+      conversation={conversation1}
+      consentState="unknown"
+    />,
+    <ConversationPreviewCard
+      key="topic2"
+      conversation={conversation2}
+      consentState="unknown"
+    />,
+    <ConversationPreviewCard
+      key="topic3"
+      conversation={conversation3}
+      consentState="unknown"
+    />,
   ],
 };
