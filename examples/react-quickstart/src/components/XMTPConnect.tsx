@@ -15,6 +15,9 @@ const XMTPConnectButton: React.FC<XMTPConnectButtonProps> = ({ label }) => {
   const handleConnect = useCallback(() => {
     void initialize({
       signer: walletClient,
+      options: {
+        env: "dev",
+      },
     });
   }, [initialize, walletClient]);
 

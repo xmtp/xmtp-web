@@ -1,4 +1,5 @@
-import { useLastMessage, type CachedConversation } from "@xmtp/react-sdk";
+import type { CachedConversation } from "@xmtp/react-sdk";
+import { useLastMessage, useConsent } from "@xmtp/react-sdk";
 import { ConversationPreview } from "@xmtp/react-components";
 
 type ConversationCardProps = {
@@ -13,6 +14,7 @@ export const ConversationCard: React.FC<ConversationCardProps> = ({
   isSelected,
 }) => {
   const lastMessage = useLastMessage(conversation.topic);
+  const { consentState } = useConsent();
 
   return (
     <ConversationPreview
@@ -21,6 +23,7 @@ export const ConversationCard: React.FC<ConversationCardProps> = ({
       isSelected={isSelected}
       onClick={onConversationClick}
       lastMessage={lastMessage}
+      consentState={consentState(conversation.peerAddress)}
     />
   );
 };
