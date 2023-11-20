@@ -5,6 +5,7 @@ import type { WalletClient } from "viem";
 import { XMTPContext } from "../contexts/XMTPContext";
 import type { OnError } from "@/sharedTypes";
 import { processUnprocessedMessages } from "@/helpers/caching/messages";
+import { loadConsentListFromCache } from "@/helpers/caching/consent";
 
 export type InitializeClientOptions = {
   /**
@@ -72,9 +73,18 @@ export const useClient = (onError?: OnError["onError"]) => {
           onError?.(e as Error);
           // re-throw error for upstream consumption
           throw e;
+        } finally {
+          initializingRef.current = false;
         }
 
         setIsLoading(false);
+
+        // load cached consent list
+        try {
+          await loadConsentListFromCache(xmtpClient, db);
+        } catch (e) {
+          onError?.(e as Error);
+        }
 
         // process unprocessed messages
         try {
@@ -87,9 +97,9 @@ export const useClient = (onError?: OnError["onError"]) => {
           });
         } catch (e) {
           onError?.(e as Error);
-        } finally {
-          initializingRef.current = false;
         }
+
+        initializingRef.current = false;
 
         return xmtpClient;
       }

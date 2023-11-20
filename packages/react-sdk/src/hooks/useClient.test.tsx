@@ -7,6 +7,7 @@ import { XMTPProvider } from "@/contexts/XMTPContext";
 import { createRandomWallet } from "@/helpers/testing";
 
 const processUnprocessedMessagesMock = vi.hoisted(() => vi.fn());
+const loadConsentListFromCacheMock = vi.hoisted(() => vi.fn());
 const clientCreateSpy = vi.spyOn(Client, "create");
 
 const TestWrapper: React.FC<PropsWithChildren & { client?: Client }> = ({
@@ -22,10 +23,19 @@ vi.mock("@/helpers/caching/messages", async () => {
   };
 });
 
+vi.mock("@/helpers/caching/consent", async () => {
+  const actual = await import("@/helpers/caching/consent");
+  return {
+    ...actual,
+    loadConsentListFromCache: loadConsentListFromCacheMock,
+  };
+});
+
 describe("useClient", () => {
   beforeEach(() => {
     clientCreateSpy.mockClear();
     processUnprocessedMessagesMock.mockReset();
+    loadConsentListFromCacheMock.mockReset();
   });
 
   it("should disconnect an active client", async () => {
@@ -100,6 +110,7 @@ describe("useClient", () => {
     expect(result.current.client).toBe(client);
 
     await waitFor(() => {
+      expect(loadConsentListFromCacheMock).toHaveBeenCalledTimes(1);
       expect(processUnprocessedMessagesMock).toHaveBeenCalledTimes(1);
     });
   });
@@ -138,29 +149,33 @@ describe("useClient", () => {
     expect(result.current.client).toBe(client);
 
     await waitFor(() => {
+      expect(loadConsentListFromCacheMock).toHaveBeenCalledTimes(1);
       expect(processUnprocessedMessagesMock).toHaveBeenCalledTimes(1);
     });
   });
 
-  it("should throw an error if client initialization fails", async () => {
+  it("should should call the onError callback if loading the consent list from cache fails", async () => {
     const testWallet = createRandomWallet();
     const testError = new Error("testError");
-    clientCreateSpy.mockRejectedValue(testError);
     const onErrorMock = vi.fn();
+    loadConsentListFromCacheMock.mockRejectedValue(testError);
 
-    const { result } = renderHook(() => useClient(onErrorMock));
-
-    await act(async () => {
-      await expect(
-        result.current.initialize({ signer: testWallet }),
-      ).rejects.toThrow(testError);
+    const { result } = renderHook(() => useClient(onErrorMock), {
+      wrapper: ({ children }) => <TestWrapper>{children}</TestWrapper>,
     });
 
-    expect(onErrorMock).toBeCalledTimes(1);
-    expect(onErrorMock).toHaveBeenCalledWith(testError);
-    expect(result.current.client).toBeUndefined();
-    expect(result.current.error).toEqual(testError);
-    clientCreateSpy.mockReset();
+    await act(async () => {
+      await result.current.initialize({
+        signer: testWallet,
+        options: { env: "local" },
+      });
+    });
+
+    await waitFor(() => {
+      expect(onErrorMock).toHaveBeenCalledTimes(1);
+      expect(onErrorMock).toHaveBeenCalledWith(testError);
+      expect(result.current.error).toBe(null);
+    });
   });
 
   it("should should call the onError callback if processing unprocessed messages fails", async () => {
@@ -185,5 +200,26 @@ describe("useClient", () => {
       expect(onErrorMock).toHaveBeenCalledWith(testError);
       expect(result.current.error).toBe(null);
     });
+  });
+
+  it("should throw an error if client initialization fails", async () => {
+    const testWallet = createRandomWallet();
+    const testError = new Error("testError");
+    clientCreateSpy.mockRejectedValue(testError);
+    const onErrorMock = vi.fn();
+
+    const { result } = renderHook(() => useClient(onErrorMock));
+
+    await act(async () => {
+      await expect(
+        result.current.initialize({ signer: testWallet }),
+      ).rejects.toThrow(testError);
+    });
+
+    expect(onErrorMock).toBeCalledTimes(1);
+    expect(onErrorMock).toHaveBeenCalledWith(testError);
+    expect(result.current.client).toBeUndefined();
+    expect(result.current.error).toEqual(testError);
+    clientCreateSpy.mockReset();
   });
 });

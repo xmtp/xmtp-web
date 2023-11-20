@@ -39,6 +39,7 @@
     "postcss": "^8.4.30",
     "postcss-preset-env": "^9.1.4",
     "typescript": "^5.2.2",
-    "vite": "^4.4.9"
+    "vite": "^4.4.9",
+    "vite-plugin-wasm": "^3.2.2"
   }
 }

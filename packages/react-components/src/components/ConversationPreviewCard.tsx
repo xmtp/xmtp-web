@@ -1,10 +1,11 @@
 import type { KeyboardEvent } from "react";
 import { useCallback } from "react";
 import { formatDistanceToNowStrict } from "date-fns";
-import {
-  type CachedConversation,
-  type CachedMessage,
-  getAttachment,
+import { getAttachment, useConsent } from "@xmtp/react-sdk";
+import type {
+  ConsentState,
+  CachedConversation,
+  CachedMessage,
 } from "@xmtp/react-sdk";
 import { Avatar } from "./Avatar";
 import styles from "./ConversationPreviewCard.module.css";
@@ -27,11 +28,13 @@ export type ConversationPreviewCardProps = {
    * Is conversation selected?
    */
   isSelected?: boolean;
+  consentState: ConsentState;
 };
 
 export const ConversationPreviewCard: React.FC<
   ConversationPreviewCardProps
-> = ({ conversation, onClick, isSelected, lastMessage }) => {
+> = ({ conversation, onClick, isSelected, lastMessage, consentState }) => {
+  const { allow, deny } = useConsent();
   const attachment = lastMessage ? getAttachment(lastMessage) : undefined;
   let content: any;
   if (attachment) {
@@ -54,6 +57,21 @@ export const ConversationPreviewCard: React.FC<
     onClick?.(conversation);
   }, [conversation, onClick]);
 
+  const handleAllow = useCallback(async () => {
+    await allow([conversation.peerAddress]);
+  }, [allow, conversation.peerAddress]);
+
+  const handleDeny = useCallback(async () => {
+    await deny([conversation.peerAddress]);
+  }, [deny, conversation.peerAddress]);
+
+  let consentStyle = "";
+  if (consentState === "allowed") {
+    consentStyle = styles.allow;
+  } else if (consentState === "denied") {
+    consentStyle = styles.deny;
+  }
+
   return (
     <div
       className={`${styles.wrapper} ${isSelected ? styles.selected : ""}`}
@@ -68,9 +86,44 @@ export const ConversationPreviewCard: React.FC<
         </div>
         <div className={styles.message}>{content}</div>
       </div>
-      <div className={styles.time}>
-        {lastMessage?.sentAt &&
-          `${formatDistanceToNowStrict(lastMessage.sentAt)} ago`}
+      <div className={styles.extra}>
+        <div className={styles.time}>
+          {lastMessage?.sentAt &&
+            `${formatDistanceToNowStrict(lastMessage.sentAt)} ago`}
+        </div>
+        <div className={`${styles.consent} ${consentStyle}`}>
+          {consentState}
+        </div>
+        <div className={`${styles.actions}`}>
+          <div
+            tabIndex={0}
+            role="button"
+            className={`${styles.action}`}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                void handleAllow();
+              }
+            }}
+            onClick={() => {
+              void handleAllow();
+            }}>
+            Allow
+          </div>
+          <div
+            className={`${styles.action} `}
+            tabIndex={0}
+            role="button"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                void handleDeny();
+              }
+            }}
+            onClick={() => {
+              void handleDeny();
+            }}>
+            Deny
+          </div>
+        </div>
       </div>
     </div>
   );
