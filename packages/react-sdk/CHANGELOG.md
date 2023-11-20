@@ -4,14 +4,13 @@
 
 ### Minor Changes
 
-- [`9b5cd1d`](https://github.com/xmtp/xmtp-web/commit/9b5cd1d394b01ead115ba0f3c595f1dc86f481d6) Thanks [@rygine](https://github.com/rygine)! - - Added caching of the consent list
+- Added caching of the consent list
+- Added autoload of cached consent list on client create
+- Added `useConsent` hook for working with consent
+- Added `useStreamConsentList` hook for streaming in consent actions
+- Added consent support to example app
 
-  - Added autoload of cached consent list on client create
-  - Added `useConsent` hook for working with consent
-  - Added `useStreamConsentList` hook for streaming in consent actions
-  - Added consent support to example app
-
-  **Note:** This update uses WASM and requires some configuration changes depending on the bundler used.
+**Note:** This update uses WASM and requires some configuration changes depending on the bundler used.
 
 ## 3.0.0
 
