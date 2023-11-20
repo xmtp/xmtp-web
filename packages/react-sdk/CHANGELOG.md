@@ -1,5 +1,17 @@
 # @xmtp/react-sdk
 
+## 3.1.0-beta.0
+
+### Minor Changes
+
+- Added caching of the consent list
+- Added autoload of cached consent list on client create
+- Added `useConsent` hook for working with consent
+- Added `useStreamConsentList` hook for streaming in consent actions
+- Added consent support to example app
+
+**Note:** This update uses WASM and requires some configuration changes depending on the bundler used.
+
 ## 3.0.0
 
 ### Major Changes

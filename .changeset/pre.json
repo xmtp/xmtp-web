@@ -8,5 +8,7 @@
     "@xmtp/react-sdk": "3.0.0",
     "@xmtp/tsconfig": "0.0.0"
   },
-  "changesets": []
+  "changesets": [
+    "lemon-buckets-tan"
+  ]
 }
