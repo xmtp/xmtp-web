@@ -40,7 +40,6 @@ logs
 lib
 dist
 build
-storybook-static
 
 # yarn
 .pnp.*

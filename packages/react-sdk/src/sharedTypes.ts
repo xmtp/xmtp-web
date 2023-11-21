@@ -8,8 +8,8 @@ export type OnError = {
 export type CanMessageReturns<T> = T extends string
   ? boolean
   : T extends string[]
-  ? boolean[]
-  : never;
+    ? boolean[]
+    : never;
 
 export type RemoveLastParameter<F> = F extends (...args: infer A) => infer R
   ? (...args: A extends [...infer U, any] ? U : never) => R
