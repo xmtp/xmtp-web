@@ -85,7 +85,7 @@
     "@types/react-dom": "^18.2.16",
     "@vitejs/plugin-react": "^4.1.0",
     "@xmtp/tsconfig": "workspace:*",
-    "eslint": "^8.50.0",
+    "eslint": "^8.54.0",
     "eslint-config-xmtp-web": "workspace:*",
     "jsdom": "^22.1.0",
     "postcss": "^8.4.30",

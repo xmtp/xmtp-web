@@ -34,7 +34,7 @@
     "@vitejs/plugin-react": "^4.1.0",
     "@xmtp/tsconfig": "workspace:*",
     "autoprefixer": "^10.4.16",
-    "eslint": "^8.50.0",
+    "eslint": "^8.54.0",
     "eslint-config-xmtp-web": "workspace:*",
     "postcss": "^8.4.30",
     "postcss-preset-env": "^9.1.4",
