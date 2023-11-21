@@ -63,7 +63,6 @@ Run `yarn dev` to build the package and watch for changes, which will trigger a 
 - `yarn format`: Runs prettier format and write changes
 - `yarn format:check`: Runs prettier format check
 - `yarn lint`: Runs ESLint
-- `yarn storybook`: Launches Storybook for the React components
 - `yarn test`: Runs all unit tests
 - `yarn typecheck`: Runs `tsc`
 

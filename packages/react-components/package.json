@@ -67,9 +67,7 @@
     "format": "yarn format:base -w .",
     "generate:types": "tsup --dts-only",
     "test": "vitest run --passWithNoTests",
-    "typecheck": "tsc --noEmit",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
@@ -84,13 +82,6 @@
   "devDependencies": {
     "@babel/core": "^7.23.0",
     "@mdx-js/react": "^2.3.0",
-    "@storybook/addon-essentials": "^7.4.5",
-    "@storybook/addon-interactions": "^7.4.5",
-    "@storybook/addon-links": "^7.4.5",
-    "@storybook/blocks": "^7.4.5",
-    "@storybook/react": "^7.4.5",
-    "@storybook/react-vite": "^7.4.5",
-    "@storybook/testing-library": "^0.2.1",
     "@testing-library/react": "^14.0.0",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.8",
@@ -98,7 +89,6 @@
     "@xmtp/tsconfig": "workspace:*",
     "eslint": "^8.50.0",
     "eslint-config-xmtp-web": "workspace:*",
-    "eslint-plugin-storybook": "^0.6.14",
     "jsdom": "^22.1.0",
     "postcss": "^8.4.30",
     "postcss-modules": "^6.0.0",
@@ -106,7 +96,6 @@
     "prettier": "^3.0.3",
     "prop-types": "^15.8.1",
     "react-dom": "^18.2.0",
-    "storybook": "^7.4.5",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "vite": "^4.4.9",
