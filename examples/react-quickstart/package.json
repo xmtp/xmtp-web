@@ -25,12 +25,12 @@
     "@xmtp/react-sdk": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "viem": "^1.13.0",
-    "wagmi": "^1.4.2"
+    "viem": "^1.19.6",
+    "wagmi": "^1.4.7"
   },
   "devDependencies": {
-    "@types/react": "^18.2.20",
-    "@types/react-dom": "^18.2.8",
+    "@types/react": "^18.2.38",
+    "@types/react-dom": "^18.2.16",
     "@vitejs/plugin-react": "^4.1.0",
     "@xmtp/tsconfig": "workspace:*",
     "autoprefixer": "^10.4.16",
@@ -38,7 +38,7 @@
     "eslint-config-xmtp-web": "workspace:*",
     "postcss": "^8.4.30",
     "postcss-preset-env": "^9.1.4",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.2",
     "vite": "^4.4.9"
   }
 }
