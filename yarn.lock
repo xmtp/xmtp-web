@@ -8011,13 +8011,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmtp/ecies-bindings-wasm@npm:^0.1.7":
-  version: 0.1.7
-  resolution: "@xmtp/ecies-bindings-wasm@npm:0.1.7"
-  checksum: db5e512944ee328985a578f5724ad7a0406c4089ec112aa53855013db9099e901dec631c1f98313e94a6f7464efee0701f7810ba0938f420142a5de737783f85
-  languageName: node
-  linkType: hard
-
 "@xmtp/proto@npm:^3.29.0":
   version: 3.29.0
   resolution: "@xmtp/proto@npm:3.29.0"
@@ -8134,7 +8127,7 @@ __metadata:
     "@xmtp/content-type-remote-attachment": ^1.1.4
     "@xmtp/content-type-reply": ^1.1.5
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": ^11.3.0-beta.10
+    "@xmtp/xmtp-js": ^11.3.0-beta.11
     async-mutex: ^0.4.0
     date-fns: ^2.30.0
     dexie: ^3.2.4
@@ -8156,7 +8149,7 @@ __metadata:
     vitest: ^0.34.2
     zod: ^3.22.2
   peerDependencies:
-    "@xmtp/xmtp-js": ^11.3.0-beta.10
+    "@xmtp/xmtp-js": ^11.3.0-beta.11
     react: ">=16.14"
   languageName: unknown
   linkType: soft
@@ -8167,18 +8160,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xmtp/xmtp-js@npm:^11.3.0-beta.10":
-  version: 11.3.0-beta.10
-  resolution: "@xmtp/xmtp-js@npm:11.3.0-beta.10"
+"@xmtp/user-preferences-bindings-wasm@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "@xmtp/user-preferences-bindings-wasm@npm:0.2.1"
+  checksum: 446f0354477634780bb1827d872f16dd8e669640fdb00c62420dc34e0422a8b4264068caa33befe854394ae0fc52368e4c6bd2398bf04737bad9d59e566903e4
+  languageName: node
+  linkType: hard
+
+"@xmtp/xmtp-js@npm:^11.3.0-beta.11":
+  version: 11.3.0-beta.11
+  resolution: "@xmtp/xmtp-js@npm:11.3.0-beta.11"
   dependencies:
     "@noble/secp256k1": ^1.5.2
-    "@xmtp/ecies-bindings-wasm": ^0.1.7
     "@xmtp/proto": ^3.34.0
+    "@xmtp/user-preferences-bindings-wasm": ^0.2.1
     async-mutex: ^0.4.0
     elliptic: ^6.5.4
     ethers: ^5.5.3
     long: ^5.2.0
-  checksum: 72eb03712bba309da38ecb4ebd1446f862a51287a852b9fa2bbd7a4bdaef19a42b6d554b9a3746539ec7f8603aa5e462cc607883d9f769e8aeabe3e46d3727f2
+  checksum: 9ef570c4492ca605ce410b4f08d14e8d451bac4df2d50cf2305550e64e67ba0db7bfd73106543df972330fdbcd643a2bcb01d4ef807d8c20c394de422d1d3cd9
   languageName: node
   linkType: hard
 
