@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 3.1.0-beta.1
+
+### Patch Changes
+
+- Upgrade to latest beta JS SDK, which provides new encryption methods for self messaging
+
 ## 3.1.0-beta.0
 
 ### Minor Changes
