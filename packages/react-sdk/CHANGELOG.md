@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 3.1.0-beta.1
+
+### Patch Changes
+
+- [#137](https://github.com/xmtp/xmtp-web/pull/137) [`18fcd0f`](https://github.com/xmtp/xmtp-web/commit/18fcd0f81582b046b101d6d3ffa9989b526613ae) Thanks [@rygine](https://github.com/rygine)! - \* Upgrade to latest beta JS SDK, which provides new encryption methods for self messaging
+
 ## 3.1.0-beta.0
 
 ### Minor Changes
