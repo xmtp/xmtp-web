@@ -31,7 +31,7 @@
     "@changesets/cli": "^2.26.2"
   },
   "resolutions": {
-    "@xmtp/xmtp-js": "^11.3.0-beta.11",
+    "@xmtp/xmtp-js": "^11.3.0-beta.16",
     "vite": "^4.4.9"
   }
 }
