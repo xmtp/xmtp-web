@@ -9,6 +9,7 @@
     "@xmtp/tsconfig": "0.0.0"
   },
   "changesets": [
+    "afraid-singers-decide",
     "four-lamps-rule",
     "lemon-buckets-tan"
   ]
