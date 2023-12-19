@@ -1,5 +1,12 @@
 # @xmtp/react-sdk
 
+## 3.1.0-beta.2
+
+### Patch Changes
+
+- Upgraded to latest JS SDK beta
+- Switched to `happy-dom` for testing
+
 ## 3.1.0-beta.1
 
 ### Patch Changes
