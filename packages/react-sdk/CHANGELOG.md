@@ -4,8 +4,8 @@
 
 ### Patch Changes
 
-- [#139](https://github.com/xmtp/xmtp-web/pull/139) [`b8c207a`](https://github.com/xmtp/xmtp-web/commit/b8c207a74fa318cee67368f9417406114054540a) Thanks [@rygine](https://github.com/rygine)! - - Upgraded to latest JS SDK beta
-  - Switched to `happy-dom` for testing
+- Upgraded to latest JS SDK beta
+- Switched to `happy-dom` for testing
 
 ## 3.1.0-beta.1
 
