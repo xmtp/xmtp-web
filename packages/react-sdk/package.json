@@ -76,7 +76,7 @@
     "@xmtp/content-type-read-receipt": "^1.1.5",
     "@xmtp/content-type-remote-attachment": "^1.1.4",
     "@xmtp/content-type-reply": "^1.1.5",
-    "@xmtp/xmtp-js": "^11.3.0-beta.16",
+    "@xmtp/xmtp-js": "^11.3.0-beta.18",
     "async-mutex": "^0.4.0",
     "date-fns": "^2.30.0",
     "dexie": "^3.2.4",
@@ -98,7 +98,7 @@
     "eslint": "^8.50.0",
     "eslint-config-xmtp-web": "workspace:*",
     "fake-indexeddb": "^4.0.2",
-    "jsdom": "^22.1.0",
+    "happy-dom": "^12.10.3",
     "prettier": "^3.0.3",
     "react-dom": "^18.2.0",
     "tsup": "^7.2.0",
@@ -109,7 +109,7 @@
     "vitest": "^0.34.2"
   },
   "peerDependencies": {
-    "@xmtp/xmtp-js": "^11.3.0-beta.16",
+    "@xmtp/xmtp-js": "^11.3.0-beta.18",
     "react": ">=16.14"
   },
   "engines": {
