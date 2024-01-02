@@ -4081,6 +4081,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xmtp/proto@npm:^3.34.0":
+  version: 3.36.0
+  resolution: "@xmtp/proto@npm:3.36.0"
+  dependencies:
+    long: ^5.2.0
+    protobufjs: ^7.0.0
+    rxjs: ^7.8.0
+    undici: ^5.8.1
+  checksum: 7f12fc9fbcc5607eb3c37529b62749a9aace2236821f9622935398cf0069c96ea6d8f9853e85159f4bcca67b1ffa6c42b890ea7ae6a6357fe4774afa74b38a20
+  languageName: node
+  linkType: hard
+
 "@xmtp/react-components@workspace:*, @xmtp/react-components@workspace:packages/react-components":
   version: 0.0.0-use.local
   resolution: "@xmtp/react-components@workspace:packages/react-components"
@@ -4161,7 +4173,7 @@ __metadata:
     "@xmtp/content-type-remote-attachment": ^1.1.4
     "@xmtp/content-type-reply": ^1.1.5
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": ^11.2.1
+    "@xmtp/xmtp-js": ^11.3.0
     async-mutex: ^0.4.0
     date-fns: ^2.30.0
     dexie: ^3.2.4
@@ -4183,7 +4195,7 @@ __metadata:
     vitest: ^0.34.2
     zod: ^3.22.4
   peerDependencies:
-    "@xmtp/xmtp-js": ^11.2.1
+    "@xmtp/xmtp-js": ^11.3.0
     react: ">=16.14"
   languageName: unknown
   linkType: soft
@@ -4194,17 +4206,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xmtp/xmtp-js@npm:^11.2.1":
-  version: 11.2.1
-  resolution: "@xmtp/xmtp-js@npm:11.2.1"
+"@xmtp/user-preferences-bindings-wasm@npm:^0.3.4":
+  version: 0.3.4
+  resolution: "@xmtp/user-preferences-bindings-wasm@npm:0.3.4"
+  checksum: 79911852afbb5e5fb6a32a54282207228d65fc1e2606e55bfebf994ec18c3a4cd970759594b4edb8b62c0d8861f486cb0bd93208f63fb0d5f54aa6015c161ecc
+  languageName: node
+  linkType: hard
+
+"@xmtp/xmtp-js@npm:^11.3.0":
+  version: 11.3.0
+  resolution: "@xmtp/xmtp-js@npm:11.3.0"
   dependencies:
     "@noble/secp256k1": ^1.5.2
-    "@xmtp/proto": ^3.29.0
+    "@xmtp/proto": ^3.34.0
+    "@xmtp/user-preferences-bindings-wasm": ^0.3.4
     async-mutex: ^0.4.0
     elliptic: ^6.5.4
     ethers: ^5.5.3
     long: ^5.2.0
-  checksum: 3202a1b9dae3613c115e6e4e5e3684e3b88b7e5b66b6ca2262cfbde72e3de4cef230cb77c333975722a8b1503d4e24e38a7c9d113e45d3d6ec54134c23a043cb
+  checksum: 1c259e5ba56440e8cc7800a7af43b455f7208c8995c84048da291a2eeba37d8464043041888ec45e24c4dd2b5a002c4d729d46d904502ee851a531de98f82440
   languageName: node
   linkType: hard
 
