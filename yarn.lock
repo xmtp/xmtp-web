@@ -4110,7 +4110,6 @@ __metadata:
     date-fns: ^2.30.0
     eslint: ^8.54.0
     eslint-config-xmtp-web: "workspace:*"
-    jsdom: ^22.1.0
     postcss: ^8.4.31
     postcss-modules: ^6.0.0
     postcss-preset-env: ^9.3.0
@@ -4122,7 +4121,6 @@ __metadata:
     tsup: ^8.0.1
     typescript: ^5.3.2
     vite: ^4.5.0
-    vitest: ^0.34.2
   peerDependencies:
     react: ">=16.14"
   languageName: unknown
