@@ -81,7 +81,7 @@ export const useConsent = () => {
       client?.contacts.consentState(address) ?? "unknown",
     deny,
     isAllowed: (address: string) => client?.contacts.isAllowed(address),
-    isBlocked: (address: string) => client?.contacts.isDenied(address),
+    isDenied: (address: string) => client?.contacts.isDenied(address),
     loadConsentList,
     refreshConsentList,
   };
