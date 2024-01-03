@@ -1,5 +1,16 @@
 # @xmtp/react-sdk
 
+## 3.1.0
+
+### Minor Changes
+
+- [#143](https://github.com/xmtp/xmtp-web/pull/143) [`4bae9d5`](https://github.com/xmtp/xmtp-web/commit/4bae9d598fe33686eaef7ff29732b1e073075b7e) Thanks [@rygine](https://github.com/rygine)! - - Upgraded JS SDK to `11.3.0` for consent support
+
+  - Added `useConsent` hook for working with consent
+  - Added `useStreamConsentList` hook for streaming consent actions
+
+  **Note:** This release uses a first-party dependency that includes WASM, which may require additional configuration in your bundler/framework of choice.
+
 ## 3.0.0
 
 ### Major Changes
