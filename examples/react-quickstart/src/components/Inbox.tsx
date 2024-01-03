@@ -1,6 +1,6 @@
 import "./Inbox.css";
-import { useCallback, useState } from "react";
-import { type CachedConversation } from "@xmtp/react-sdk";
+import { useCallback, useEffect, useState } from "react";
+import { useConsent, type CachedConversation } from "@xmtp/react-sdk";
 import {
   ArrowRightOnRectangleIcon,
   PlusCircleIcon,
@@ -13,6 +13,7 @@ import { NoSelectedConversationNotification } from "./NoSelectedConversationNoti
 
 export const Inbox: React.FC = () => {
   const { disconnect } = useWallet();
+  const { loadConsentList } = useConsent();
   const [selectedConversation, setSelectedConversation] = useState<
     CachedConversation | undefined
   >(undefined);
@@ -38,6 +39,11 @@ export const Inbox: React.FC = () => {
   const handleDisconnect = useCallback(() => {
     disconnect();
   }, [disconnect]);
+
+  useEffect(() => {
+    void loadConsentList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="Inbox">

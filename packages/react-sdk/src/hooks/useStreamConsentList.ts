@@ -1,46 +1,43 @@
-import type { DecodedMessage } from "@xmtp/xmtp-js";
+import type { PrivatePreferencesAction, Stream } from "@xmtp/xmtp-js";
 import { useEffect, useRef, useState } from "react";
 import { useClient } from "./useClient";
 import type { OnError } from "../sharedTypes";
-import { toCachedMessage } from "../helpers/caching/messages";
-import { useConversation } from "@/hooks/useConversation";
-import { useMessage } from "@/hooks/useMessage";
 
-export type AllMessagesStream = Promise<AsyncGenerator<DecodedMessage>>;
+export type ConsentListStream = Promise<
+  Stream<PrivatePreferencesAction, string>
+>;
 
 /**
- * This hook streams new messages from all conversations on mount and exposes
+ * This hook streams new consent list actions on mount and exposes
  * an error state.
  */
-export const useStreamAllMessages = (
-  onMessage?: (message: DecodedMessage) => void | Promise<void>,
+export const useStreamConsentList = (
+  onAction?: (action: PrivatePreferencesAction) => void | Promise<void>,
   onError?: OnError["onError"],
 ) => {
   const [error, setError] = useState<Error | null>(null);
-  const streamRef = useRef<AllMessagesStream | undefined>(undefined);
-  const endStreamRef = useRef(async (stream?: AllMessagesStream) => {
+  const streamRef = useRef<ConsentListStream | undefined>(undefined);
+  const endStreamRef = useRef(async (stream?: ConsentListStream) => {
     // it's important to reset the stream reference first so that any
     // subsequent mounts can restart the stream
     if (streamRef.current) {
       streamRef.current = undefined;
     }
     if (stream !== undefined) {
-      void (await stream).return(undefined);
+      void (await stream).return();
     }
   });
-  const { processMessage } = useMessage();
-  const { getCachedByTopic } = useConversation();
 
   const { client } = useClient();
 
-  // attempt to stream conversation messages on mount
+  // attempt to stream consent list actions on mount
   useEffect(() => {
     // ensure references to the stream and end stream function are available
     // during cleanup
     let stream = streamRef.current;
     const endStream = endStreamRef.current;
 
-    const streamAllMessages = async () => {
+    const streamConsentList = async () => {
       // don't start a stream if there's already one active
       if (streamRef.current) {
         return;
@@ -63,20 +60,11 @@ export const useStreamAllMessages = (
         }
         // it's important not to await the stream here so that we can cleanup
         // consistently if this hook unmounts during this call
-        streamRef.current = client.conversations.streamAllMessages();
+        streamRef.current = client.contacts.streamConsentList();
         stream = streamRef.current;
 
-        for await (const message of await stream) {
-          const cachedConversation = await getCachedByTopic(
-            message.conversation.topic,
-          );
-          if (cachedConversation) {
-            await processMessage(
-              cachedConversation,
-              toCachedMessage(message, client.address),
-            );
-          }
-          void onMessage?.(message);
+        for await (const action of await stream) {
+          void onAction?.(action);
         }
       } catch (e) {
         setError(e as Error);
@@ -87,13 +75,13 @@ export const useStreamAllMessages = (
       }
     };
 
-    void streamAllMessages();
+    void streamConsentList();
 
     // end streaming on unmount
     return () => {
       void endStream(stream);
     };
-  }, [onMessage, client, onError, processMessage, getCachedByTopic]);
+  }, [client, onError, onAction]);
 
   return {
     error,
