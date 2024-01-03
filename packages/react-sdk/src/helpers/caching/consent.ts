@@ -33,6 +33,9 @@ export const getCachedConsentEntries = async (db: Dexie) => {
   );
 };
 
+/**
+ * Load the cached consent list entries into the XMTP client
+ */
 export const loadConsentListFromCache = async (client: Client, db: Dexie) => {
   const cachedEntries = await getCachedConsentEntries(db);
   client.contacts.setConsentListEntries(cachedEntries);
