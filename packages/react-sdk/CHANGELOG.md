@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- 760260b: - Changed `isBlocked` to `isDenied`
+- Changed `isBlocked` to `isDenied`
 
 ## 3.1.0
 
