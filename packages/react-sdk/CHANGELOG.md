@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 3.1.1
+
+### Patch Changes
+
+- Changed `isBlocked` to `isDenied`
+
 ## 3.1.0
 
 ### Minor Changes
