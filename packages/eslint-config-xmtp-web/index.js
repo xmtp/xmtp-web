@@ -53,6 +53,7 @@ module.exports = {
       },
     ],
     "import/prefer-default-export": "off",
+    "import/extensions": "off",
     "react/no-array-index-key": "warn",
     "react/require-default-props": "off",
     "react/prop-types": "off",

@@ -1,0 +1,17 @@
+.wrapper {
+  background-color: var(--xmtp-action-color-primary);
+  color: white;
+  border: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.secondary {
+  background-color: var(--xmtp-action-color-secondary);
+  color: var(--xmtp-text-color-primary);
+}

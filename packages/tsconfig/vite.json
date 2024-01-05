@@ -3,14 +3,13 @@
   "display": "Vite",
   "extends": "./base.json",
   "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "sourceMap": true,
-    "resolveJsonModule": true,
+    "module": "ESNext",
     "noEmit": true,
-    "types": ["vite/client"]
-  },
-  "exclude": ["node_modules"]
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "target": "ESNext",
+    "types": ["vite/client"],
+    "useDefineForClassFields": true
+  }
 }

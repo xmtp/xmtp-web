@@ -1,0 +1,7 @@
+{
+  "extends": "@xmtp/tsconfig/react-app.json",
+  "compilerOptions": {
+    "moduleResolution": "bundler"
+  },
+  "include": ["src/**/*"]
+}
