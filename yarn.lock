@@ -4178,9 +4178,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xmtp/tsconfig@workspace:*, @xmtp/tsconfig@workspace:packages/tsconfig":
+"@xmtp/tsconfig@workspace:*, @xmtp/tsconfig@workspace:shared/tsconfig":
   version: 0.0.0-use.local
-  resolution: "@xmtp/tsconfig@workspace:packages/tsconfig"
+  resolution: "@xmtp/tsconfig@workspace:shared/tsconfig"
   languageName: unknown
   linkType: soft
 
