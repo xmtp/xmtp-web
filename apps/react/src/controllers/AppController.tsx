@@ -2,7 +2,6 @@ import {
   XMTPProvider,
   attachmentContentTypeConfig,
   reactionContentTypeConfig,
-  readReceiptContentTypeConfig,
   replyContentTypeConfig,
 } from "@xmtp/react-sdk";
 import { WalletProvider } from "../contexts/WalletContext";
@@ -13,7 +12,6 @@ const DB_VERSION = 1;
 const contentTypeConfigs = [
   attachmentContentTypeConfig,
   reactionContentTypeConfig,
-  readReceiptContentTypeConfig,
   replyContentTypeConfig,
 ];
 
