@@ -4088,64 +4088,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmtp/react-components@workspace:*, @xmtp/react-components@workspace:packages/react-components":
+"@xmtp/react-app@workspace:*, @xmtp/react-app@workspace:apps/react":
   version: 0.0.0-use.local
-  resolution: "@xmtp/react-components@workspace:packages/react-components"
-  dependencies:
-    "@heroicons/react": "npm:^2.0.18"
-    "@testing-library/react": "npm:^14.1.2"
-    "@types/react": "npm:^18.2.38"
-    "@types/react-dom": "npm:^18.2.16"
-    "@vitejs/plugin-react": "npm:^4.2.0"
-    "@xmtp/content-type-reaction": "npm:^1.1.3"
-    "@xmtp/content-type-remote-attachment": "npm:^1.1.4"
-    "@xmtp/content-type-reply": "npm:^1.1.5"
-    "@xmtp/react-sdk": "workspace:*"
-    "@xmtp/tsconfig": "workspace:*"
-    date-fns: "npm:^2.30.0"
-    eslint: "npm:^8.54.0"
-    eslint-config-xmtp-web: "workspace:*"
-    postcss: "npm:^8.4.31"
-    postcss-modules: "npm:^6.0.0"
-    postcss-preset-env: "npm:^9.3.0"
-    prettier: "npm:^3.1.0"
-    prop-types: "npm:^15.8.1"
-    react: "npm:^18.2.0"
-    react-18-blockies: "npm:^1.0.6"
-    react-dom: "npm:^18.2.0"
-    tsup: "npm:^8.0.1"
-    typescript: "npm:^5.3.2"
-    vite: "npm:^4.5.0"
-  peerDependencies:
-    react: ">=16.14"
-  languageName: unknown
-  linkType: soft
-
-"@xmtp/react-quickstart-example@workspace:examples/react-quickstart":
-  version: 0.0.0-use.local
-  resolution: "@xmtp/react-quickstart-example@workspace:examples/react-quickstart"
+  resolution: "@xmtp/react-app@workspace:apps/react"
   dependencies:
     "@heroicons/react": "npm:^2.0.18"
     "@rainbow-me/rainbowkit": "npm:^1.3.0"
     "@types/react": "npm:^18.2.38"
-    "@types/react-dom": "npm:^18.2.16"
-    "@vitejs/plugin-react": "npm:^4.2.0"
     "@xmtp/content-type-reaction": "npm:^1.1.3"
     "@xmtp/content-type-read-receipt": "npm:^1.1.5"
     "@xmtp/content-type-remote-attachment": "npm:^1.1.4"
-    "@xmtp/react-components": "workspace:*"
+    "@xmtp/content-type-reply": "npm:^1.1.5"
     "@xmtp/react-sdk": "workspace:*"
     "@xmtp/tsconfig": "workspace:*"
-    autoprefixer: "npm:^10.4.16"
+    date-fns: "npm:^3.0.6"
     eslint: "npm:^8.54.0"
     eslint-config-xmtp-web: "workspace:*"
-    postcss: "npm:^8.4.31"
-    postcss-preset-env: "npm:^9.3.0"
+    prettier: "npm:^3.1.1"
     react: "npm:^18.2.0"
-    react-dom: "npm:^18.2.0"
+    react-18-blockies: "npm:^1.0.6"
     typescript: "npm:^5.3.2"
-    viem: "npm:^1.19.6"
-    vite: "npm:^4.5.0"
     wagmi: "npm:^1.4.7"
   languageName: unknown
   linkType: soft
@@ -4190,6 +4152,29 @@ __metadata:
   peerDependencies:
     "@xmtp/xmtp-js": ^11.3.0
     react: ">=16.14"
+  languageName: unknown
+  linkType: soft
+
+"@xmtp/react-vite-example@workspace:examples/react-vite":
+  version: 0.0.0-use.local
+  resolution: "@xmtp/react-vite-example@workspace:examples/react-vite"
+  dependencies:
+    "@rainbow-me/rainbowkit": "npm:^1.3.0"
+    "@types/react": "npm:^18.2.38"
+    "@types/react-dom": "npm:^18.2.16"
+    "@vitejs/plugin-react": "npm:^4.2.0"
+    "@xmtp/react-app": "workspace:*"
+    "@xmtp/tsconfig": "workspace:*"
+    autoprefixer: "npm:^10.4.16"
+    eslint: "npm:^8.54.0"
+    eslint-config-xmtp-web: "workspace:*"
+    postcss: "npm:^8.4.31"
+    postcss-preset-env: "npm:^9.3.0"
+    react: "npm:^18.2.0"
+    react-dom: "npm:^18.2.0"
+    typescript: "npm:^5.3.2"
+    vite: "npm:^4.5.0"
+    wagmi: "npm:^1.4.7"
   languageName: unknown
   linkType: soft
 
@@ -5475,6 +5460,13 @@ __metadata:
   dependencies:
     "@babel/runtime": "npm:^7.21.0"
   checksum: 70b3e8ea7aaaaeaa2cd80bd889622a4bcb5d8028b4de9162cbcda359db06e16ff6e9309e54eead5341e71031818497f19aaf9839c87d1aba1e27bb4796e758a9
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^3.0.6":
+  version: 3.0.6
+  resolution: "date-fns@npm:3.0.6"
+  checksum: 4eb4c1f15257026593bd62ea366347be3940a83133fc84aa32e03bc9a19d6f8a919ef0475211200b16de7980e1d797c993713ed092a6f5c941474bce516f7d96
   languageName: node
   linkType: hard
 
@@ -7111,15 +7103,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"generic-names@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "generic-names@npm:4.0.0"
-  dependencies:
-    loader-utils: "npm:^3.2.0"
-  checksum: ef05166395a17fbdcc7ceaa59635318b6ae89125391780c4d4abbc1e7ae7a6e07a31602fbc785860cf701cee08f790f71e286676c80db634f56d3d1af2703319
-  languageName: node
-  linkType: hard
-
 "gensync@npm:^1.0.0-beta.2":
   version: 1.0.0-beta.2
   resolution: "gensync@npm:1.0.0-beta.2"
@@ -7569,15 +7552,6 @@ __metadata:
   dependencies:
     safer-buffer: "npm:>= 2.1.2 < 3"
   checksum: 6d3a2dac6e5d1fb126d25645c25c3a1209f70cceecc68b8ef51ae0da3cdc078c151fade7524a30b12a3094926336831fca09c666ef55b37e2c69638b5d6bd2e3
-  languageName: node
-  linkType: hard
-
-"icss-utils@npm:^5.0.0, icss-utils@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "icss-utils@npm:5.1.0"
-  peerDependencies:
-    postcss: ^8.1.0
-  checksum: 5c324d283552b1269cfc13a503aaaa172a280f914e5b81544f3803bc6f06a3b585fb79f66f7c771a2c052db7982c18bf92d001e3b47282e3abbbb4c4cc488d68
   languageName: node
   linkType: hard
 
@@ -8470,13 +8444,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loader-utils@npm:^3.2.0":
-  version: 3.2.1
-  resolution: "loader-utils@npm:3.2.1"
-  checksum: 177f5bb9b4c651263714fcd1b50682c1367b06893462529f510287775f9e461ca27a41bf364c8dffa9cd74ed9e8b1fdb30c03a526f6bcf12573bdc1a1644d086
-  languageName: node
-  linkType: hard
-
 "local-pkg@npm:^0.4.3":
   version: 0.4.3
   resolution: "local-pkg@npm:0.4.3"
@@ -8499,13 +8466,6 @@ __metadata:
   dependencies:
     p-locate: "npm:^5.0.0"
   checksum: 72eb661788a0368c099a184c59d2fee760b3831c9c1c33955e8a19ae4a21b4116e53fa736dc086cdeb9fce9f7cc508f2f92d2d3aae516f133e16a2bb59a39f5a
-  languageName: node
-  linkType: hard
-
-"lodash.camelcase@npm:^4.3.0":
-  version: 4.3.0
-  resolution: "lodash.camelcase@npm:4.3.0"
-  checksum: c301cc379310441dc73cd6cebeb91fb254bea74e6ad3027f9346fc43b4174385153df420ffa521654e502fd34c40ef69ca4e7d40ee7129a99e06f306032bfc65
   languageName: node
   linkType: hard
 
@@ -9828,68 +9788,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-modules-extract-imports@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "postcss-modules-extract-imports@npm:3.0.0"
-  peerDependencies:
-    postcss: ^8.1.0
-  checksum: 8d68bb735cef4d43f9cdc1053581e6c1c864860b77fcfb670372b39c5feeee018dc5ddb2be4b07fef9bcd601edded4262418bbaeaf1bd4af744446300cebe358
-  languageName: node
-  linkType: hard
-
-"postcss-modules-local-by-default@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "postcss-modules-local-by-default@npm:4.0.0"
-  dependencies:
-    icss-utils: "npm:^5.0.0"
-    postcss-selector-parser: "npm:^6.0.2"
-    postcss-value-parser: "npm:^4.1.0"
-  peerDependencies:
-    postcss: ^8.1.0
-  checksum: 94670d17bdc545ef4054724224597cb321fdf6086de56ecf6b7f809d0fb6f63d493badd5856cb05122bbc81a5a6684b4e15bc7686004ac3097c0ea916f57dad2
-  languageName: node
-  linkType: hard
-
-"postcss-modules-scope@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "postcss-modules-scope@npm:3.0.0"
-  dependencies:
-    postcss-selector-parser: "npm:^6.0.4"
-  peerDependencies:
-    postcss: ^8.1.0
-  checksum: cc36b8111c6160a1c21ca0e82de9daf0147be95f3b5403aedd83bcaee44ee425cb62b77f677fc53d0c8d51f7981018c1c8f0a4ad3d6f0138b09326ac48c2b297
-  languageName: node
-  linkType: hard
-
-"postcss-modules-values@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "postcss-modules-values@npm:4.0.0"
-  dependencies:
-    icss-utils: "npm:^5.0.0"
-  peerDependencies:
-    postcss: ^8.1.0
-  checksum: 18021961a494e69e65da9e42b4436144c9ecee65845c9bfeff2b7a26ea73d60762f69e288be8bb645447965b8fd6b26a264771136810dc0172bd31b940aee4f2
-  languageName: node
-  linkType: hard
-
-"postcss-modules@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "postcss-modules@npm:6.0.0"
-  dependencies:
-    generic-names: "npm:^4.0.0"
-    icss-utils: "npm:^5.1.0"
-    lodash.camelcase: "npm:^4.3.0"
-    postcss-modules-extract-imports: "npm:^3.0.0"
-    postcss-modules-local-by-default: "npm:^4.0.0"
-    postcss-modules-scope: "npm:^3.0.0"
-    postcss-modules-values: "npm:^4.0.0"
-    string-hash: "npm:^1.1.1"
-  peerDependencies:
-    postcss: ^8.0.0
-  checksum: 1992d19894a29867363b07b4cc9b0b4b50f6ba4d83a042c435ff4a89d4b3826ee4b809f208c71dc323f38437833a029714f626f5f065e8bb68279763f1ec2a9e
-  languageName: node
-  linkType: hard
-
 "postcss-nesting@npm:^12.0.1":
   version: 12.0.1
   resolution: "postcss-nesting@npm:12.0.1"
@@ -10043,7 +9941,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-selector-parser@npm:^6.0.10, postcss-selector-parser@npm:^6.0.2, postcss-selector-parser@npm:^6.0.4":
+"postcss-selector-parser@npm:^6.0.10":
   version: 6.0.11
   resolution: "postcss-selector-parser@npm:6.0.11"
   dependencies:
@@ -10063,7 +9961,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-value-parser@npm:^4.1.0, postcss-value-parser@npm:^4.2.0":
+"postcss-value-parser@npm:^4.2.0":
   version: 4.2.0
   resolution: "postcss-value-parser@npm:4.2.0"
   checksum: e4e4486f33b3163a606a6ed94f9c196ab49a37a7a7163abfcd469e5f113210120d70b8dd5e33d64636f41ad52316a3725655421eb9a1094f1bcab1db2f555c62
@@ -10140,6 +10038,15 @@ __metadata:
   bin:
     prettier: bin/prettier.cjs
   checksum: e95e8f93c6b9aea2ac1e86bebe329bee90c8c50d9a23d1f593eba8d7f39b33b3641eb28785001505b6723c47895a5322ad12a2fb855b289cb7bae450ffc34425
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "prettier@npm:3.1.1"
+  bin:
+    prettier: bin/prettier.cjs
+  checksum: 26a249f321b97d26c04483f1bf2eeb22e082a76f4222a2c922bebdc60111691aad4ec3979610e83942e0b956058ec361d9e9c81c185172264eb6db9aa678082b
   languageName: node
   linkType: hard
 
@@ -11344,13 +11251,6 @@ __metadata:
   version: 2.0.0
   resolution: "strict-uri-encode@npm:2.0.0"
   checksum: eaac4cf978b6fbd480f1092cab8b233c9b949bcabfc9b598dd79a758f7243c28765ef7639c876fa72940dac687181b35486ea01ff7df3e65ce3848c64822c581
-  languageName: node
-  linkType: hard
-
-"string-hash@npm:^1.1.1":
-  version: 1.1.3
-  resolution: "string-hash@npm:1.1.3"
-  checksum: 104b8667a5e0dc71bfcd29fee09cb88c6102e27bfb07c55f95535d90587d016731d52299380052e514266f4028a7a5172e0d9ac58e2f8f5001be61dc77c0754d
   languageName: node
   linkType: hard
 
