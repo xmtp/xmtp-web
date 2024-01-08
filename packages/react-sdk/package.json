@@ -68,7 +68,7 @@
     "format": "yarn format:base -w .",
     "generate:types": "tsup --dts-only",
     "test": "vitest run --passWithNoTests",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc",
     "typedoc": "typedoc"
   },
   "dependencies": {

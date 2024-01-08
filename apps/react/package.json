@@ -14,7 +14,7 @@
     "format:base": "prettier --ignore-path ../../.gitignore",
     "format:check": "yarn format:base -c .",
     "format": "yarn format:base -w .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@heroicons/react": "^2.1.1",
