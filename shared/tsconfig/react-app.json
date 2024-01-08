@@ -3,19 +3,10 @@
   "display": "React App",
   "extends": "./base.json",
   "compilerOptions": {
-    "allowJs": false,
-    "declarationMap": true,
-    "declaration": true,
-    "esModuleInterop": false,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
     "jsx": "react-jsx",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
-    "resolveJsonModule": true,
-    "noEmit": true,
-    "sourceMap": true,
-    "strict": true,
+    "moduleResolution": "Bundler",
     "target": "ESNext"
   }
 }

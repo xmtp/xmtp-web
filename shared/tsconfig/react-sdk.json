@@ -3,12 +3,10 @@
   "display": "React SDK",
   "extends": "./base.json",
   "compilerOptions": {
-    "allowJs": false,
-    "declarationMap": true,
-    "declaration": true,
     "jsx": "react-jsx",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "sourceMap": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "target": "ESNext",
     "types": ["vitest", "vitest/globals"]
   }
