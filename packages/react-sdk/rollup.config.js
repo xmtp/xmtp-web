@@ -26,7 +26,6 @@ export default defineConfig([
     ],
     external: [
       "@xmtp/content-type-reaction",
-      "@xmtp/content-type-read-receipt",
       "@xmtp/content-type-remote-attachment",
       "@xmtp/content-type-reply",
       "@xmtp/xmtp-js",

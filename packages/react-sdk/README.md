@@ -785,14 +785,6 @@ This content type supports reactions to messages.
 
 - [Source code](https://github.com/xmtp/xmtp-js-content-types/tree/main/packages/content-type-reaction)
 
-#### Read receipts
-
-This content type supports read receipts to messages
-
-- [XIP idea discussion](https://github.com/orgs/xmtp/discussions/43)
-
-- [Source code](https://github.com/xmtp/xmtp-js-content-types/tree/main/packages/content-type-read-receipt)
-
 ### Integrate standards-track content types with the React SDK
 
 The React SDK supports all current standards-track content types, but only text messages are enabled out of the box. Adding support for other standards-track content types requires a bit of configuration.
@@ -802,14 +794,12 @@ import {
   XMTPProvider,
   attachmentContentTypeConfig,
   reactionContentTypeConfig,
-  readReceiptContentTypeConfig,
   replyContentTypeConfig,
 } from "@xmtp/react-sdk";
 
 const contentTypeConfigs = [
   attachmentContentTypeConfig,
   reactionContentTypeConfig,
-  readReceiptContentTypeConfig,
   replyContentTypeConfig,
 ];
 

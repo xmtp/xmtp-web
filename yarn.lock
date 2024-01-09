@@ -4298,7 +4298,6 @@ __metadata:
     "@vitejs/plugin-react": "npm:^4.2.1"
     "@vitest/coverage-v8": "npm:^1.1.3"
     "@xmtp/content-type-reaction": "npm:^1.1.3"
-    "@xmtp/content-type-read-receipt": "npm:^1.1.5"
     "@xmtp/content-type-remote-attachment": "npm:^1.1.4"
     "@xmtp/content-type-reply": "npm:^1.1.5"
     "@xmtp/tsconfig": "workspace:*"
