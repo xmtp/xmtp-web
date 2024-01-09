@@ -2,11 +2,15 @@
 
 ## 4.0.0
 
-### Major Changes
+### Breaking Changes
 
-- a6fec6e: \* Replaced `tsup` with `rollup` for bundling
-  - Removed CommonJS bundle
-  - Upgraded `date-fns` to `3.1.0`
+- Removed CommonJS bundle
+- Removed official support for the read receipt content type
+
+### Other Changes
+
+- Replaced `tsup` with `rollup` for bundling, fixed source maps
+- Upgraded `date-fns` to `3.1.0`
 
 ## 3.1.1
 
