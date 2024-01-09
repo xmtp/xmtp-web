@@ -1,5 +1,13 @@
 # @xmtp/react-sdk
 
+## 4.0.0
+
+### Major Changes
+
+- a6fec6e: \* Replaced `tsup` with `rollup` for bundling
+  - Removed CommonJS bundle
+  - Upgraded `date-fns` to `3.1.0`
+
 ## 3.1.1
 
 ### Patch Changes
