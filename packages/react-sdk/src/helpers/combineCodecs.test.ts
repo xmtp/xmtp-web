@@ -4,18 +4,15 @@ import {
   RemoteAttachmentCodec,
 } from "@xmtp/content-type-remote-attachment";
 import { ReactionCodec } from "@xmtp/content-type-reaction";
-import { ReadReceiptCodec } from "@xmtp/content-type-read-receipt";
 import { ReplyCodec } from "@xmtp/content-type-reply";
 import { combineCodecs } from "@/helpers/combineCodecs";
 import { attachmentContentTypeConfig } from "@/helpers/caching/contentTypes/attachment";
 import { reactionContentTypeConfig } from "@/helpers/caching/contentTypes/reaction";
-import { readReceiptContentTypeConfig } from "@/helpers/caching/contentTypes/readReceipt";
 import { replyContentTypeConfig } from "@/helpers/caching/contentTypes/reply";
 
 const testCacheConfig = [
   attachmentContentTypeConfig,
   reactionContentTypeConfig,
-  readReceiptContentTypeConfig,
   replyContentTypeConfig,
 ];
 
@@ -25,7 +22,6 @@ describe("combineCodecs", () => {
       new AttachmentCodec(),
       new RemoteAttachmentCodec(),
       new ReactionCodec(),
-      new ReadReceiptCodec(),
       new ReplyCodec(),
     ]);
   });

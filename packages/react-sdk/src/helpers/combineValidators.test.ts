@@ -3,14 +3,12 @@ import { ContentTypeText } from "@xmtp/xmtp-js";
 import { combineValidators } from "@/helpers/combineValidators";
 import { attachmentContentTypeConfig } from "@/helpers/caching/contentTypes/attachment";
 import { reactionContentTypeConfig } from "@/helpers/caching/contentTypes/reaction";
-import { readReceiptContentTypeConfig } from "@/helpers/caching/contentTypes/readReceipt";
 import { replyContentTypeConfig } from "@/helpers/caching/contentTypes/reply";
 import { textContentTypeConfig } from "@/helpers/caching/contentTypes/text";
 
 const testCacheConfig = [
   attachmentContentTypeConfig,
   reactionContentTypeConfig,
-  readReceiptContentTypeConfig,
   replyContentTypeConfig,
 ];
 
@@ -19,7 +17,6 @@ describe("combineValidators", () => {
     expect(combineValidators(testCacheConfig)).toEqual({
       ...attachmentContentTypeConfig.validators,
       ...reactionContentTypeConfig.validators,
-      ...readReceiptContentTypeConfig.validators,
       ...replyContentTypeConfig.validators,
       ...textContentTypeConfig.validators,
     });

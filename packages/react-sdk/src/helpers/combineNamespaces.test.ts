@@ -4,19 +4,16 @@ import {
   ContentTypeRemoteAttachment,
 } from "@xmtp/content-type-remote-attachment";
 import { ContentTypeReaction } from "@xmtp/content-type-reaction";
-import { ContentTypeReadReceipt } from "@xmtp/content-type-read-receipt";
 import { ContentTypeReply } from "@xmtp/content-type-reply";
 import { ContentTypeText } from "@xmtp/xmtp-js";
 import { combineNamespaces } from "@/helpers/combineNamespaces";
 import { attachmentContentTypeConfig } from "@/helpers/caching/contentTypes/attachment";
 import { reactionContentTypeConfig } from "@/helpers/caching/contentTypes/reaction";
-import { readReceiptContentTypeConfig } from "@/helpers/caching/contentTypes/readReceipt";
 import { replyContentTypeConfig } from "@/helpers/caching/contentTypes/reply";
 
 const testCacheConfig = [
   attachmentContentTypeConfig,
   reactionContentTypeConfig,
-  readReceiptContentTypeConfig,
   replyContentTypeConfig,
 ];
 
@@ -26,7 +23,6 @@ describe("combineNamespaces", () => {
       [ContentTypeAttachment.toString()]: "attachment",
       [ContentTypeRemoteAttachment.toString()]: "attachment",
       [ContentTypeReaction.toString()]: "reactions",
-      [ContentTypeReadReceipt.toString()]: "readReceipt",
       [ContentTypeReply.toString()]: "replies",
       [ContentTypeText.toString()]: "text",
     });

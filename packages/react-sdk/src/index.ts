@@ -107,14 +107,6 @@ export {
   replyContentTypeConfig,
 } from "./helpers/caching/contentTypes/reply";
 
-// read receipts
-export type { CachedReadReceiptMetadata } from "./helpers/caching/contentTypes/readReceipt";
-export {
-  readReceiptContentTypeConfig,
-  hasReadReceipt,
-  getReadReceipt,
-} from "./helpers/caching/contentTypes/readReceipt";
-
 // text
 export { textContentTypeConfig } from "./helpers/caching/contentTypes/text";
 

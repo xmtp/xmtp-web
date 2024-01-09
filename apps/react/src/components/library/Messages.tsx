@@ -1,11 +1,6 @@
-import { isBefore, isEqual, isSameDay } from "date-fns";
-import { Fragment, useMemo } from "react";
-import {
-  getReadReceipt,
-  type CachedConversation,
-  type CachedMessage,
-  useClient,
-} from "@xmtp/react-sdk";
+import { isSameDay } from "date-fns";
+import { Fragment } from "react";
+import type { CachedConversation, CachedMessage } from "@xmtp/react-sdk";
 import { MessageSkeletonLoader } from "./SkeletonLoaders/MessageSkeletonLoader";
 import { Message } from "./Message";
 import { DateDivider } from "./DateDivider";
@@ -33,33 +28,6 @@ export const Messages: React.FC<MessagesProps> = ({
   isLoading = false,
   messages = [],
 }) => {
-  const { client } = useClient();
-
-  // get the last read message of a client's outgoing messages
-  const lastReadMessage = useMemo(() => {
-    const readReceipt = getReadReceipt(conversation, "incoming");
-    const outgoingMessages = messages.filter(
-      (message) => message.senderAddress === client?.address,
-    );
-    let lastRead: CachedMessage | undefined;
-    // there's no read messages without a read receipt
-    if (readReceipt) {
-      outgoingMessages.some((message) => {
-        // outgoing message is before or equal to the read receipt date
-        if (
-          isBefore(message.sentAt, readReceipt) ||
-          isEqual(message.sentAt, readReceipt)
-        ) {
-          lastRead = message;
-          return true;
-        }
-        // outgoing message comes after read receipt, stop checking
-        return false;
-      });
-    }
-    return lastRead;
-  }, [client?.address, conversation, messages]);
-
   if (isLoading && !messages.length) {
     return (
       <div className={styles.loading}>
@@ -102,7 +70,6 @@ export const Messages: React.FC<MessagesProps> = ({
               conversation={conversation}
               message={message}
               isIncoming={isIncoming}
-              isRead={lastReadMessage?.xmtpID === message.xmtpID}
             />
           </Fragment>
         );
