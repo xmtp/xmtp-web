@@ -6,7 +6,6 @@ import {
   useStreamMessages,
 } from "@xmtp/react-sdk";
 import type { CachedConversation } from "@xmtp/react-sdk";
-import { ContentTypeReadReceipt } from "@xmtp/content-type-read-receipt";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ContentTypeReaction } from "@xmtp/content-type-reaction";
 import "./Messages.css";
@@ -36,9 +35,7 @@ export const Messages: React.FC<ConversationMessagesProps> = ({
           // supported content types
           message.content !== undefined &&
           // not reactions
-          !contentType.sameAs(ContentTypeReaction) &&
-          // not read receipts
-          !contentType.sameAs(ContentTypeReadReceipt)
+          !contentType.sameAs(ContentTypeReaction)
         );
       }),
     [messages],

@@ -18,14 +18,12 @@ type MessageProps = {
    * Is this an incoming message?
    */
   isIncoming?: boolean;
-  isRead?: boolean;
 };
 
 export const Message: React.FC<MessageProps> = ({
   conversation,
   message,
   isIncoming,
-  isRead,
 }) => {
   const contentType = ContentTypeId.fromString(message.contentType);
   return (
@@ -37,7 +35,6 @@ export const Message: React.FC<MessageProps> = ({
         <MessageContent message={message} isIncoming={isIncoming} />
       )}
       <div className={styles.time} title={message.sentAt.toLocaleString()}>
-        {isRead && <span className={styles.readReceipt}>Read</span>}
         <span>{format(message.sentAt, "h:mm a")}</span>
       </div>
       <div className={styles.reactions}>
