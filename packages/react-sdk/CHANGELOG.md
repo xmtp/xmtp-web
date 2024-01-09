@@ -1,5 +1,17 @@
 # @xmtp/react-sdk
 
+## 4.0.0
+
+### Breaking Changes
+
+- Removed CommonJS bundle
+- Removed official support for the read receipt content type
+
+### Other Changes
+
+- Replaced `tsup` with `rollup` for bundling, fixed source maps
+- Upgraded `date-fns` to `3.1.0`
+
 ## 3.1.1
 
 ### Patch Changes
