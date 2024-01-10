@@ -56,7 +56,7 @@ window.Buffer = window.Buffer ?? Buffer;
 
 ## Reference docs
 
-Access the XMTP React SDK [reference documentation](https://xmtp.github.io/xmtp-web/modules.html).
+Access the XMTP React SDK [reference documentation](https://xmtp.github.io/xmtp-web/).
 
 ## Local-first architecture
 
@@ -948,7 +948,7 @@ const MessageContent = ({ message }) => {
 
 Run `yarn dev` to build the SDK and watch for changes, which will trigger a rebuild.
 
-## Useful commands
+### Useful commands
 
 - `yarn build`: Builds the SDK
 - `yarn clean`: Removes `node_modules`, `lib`, and `.turbo` folders
