@@ -18,6 +18,8 @@
     "publish": "yarn build && changeset publish",
     "quickstart": "turbo run quickstart",
     "test": "FORCE_COLOR=1 turbo run test",
+    "test:setup": "./dev/up",
+    "test:teardown": "./dev/down",
     "typecheck": "FORCE_COLOR=1 turbo run typecheck"
   },
   "devDependencies": {
