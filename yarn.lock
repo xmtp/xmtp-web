@@ -4262,39 +4262,39 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmtp/content-type-reaction@npm:^1.1.3":
-  version: 1.1.3
-  resolution: "@xmtp/content-type-reaction@npm:1.1.3"
+"@xmtp/content-type-reaction@npm:^1.1.5":
+  version: 1.1.5
+  resolution: "@xmtp/content-type-reaction@npm:1.1.5"
   dependencies:
     "@xmtp/xmtp-js": "npm:^11.1.2"
   peerDependencies:
     "@xmtp/xmtp-js": ^11.1.1
-  checksum: 40d9ad8e973e0b16faace1c33fe17d2ef0e50cbb65f2936b44051643905db41235e3e94bef1f844ca11562b5a051815690c1317763ffa03ff9e5a6a454ea76bd
+  checksum: c7b0db232c474e8ba8d19a96d618fe16e19c423ebab2a9d2f8ea5a48c43d02eb284b93d4276844facfc4aa4e54367e49cc5ffdf8dae8fd2d89a5bebcaa076422
   languageName: node
   linkType: hard
 
-"@xmtp/content-type-remote-attachment@npm:^1.1.4":
-  version: 1.1.4
-  resolution: "@xmtp/content-type-remote-attachment@npm:1.1.4"
+"@xmtp/content-type-remote-attachment@npm:^1.1.6":
+  version: 1.1.6
+  resolution: "@xmtp/content-type-remote-attachment@npm:1.1.6"
   dependencies:
     "@noble/secp256k1": "npm:^1.7.1"
     "@xmtp/proto": "npm:^3.29.0"
     "@xmtp/xmtp-js": "npm:^11.1.2"
   peerDependencies:
     "@xmtp/xmtp-js": ^11.1.1
-  checksum: 5830e09e8c0d58335165ada77c52fc2a352ab61162860891ae914f1f3fa3fe3d096ad11bb8f669729490fce50d2eeca860032fbfe7e5d11947f44733975d244a
+  checksum: 560d3fcbb9307d81ce53857ade56f3d428bebc905c71af5188bc3100d121dae4008e10c62c19e5d73878c304971e4055984f870bb925d63ab87d573668d2ce73
   languageName: node
   linkType: hard
 
-"@xmtp/content-type-reply@npm:^1.1.5":
-  version: 1.1.5
-  resolution: "@xmtp/content-type-reply@npm:1.1.5"
+"@xmtp/content-type-reply@npm:^1.1.7":
+  version: 1.1.7
+  resolution: "@xmtp/content-type-reply@npm:1.1.7"
   dependencies:
     "@xmtp/proto": "npm:^3.29.0"
     "@xmtp/xmtp-js": "npm:^11.1.2"
   peerDependencies:
     "@xmtp/xmtp-js": ^11.1.1
-  checksum: db4c70483d4a3997a4e819df5c3787cf07d5d4a47be57fc12ddb48c0bcb922ee20926cddc5d0648c2f627598d85ea62880152d1d7831a5007a9550b6911c759d
+  checksum: efee7ffff112ff256dd70b866cf46adb130ecfc4b9e45fbf78eb9b682f3a5dceb2916d937dc11802c1694bc9dcae5dfe9e3891949fbfece0f925fb2d40e4da0b
   languageName: node
   linkType: hard
 
@@ -4329,12 +4329,12 @@ __metadata:
     "@heroicons/react": "npm:^2.1.1"
     "@rainbow-me/rainbowkit": "npm:^1.3.3"
     "@types/react": "npm:^18.2.48"
-    "@xmtp/content-type-reaction": "npm:^1.1.3"
-    "@xmtp/content-type-remote-attachment": "npm:^1.1.4"
-    "@xmtp/content-type-reply": "npm:^1.1.5"
+    "@xmtp/content-type-reaction": "npm:^1.1.5"
+    "@xmtp/content-type-remote-attachment": "npm:^1.1.6"
+    "@xmtp/content-type-reply": "npm:^1.1.7"
     "@xmtp/react-sdk": "workspace:*"
     "@xmtp/tsconfig": "workspace:*"
-    date-fns: "npm:^3.1.0"
+    date-fns: "npm:^3.3.1"
     eslint: "npm:^8.56.0"
     eslint-config-xmtp-web: "workspace:*"
     prettier: "npm:^3.2.4"
@@ -4358,13 +4358,13 @@ __metadata:
     "@types/uuid": "npm:^9.0.7"
     "@vitejs/plugin-react": "npm:^4.2.1"
     "@vitest/coverage-v8": "npm:^1.2.1"
-    "@xmtp/content-type-reaction": "npm:^1.1.3"
-    "@xmtp/content-type-remote-attachment": "npm:^1.1.4"
-    "@xmtp/content-type-reply": "npm:^1.1.5"
+    "@xmtp/content-type-reaction": "npm:^1.1.5"
+    "@xmtp/content-type-remote-attachment": "npm:^1.1.6"
+    "@xmtp/content-type-reply": "npm:^1.1.7"
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": "npm:^11.3.0"
-    async-mutex: "npm:^0.4.0"
-    date-fns: "npm:^3.1.0"
+    "@xmtp/xmtp-js": "npm:^11.3.5"
+    async-mutex: "npm:^0.4.1"
+    date-fns: "npm:^3.3.1"
     dexie: "npm:^3.2.4"
     dexie-react-hooks: "npm:^1.1.7"
     eslint: "npm:^8.56.0"
@@ -4387,7 +4387,7 @@ __metadata:
     vitest: "npm:^1.2.1"
     zod: "npm:^3.22.4"
   peerDependencies:
-    "@xmtp/xmtp-js": ^11.3.0
+    "@xmtp/xmtp-js": ^11.3.5
     react: ">=16.14"
   languageName: unknown
   linkType: soft
@@ -4429,9 +4429,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmtp/xmtp-js@npm:^11.3.0":
-  version: 11.3.0
-  resolution: "@xmtp/xmtp-js@npm:11.3.0"
+"@xmtp/xmtp-js@npm:^11.3.5":
+  version: 11.3.5
+  resolution: "@xmtp/xmtp-js@npm:11.3.5"
   dependencies:
     "@noble/secp256k1": "npm:^1.5.2"
     "@xmtp/proto": "npm:^3.34.0"
@@ -4439,8 +4439,9 @@ __metadata:
     async-mutex: "npm:^0.4.0"
     elliptic: "npm:^6.5.4"
     ethers: "npm:^5.5.3"
+    js-sha3: "npm:^0.9.3"
     long: "npm:^5.2.0"
-  checksum: 8e9f9ba68437733af46e9f24692289655c9a546661ea6e75e72b60e3a7d3d536a2517e0cfaf7d8ba499844a47a0dcbf541aefc5798ecfd506821f8cea25299dd
+  checksum: d3b51af91cccbb2a8e131049fdec3ed2b02a9002069bc9f865d83c03aa888b5a191d3c15c0fa179f3c56caa7425dfe1b2a1bf3bb4e376c9794b2d8851c607cee
   languageName: node
   linkType: hard
 
@@ -4909,6 +4910,15 @@ __metadata:
   dependencies:
     tslib: "npm:^2.4.0"
   checksum: 4a55065aae8c7283e45e2a8ac38ba9812f030696640d650c4ec62cfd67e5d61bd698e67b758a81fcb845e2d5ea1d857106f9235cc4282ad40cd1944b26fde1b2
+  languageName: node
+  linkType: hard
+
+"async-mutex@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "async-mutex@npm:0.4.1"
+  dependencies:
+    tslib: "npm:^2.4.0"
+  checksum: 7e9f77b112b8545beb6612493fae4a8d9d1d6c3f24fc22f4d6d05ce96d1e8d326ac3e743a804cc6d7bf24e7ef0267afb65bb127f99b2e433609684b38933ff1c
   languageName: node
   linkType: hard
 
@@ -5840,7 +5850,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^3.1.0":
+"date-fns@npm:^3.3.1":
   version: 3.3.1
   resolution: "date-fns@npm:3.3.1"
   checksum: 98231936765dfb6fc6897676319b500a06a39f051b2c3ecbdd541a07ce9b1344b770277b8bfb1049fb7a2f70bf365ac8e6f1e2bb452b10e1a8101d518ca7f95d
@@ -8783,6 +8793,13 @@ __metadata:
   version: 0.8.0
   resolution: "js-sha3@npm:0.8.0"
   checksum: a49ac6d3a6bfd7091472a28ab82a94c7fb8544cc584ee1906486536ba1cb4073a166f8c7bb2b0565eade23c5b3a7b8f7816231e0309ab5c549b737632377a20c
+  languageName: node
+  linkType: hard
+
+"js-sha3@npm:^0.9.3":
+  version: 0.9.3
+  resolution: "js-sha3@npm:0.9.3"
+  checksum: 8daacb93b18609a0dc081f2f6199b80a96df36f9975b4b9c7476ae92822e07100b9e1969fc76f4b58e703cd6175f0de7656a99cbb2335cfb554c66f988fbead5
   languageName: node
   linkType: hard
 

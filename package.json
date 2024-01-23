@@ -34,6 +34,6 @@
     "@changesets/cli": "^2.27.1"
   },
   "resolutions": {
-    "@xmtp/xmtp-js": "^11.3.0"
+    "@xmtp/xmtp-js": "^11.3.5"
   }
 }
