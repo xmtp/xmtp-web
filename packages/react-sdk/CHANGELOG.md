@@ -4,9 +4,9 @@
 
 ### Patch Changes
 
-- c8449dc: - Upgraded dependencies
-  - Removed `generate:types` command
-  - Fixed broken links in README
+- Upgraded dependencies
+- Removed `generate:types` command
+- Fixed broken links in README
 
 ## 4.0.0
 
