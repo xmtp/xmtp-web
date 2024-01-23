@@ -17,8 +17,11 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
+  ignorePatterns: ["lib/**/*", "dist/**/*"],
   plugins: ["react"],
   rules: {
+    "@typescript-eslint/no-unnecessary-type-assertion": "off",
+    "import/extensions": "off",
     "jsx-a11y/label-has-associated-control": [
       "error",
       {
@@ -27,15 +30,6 @@ module.exports = {
     ],
     "no-nested-ternary": "off",
     "@typescript-eslint/no-explicit-any": "warn",
-    "@typescript-eslint/naming-convention": [
-      "error",
-      {
-        selector: ["variable"],
-        types: ["boolean"],
-        format: ["PascalCase"],
-        prefix: ["is", "should", "has", "can", "did", "will"],
-      },
-    ],
     "@typescript-eslint/naming-convention": [
       "error",
       {
