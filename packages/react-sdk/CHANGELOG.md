@@ -1,5 +1,13 @@
 # @xmtp/react-sdk
 
+## 4.0.1
+
+### Patch Changes
+
+- c8449dc: - Upgraded dependencies
+  - Removed `generate:types` command
+  - Fixed broken links in README
+
 ## 4.0.0
 
 ### Breaking Changes
