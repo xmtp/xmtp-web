@@ -963,7 +963,7 @@ Run `yarn dev` to build the SDK and watch for changes, which will trigger a re
 
 Because this SDK is in active development, you should expect breaking revisions that might require you to adopt the latest SDK release to enable your app to continue working as expected.
 
-XMTP communicates about breaking revisions in the [XMTP Discord community](https://discord.gg/xmtp), providing as much advance notice as possible. Additionally, breaking revisions in a release are described on the [Releases page](https://github.com/xmtp/xmtp-react/releases).
+XMTP communicates about breaking revisions in the [XMTP Discord community](https://discord.gg/xmtp), providing as much advance notice as possible. Additionally, breaking revisions in a release are described on the [Releases page](https://github.com/xmtp/xmtp-web/releases).
 
 ## Deprecation
 
@@ -978,7 +978,7 @@ The following table provides the deprecation schedule.
 | -------------------------------------------------------------- | --------- | --------------- | --------- |
 | There are no deprecations scheduled for this SDK at this time. |           |                 |           |
 
-Bug reports, feature requests, and PRs are welcome in accordance with these [contribution guidelines](https://github.com/xmtp/xmtp-react/blob/main/CONTRIBUTING.md).
+Bug reports, feature requests, and PRs are welcome in accordance with these [contribution guidelines](https://github.com/xmtp/xmtp-web/blob/main/CONTRIBUTING.md).
 
 ## XMTP `production` and `dev` network environments
 
