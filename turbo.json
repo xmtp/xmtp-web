@@ -4,7 +4,7 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", "lib/**", "build/**"]
+      "outputs": ["dist/**", "lib/**"]
     },
     "clean": {
       "outputs": []
@@ -15,12 +15,8 @@
     "format:check": {
       "outputs": []
     },
-    "generate:types": {
-      "dependsOn": ["^generate:types"],
-      "outputs": ["lib/index.d.ts"]
-    },
     "lint": {
-      "dependsOn": ["^generate:types"],
+      "dependsOn": ["^build"],
       "outputs": []
     },
     "quickstart": {
@@ -31,7 +27,7 @@
       "outputs": []
     },
     "typecheck": {
-      "dependsOn": ["^generate:types"],
+      "dependsOn": ["^build"],
       "outputs": []
     }
   }

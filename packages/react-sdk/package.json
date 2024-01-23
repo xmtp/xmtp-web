@@ -65,7 +65,6 @@
     "format:base": "prettier --ignore-path ../../.gitignore",
     "format:check": "yarn format:base -c .",
     "format": "yarn format:base -w .",
-    "generate:types": "rollup -c rollup.config.dts.js",
     "test": "vitest run --passWithNoTests",
     "typecheck": "tsc",
     "typedoc": "typedoc"
