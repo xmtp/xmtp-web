@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 4.0.2
+
+### Patch Changes
+
+- a73d36b: Fix MetaMask snaps integration
+
 ## 4.0.1
 
 ### Patch Changes
