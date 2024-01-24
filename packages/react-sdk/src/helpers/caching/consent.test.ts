@@ -24,26 +24,41 @@ describe("Consent helpers", () => {
     it("should add a new entry and update it", async () => {
       const undefinedEntry = await getCachedConsentState(
         testWallet1.account.address,
+        testWallet2.account.address,
         db,
       );
       expect(undefinedEntry).toBeUndefined();
-      await putConsentState(testWallet1.account.address, "allowed", db);
+      await putConsentState(
+        testWallet1.account.address,
+        testWallet2.account.address,
+        "allowed",
+        db,
+      );
       const entry = await getCachedConsentState(
         testWallet1.account.address,
+        testWallet2.account.address,
         db,
       );
       expect(entry).toEqual({
-        peerAddress: testWallet1.account.address,
+        peerAddress: testWallet2.account.address,
         state: "allowed",
+        walletAddress: testWallet1.account.address,
       });
-      await putConsentState(testWallet1.account.address, "denied", db);
+      await putConsentState(
+        testWallet1.account.address,
+        testWallet2.account.address,
+        "denied",
+        db,
+      );
       const updatedEntry = await getCachedConsentState(
         testWallet1.account.address,
+        testWallet2.account.address,
         db,
       );
       expect(updatedEntry).toEqual({
-        peerAddress: testWallet1.account.address,
+        peerAddress: testWallet2.account.address,
         state: "denied",
+        walletAddress: testWallet1.account.address,
       });
     });
   });
@@ -53,31 +68,46 @@ describe("Consent helpers", () => {
       await bulkPutConsentState(
         [
           {
-            peerAddress: testWallet1.account.address,
+            peerAddress: testWallet2.account.address,
             state: "allowed",
+            walletAddress: testWallet1.account.address,
           },
           {
-            peerAddress: testWallet2.account.address,
+            peerAddress: testWallet1.account.address,
             state: "denied",
+            walletAddress: testWallet2.account.address,
           },
         ],
         db,
       );
-      const entries = await getCachedConsentEntries(db);
 
-      entries.forEach((entry) => {
-        expect(entry.entryType).toBe("address");
-        expect(entry.permissionType).toBe(
-          entry.value === testWallet1.account.address ? "allowed" : "denied",
-        );
-      });
+      const entries = await getCachedConsentEntries(
+        testWallet1.account.address,
+        db,
+      );
+      expect(entries[0].entryType).toBe("address");
+      expect(entries[0].value).toBe(testWallet2.account.address);
+      expect(entries[0].permissionType).toBe("allowed");
+
+      const entries2 = await getCachedConsentEntries(
+        testWallet2.account.address,
+        db,
+      );
+      expect(entries2[0].entryType).toBe("address");
+      expect(entries2[0].value).toBe(testWallet1.account.address);
+      expect(entries2[0].permissionType).toBe("denied");
     });
   });
 
   describe("loadConsentListFromCache", () => {
     it("should load consent list entries from the cache", async () => {
       const testClient = await Client.create(testWallet1, { env: "local" });
-      await putConsentState(testWallet2.account.address, "denied", db);
+      await putConsentState(
+        testWallet1.account.address,
+        testWallet2.account.address,
+        "denied",
+        db,
+      );
       await loadConsentListFromCache(testClient, db);
       expect(testClient.contacts.isDenied(testWallet2.account.address)).toBe(
         true,
