@@ -73,7 +73,7 @@
     "@xmtp/content-type-reaction": "^1.1.5",
     "@xmtp/content-type-remote-attachment": "^1.1.6",
     "@xmtp/content-type-reply": "^1.1.7",
-    "@xmtp/xmtp-js": "^11.3.5",
+    "@xmtp/xmtp-js": "^11.3.7",
     "async-mutex": "^0.4.1",
     "date-fns": "^3.3.1",
     "dexie": "^3.2.4",
@@ -111,7 +111,7 @@
     "vitest": "^1.2.1"
   },
   "peerDependencies": {
-    "@xmtp/xmtp-js": "^11.3.5",
+    "@xmtp/xmtp-js": "^11.3.7",
     "react": ">=16.14"
   },
   "engines": {
