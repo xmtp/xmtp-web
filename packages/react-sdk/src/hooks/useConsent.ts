@@ -12,68 +12,82 @@ export const useConsent = () => {
 
   const allow = useCallback(
     async (addresses: string[]) => {
-      await client?.contacts.allow(addresses);
-      // update DB
-      await bulkPutConsentState(
-        addresses.map((peerAddress) => ({
-          peerAddress,
-          state: "allowed",
-        })),
-        db,
-      );
+      if (client?.address) {
+        await client?.contacts.allow(addresses);
+        // update DB
+        await bulkPutConsentState(
+          addresses.map((peerAddress) => ({
+            peerAddress,
+            state: "allowed",
+            walletAddress: client.address,
+          })),
+          db,
+        );
+      }
     },
-    [client?.contacts, db],
+    [client?.address, client?.contacts, db],
   );
 
   const deny = useCallback(
     async (addresses: string[]) => {
-      await client?.contacts.deny(addresses);
-      // update DB
-      await bulkPutConsentState(
-        addresses.map((peerAddress) => ({
-          peerAddress,
-          state: "denied",
-        })),
-        db,
-      );
+      if (client?.address) {
+        await client?.contacts.deny(addresses);
+        // update DB
+        await bulkPutConsentState(
+          addresses.map((peerAddress) => ({
+            peerAddress,
+            state: "denied",
+            walletAddress: client.address,
+          })),
+          db,
+        );
+      }
     },
-    [client?.contacts, db],
+    [client?.address, client?.contacts, db],
   );
 
   const loadConsentList = useCallback(
     async (startTime?: Date) => {
-      const entries = await client?.contacts.loadConsentList(startTime);
+      if (client?.address) {
+        const entries = await client?.contacts.loadConsentList(startTime);
+        if (entries) {
+          // update DB
+          await bulkPutConsentState(
+            entries.map((entry) => ({
+              peerAddress: entry.value,
+              state: entry.permissionType,
+              walletAddress: client.address,
+            })),
+            db,
+          );
+        }
+        return entries ?? [];
+      }
+      return [];
+    },
+    [client?.address, client?.contacts, db],
+  );
+
+  const refreshConsentList = useCallback(async () => {
+    if (client?.address) {
+      // clear consent DB table
+      await db.table("consent").clear();
+      const entries = await client?.contacts.refreshConsentList();
       if (entries) {
         // update DB
         await bulkPutConsentState(
           entries.map((entry) => ({
             peerAddress: entry.value,
             state: entry.permissionType,
+            walletAddress: client.address,
           })),
           db,
         );
       }
       return entries ?? [];
-    },
-    [client?.contacts, db],
-  );
-
-  const refreshConsentList = useCallback(async () => {
-    // clear consent DB table
-    await db.table("consent").clear();
-    const entries = await client?.contacts.refreshConsentList();
-    if (entries) {
-      // update DB
-      await bulkPutConsentState(
-        entries.map((entry) => ({
-          peerAddress: entry.value,
-          state: entry.permissionType,
-        })),
-        db,
-      );
     }
-    return entries ?? [];
-  }, [client?.contacts, db]);
+    return [];
+  }, [client?.address, client?.contacts, db]);
 
   return {
     allow,

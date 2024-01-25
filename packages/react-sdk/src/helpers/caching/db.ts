@@ -107,8 +107,10 @@ export const getDbInstance = (options?: GetDBInstanceOptions) => {
         xmtpID
       `,
       consent: `
+        [walletAddress+peerAddress],
         peerAddress,
-        state
+        state,
+        walletAddress
       `,
     });
   }

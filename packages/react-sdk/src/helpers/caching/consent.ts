@@ -7,18 +7,28 @@ import { ConsentListEntry } from "@xmtp/xmtp-js";
 export type CachedConsentEntry = {
   peerAddress: string;
   state: ConsentState;
+  walletAddress: string;
 };
 
 export type CachedConsentTable = Table<CachedConsentEntry, string>;
 
 /**
- * Retrieve a cached consent state by peer address
+ * Retrieve a cached consent state by wallet and peer address
  *
  * @returns The cached consent state if found, otherwise `undefined`
  */
-export const getCachedConsentState = async (peerAddress: string, db: Dexie) => {
+export const getCachedConsentState = async (
+  walletAddress: string,
+  peerAddress: string,
+  db: Dexie,
+) => {
   const consentTable = db.table("consent") as CachedConsentTable;
-  return consentTable.where("peerAddress").equals(peerAddress).first();
+  return consentTable
+    .where({
+      walletAddress,
+      peerAddress,
+    })
+    .first();
 };
 
 /**
@@ -26,9 +36,14 @@ export const getCachedConsentState = async (peerAddress: string, db: Dexie) => {
  *
  * @returns An array of ConsentListEntry instances
  */
-export const getCachedConsentEntries = async (db: Dexie) => {
+export const getCachedConsentEntries = async (
+  walletAddress: string,
+  db: Dexie,
+) => {
   const consentTable = db.table("consent") as CachedConsentTable;
-  return (await consentTable.toArray()).map((entry) =>
+  const entries = await consentTable.where({ walletAddress }).toArray();
+
+  return entries.map((entry) =>
     ConsentListEntry.fromAddress(entry.peerAddress, entry.state),
   );
 };
@@ -37,7 +52,7 @@ export const getCachedConsentEntries = async (db: Dexie) => {
  * Load the cached consent list entries into the XMTP client
  */
 export const loadConsentListFromCache = async (client: Client, db: Dexie) => {
-  const cachedEntries = await getCachedConsentEntries(db);
+  const cachedEntries = await getCachedConsentEntries(client.address, db);
   client.contacts.setConsentListEntries(cachedEntries);
 };
 
@@ -48,13 +63,14 @@ const putConsentStateMutex = new Mutex();
  * Add or update a peer address's consent state
  */
 export const putConsentState = async (
+  walletAddress: string,
   peerAddress: string,
   state: ConsentState,
   db: Dexie,
 ) =>
   putConsentStateMutex.runExclusive(async () => {
     const consentTable = db.table("consent") as CachedConsentTable;
-    await consentTable.put({ peerAddress, state });
+    await consentTable.put({ peerAddress, state, walletAddress });
   });
 
 /**

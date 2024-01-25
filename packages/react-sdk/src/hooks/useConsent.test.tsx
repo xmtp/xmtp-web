@@ -50,12 +50,14 @@ describe("useConsent", () => {
       await result.current.allow([testWallet2.account.address]);
       expect(allowSpy).toHaveBeenCalledWith([testWallet2.account.address]);
       const entry = await getCachedConsentState(
+        testWallet1.account.address,
         testWallet2.account.address,
         db,
       );
       expect(entry).toEqual({
         peerAddress: testWallet2.account.address,
         state: "allowed",
+        walletAddress: testWallet1.account.address,
       });
     });
   });
@@ -74,12 +76,14 @@ describe("useConsent", () => {
       await result.current.deny([testWallet2.account.address]);
       expect(allowSpy).toHaveBeenCalledWith([testWallet2.account.address]);
       const entry = await getCachedConsentState(
+        testWallet1.account.address,
         testWallet2.account.address,
         db,
       );
       expect(entry).toEqual({
         peerAddress: testWallet2.account.address,
         state: "denied",
+        walletAddress: testWallet1.account.address,
       });
     });
   });
@@ -100,7 +104,10 @@ describe("useConsent", () => {
       expect(list2[0].entryType).toEqual("address");
       expect(list2[0].permissionType).toEqual("allowed");
       expect(list2[0].value).toEqual(testWallet2.account.address);
-      const entries = await getCachedConsentEntries(db);
+      const entries = await getCachedConsentEntries(
+        testWallet1.account.address,
+        db,
+      );
       expect(entries.length).toEqual(1);
       expect(entries[0].entryType).toEqual("address");
       expect(entries[0].permissionType).toEqual("allowed");
@@ -124,7 +131,10 @@ describe("useConsent", () => {
       expect(list2[0].entryType).toEqual("address");
       expect(list2[0].permissionType).toEqual("allowed");
       expect(list2[0].value).toEqual(testWallet4.account.address);
-      const entries = await getCachedConsentEntries(db);
+      const entries = await getCachedConsentEntries(
+        testWallet3.account.address,
+        db,
+      );
       expect(entries.length).toEqual(1);
       expect(entries[0].entryType).toEqual("address");
       expect(entries[0].permissionType).toEqual("allowed");
