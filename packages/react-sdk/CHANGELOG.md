@@ -1,5 +1,13 @@
 # @xmtp/react-sdk
 
+## 5.0.0
+
+### Major Changes
+
+- a3fda91: Add support for multiple wallets to consent
+
+  Since this changes the API of several exports, it's a breaking change that requires a major release.
+
 ## 4.0.2
 
 ### Patch Changes
