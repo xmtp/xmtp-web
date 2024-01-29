@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 5.0.1
+
+### Patch Changes
+
+- b9f49cc: Fix existing conversation lookup by adding `walletAddress` to DB query
+
 ## 5.0.0
 
 ### Major Changes
