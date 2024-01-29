@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- b9f49cc: Fix existing conversation lookup by adding `walletAddress` to DB query
+- b9f49cc: Fixed existing conversation lookup by adding `walletAddress` to DB query
 
 ## 5.0.0
 
