@@ -203,8 +203,10 @@ export const saveConversation = async (
     const conversations = db.table("conversations") as CachedConversationsTable;
 
     const existing = await conversations
-      .where("topic")
-      .equals(conversation.topic)
+      .where({
+        walletAddress: conversation.walletAddress,
+        topic: conversation.topic,
+      })
       .first();
 
     if (existing) {
