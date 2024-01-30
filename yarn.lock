@@ -4311,6 +4311,7 @@ __metadata:
   dependencies:
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
+    "@xmtp/proto": "npm:3.41.0-beta.2"
     "@xmtp/tsconfig": "workspace:*"
     "@xmtp/xmtp-js": "npm:^11.3.7"
     eslint: "npm:^8.56.0"
@@ -4327,9 +4328,21 @@ __metadata:
     vite-tsconfig-paths: "npm:^4.3.1"
     vitest: "npm:^1.2.1"
   peerDependencies:
-    "@xmtp/xmtp-js": ^11.3.7
+    "@xmtp/xmtp-js": ">9.3.1"
   languageName: unknown
   linkType: soft
+
+"@xmtp/proto@npm:3.41.0-beta.2":
+  version: 3.41.0-beta.2
+  resolution: "@xmtp/proto@npm:3.41.0-beta.2"
+  dependencies:
+    long: "npm:^5.2.0"
+    protobufjs: "npm:^7.0.0"
+    rxjs: "npm:^7.8.0"
+    undici: "npm:^5.8.1"
+  checksum: 494d99f3346bc56e7b80133f7131d86a620c24aff81107288d9eae848f43a0b87071f805ac494ff48c32beb81559a078dabd99e21a2a9a54c2c83fab8d10523b
+  languageName: node
+  linkType: hard
 
 "@xmtp/proto@npm:^3.29.0":
   version: 3.29.0
