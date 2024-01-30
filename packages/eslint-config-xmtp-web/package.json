@@ -1,18 +1,7 @@
 {
   "name": "eslint-config-xmtp-web",
-  "description": "ESLint configuration for XMTP web projects",
   "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:xmtp/xmtp-web.git",
-    "directory": "packages/eslint-config-xmtp-web"
-  },
-  "homepage": "https://github.com/xmtp/xmtp-web",
-  "bugs": {
-    "url": "https://github.com/xmtp/xmtp-web/issues"
-  },
+  "description": "ESLint configuration for XMTP web projects",
   "keywords": [
     "eslint",
     "eslintconfig",
@@ -21,6 +10,22 @@
     "typescript",
     "xmtp"
   ],
+  "homepage": "https://github.com/xmtp/xmtp-web",
+  "bugs": {
+    "url": "https://github.com/xmtp/xmtp-web/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:xmtp/xmtp-web.git",
+    "directory": "packages/eslint-config-xmtp-web"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "format": "yarn format:base -w .",
+    "format:base": "prettier --ignore-path ../../.gitignore",
+    "format:check": "yarn format:base -c ."
+  },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^6.19.1",
     "@typescript-eslint/parser": "^6.19.1",
@@ -37,6 +42,7 @@
     "eslint-plugin-react-hooks": "^4.6.0"
   },
   "devDependencies": {
+    "prettier": "^3.2.4",
     "typescript": "^5.3.3"
   }
 }
