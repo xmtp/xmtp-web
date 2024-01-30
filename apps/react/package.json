@@ -1,19 +1,19 @@
 {
   "name": "@xmtp/react-app",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
-  "module": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
     "./styles.css": "./src/styles/index.css"
   },
+  "module": "src/index.ts",
   "scripts": {
     "clean": "rm -rf .turbo && rm -rf node_modules",
-    "lint": "eslint . --ignore-path ../../.gitignore",
+    "format": "yarn format:base -w .",
     "format:base": "prettier --ignore-path ../../.gitignore",
     "format:check": "yarn format:base -c .",
-    "format": "yarn format:base -w .",
+    "lint": "eslint . --ignore-path ../../.gitignore",
     "typecheck": "tsc"
   },
   "dependencies": {
