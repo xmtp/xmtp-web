@@ -6,5 +6,13 @@
     "base.json",
     "react-app.json",
     "react-sdk.json"
-  ]
+  ],
+  "scripts": {
+    "format": "yarn format:base -w .",
+    "format:base": "prettier --ignore-path ../../.gitignore",
+    "format:check": "yarn format:base -c ."
+  },
+  "devDependencies": {
+    "prettier": "^3.2.4"
+  }
 }
