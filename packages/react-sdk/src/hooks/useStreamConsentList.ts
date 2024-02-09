@@ -2,6 +2,7 @@ import type { PrivatePreferencesAction, Stream } from "@xmtp/xmtp-js";
 import { useEffect, useRef, useState } from "react";
 import { useClient } from "./useClient";
 import type { OnError } from "../sharedTypes";
+import { useConsent } from "@/index";
 
 export type ConsentListStream = Promise<
   Stream<PrivatePreferencesAction, string>
@@ -15,6 +16,7 @@ export const useStreamConsentList = (
   onAction?: (action: PrivatePreferencesAction) => void | Promise<void>,
   onError?: OnError["onError"],
 ) => {
+  const { allow, deny } = useConsent();
   const [error, setError] = useState<Error | null>(null);
   const streamRef = useRef<ConsentListStream | undefined>(undefined);
   const endStreamRef = useRef(async (stream?: ConsentListStream) => {
@@ -64,6 +66,13 @@ export const useStreamConsentList = (
         stream = streamRef.current;
 
         for await (const action of await stream) {
+          // update the local DB, but don't publish to the network
+          if (action.allow) {
+            void allow(action.allow.walletAddresses, true);
+          }
+          if (action.block) {
+            void deny(action.block.walletAddresses, true);
+          }
           void onAction?.(action);
         }
       } catch (e) {
@@ -81,7 +90,7 @@ export const useStreamConsentList = (
     return () => {
       void endStream(stream);
     };
-  }, [client, onError, onAction]);
+  }, [client, onError, onAction, allow, deny]);
 
   return {
     error,

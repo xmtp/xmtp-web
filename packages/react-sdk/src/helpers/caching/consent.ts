@@ -13,11 +13,11 @@ export type CachedConsentEntry = {
 export type CachedConsentTable = Table<CachedConsentEntry, string>;
 
 /**
- * Retrieve a cached consent state by wallet and peer address
+ * Retrieve a cached consent entry by wallet and peer address
  *
- * @returns The cached consent state if found, otherwise `undefined`
+ * @returns The cached consent entry if found, otherwise `undefined`
  */
-export const getCachedConsentState = async (
+export const getCachedConsentEntry = async (
   walletAddress: string,
   peerAddress: string,
   db: Dexie,
@@ -46,6 +46,20 @@ export const getCachedConsentEntries = async (
   return entries.map((entry) =>
     ConsentListEntry.fromAddress(entry.peerAddress, entry.state),
   );
+};
+
+/**
+ * Retrieve a cached consent state by wallet and peer address
+ *
+ * @returns The cached consent state if found, otherwise `undefined`
+ */
+export const getCachedConsentState = async (
+  walletAddress: string,
+  peerAddress: string,
+  db: Dexie,
+) => {
+  const entry = await getCachedConsentEntry(walletAddress, peerAddress, db);
+  return entry?.state ?? "unknown";
 };
 
 /**

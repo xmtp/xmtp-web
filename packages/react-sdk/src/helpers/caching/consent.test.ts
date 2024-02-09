@@ -5,6 +5,7 @@ import { createRandomWallet } from "@/helpers/testing";
 import {
   bulkPutConsentState,
   getCachedConsentEntries,
+  getCachedConsentEntry,
   getCachedConsentState,
   loadConsentListFromCache,
   putConsentState,
@@ -22,7 +23,7 @@ beforeEach(async () => {
 describe("Consent helpers", () => {
   describe("putConsentState", () => {
     it("should add a new entry and update it", async () => {
-      const undefinedEntry = await getCachedConsentState(
+      const undefinedEntry = await getCachedConsentEntry(
         testWallet1.account.address,
         testWallet2.account.address,
         db,
@@ -34,7 +35,7 @@ describe("Consent helpers", () => {
         "allowed",
         db,
       );
-      const entry = await getCachedConsentState(
+      const entry = await getCachedConsentEntry(
         testWallet1.account.address,
         testWallet2.account.address,
         db,
@@ -44,13 +45,19 @@ describe("Consent helpers", () => {
         state: "allowed",
         walletAddress: testWallet1.account.address,
       });
+      const state = await getCachedConsentState(
+        testWallet1.account.address,
+        testWallet2.account.address,
+        db,
+      );
+      expect(state).toBe("allowed");
       await putConsentState(
         testWallet1.account.address,
         testWallet2.account.address,
         "denied",
         db,
       );
-      const updatedEntry = await getCachedConsentState(
+      const updatedEntry = await getCachedConsentEntry(
         testWallet1.account.address,
         testWallet2.account.address,
         db,
@@ -60,6 +67,12 @@ describe("Consent helpers", () => {
         state: "denied",
         walletAddress: testWallet1.account.address,
       });
+      const updatedState = await getCachedConsentState(
+        testWallet1.account.address,
+        testWallet2.account.address,
+        db,
+      );
+      expect(updatedState).toBe("denied");
     });
   });
 

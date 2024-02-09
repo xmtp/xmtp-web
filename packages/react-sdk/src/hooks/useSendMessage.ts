@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import type { OnError } from "../sharedTypes";
 import { type CachedConversation } from "@/helpers/caching/conversations";
 import { useMessage } from "@/hooks/useMessage";
+import { useConsent } from "@/index";
 
 export type UseSendMessageOptions = OnError & {
   /**
@@ -18,6 +19,7 @@ export const useSendMessage = (options?: UseSendMessageOptions) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const { sendMessage: _sendMessage } = useMessage();
+  const { allow, consentState } = useConsent();
 
   // destructure options for more granular dependency array
   const { onError, onSuccess } = options ?? {};
@@ -44,6 +46,14 @@ export const useSendMessage = (options?: UseSendMessageOptions) => {
           },
         );
 
+        // make sure the local DB is in sync with the network
+        // this will likely be the case when sending the first message
+        const state = await consentState(conversation.peerAddress);
+        if (state !== "allowed") {
+          // update the local DB without publishing the change on the network
+          await allow([conversation.peerAddress], true);
+        }
+
         return sentMessage;
       } catch (e) {
         setError(e as Error);
@@ -53,7 +63,7 @@ export const useSendMessage = (options?: UseSendMessageOptions) => {
         setIsLoading(false);
       }
     },
-    [_sendMessage, onError, onSuccess],
+    [_sendMessage, allow, consentState, onError, onSuccess],
   );
 
   return {
