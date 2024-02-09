@@ -12,6 +12,10 @@ export type CachedConsentEntry = {
 
 export type CachedConsentTable = Table<CachedConsentEntry, string>;
 
+export type CachedConsentEntryMap = {
+  [peerAddress: string]: ConsentListEntry;
+};
+
 /**
  * Retrieve a cached consent entry by wallet and peer address
  *
@@ -34,18 +38,27 @@ export const getCachedConsentEntry = async (
 /**
  * Retrieve all cached consent entries
  *
- * @returns An array of ConsentListEntry instances
+ * @returns A map of peer addresses and their ConsentListEntry
  */
 export const getCachedConsentEntries = async (
   walletAddress: string,
   db: Dexie,
 ) => {
   const consentTable = db.table("consent") as CachedConsentTable;
-  const entries = await consentTable.where({ walletAddress }).toArray();
+  const consentListEntries = await consentTable
+    .where({ walletAddress })
+    .toArray();
 
-  return entries.map((entry) =>
-    ConsentListEntry.fromAddress(entry.peerAddress, entry.state),
-  );
+  if (!consentListEntries.length) {
+    return {};
+  }
+
+  return Object.fromEntries(
+    consentListEntries.map((entry) => [
+      entry.peerAddress,
+      ConsentListEntry.fromAddress(entry.peerAddress, entry.state),
+    ]),
+  ) as Partial<CachedConsentEntryMap>;
 };
 
 /**
@@ -67,7 +80,11 @@ export const getCachedConsentState = async (
  */
 export const loadConsentListFromCache = async (client: Client, db: Dexie) => {
   const cachedEntries = await getCachedConsentEntries(client.address, db);
-  client.contacts.setConsentListEntries(cachedEntries);
+  if (Object.keys(cachedEntries).length) {
+    client.contacts.setConsentListEntries(
+      Object.values(cachedEntries as CachedConsentEntryMap),
+    );
+  }
 };
 
 // limit consent updates to 1 operation at a time to preserve order

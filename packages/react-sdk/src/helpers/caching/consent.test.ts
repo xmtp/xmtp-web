@@ -98,17 +98,25 @@ describe("Consent helpers", () => {
         testWallet1.account.address,
         db,
       );
-      expect(entries[0].entryType).toBe("address");
-      expect(entries[0].value).toBe(testWallet2.account.address);
-      expect(entries[0].permissionType).toBe("allowed");
+      expect(entries[testWallet2.account.address]?.entryType).toBe("address");
+      expect(entries[testWallet2.account.address]?.value).toBe(
+        testWallet2.account.address,
+      );
+      expect(entries[testWallet2.account.address]?.permissionType).toBe(
+        "allowed",
+      );
 
       const entries2 = await getCachedConsentEntries(
         testWallet2.account.address,
         db,
       );
-      expect(entries2[0].entryType).toBe("address");
-      expect(entries2[0].value).toBe(testWallet1.account.address);
-      expect(entries2[0].permissionType).toBe("denied");
+      expect(entries2[testWallet1.account.address]?.entryType).toBe("address");
+      expect(entries2[testWallet1.account.address]?.value).toBe(
+        testWallet1.account.address,
+      );
+      expect(entries2[testWallet1.account.address]?.permissionType).toBe(
+        "denied",
+      );
     });
   });
 
