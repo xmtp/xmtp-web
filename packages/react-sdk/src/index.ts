@@ -65,10 +65,13 @@ export { useStreamConsentList } from "./hooks/useStreamConsentList";
 export type {
   CachedConsentEntry,
   CachedConsentTable,
+  CachedConsentEntryMap,
 } from "./helpers/caching/consent";
 export {
   bulkPutConsentState,
+  getCachedConsentEntry,
   getCachedConsentEntries,
+  getCachedConsentEntriesMap,
   getCachedConsentState,
   loadConsentListFromCache,
   putConsentState,

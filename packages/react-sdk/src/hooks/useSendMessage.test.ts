@@ -8,6 +8,8 @@ import { useSendMessage } from "@/hooks/useSendMessage";
 import type { CachedConversation } from "@/helpers/caching/conversations";
 
 const sendMessageMock = vi.hoisted(() => vi.fn());
+const allowMock = vi.hoisted(() => vi.fn());
+const consentStateMock = vi.hoisted(() => vi.fn());
 
 vi.mock("@/hooks/useMessage", async () => {
   const actual = await import("@/hooks/useMessage");
@@ -19,9 +21,22 @@ vi.mock("@/hooks/useMessage", async () => {
   };
 });
 
+vi.mock("@/hooks/useConsent", async () => {
+  const actual = await import("@/hooks/useConsent");
+  return {
+    useConsent: () => ({
+      ...actual.useConsent,
+      allow: allowMock,
+      consentState: consentStateMock,
+    }),
+  };
+});
+
 describe("useSendMessage", () => {
   beforeEach(() => {
     sendMessageMock.mockReset();
+    allowMock.mockReset();
+    consentStateMock.mockReset();
   });
 
   it("should send a message", async () => {
@@ -58,6 +73,12 @@ describe("useSendMessage", () => {
         onSuccess: undefined,
       },
     );
+
+    expect(consentStateMock).toHaveBeenCalledTimes(1);
+    expect(consentStateMock).toHaveBeenCalledWith("testPeerAddress");
+
+    expect(allowMock).toHaveBeenCalledTimes(1);
+    expect(allowMock).toHaveBeenCalledWith(["testPeerAddress"], true);
   });
 
   it("should send a message with a custom content type and options", async () => {
@@ -132,6 +153,8 @@ describe("useSendMessage", () => {
         expect(e).toEqual(testError);
       } finally {
         expect(sendMessageMock).toHaveBeenCalledTimes(1);
+        expect(consentStateMock).not.toHaveBeenCalled();
+        expect(allowMock).not.toHaveBeenCalled();
       }
     });
 

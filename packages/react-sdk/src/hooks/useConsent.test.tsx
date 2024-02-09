@@ -49,16 +49,12 @@ describe("useConsent", () => {
     await act(async () => {
       await result.current.allow([testWallet2.account.address]);
       expect(allowSpy).toHaveBeenCalledWith([testWallet2.account.address]);
-      const entry = await getCachedConsentState(
+      const state = await getCachedConsentState(
         testWallet1.account.address,
         testWallet2.account.address,
         db,
       );
-      expect(entry).toEqual({
-        peerAddress: testWallet2.account.address,
-        state: "allowed",
-        walletAddress: testWallet1.account.address,
-      });
+      expect(state).toBe("allowed");
     });
   });
 
@@ -75,16 +71,12 @@ describe("useConsent", () => {
     await act(async () => {
       await result.current.deny([testWallet2.account.address]);
       expect(allowSpy).toHaveBeenCalledWith([testWallet2.account.address]);
-      const entry = await getCachedConsentState(
+      const state = await getCachedConsentState(
         testWallet1.account.address,
         testWallet2.account.address,
         db,
       );
-      expect(entry).toEqual({
-        peerAddress: testWallet2.account.address,
-        state: "denied",
-        walletAddress: testWallet1.account.address,
-      });
+      expect(state).toBe("denied");
     });
   });
 
@@ -108,7 +100,7 @@ describe("useConsent", () => {
         testWallet1.account.address,
         db,
       );
-      expect(entries.length).toEqual(1);
+      expect(Object.keys(entries).length).toEqual(1);
       expect(entries[0].entryType).toEqual("address");
       expect(entries[0].permissionType).toEqual("allowed");
       expect(entries[0].value).toEqual(testWallet2.account.address);
@@ -135,7 +127,7 @@ describe("useConsent", () => {
         testWallet3.account.address,
         db,
       );
-      expect(entries.length).toEqual(1);
+      expect(Object.keys(entries).length).toEqual(1);
       expect(entries[0].entryType).toEqual("address");
       expect(entries[0].permissionType).toEqual("allowed");
       expect(entries[0].value).toEqual(testWallet4.account.address);

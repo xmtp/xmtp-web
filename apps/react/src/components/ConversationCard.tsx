@@ -14,7 +14,7 @@ export const ConversationCard: React.FC<ConversationCardProps> = ({
   isSelected,
 }) => {
   const lastMessage = useLastMessage(conversation.topic);
-  const { consentState } = useConsent();
+  const { entries } = useConsent();
 
   return (
     <ConversationPreview
@@ -23,7 +23,9 @@ export const ConversationCard: React.FC<ConversationCardProps> = ({
       isSelected={isSelected}
       onClick={onConversationClick}
       lastMessage={lastMessage}
-      consentState={consentState(conversation.peerAddress)}
+      consentState={
+        entries[conversation.peerAddress]?.permissionType ?? "unknown"
+      }
     />
   );
 };
