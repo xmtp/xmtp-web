@@ -2,7 +2,7 @@ import type { PrivatePreferencesAction, Stream } from "@xmtp/xmtp-js";
 import { useEffect, useRef, useState } from "react";
 import { useClient } from "./useClient";
 import type { OnError } from "../sharedTypes";
-import { useConsent } from "@/index";
+import { useConsent } from "@/hooks/useConsent";
 
 export type ConsentListStream = Promise<
   Stream<PrivatePreferencesAction, string>

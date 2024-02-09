@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import type { OnError } from "../sharedTypes";
 import { type CachedConversation } from "@/helpers/caching/conversations";
 import { useMessage } from "@/hooks/useMessage";
-import { useConsent } from "@/index";
+import { useConsent } from "@/hooks/useConsent";
 
 export type UseSendMessageOptions = OnError & {
   /**
