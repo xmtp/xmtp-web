@@ -5,6 +5,7 @@ import {
   bulkPutConsentState,
   getCachedConsentState,
 } from "@/helpers/caching/consent";
+import { useCachedConsentEntries } from "@/hooks/useCachedConsentEntries";
 
 /**
  * This hook returns helper functions for working with consent
@@ -12,6 +13,7 @@ import {
 export const useConsent = () => {
   const { client } = useClient();
   const { db } = useDb();
+  const entries = useCachedConsentEntries();
 
   const allow = useCallback(
     async (addresses: string[], skipPublish: boolean = false) => {
@@ -92,11 +94,11 @@ export const useConsent = () => {
       if (!client) {
         throw new Error("XMTP client is required");
       }
-      const entries = await client.contacts.loadConsentList(startTime);
-      if (entries) {
+      const newEntries = await client.contacts.loadConsentList(startTime);
+      if (newEntries) {
         // update DB
         await bulkPutConsentState(
-          entries.map((entry) => ({
+          newEntries.map((entry) => ({
             peerAddress: entry.value,
             state: entry.permissionType,
             walletAddress: client.address,
@@ -104,7 +106,7 @@ export const useConsent = () => {
           db,
         );
       }
-      return entries;
+      return newEntries;
     },
     [client, db],
   );
@@ -115,11 +117,11 @@ export const useConsent = () => {
     }
     // clear consent DB table
     await db.table("consent").clear();
-    const entries = await client?.contacts.refreshConsentList();
-    if (entries) {
+    const newEntries = await client?.contacts.refreshConsentList();
+    if (newEntries) {
       // update DB
       await bulkPutConsentState(
-        entries.map((entry) => ({
+        newEntries.map((entry) => ({
           peerAddress: entry.value,
           state: entry.permissionType,
           walletAddress: client.address,
@@ -127,13 +129,14 @@ export const useConsent = () => {
         db,
       );
     }
-    return entries;
+    return newEntries;
   }, [client, db]);
 
   return {
     allow,
     consentState,
     deny,
+    entries,
     isAllowed,
     isDenied,
     loadConsentList,
