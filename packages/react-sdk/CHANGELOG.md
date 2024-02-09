@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 5.0.2
+
+### Patch Changes
+
+- 73ef32d: Ensure consent DB is in sync with the network
+
 ## 5.0.1
 
 ### Patch Changes
