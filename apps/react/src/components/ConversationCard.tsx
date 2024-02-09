@@ -1,6 +1,5 @@
-import type { CachedConversation, ConsentState } from "@xmtp/react-sdk";
+import type { CachedConversation } from "@xmtp/react-sdk";
 import { useLastMessage, useConsent } from "@xmtp/react-sdk";
-import { useEffect, useState } from "react";
 import { ConversationPreview } from "../controllers/ConversationPreview";
 
 type ConversationCardProps = {
@@ -14,17 +13,8 @@ export const ConversationCard: React.FC<ConversationCardProps> = ({
   onConversationClick,
   isSelected,
 }) => {
-  const [consentState, setConsentState] = useState<ConsentState>("unknown");
   const lastMessage = useLastMessage(conversation.topic);
-  const { consentState: _consentState } = useConsent();
-
-  useEffect(() => {
-    const getState = async () => {
-      setConsentState(await _consentState(conversation.peerAddress));
-    };
-    void getState();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { entries } = useConsent();
 
   return (
     <ConversationPreview
@@ -33,7 +23,9 @@ export const ConversationCard: React.FC<ConversationCardProps> = ({
       isSelected={isSelected}
       onClick={onConversationClick}
       lastMessage={lastMessage}
-      consentState={consentState}
+      consentState={
+        entries[conversation.peerAddress]?.permissionType ?? "unknown"
+      }
     />
   );
 };
