@@ -1,7 +1,7 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { useDb } from "./useDb";
 import { useClient } from "@/hooks/useClient";
-import { getCachedConsentEntries } from "@/helpers/caching/consent";
+import { getCachedConsentEntriesMap } from "@/helpers/caching/consent";
 
 /**
  * This hook returns cached consent entries from the local cache based on the
@@ -18,7 +18,7 @@ export const useCachedConsentEntries = () => {
       if (!client) {
         return {};
       }
-      return getCachedConsentEntries(client.address, db);
+      return getCachedConsentEntriesMap(client.address, db);
     }, [client?.address]) ?? {}
   );
 };

@@ -101,15 +101,9 @@ describe("useConsent", () => {
         db,
       );
       expect(Object.keys(entries).length).toEqual(1);
-      expect(entries[testWallet2.account.address]?.entryType).toEqual(
-        "address",
-      );
-      expect(entries[testWallet2.account.address]?.permissionType).toEqual(
-        "allowed",
-      );
-      expect(entries[testWallet2.account.address]?.value).toEqual(
-        testWallet2.account.address,
-      );
+      expect(entries[0].entryType).toEqual("address");
+      expect(entries[0].permissionType).toEqual("allowed");
+      expect(entries[0].value).toEqual(testWallet2.account.address);
     });
   });
 
@@ -134,15 +128,9 @@ describe("useConsent", () => {
         db,
       );
       expect(Object.keys(entries).length).toEqual(1);
-      expect(entries[testWallet4.account.address]?.entryType).toEqual(
-        "address",
-      );
-      expect(entries[testWallet4.account.address]?.permissionType).toEqual(
-        "allowed",
-      );
-      expect(entries[testWallet4.account.address]?.value).toEqual(
-        testWallet4.account.address,
-      );
+      expect(entries[0].entryType).toEqual("address");
+      expect(entries[0].permissionType).toEqual("allowed");
+      expect(entries[0].value).toEqual(testWallet4.account.address);
     });
   });
 });

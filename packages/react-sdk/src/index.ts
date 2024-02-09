@@ -71,6 +71,7 @@ export {
   bulkPutConsentState,
   getCachedConsentEntry,
   getCachedConsentEntries,
+  getCachedConsentEntriesMap,
   getCachedConsentState,
   loadConsentListFromCache,
   putConsentState,
