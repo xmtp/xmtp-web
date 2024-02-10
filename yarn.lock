@@ -2264,6 +2264,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@open-frames/types@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "@open-frames/types@npm:0.0.5"
+  checksum: 256a7e6bea4450616257d7b2207a05bb1cb1124679adc598dac6647f8276dbb273eed73d024e9e51d1302c4dda4f89b1fa8267b21fd4ef17392c4cf4406c7e46
+  languageName: node
+  linkType: hard
+
 "@parcel/watcher-android-arm64@npm:2.3.0":
   version: 2.3.0
   resolution: "@parcel/watcher-android-arm64@npm:2.3.0"
@@ -4324,6 +4331,7 @@ __metadata:
   resolution: "@xmtp/frames-client@workspace:packages/frames-client"
   dependencies:
     "@noble/hashes": "npm:^1.3.3"
+    "@open-frames/types": "npm:^0.0.5"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
     "@xmtp/proto": "npm:3.41.0-beta.5"
