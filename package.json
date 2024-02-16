@@ -11,8 +11,8 @@
   "scripts": {
     "build": "turbo run build --filter='./packages/*'",
     "clean": "turbo run clean && rm -rf node_modules && yarn cache clean",
-    "format:check": "turbo run format:check",
     "format": "turbo run format",
+    "format:check": "turbo run format:check",
     "lint": "FORCE_COLOR=1 turbo run lint",
     "publish": "yarn build && changeset publish",
     "quickstart": "turbo run quickstart",
@@ -20,6 +20,13 @@
     "test:setup": "./dev/up",
     "test:teardown": "./dev/down",
     "typecheck": "FORCE_COLOR=1 turbo run typecheck"
+  },
+  "resolutions": {
+    "@xmtp/xmtp-js": "^11.3.12"
+  },
+  "dependencies": {
+    "@changesets/changelog-git": "^0.2.0",
+    "@changesets/cli": "^2.27.1"
   },
   "devDependencies": {
     "prettier": "^3.2.4",
@@ -29,12 +36,5 @@
   "packageManager": "yarn@4.0.2",
   "engines": {
     "node": ">=18"
-  },
-  "dependencies": {
-    "@changesets/changelog-git": "^0.2.0",
-    "@changesets/cli": "^2.27.1"
-  },
-  "resolutions": {
-    "@xmtp/xmtp-js": "^11.3.7"
   }
 }
