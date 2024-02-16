@@ -4336,7 +4336,7 @@ __metadata:
     "@rollup/plugin-typescript": "npm:^11.1.6"
     "@xmtp/proto": "npm:3.41.0-beta.5"
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": "npm:^11.3.7"
+    "@xmtp/xmtp-js": "npm:^11.3.12"
     eslint: "npm:^8.56.0"
     eslint-config-xmtp-web: "workspace:*"
     ethers: "npm:^6.10.0"
@@ -4435,7 +4435,7 @@ __metadata:
     "@xmtp/content-type-remote-attachment": "npm:^1.1.6"
     "@xmtp/content-type-reply": "npm:^1.1.7"
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": "npm:^11.3.7"
+    "@xmtp/xmtp-js": "npm:^11.3.12"
     async-mutex: "npm:^0.4.1"
     date-fns: "npm:^3.3.1"
     dexie: "npm:^3.2.4"
@@ -4460,7 +4460,7 @@ __metadata:
     vitest: "npm:^1.2.1"
     zod: "npm:^3.22.4"
   peerDependencies:
-    "@xmtp/xmtp-js": ^11.3.7
+    "@xmtp/xmtp-js": ^11.3.12
     react: ">=16.14"
   languageName: unknown
   linkType: soft
@@ -4498,26 +4498,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@xmtp/user-preferences-bindings-wasm@npm:^0.3.4":
-  version: 0.3.4
-  resolution: "@xmtp/user-preferences-bindings-wasm@npm:0.3.4"
-  checksum: 682e72e1a9db3d85bf81cd428bff4198499e39ef6fccfeffe08657f6394c3001b1315431f57fc6efcedfc5ae3ca250fddf83da41b909d5d6d28f00503cc01c14
+"@xmtp/user-preferences-bindings-wasm@npm:^0.3.5":
+  version: 0.3.5
+  resolution: "@xmtp/user-preferences-bindings-wasm@npm:0.3.5"
+  checksum: a5a88e81d15c36f4ceb3c837652c09a6ec210f98b3ec6c9cdd9ab58a675540cf34073e9075813538432126178bb906ae4af8d88f15f9a124f508dd332696e843
   languageName: node
   linkType: hard
 
-"@xmtp/xmtp-js@npm:^11.3.7":
-  version: 11.3.7
-  resolution: "@xmtp/xmtp-js@npm:11.3.7"
+"@xmtp/xmtp-js@npm:^11.3.12":
+  version: 11.3.12
+  resolution: "@xmtp/xmtp-js@npm:11.3.12"
   dependencies:
     "@noble/secp256k1": "npm:^1.5.2"
     "@xmtp/proto": "npm:^3.34.0"
-    "@xmtp/user-preferences-bindings-wasm": "npm:^0.3.4"
+    "@xmtp/user-preferences-bindings-wasm": "npm:^0.3.5"
     async-mutex: "npm:^0.4.0"
     elliptic: "npm:^6.5.4"
     ethers: "npm:^5.5.3"
     js-sha3: "npm:^0.9.3"
     long: "npm:^5.2.0"
-  checksum: 7edc06ea2517c5879f057d17d065a1bfef8f6abd13c8bdc892bb137a7ecc8e2b07a424f98f98c93e121201e87526453ca9eaa79f937b194a8dd2516bee102fcd
+  checksum: 279cb84fe64c68bd18aa9f8a8322e1f089879aa44b6dc809d339ff4d6071f57f10fd25f915192fd3d4d3ec654c5ae94ee2fdfded3eeed2a5c325455b13d2fe01
   languageName: node
   linkType: hard
 
