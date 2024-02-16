@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 5.0.3
+
+### Patch Changes
+
+- bf16c8a: Upgraded to JS SDK `11.3.12`
+
 ## 5.0.2
 
 ### Patch Changes
