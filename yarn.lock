@@ -2264,6 +2264,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@open-frames/proxy-client@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@open-frames/proxy-client@npm:0.1.0"
+  checksum: ac7f852aa6c3a7a4d48a32158d4dbc99cd30d5237ae1f49c2aff1cba32432ec5122fc9b489e78397502d594fd18cab4e535b8abafe062892563cdb59e6d8c5ac
+  languageName: node
+  linkType: hard
+
 "@open-frames/types@npm:^0.0.5":
   version: 0.0.5
   resolution: "@open-frames/types@npm:0.0.5"
@@ -4331,6 +4338,7 @@ __metadata:
   resolution: "@xmtp/frames-client@workspace:packages/frames-client"
   dependencies:
     "@noble/hashes": "npm:^1.3.3"
+    "@open-frames/proxy-client": "npm:^0.1.0"
     "@open-frames/types": "npm:^0.0.5"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
