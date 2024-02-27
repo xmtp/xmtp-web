@@ -3,7 +3,7 @@
   "include": ["src", ".eslintrc.cjs", "vitest.config.ts", "vitest.setup.ts"],
   "compilerOptions": {
     "paths": {
-      "@/*": ["./src/*"],
-    },
-  },
+      "@/*": ["./src/*"]
+    }
+  }
 }

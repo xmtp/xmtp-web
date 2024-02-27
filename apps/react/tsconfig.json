@@ -1,4 +1,4 @@
 {
   "extends": "@xmtp/tsconfig/react-app.json",
-  "include": ["src/**/*"],
+  "include": ["src/**/*"]
 }
