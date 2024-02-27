@@ -24,17 +24,17 @@
     "wagmi": "^1.4.13"
   },
   "devDependencies": {
-    "@types/react": "^18.2.48",
-    "@types/react-dom": "^18.2.18",
+    "@types/react": "^18.2.59",
+    "@types/react-dom": "^18.2.19",
     "@vitejs/plugin-react": "^4.2.1",
     "@xmtp/tsconfig": "workspace:*",
     "autoprefixer": "^10.4.17",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.0",
     "eslint-config-xmtp-web": "workspace:*",
-    "postcss": "^8.4.33",
-    "postcss-preset-env": "^9.3.0",
-    "prettier": "^3.2.4",
+    "postcss": "^8.4.35",
+    "postcss-preset-env": "^9.4.0",
+    "prettier": "^3.2.5",
     "typescript": "^5.3.3",
-    "vite": "^5.0.12"
+    "vite": "^5.1.4"
   }
 }
