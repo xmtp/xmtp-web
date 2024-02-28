@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 5.1.0
+
+### Minor Changes
+
+- 6371094: Upgraded JS SDK, `viem`, and `dexie`
+
 ## 5.0.3
 
 ### Patch Changes
