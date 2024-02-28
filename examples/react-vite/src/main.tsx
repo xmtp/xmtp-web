@@ -3,60 +3,33 @@ import "@rainbow-me/rainbowkit/styles.css";
 import "@xmtp/react-app/styles.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import {
-  connectorsForWallets,
-  RainbowKitProvider,
-} from "@rainbow-me/rainbowkit";
-import {
-  coinbaseWallet,
-  metaMaskWallet,
-  rainbowWallet,
-  trustWallet,
-  walletConnectWallet,
-} from "@rainbow-me/rainbowkit/wallets";
-import { createConfig, configureChains, mainnet, WagmiConfig } from "wagmi";
-import { infuraProvider } from "wagmi/providers/infura";
-import { publicProvider } from "wagmi/providers/public";
+import { RainbowKitProvider, getDefaultConfig } from "@rainbow-me/rainbowkit";
+import { mainnet } from "@wagmi/core/chains";
+import { http } from "@wagmi/core";
+import { WagmiProvider } from "wagmi";
 import { App } from "@xmtp/react-app";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
 
-const { chains, publicClient } = configureChains(
-  [mainnet],
-  [
-    infuraProvider({ apiKey: import.meta.env.VITE_INFURA_ID }),
-    publicProvider(),
-  ],
-);
-
-const projectId = import.meta.env.VITE_PROJECT_ID;
-const appName = "XMTP React Vite Example";
-
-const connectors = connectorsForWallets([
-  {
-    groupName: "Wallets",
-    wallets: [
-      // Alpha order
-      coinbaseWallet({ appName, chains }),
-      metaMaskWallet({ chains, projectId }),
-      rainbowWallet({ chains, projectId }),
-      trustWallet({ projectId, chains }),
-      walletConnectWallet({ chains, projectId }),
-    ],
+export const config = getDefaultConfig({
+  appName: "XMTP React Vite Example",
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  chains: [mainnet],
+  transports: {
+    [mainnet.id]: http(),
   },
-]);
-
-const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors,
-  publicClient,
 });
 
+const queryClient = new QueryClient();
+
 createRoot(document.getElementById("root") as HTMLElement).render(
-  <WagmiConfig config={wagmiConfig}>
-    <RainbowKitProvider chains={chains}>
-      <StrictMode>
-        <App />
-      </StrictMode>
-    </RainbowKitProvider>
-  </WagmiConfig>,
+  <WagmiProvider config={config}>
+    <QueryClientProvider client={queryClient}>
+      <RainbowKitProvider>
+        <StrictMode>
+          <App />
+        </StrictMode>
+      </RainbowKitProvider>
+    </QueryClientProvider>
+  </WagmiProvider>,
 );
