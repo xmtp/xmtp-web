@@ -16,12 +16,14 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@rainbow-me/rainbowkit": "^1.3.3",
+    "@rainbow-me/rainbowkit": "^2.0.1",
+    "@tanstack/react-query": "^5.24.1",
+    "@wagmi/core": "^2.6.5",
     "@xmtp/react-app": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "viem": "^1.19.6",
-    "wagmi": "^1.4.13"
+    "viem": "^2.7.15",
+    "wagmi": "^2.5.7"
   },
   "devDependencies": {
     "@types/react": "^18.2.59",
