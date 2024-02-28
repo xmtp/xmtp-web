@@ -22,7 +22,7 @@
     "typecheck": "FORCE_COLOR=1 turbo run typecheck"
   },
   "resolutions": {
-    "@xmtp/xmtp-js": "^11.3.12"
+    "@xmtp/xmtp-js": "^11.4.1"
   },
   "dependencies": {
     "@changesets/changelog-git": "^0.2.0",
