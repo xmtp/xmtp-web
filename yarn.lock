@@ -4230,7 +4230,7 @@ __metadata:
     "@open-frames/types": "npm:^0.0.6"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
-    "@xmtp/proto": "npm:3.44.0"
+    "@xmtp/proto": "npm:3.45.0"
     "@xmtp/tsconfig": "workspace:*"
     "@xmtp/xmtp-js": "npm:^11.4.1"
     eslint: "npm:^8.57.0"
@@ -4265,7 +4265,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmtp/proto@npm:3.44.0, @xmtp/proto@npm:^3.29.0":
+"@xmtp/proto@npm:3.45.0":
+  version: 3.45.0
+  resolution: "@xmtp/proto@npm:3.45.0"
+  dependencies:
+    long: "npm:^5.2.0"
+    protobufjs: "npm:^7.0.0"
+    rxjs: "npm:^7.8.0"
+    undici: "npm:^5.8.1"
+  checksum: 10/8f9cb9de2265db8c329edbb6e17af117fd7a2ad6a688b3a353e103ce609d57f2df682aae481e6a4aa9df07fe7135cac8ba6e5a91f69a7d7a9f4946b2083e3a02
+  languageName: node
+  linkType: hard
+
+"@xmtp/proto@npm:^3.29.0":
   version: 3.44.0
   resolution: "@xmtp/proto@npm:3.44.0"
   dependencies:
