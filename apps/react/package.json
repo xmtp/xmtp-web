@@ -19,7 +19,7 @@
   "dependencies": {
     "@heroicons/react": "^2.1.1",
     "@rainbow-me/rainbowkit": "^2.0.1",
-    "@tanstack/react-query": "^5.24.1",
+    "@tanstack/react-query": "^5.25.0",
     "@xmtp/content-type-reaction": "^1.1.6",
     "@xmtp/content-type-remote-attachment": "^1.1.7",
     "@xmtp/content-type-reply": "^1.1.8",
@@ -29,14 +29,14 @@
     "react-18-blockies": "^1.0.6",
     "react-dom": "^18.2.0",
     "viem": "^2.7.15",
-    "wagmi": "^2.5.7"
+    "wagmi": "^2.5.8"
   },
   "devDependencies": {
-    "@types/react": "^18.2.59",
+    "@types/react": "^18.2.64",
     "@xmtp/tsconfig": "workspace:*",
     "eslint": "^8.57.0",
     "eslint-config-xmtp-web": "workspace:*",
     "prettier": "^3.2.5",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   }
 }
