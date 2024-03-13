@@ -95,7 +95,7 @@ export const useConsent = () => {
         throw new Error("XMTP client is required");
       }
       const newEntries = await client.contacts.loadConsentList(startTime);
-      if (newEntries) {
+      if (newEntries.length > 0) {
         // update DB
         await bulkPutConsentState(
           newEntries.map((entry) => ({
@@ -118,7 +118,7 @@ export const useConsent = () => {
     // clear consent DB table
     await db.table("consent").clear();
     const newEntries = await client?.contacts.refreshConsentList();
-    if (newEntries) {
+    if (newEntries.length > 0) {
       // update DB
       await bulkPutConsentState(
         newEntries.map((entry) => ({
