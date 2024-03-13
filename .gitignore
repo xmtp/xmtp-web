@@ -52,3 +52,14 @@ build
 
 # typedocs
 docs
+
+# next.js
+.next
+out
+next-env.d.ts
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo

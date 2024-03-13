@@ -12,5 +12,9 @@
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@xmtp/react-app", "@xmtp/react-vite-example"]
+  "ignore": [
+    "@xmtp/react-app",
+    "@xmtp/react-vite-example",
+    "@xmtp/nextjs-example"
+  ]
 }
