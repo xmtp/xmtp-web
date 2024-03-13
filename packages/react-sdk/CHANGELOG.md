@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 5.2.0
+
+### Minor Changes
+
+- 424041b: Upgrade to latest JS SDK and content types
+
 ## 5.1.0
 
 ### Minor Changes
