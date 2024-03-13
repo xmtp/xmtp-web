@@ -70,12 +70,12 @@
     ]
   },
   "dependencies": {
-    "@xmtp/content-type-reaction": "^1.1.6",
-    "@xmtp/content-type-remote-attachment": "^1.1.7",
-    "@xmtp/content-type-reply": "^1.1.8",
-    "@xmtp/xmtp-js": "^11.4.1",
-    "async-mutex": "^0.4.1",
-    "date-fns": "^3.3.1",
+    "@xmtp/content-type-reaction": "^1.1.7",
+    "@xmtp/content-type-remote-attachment": "^1.1.8",
+    "@xmtp/content-type-reply": "^1.1.9",
+    "@xmtp/xmtp-js": "^11.5.0",
+    "async-mutex": "^0.5.0",
+    "date-fns": "^3.4.0",
     "dexie": "^3.2.6",
     "dexie-react-hooks": "^1.1.7",
     "react": "^18.2.0",

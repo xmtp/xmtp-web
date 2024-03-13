@@ -4178,39 +4178,39 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xmtp/content-type-reaction@npm:^1.1.6":
-  version: 1.1.6
-  resolution: "@xmtp/content-type-reaction@npm:1.1.6"
+"@xmtp/content-type-reaction@npm:^1.1.7":
+  version: 1.1.7
+  resolution: "@xmtp/content-type-reaction@npm:1.1.7"
   dependencies:
     "@xmtp/xmtp-js": "npm:^11.3.12"
   peerDependencies:
     "@xmtp/xmtp-js": ^11.1.1
-  checksum: 10/68c8a1b76d9a029f6740175874402f85a89fd084b41ef83817d8eadd4ed7e8cd786028ad0ac0cecf46ffd6bb9af1a53850e5033384a6134bb8228f4eedd502df
+  checksum: 10/498b9a808c0407e9d5d8062cf75d610f9690921883dc50d678067156c61ddaadc7f36dab219fef43984a377d2cb60a41abf1c547488c26d32898b27cc8d3706f
   languageName: node
   linkType: hard
 
-"@xmtp/content-type-remote-attachment@npm:^1.1.7":
-  version: 1.1.7
-  resolution: "@xmtp/content-type-remote-attachment@npm:1.1.7"
+"@xmtp/content-type-remote-attachment@npm:^1.1.8":
+  version: 1.1.8
+  resolution: "@xmtp/content-type-remote-attachment@npm:1.1.8"
   dependencies:
     "@noble/secp256k1": "npm:^1.7.1"
     "@xmtp/proto": "npm:^3.29.0"
     "@xmtp/xmtp-js": "npm:^11.3.12"
   peerDependencies:
     "@xmtp/xmtp-js": ^11.1.1
-  checksum: 10/91cd9a4be11a04bcde01b112cb002b9743489dd1ec25464323ee6e00d7b6386ddb64022a1331c87f21285b294a495cf6d72fde326b03a55c3f19b7f5d8edface
+  checksum: 10/3c48d2f4d761bddf12bfbb97422db54a9b5e100ad56c67f1411ef091535b62f9e0dc93bc64fccbabeacb39de6e66dafe4e433339fa1320045b2e396f3767e1ce
   languageName: node
   linkType: hard
 
-"@xmtp/content-type-reply@npm:^1.1.8":
-  version: 1.1.8
-  resolution: "@xmtp/content-type-reply@npm:1.1.8"
+"@xmtp/content-type-reply@npm:^1.1.9":
+  version: 1.1.9
+  resolution: "@xmtp/content-type-reply@npm:1.1.9"
   dependencies:
     "@xmtp/proto": "npm:^3.29.0"
     "@xmtp/xmtp-js": "npm:^11.3.12"
   peerDependencies:
     "@xmtp/xmtp-js": ^11.1.1
-  checksum: 10/673e1c6c127101a2d091d337eb3e3d032c0ce593d87515f129b53213bbbf79039b163a54f2a0770c93bb2a6018cd1fd367edf27e349aac415f0a27c5da0b2b53
+  checksum: 10/4160f51eb20f0a3e3e153bf0afec57702ed458c102d3fdba1778b455700b1a9d827e708406078d0fcfc964fce82cac3b326f0158e596e92f7d92cdbe168fbc81
   languageName: node
   linkType: hard
 
@@ -4290,12 +4290,12 @@ __metadata:
     "@rainbow-me/rainbowkit": "npm:^2.0.2"
     "@tanstack/react-query": "npm:^5.28.0"
     "@types/react": "npm:^18.2.65"
-    "@xmtp/content-type-reaction": "npm:^1.1.6"
-    "@xmtp/content-type-remote-attachment": "npm:^1.1.7"
-    "@xmtp/content-type-reply": "npm:^1.1.8"
+    "@xmtp/content-type-reaction": "npm:^1.1.7"
+    "@xmtp/content-type-remote-attachment": "npm:^1.1.8"
+    "@xmtp/content-type-reply": "npm:^1.1.9"
     "@xmtp/react-sdk": "workspace:*"
     "@xmtp/tsconfig": "workspace:*"
-    date-fns: "npm:^3.3.1"
+    date-fns: "npm:^3.4.0"
     eslint: "npm:^8.57.0"
     eslint-config-xmtp-web: "workspace:*"
     prettier: "npm:^3.2.5"
@@ -4321,13 +4321,13 @@ __metadata:
     "@types/uuid": "npm:^9.0.8"
     "@vitejs/plugin-react": "npm:^4.2.1"
     "@vitest/coverage-v8": "npm:^1.3.1"
-    "@xmtp/content-type-reaction": "npm:^1.1.6"
-    "@xmtp/content-type-remote-attachment": "npm:^1.1.7"
-    "@xmtp/content-type-reply": "npm:^1.1.8"
+    "@xmtp/content-type-reaction": "npm:^1.1.7"
+    "@xmtp/content-type-remote-attachment": "npm:^1.1.8"
+    "@xmtp/content-type-reply": "npm:^1.1.9"
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": "npm:^11.4.1"
-    async-mutex: "npm:^0.4.1"
-    date-fns: "npm:^3.3.1"
+    "@xmtp/xmtp-js": "npm:^11.5.0"
+    async-mutex: "npm:^0.5.0"
+    date-fns: "npm:^3.4.0"
     dexie: "npm:^3.2.6"
     dexie-react-hooks: "npm:^1.1.7"
     eslint: "npm:^8.57.0"
@@ -4870,6 +4870,15 @@ __metadata:
   dependencies:
     tslib: "npm:^2.4.0"
   checksum: 10/7e9f77b112b8545beb6612493fae4a8d9d1d6c3f24fc22f4d6d05ce96d1e8d326ac3e743a804cc6d7bf24e7ef0267afb65bb127f99b2e433609684b38933ff1c
+  languageName: node
+  linkType: hard
+
+"async-mutex@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "async-mutex@npm:0.5.0"
+  dependencies:
+    tslib: "npm:^2.4.0"
+  checksum: 10/4c6bfce1cc9cd43f723c4d96403ac5f4757f885c953b839cde6956ec8817ff39623b82d67614de10c7933e21626925882fb9bac367db7d15d7cb4f84228722c9
   languageName: node
   linkType: hard
 
@@ -5794,10 +5803,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^3.3.1":
-  version: 3.3.1
-  resolution: "date-fns@npm:3.3.1"
-  checksum: 10/98231936765dfb6fc6897676319b500a06a39f051b2c3ecbdd541a07ce9b1344b770277b8bfb1049fb7a2f70bf365ac8e6f1e2bb452b10e1a8101d518ca7f95d
+"date-fns@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "date-fns@npm:3.4.0"
+  checksum: 10/38932c99ad28a69a18bd9e2331d0c86a46146d3e9efc92cbc612400a075785231c3271822948eb0377db738fa8a583aa4782d8246a939fe6f188727ea9323c29
   languageName: node
   linkType: hard
 
