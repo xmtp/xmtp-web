@@ -28,6 +28,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "copy-webpack-plugin": "^12.0.2",
     "eslint": "^8.57.0",
     "eslint-config-xmtp-web": "workspace:*",
     "prettier": "^3.2.5",
