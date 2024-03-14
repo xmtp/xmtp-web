@@ -17,6 +17,7 @@ const config = getDefaultConfig({
   transports: {
     [mainnet.id]: http(),
   },
+  ssr: true,
 });
 
 const queryClient = new QueryClient();
