@@ -2,7 +2,6 @@
 
 import "@rainbow-me/rainbowkit/styles.css";
 import "@xmtp/react-app/styles.css";
-import { StrictMode } from "react";
 import { RainbowKitProvider, getDefaultConfig } from "@rainbow-me/rainbowkit";
 import { mainnet } from "@wagmi/core/chains";
 import { http } from "@wagmi/core";
@@ -27,9 +26,7 @@ export default function Home() {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
-          <StrictMode>
-            <App />
-          </StrictMode>
+          <App />
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

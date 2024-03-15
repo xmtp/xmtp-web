@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "XMTP Next.js example",
-  description: "XMTP chat app in Next.js",
+  description: "XMTP chat app using Next.js",
 };
 
 export default function RootLayout({
