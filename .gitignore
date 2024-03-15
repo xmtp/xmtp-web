@@ -63,3 +63,6 @@ next-env.d.ts
 
 # typescript
 *.tsbuildinfo
+
+# remix
+.cache

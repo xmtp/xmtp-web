@@ -15,6 +15,7 @@
   "ignore": [
     "@xmtp/react-app",
     "@xmtp/react-vite-example",
-    "@xmtp/nextjs-example"
+    "@xmtp/nextjs-example",
+    "@xmtp/remix-example"
   ]
 }
