@@ -45,4 +45,16 @@
   /* action colors */
   --xmtp-action-color-primary: var(--xmtp-color-indigo-600);
   --xmtp-action-color-secondary: var(--xmtp-color-gray-200);
+
+  /* address input */
+  --xmtp-address-input-bg-color: #4f46e50d;
+  --xmtp-address-input-border-color: var(--xmtp-action-color-primary);
+
+  /* avatar */
+  --avatar-size: 2.5rem;
+  --avatar-bg-color: rgb(229 231 235);
+
+  /* conversation list */
+  --conversation-list-bg-color: rgb(243 244 246);
+  --conversation-list-border-color: rgb(243 244 246);
 }

@@ -10,7 +10,6 @@ import { Messages } from "./Messages";
 import { NewMessage } from "./NewMessage";
 import { useWallet } from "../hooks/useWallet";
 import { NoSelectedConversationNotification } from "./NoSelectedConversationNotification";
-import xmtpIcon from "../assets/xmtp-icon.png";
 import { Button } from "./library/Button";
 
 export const Inbox: React.FC = () => {
@@ -51,7 +50,7 @@ export const Inbox: React.FC = () => {
     <div className="Inbox">
       <div className="InboxHeader">
         <div className="InboxHeader__xmtp">
-          <img src={xmtpIcon} alt="XMTP logo" width="32" />
+          <img src="/xmtp-icon.png" alt="XMTP logo" width="32" />
         </div>
         <div className="InboxHeader__actions">
           <Button
