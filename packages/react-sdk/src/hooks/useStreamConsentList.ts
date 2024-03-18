@@ -67,11 +67,11 @@ export const useStreamConsentList = (
 
         for await (const action of await stream) {
           // update the local DB, but don't publish to the network
-          if (action.allow) {
-            void allow(action.allow.walletAddresses, true);
+          if (action.allowAddress) {
+            void allow(action.allowAddress.walletAddresses, true);
           }
-          if (action.block) {
-            void deny(action.block.walletAddresses, true);
+          if (action.denyAddress) {
+            void deny(action.denyAddress.walletAddresses, true);
           }
           void onAction?.(action);
         }

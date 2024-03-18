@@ -22,7 +22,6 @@
     "typecheck": "FORCE_COLOR=1 turbo run typecheck"
   },
   "resolutions": {
-    "@xmtp/xmtp-js": "^11.4.1",
     "viem": "2.7.15"
   },
   "dependencies": {

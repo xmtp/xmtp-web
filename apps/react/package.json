@@ -24,6 +24,7 @@
     "@xmtp/content-type-remote-attachment": "^1.1.8",
     "@xmtp/content-type-reply": "^1.1.9",
     "@xmtp/react-sdk": "workspace:*",
+    "@xmtp/xmtp-js": "^11.5.0",
     "date-fns": "^3.4.0",
     "react": "^18.2.0",
     "react-18-blockies": "^1.0.6",
