@@ -21,15 +21,24 @@ These hooks are mostly bindings to the [`xmtp-js` SDK](https://github.com/xmtp
 
 ## Install
 
+The XMTP React SDK requires React, the XMTP JS SDK, and several content types.
+
+**NPM**
+
 ```bash
-# npm
-npm install @xmtp/react-sdk
+npm install react @xmtp/react-sdk @xmtp/xmtp-js @xmtp/content-type-reaction @xmtp/content-type-remote-attachment @xmtp/content-type-reply
+```
 
-# pnpm
-pnpm install @xmtp/react-sdk
+**PNPM**
 
-# yarn
-yarn add @xmtp/react-sdk
+```bash
+pnpm install react @xmtp/react-sdk @xmtp/xmtp-js @xmtp/content-type-reaction @xmtp/content-type-remote-attachment @xmtp/content-type-reply
+```
+
+**Yarn**
+
+```bash
+yarn add react @xmtp/react-sdk @xmtp/xmtp-js @xmtp/content-type-reaction @xmtp/content-type-remote-attachment @xmtp/content-type-reply
 ```
 
 ### Buffer polyfill
