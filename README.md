@@ -9,11 +9,14 @@ To learn more about the contents of this repository, see this README and the REA
 ### Packages
 
 - [`eslint-config-xmtp-web`](https://github.com/xmtp/xmtp-web/blob/main/packages/eslint-config-xmtp-web): An opinionated ESLint configuration for XMTP web projects
-- [`react-sdk`](https://github.com/xmtp/xmtp-web/blob/main/packages/react-sdk): React XMTP client SDK
+- [`react-sdk`](https://github.com/xmtp/xmtp-web/blob/main/packages/react-sdk): XMTP React client SDK
+- [`frames-client`](https://github.com/xmtp/xmtp-web/blob/main/packages/frames-client): XMTP Open Frames client
 
 ### Examples
 
-- [`react-vite`](https://github.com/xmtp/xmtp-web/blob/main/examples/react-vite): A quickstart example app using [React](https://react.dev/), [Vite](https://vitejs.dev/), and [RainbowKit](https://www.rainbowkit.com/)
+- [`react-vite`](https://github.com/xmtp/xmtp-web/blob/main/examples/react-vite): An example app using [React](https://react.dev/), [RainbowKit](https://www.rainbowkit.com/), and [Vite](https://vitejs.dev/).
+- [`nextjs`](https://github.com/xmtp/xmtp-web/blob/main/examples/nextjs): An example app using [React](https://react.dev/), [RainbowKit](https://www.rainbowkit.com/), and [Next.js](https://nextjs.org/).
+- [`remix`](https://github.com/xmtp/xmtp-web/blob/main/examples/remix): An example app using [React](https://react.dev/), [RainbowKit](https://www.rainbowkit.com/), and [Remix](https://remix.run/).
 
 ## Contributing
 
