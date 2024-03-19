@@ -1,5 +1,13 @@
 # @xmtp/react-sdk
 
+## 6.0.0
+
+### Major Changes
+
+- ada4d7f: Reorganize dependencies
+
+  **BREAKING CHANGE:** Some `dependencies` have been moved to `peerDependencies` and must now be installed separately. This includes `react`, `@xmtp/xmtp-js`, `@xmtp/content-type-reaction`, `@xmtp/content-type-remote-attachment`, and `@xmtp/content-type-reply`.
+
 ## 5.2.0
 
 ### Minor Changes
