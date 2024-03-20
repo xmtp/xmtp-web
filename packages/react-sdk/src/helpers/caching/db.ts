@@ -62,58 +62,102 @@ export type GetDBInstanceOptions = {
   version?: number;
 };
 
+const getDbSchema = (db: Dexie) =>
+  JSON.stringify(
+    db.tables
+      .map(({ name, schema }) => ({
+        name,
+        schema: [
+          schema.primKey.src,
+          ...schema.indexes.map((idx) => idx.src).sort(),
+        ].join(","),
+      }))
+      .sort((a, b) => (a.name < b.name ? 1 : -1)),
+  );
+
+const hasSchemaChanged = async (db: Dexie) => {
+  const declaredSchema = getDbSchema(db);
+  const newDb = new Dexie(db.name);
+  await newDb.open();
+  const installedSchema = getDbSchema(newDb);
+  return declaredSchema !== installedSchema;
+};
+
+const checkSchema = async (version: number, schema: Record<string, string>) => {
+  const db = new Dexie("__XMTP__");
+  db.version(version).stores(schema);
+  await db.open();
+  if (await hasSchemaChanged(db)) {
+    throw new Error(
+      `The local DB schema has changed and must be upgraded.
+      
+To upgrade the schema, pass in a value for the "dbVersion" prop of the <XMTPProvider> component greater than ${version}, which is the current value.
+
+For more info, see https://github.com/xmtp/xmtp-web/blob/main/packages/react-sdk/README.md#database-schema-updates`,
+    );
+  }
+};
+
 /**
  * Get a new DB instance using the passed options
  */
 export const getDbInstance = (options?: GetDBInstanceOptions) => {
   const db = options?.db ?? new Dexie("__XMTP__");
 
-  // do not attempt to version the db if it is already open
-  if (!db.isOpen()) {
-    // note that duplicate keys will be overwritten
-    const customSchema = options?.contentTypeConfigs?.reduce(
-      (result, { schema }) => ({
-        ...result,
-        ...schema,
-      }),
-      {} as Record<string, string>,
-    );
-
-    const version = options?.version ?? 1;
-
-    db.version(version).stores({
-      ...customSchema,
-      conversations: `
-        ++id,
-        [walletAddress+topic],
-        [walletAddress+peerAddress],
-        createdAt,
-        peerAddress,
-        topic,
-        updatedAt,
-        walletAddress
-      `,
-      messages: `
-        ++id,
-        [conversationTopic+walletAddress],
-        contentFallback,
-        contentType,
-        conversationTopic,
-        senderAddress,
-        sentAt,
-        status,
-        uuid,
-        walletAddress,
-        xmtpID
-      `,
-      consent: `
-        [walletAddress+peerAddress],
-        peerAddress,
-        state,
-        walletAddress
-      `,
-    });
+  // DB must be closed before versioning and setting schema
+  if (db.isOpen()) {
+    db.close();
   }
+
+  // do not attempt to version the db if it is already open
+  // note that duplicate keys will be overwritten
+  const customSchema = options?.contentTypeConfigs?.reduce(
+    (result, { schema }) => ({
+      ...result,
+      ...schema,
+    }),
+    {} as Record<string, string>,
+  );
+
+  const version = options?.version ?? 1;
+  const dbSchema: Record<string, string> = {
+    ...customSchema,
+    conversations: `
+      ++id,
+      [walletAddress+topic],
+      [walletAddress+peerAddress],
+      createdAt,
+      peerAddress,
+      topic,
+      updatedAt,
+      walletAddress
+    `,
+    messages: `
+      ++id,
+      [conversationTopic+walletAddress],
+      contentFallback,
+      contentType,
+      conversationTopic,
+      senderAddress,
+      sentAt,
+      status,
+      uuid,
+      walletAddress,
+      xmtpID
+    `,
+    consent: `
+      [walletAddress+peerAddress],
+      peerAddress,
+      state,
+      walletAddress
+    `,
+  };
+
+  // set DB version and schema
+  db.version(version).stores(dbSchema);
+
+  // check if there's a schema mismatch
+  void checkSchema(version, dbSchema);
 
   return db;
 };
