@@ -65,6 +65,23 @@ Access the XMTP React SDK [reference documentation](https://xmtp.github.io/xmtp
 
 This client SDK uses a local-first architecture to help you build a production-grade and performant app. To learn more about how we use a local-first architecture, see our [official documentation](https://xmtp.org/docs/build/local-first).
 
+### Database schema updates
+
+When the local DB schema is updated as part of a code change, clients must upgrade their schema version. The default version is `1`.
+
+To specify a new version, use the `dbVersion` prop of the `XMTPProvider` component.
+
+```tsx
+import { XMTPProvider } from "@xmtp/react-sdk";
+import App from "./App.tsx";
+
+export const MyApp: React.FC = () => (
+  <XMTPProvider dbVersion={2}>
+    <App />
+  </XMTPProvider>
+);
+```
+
 ## Usage
 
 Check out our [official documentation](https://xmtp.org/docs/build/get-started/overview?sdk=react) to get started developing with XMTP and React.
