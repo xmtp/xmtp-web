@@ -2925,28 +2925,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@open-frames/proxy-client@npm:^0.2.0":
-  version: 0.2.0
-  resolution: "@open-frames/proxy-client@npm:0.2.0"
+"@open-frames/proxy-client@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "@open-frames/proxy-client@npm:0.2.1"
   dependencies:
-    "@open-frames/proxy-types": "npm:0.1.0"
-  checksum: 10/bed6afee4ea41f35dd38bbbf9f3ae5c9110bc391e1196cb87c42e5fd646b1678451cf5ac975d50eff1c85287f9085ff28dc3752a48fb29158eaca031767d8f96
+    "@open-frames/proxy-types": "npm:0.1.1"
+  checksum: 10/ea6cdfa9d768aee30c1be69ae88a2ce6cf9da042c9ab74fb02346519520095aef4b1d388ea9f886fb4db48379c3b5573a223d3600e5cbb6b021ae4d2d339b4d3
   languageName: node
   linkType: hard
 
-"@open-frames/proxy-types@npm:0.1.0":
-  version: 0.1.0
-  resolution: "@open-frames/proxy-types@npm:0.1.0"
+"@open-frames/proxy-types@npm:0.1.1":
+  version: 0.1.1
+  resolution: "@open-frames/proxy-types@npm:0.1.1"
   peerDependencies:
     typescript: ^5.3.3
-  checksum: 10/c64df8e2760fb02e6185518e6cf70b0e051a2bbe39ef3fe9c86531ac5ff69599e27aaccea5817e55d5119e37299651c9baa88c87518e1fa203337c3e390adbec
+  checksum: 10/ed7ad6d0bb7ac4d872ec4e6c39ddedb24c0a4e29da8a52fcf354f2b0c1778f18e61977b51ee8e62795b95de96ecef27db14a2b79a16e5eefc0dff9d020b7b35b
   languageName: node
   linkType: hard
 
-"@open-frames/types@npm:^0.0.6":
-  version: 0.0.6
-  resolution: "@open-frames/types@npm:0.0.6"
-  checksum: 10/4a4b6d7850c9322dbf8a7df9a7dfddab5096cb1624161f011586c6cd302e3ee789b7e6f0430254249e50dc7e71fbe635a4a76cc053eba114dfd8983879ffbd19
+"@open-frames/types@npm:^0.0.7":
+  version: 0.0.7
+  resolution: "@open-frames/types@npm:0.0.7"
+  checksum: 10/da01d5e43d7e0023015d6df104163d4efe1a89b6280d54a0846a1113df6243c8531df2dd378b20e4a827e8d77db4459cd73b2ce7bcc05a799e9b989fd13d62cf
   languageName: node
   linkType: hard
 
@@ -5408,8 +5408,8 @@ __metadata:
   resolution: "@xmtp/frames-client@workspace:packages/frames-client"
   dependencies:
     "@noble/hashes": "npm:^1.3.3"
-    "@open-frames/proxy-client": "npm:^0.2.0"
-    "@open-frames/types": "npm:^0.0.6"
+    "@open-frames/proxy-client": "npm:^0.2.1"
+    "@open-frames/types": "npm:^0.0.7"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
     "@xmtp/proto": "npm:3.45.0"
