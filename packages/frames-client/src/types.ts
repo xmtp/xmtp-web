@@ -25,7 +25,10 @@ export type FramePostPayload = {
   clientProtocol: `xmtp@${string}`;
   untrustedData: FramePostUntrustedData;
   trustedData: FramePostTrustedData;
-  transactionId?: `0x${string}`;
+};
+
+export type TransactionFramePostPayload = FramePostPayload & {
+  transactionId: `0x${string}`;
 };
 
 type DmActionInputs = {
