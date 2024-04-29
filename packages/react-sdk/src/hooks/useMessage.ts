@@ -28,8 +28,8 @@ export type SendMessageOptions = Omit<SendOptions, "contentType"> &
   Pick<UseSendMessageOptions, "onSuccess" | "onError">;
 
 /**
- * This hook is for internal use only and wraps helper functions to include
- * the client, DB instance, and other values for easier consumption.
+ * This hook wraps helper functions to include the client, DB instance, and
+ * other values for easier consumption.
  */
 export const useMessage = () => {
   const xmtpContext = useContext(XMTPContext);
