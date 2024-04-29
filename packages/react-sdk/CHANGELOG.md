@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 6.0.1
+
+### Patch Changes
+
+- ab0daa6: Export `useMessage` hook
+
 ## 6.0.0
 
 ### Major Changes
