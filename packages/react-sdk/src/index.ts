@@ -34,6 +34,7 @@ export {
 // messages
 export { useLastMessage } from "./hooks/useLastMessage";
 export { useCanMessage } from "./hooks/useCanMessage";
+export { useMessage } from "./hooks/useMessage";
 export { useMessages } from "./hooks/useMessages";
 export { useSendMessage } from "./hooks/useSendMessage";
 export { useResendMessage } from "./hooks/useResendMessage";
