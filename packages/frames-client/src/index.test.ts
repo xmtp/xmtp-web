@@ -33,6 +33,7 @@ describe("signFrameAction", () => {
 
     // address references the address associated with initiating a transaction
     expect(signedPayload.untrustedData.address).toEqual("0x...");
+
     expect(signedPayload.untrustedData.url).toEqual(frameUrl);
     expect(signedPayload.untrustedData.buttonIndex).toEqual(buttonIndex);
     expect(
@@ -123,6 +124,36 @@ describe("signFrameAction", () => {
       expect(downloadedMedia.headers.get("content-type")).toEqual("image/png");
     },
     // Add a long timeout because Vercel cold starts can be slow
+    { timeout: 20000 },
+  );
+  it(
+    "sends back the button postUrl for a tx frame in frame info",
+    async () => {
+      const frameUrl =
+        "https://tx-boilerplate-frame-git-main-xmtp-labs.vercel.app/";
+      const metadata = await framesClient.proxy.readMetadata(frameUrl);
+      expect(metadata).toBeDefined();
+      expect(metadata.frameInfo).toMatchObject({
+        acceptedClients: {
+          xmtp: "2024-02-09",
+          farcaster: "vNext",
+        },
+        buttons: {
+          "1": {
+            label: "Make transaction",
+            action: "tx",
+            target:
+              "https://tx-boilerplate-frame-git-main-xmtp-labs.vercel.app/api/transaction",
+            postUrl:
+              "https://tx-boilerplate-frame-git-main-xmtp-labs.vercel.app/api/transaction-success",
+          },
+        },
+        image: {
+          content:
+            "https://tx-boilerplate-frame-git-main-xmtp-labs.vercel.app/api/og?transaction=null",
+        },
+      });
+    },
     { timeout: 20000 },
   );
 });
