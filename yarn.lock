@@ -2925,21 +2925,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@open-frames/proxy-client@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@open-frames/proxy-client@npm:0.3.0"
+"@open-frames/proxy-client@npm:^0.3.2":
+  version: 0.3.2
+  resolution: "@open-frames/proxy-client@npm:0.3.2"
   dependencies:
-    "@open-frames/proxy-types": "npm:0.2.0"
-  checksum: 10/cca2f209be860e9328cf7768d3da3672eb5f079c9b27e31536e25cd1a59baeba7a074305a68236a222d7e6c72d7877b3dfcc49c750eb98072438f324b83b75dd
+    "@open-frames/proxy-types": "npm:0.2.2"
+  checksum: 10/43a4ee1322625665c93f548fcaf957f52a37e31a9d5f77e1979b3ab127bdd2e3156f632b9d3075f6dabbe9467ac4d5640cd5d82bc4905ee3b2d2771e87d9f9c4
   languageName: node
   linkType: hard
 
-"@open-frames/proxy-types@npm:0.2.0":
-  version: 0.2.0
-  resolution: "@open-frames/proxy-types@npm:0.2.0"
+"@open-frames/proxy-types@npm:0.2.2":
+  version: 0.2.2
+  resolution: "@open-frames/proxy-types@npm:0.2.2"
   peerDependencies:
     typescript: ^5.3.3
-  checksum: 10/7bb09f290624abf75097055dad57657ba244a60f72dec3f839aaa08aeb9b7e98f49a1423f48f98620202ee2c1aa8075e5cfbd0888876f3f277cae98d0e976909
+  checksum: 10/fc1ba0ccc4e5b5cfc8e9507d25f1e7a0be974068a1fe59d135b0aa17bc1d2f83eeb332a26942d8d3a67f6d6c29ebf4356693738e5f7a975c84cea2f84e5d0687
   languageName: node
   linkType: hard
 
@@ -5408,7 +5408,7 @@ __metadata:
   resolution: "@xmtp/frames-client@workspace:packages/frames-client"
   dependencies:
     "@noble/hashes": "npm:^1.3.3"
-    "@open-frames/proxy-client": "npm:^0.3.0"
+    "@open-frames/proxy-client": "npm:^0.3.2"
     "@open-frames/types": "npm:^0.1.0"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
