@@ -2943,13 +2943,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@open-frames/types@npm:^0.0.7":
-  version: 0.0.7
-  resolution: "@open-frames/types@npm:0.0.7"
-  checksum: 10/da01d5e43d7e0023015d6df104163d4efe1a89b6280d54a0846a1113df6243c8531df2dd378b20e4a827e8d77db4459cd73b2ce7bcc05a799e9b989fd13d62cf
-  languageName: node
-  linkType: hard
-
 "@open-frames/types@npm:^0.1.0":
   version: 0.1.0
   resolution: "@open-frames/types@npm:0.1.0"
@@ -5378,14 +5371,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@xmtp/consent-proof-signature@workspace:packages/consent-proof-signature"
   dependencies:
-    "@open-frames/types": "npm:^0.0.7"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
+    "@xmtp/proto": "npm:3.56.0"
     "@xmtp/tsconfig": "workspace:*"
-    "@xmtp/xmtp-js": "npm:^11.4.1"
     eslint: "npm:^8.57.0"
     eslint-config-xmtp-web: "workspace:*"
     ethers: "npm:^6.11.1"
+    long: "npm:^5.2.3"
     prettier: "npm:^3.2.5"
     prettier-plugin-packagejson: "npm:^2.4.12"
     rollup: "npm:^4.13.0"
@@ -5525,6 +5518,18 @@ __metadata:
     rxjs: "npm:^7.8.0"
     undici: "npm:^5.8.1"
   checksum: 10/936a6e2be4d3ddf65ba58cd46932b3006c73acd1ffd8967274d0e96612fea826de399d7f8df7e90608da68bc870c9cdc61832825cfca7124cb5bc6af22b6242b
+  languageName: node
+  linkType: hard
+
+"@xmtp/proto@npm:3.56.0":
+  version: 3.56.0
+  resolution: "@xmtp/proto@npm:3.56.0"
+  dependencies:
+    long: "npm:^5.2.0"
+    protobufjs: "npm:^7.0.0"
+    rxjs: "npm:^7.8.0"
+    undici: "npm:^5.8.1"
+  checksum: 10/f752e6858692464319d6f22861fe8f23c46d9bb0eb390fe2220e0b4932a4de84be2e9e1cbafc0200e1bfe2a0ed3a3fb6079941630e57fb80e6325bc2a52bf10d
   languageName: node
   linkType: hard
 
