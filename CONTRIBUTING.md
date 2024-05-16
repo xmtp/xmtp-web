@@ -54,3 +54,6 @@ Manual validation requires running a client app such as this [example app](/exam
 ## 🚢 Publishing
 
 This repository uses [changesets](https://github.com/changesets/changesets) to publish updates. Pull requests must contain a changeset in order for changes to be published. The [changeset-bot](https://github.com/apps/changeset-bot) will guide you through this process.
+
+> **Important**  
+> When adding a new package to this repository that will be published, a new granular NPM token must be created to include read/write access to it.
