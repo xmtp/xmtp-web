@@ -2943,10 +2943,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@open-frames/types@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "@open-frames/types@npm:0.1.0"
-  checksum: 10/64a947c0834c9c73e29c7d6ec151a9c3e005baeec034e47ecbca450ec218c598ed7be32ff85087cd7f8403e202e37c9e83d9b4f6a0d4b7e2a562b2cfb30608c3
+"@open-frames/types@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "@open-frames/types@npm:0.1.1"
+  checksum: 10/2e23b984123f760e4fd4f205fb50e89725679563f8830a86d9d0c436315b6df02d336a4ab06c583b31c568103bc2a82dbe23d36356909a80fc9a1c0026cc04ee
   languageName: node
   linkType: hard
 
@@ -5433,7 +5433,7 @@ __metadata:
   dependencies:
     "@noble/hashes": "npm:^1.3.3"
     "@open-frames/proxy-client": "npm:^0.3.2"
-    "@open-frames/types": "npm:^0.1.0"
+    "@open-frames/types": "npm:^0.1.1"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.1.6"
     "@xmtp/proto": "npm:3.61.1"
