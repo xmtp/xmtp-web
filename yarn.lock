@@ -5544,7 +5544,7 @@ __metadata:
     "@xmtp/react-sdk": "workspace:*"
     "@xmtp/tsconfig": "workspace:*"
     "@xmtp/xmtp-js": "npm:^12.0.0"
-    date-fns: "npm:^3.4.0"
+    date-fns: "npm:^3.6.0"
     eslint: "npm:^8.57.0"
     eslint-config-xmtp-web: "workspace:*"
     prettier: "npm:^3.2.5"
@@ -5578,7 +5578,7 @@ __metadata:
     "@xmtp/tsconfig": "workspace:*"
     "@xmtp/xmtp-js": "npm:^12.0.0"
     async-mutex: "npm:^0.5.0"
-    date-fns: "npm:^3.4.0"
+    date-fns: "npm:^3.6.0"
     dexie: "npm:^3.2.6"
     dexie-react-hooks: "npm:^1.1.7"
     eslint: "npm:^8.57.0"
@@ -5593,12 +5593,12 @@ __metadata:
     rollup-plugin-tsconfig-paths: "npm:^1.5.2"
     typedoc: "npm:^0.25.12"
     typescript: "npm:^5.4.2"
-    uuid: "npm:^9.0.1"
+    uuid: "npm:^10.0.0"
     viem: "npm:^2.7.15"
     vite: "npm:^5.1.6"
     vite-tsconfig-paths: "npm:^4.3.1"
     vitest: "npm:^1.3.1"
-    zod: "npm:^3.22.4"
+    zod: "npm:^3.23.8"
   peerDependencies:
     "@xmtp/content-type-primitives": ^1.0.1
     "@xmtp/content-type-reaction": ^1.1.7
@@ -7458,10 +7458,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^3.4.0":
-  version: 3.4.0
-  resolution: "date-fns@npm:3.4.0"
-  checksum: 10/38932c99ad28a69a18bd9e2331d0c86a46146d3e9efc92cbc612400a075785231c3271822948eb0377db738fa8a583aa4782d8246a939fe6f188727ea9323c29
+"date-fns@npm:^3.6.0":
+  version: 3.6.0
+  resolution: "date-fns@npm:3.6.0"
+  checksum: 10/cac35c58926a3b5d577082ff2b253612ec1c79eb6754fddef46b6a8e826501ea2cb346ecbd211205f1ba382ddd1f9d8c3f00bf433ad63cc3063454d294e3a6b8
   languageName: node
   linkType: hard
 
@@ -17764,21 +17764,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"uuid@npm:^10.0.0":
+  version: 10.0.0
+  resolution: "uuid@npm:10.0.0"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 10/35aa60614811a201ff90f8ca5e9ecb7076a75c3821e17f0f5ff72d44e36c2d35fcbc2ceee9c4ac7317f4cc41895da30e74f3885e30313bee48fda6338f250538
+  languageName: node
+  linkType: hard
+
 "uuid@npm:^8.3.2":
   version: 8.3.2
   resolution: "uuid@npm:8.3.2"
   bin:
     uuid: dist/bin/uuid
   checksum: 10/9a5f7aa1d6f56dd1e8d5f2478f855f25c645e64e26e347a98e98d95781d5ed20062d6cca2eecb58ba7c84bc3910be95c0451ef4161906abaab44f9cb68ffbdd1
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^9.0.1":
-  version: 9.0.1
-  resolution: "uuid@npm:9.0.1"
-  bin:
-    uuid: dist/bin/uuid
-  checksum: 10/9d0b6adb72b736e36f2b1b53da0d559125ba3e39d913b6072f6f033e0c87835b414f0836b45bcfaf2bdf698f92297fea1c3cc19b0b258bc182c9c43cc0fab9f2
   languageName: node
   linkType: hard
 
@@ -18601,10 +18601,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.22.4":
-  version: 3.22.4
-  resolution: "zod@npm:3.22.4"
-  checksum: 10/73622ca36a916f785cf528fe612a884b3e0f183dbe6b33365a7d0fc92abdbedf7804c5e2bd8df0a278e1472106d46674281397a3dd800fa9031dc3429758c6ac
+"zod@npm:^3.23.8":
+  version: 3.23.8
+  resolution: "zod@npm:3.23.8"
+  checksum: 10/846fd73e1af0def79c19d510ea9e4a795544a67d5b34b7e1c4d0425bf6bfd1c719446d94cdfa1721c1987d891321d61f779e8236fde517dc0e524aa851a6eff1
   languageName: node
   linkType: hard
 
