@@ -7,7 +7,7 @@
 - cd41019:
   - Upgraded to latest JS SDK
   - Removed some re-exports from the JS SDK
- 
+
 ### BREAKING CHANGES
 
 With this update, the following are no longer exported from the React SDK: `ContentTypeId`, `CodecRegistry`, `ContentCodec`, `EncodedContent`, `TextCodec`, and `ContentTypeText`.
