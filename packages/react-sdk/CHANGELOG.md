@@ -4,8 +4,17 @@
 
 ### Major Changes
 
-- cd41019: - Upgraded to latest JS SDK
-  - Removed `ContentTypeId` and `ContentTypeText` from exports
+- cd41019:
+  - Upgraded to latest JS SDK
+  - Removed some re-exports from the JS SDK
+ 
+### BREAKING CHANGES
+
+With this update, the following are no longer exported from the React SDK: `ContentTypeId`, `CodecRegistry`, `ContentCodec`, `EncodedContent`, `TextCodec`, and `ContentTypeText`.
+
+For content type primitives, use the new `@xmtp/content-type-primitives` package. It exports `ContentTypeId`, `CodecRegistry`, `ContentCodec`, and `EncodedContent`.
+
+The text content type and codec can now be found at `@xmtp/content-type-text`. It exports `ContentTypeText`, `Encoding`, and `TextCodec`.
 
 ## 6.0.1
 
