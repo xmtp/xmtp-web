@@ -71,6 +71,7 @@
   },
   "dependencies": {
     "@xmtp/content-type-primitives": "^1.0.1",
+    "@xmtp/content-type-text": "^1.0.0",
     "async-mutex": "^0.5.0",
     "date-fns": "^3.4.0",
     "dexie": "^3.2.6",
