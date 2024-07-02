@@ -25,9 +25,11 @@ export default defineConfig([
       }),
     ],
     external: [
+      "@xmtp/content-type-primitives",
       "@xmtp/content-type-reaction",
       "@xmtp/content-type-remote-attachment",
       "@xmtp/content-type-reply",
+      "@xmtp/content-type-text",
       "@xmtp/xmtp-js",
       "async-mutex",
       "date-fns",
