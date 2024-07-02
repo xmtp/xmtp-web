@@ -1,8 +1,8 @@
 import type { Reply } from "@xmtp/content-type-reply";
 import { ReplyCodec, ContentTypeReply } from "@xmtp/content-type-reply";
-import { ContentTypeId } from "@xmtp/xmtp-js";
 import type { Dexie, Table } from "dexie";
 import { z } from "zod";
+import { ContentTypeId } from "@xmtp/content-type-primitives";
 import type {
   CachedMessage,
   CachedMessageWithId,

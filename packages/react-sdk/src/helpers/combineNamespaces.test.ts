@@ -5,7 +5,7 @@ import {
 } from "@xmtp/content-type-remote-attachment";
 import { ContentTypeReaction } from "@xmtp/content-type-reaction";
 import { ContentTypeReply } from "@xmtp/content-type-reply";
-import { ContentTypeText } from "@xmtp/xmtp-js";
+import { ContentTypeText } from "@xmtp/content-type-text";
 import { combineNamespaces } from "@/helpers/combineNamespaces";
 import { attachmentContentTypeConfig } from "@/helpers/caching/contentTypes/attachment";
 import { reactionContentTypeConfig } from "@/helpers/caching/contentTypes/reaction";

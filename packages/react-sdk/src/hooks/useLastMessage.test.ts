@@ -1,9 +1,13 @@
 import { it, expect, describe, beforeEach } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
-import { ContentTypeText } from "@xmtp/xmtp-js";
+import { ContentTypeText } from "@xmtp/content-type-text";
 import { getDbInstance, clearCache } from "@/helpers/caching/db";
 import type { CachedMessage } from "@/helpers/caching/messages";
 import { saveMessage } from "@/helpers/caching/messages";
+
+// this import must be after the mocks
+// eslint-disable-next-line import/first
+import { useLastMessage } from "./useLastMessage";
 
 const db = getDbInstance();
 const testWalletAddress = "testAddress";
@@ -22,10 +26,6 @@ vi.mock("./useClient", () => ({
     },
   }),
 }));
-
-// this import must be after the mocks
-// eslint-disable-next-line import/first
-import { useLastMessage } from "./useLastMessage";
 
 describe("useLastMessage", () => {
   beforeEach(async () => {

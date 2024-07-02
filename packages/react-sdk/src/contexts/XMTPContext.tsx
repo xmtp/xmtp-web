@@ -1,6 +1,7 @@
 import { createContext, useMemo, useState } from "react";
-import type { Client, ContentCodec } from "@xmtp/xmtp-js";
+import type { Client } from "@xmtp/xmtp-js";
 import Dexie from "dexie";
+import type { ContentCodec } from "@xmtp/content-type-primitives";
 import type {
   ContentTypeConfiguration,
   ContentTypeMessageProcessors,

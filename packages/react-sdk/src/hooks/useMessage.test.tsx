@@ -1,7 +1,8 @@
 import { it, expect, describe, vi, beforeEach } from "vitest";
 import { act, renderHook } from "@testing-library/react";
-import { Client, ContentTypeText } from "@xmtp/xmtp-js";
+import { Client } from "@xmtp/xmtp-js";
 import type { PropsWithChildren } from "react";
+import { ContentTypeText } from "@xmtp/content-type-text";
 import { useMessage } from "@/hooks/useMessage";
 import { clearCache, getDbInstance } from "@/helpers/caching/db";
 import {

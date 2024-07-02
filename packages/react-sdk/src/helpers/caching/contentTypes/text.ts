@@ -1,4 +1,4 @@
-import { ContentTypeText } from "@xmtp/xmtp-js";
+import { ContentTypeText } from "@xmtp/content-type-text";
 import type { ContentTypeConfiguration } from "../db";
 
 const NAMESPACE = "text";

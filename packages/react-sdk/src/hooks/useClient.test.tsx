@@ -1,7 +1,8 @@
 import { it, expect, describe, vi, beforeEach } from "vitest";
 import { act, renderHook, waitFor } from "@testing-library/react";
-import { Client, TextCodec } from "@xmtp/xmtp-js";
+import { Client } from "@xmtp/xmtp-js";
 import type { PropsWithChildren } from "react";
+import { TextCodec } from "@xmtp/content-type-text";
 import { useClient } from "@/hooks/useClient";
 import { XMTPProvider } from "@/contexts/XMTPContext";
 import { createRandomWallet } from "@/helpers/testing";

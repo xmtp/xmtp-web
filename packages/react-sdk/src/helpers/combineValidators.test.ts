@@ -1,5 +1,5 @@
 import { it, expect, describe } from "vitest";
-import { ContentTypeText } from "@xmtp/xmtp-js";
+import { ContentTypeText } from "@xmtp/content-type-text";
 import { combineValidators } from "@/helpers/combineValidators";
 import { attachmentContentTypeConfig } from "@/helpers/caching/contentTypes/attachment";
 import { reactionContentTypeConfig } from "@/helpers/caching/contentTypes/reaction";
