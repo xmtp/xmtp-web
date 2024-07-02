@@ -1,9 +1,10 @@
-import { ContentTypeId, ContentTypeText } from "@xmtp/react-sdk";
 import type { CachedMessage } from "@xmtp/react-sdk";
 import {
   ContentTypeAttachment,
   ContentTypeRemoteAttachment,
 } from "@xmtp/content-type-remote-attachment";
+import { ContentTypeId } from "@xmtp/content-type-primitives";
+import { ContentTypeText } from "@xmtp/content-type-text";
 import { AttachmentContent } from "./AttachmentContent";
 import styles from "./MessageContent.module.css";
 

@@ -125,13 +125,7 @@ export type {
   ContentTypeMetadataValues,
 } from "./helpers/caching/db";
 
-export {
-  Client,
-  SortDirection,
-  ContentTypeId,
-  ContentTypeText,
-  Compression,
-} from "@xmtp/xmtp-js";
+export { Client, SortDirection, Compression } from "@xmtp/xmtp-js";
 
 // re-export types from the JS SDK
 export type * from "@xmtp/xmtp-js";

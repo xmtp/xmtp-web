@@ -1,7 +1,7 @@
 import { format } from "date-fns";
-import { ContentTypeId } from "@xmtp/react-sdk";
 import type { CachedConversation, CachedMessage } from "@xmtp/react-sdk";
 import { ContentTypeReply } from "@xmtp/content-type-reply";
+import { ContentTypeId } from "@xmtp/content-type-primitives";
 import styles from "./Message.module.css";
 import { MessageContent } from "./MessageContent";
 import { ReplyContent } from "./ReplyContent";

@@ -1,7 +1,7 @@
 import { it, expect, describe, vi, beforeEach } from "vitest";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import type { ConversationV2 } from "@xmtp/xmtp-js";
-import { ContentTypeText } from "@xmtp/xmtp-js";
+import { ContentTypeText } from "@xmtp/content-type-text";
 import { useStartConversation } from "@/hooks/useStartConversation";
 import {
   toCachedConversation,

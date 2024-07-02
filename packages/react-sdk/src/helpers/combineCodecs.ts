@@ -1,4 +1,4 @@
-import type { ContentCodec } from "@xmtp/xmtp-js";
+import type { ContentCodec } from "@xmtp/content-type-primitives";
 import {
   defaultContentTypeConfigs,
   type ContentTypeConfiguration,

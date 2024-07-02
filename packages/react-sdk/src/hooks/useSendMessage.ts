@@ -1,5 +1,6 @@
-import type { ContentTypeId, DecodedMessage, SendOptions } from "@xmtp/xmtp-js";
+import type { DecodedMessage, SendOptions } from "@xmtp/xmtp-js";
 import { useCallback, useState } from "react";
+import type { ContentTypeId } from "@xmtp/content-type-primitives";
 import type { OnError } from "../sharedTypes";
 import { type CachedConversation } from "@/helpers/caching/conversations";
 import { useMessage } from "@/hooks/useMessage";

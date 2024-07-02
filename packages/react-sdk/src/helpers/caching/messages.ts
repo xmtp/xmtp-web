@@ -4,11 +4,12 @@ import type {
   DecodedMessage,
   SendOptions,
 } from "@xmtp/xmtp-js";
-import { ContentTypeText, decodeContent } from "@xmtp/xmtp-js";
+import { decodeContent } from "@xmtp/xmtp-js";
 import type { Table } from "dexie";
 import type Dexie from "dexie";
 import { isAfter } from "date-fns";
 import { v4 } from "uuid";
+import { ContentTypeText } from "@xmtp/content-type-text";
 import type {
   ContentTypeMessageProcessors,
   ContentTypeMessageValidators,

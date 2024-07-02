@@ -1,10 +1,11 @@
 import { it, expect, describe, vi, beforeEach } from "vitest";
-import { Client, ContentTypeText } from "@xmtp/xmtp-js";
+import { Client } from "@xmtp/xmtp-js";
 import type { Reaction } from "@xmtp/content-type-reaction";
 import {
   ContentTypeReaction,
   ReactionCodec,
 } from "@xmtp/content-type-reaction";
+import { ContentTypeText } from "@xmtp/content-type-text";
 import type { CachedReaction, CachedReactionsTable } from "./reaction";
 import {
   reactionContentTypeConfig,

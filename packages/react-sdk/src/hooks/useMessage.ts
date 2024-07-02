@@ -1,6 +1,7 @@
 import { useCallback, useContext } from "react";
-import { ContentTypeText } from "@xmtp/xmtp-js";
-import type { SendOptions, ContentTypeId } from "@xmtp/xmtp-js";
+import type { SendOptions } from "@xmtp/xmtp-js";
+import type { ContentTypeId } from "@xmtp/content-type-primitives";
+import { ContentTypeText } from "@xmtp/content-type-text";
 import { XMTPContext } from "@/contexts/XMTPContext";
 import {
   updateMessage as _updateMessage,

@@ -1,6 +1,6 @@
 import { it, expect, describe, vi, beforeEach } from "vitest";
 import { act, renderHook, waitFor } from "@testing-library/react";
-import { ContentTypeText } from "@xmtp/xmtp-js";
+import { ContentTypeText } from "@xmtp/content-type-text";
 import { useResendMessage } from "@/hooks/useResendMessage";
 import type { CachedMessageWithId } from "@/helpers/caching/messages";
 

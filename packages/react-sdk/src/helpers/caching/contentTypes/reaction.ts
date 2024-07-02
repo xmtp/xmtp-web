@@ -3,10 +3,10 @@ import {
   ReactionCodec,
   ContentTypeReaction,
 } from "@xmtp/content-type-reaction";
-import { ContentTypeId } from "@xmtp/xmtp-js";
 import type { Dexie, Table } from "dexie";
 import { Mutex } from "async-mutex";
 import { z } from "zod";
+import { ContentTypeId } from "@xmtp/content-type-primitives";
 import type {
   ContentTypeConfiguration,
   ContentTypeMessageProcessor,

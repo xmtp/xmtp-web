@@ -9,7 +9,7 @@ import {
   ContentTypeRemoteAttachment,
   RemoteAttachmentCodec,
 } from "@xmtp/content-type-remote-attachment";
-import { ContentTypeText } from "@xmtp/xmtp-js";
+import { ContentTypeText } from "@xmtp/content-type-text";
 import {
   getAttachment,
   hasAttachment,

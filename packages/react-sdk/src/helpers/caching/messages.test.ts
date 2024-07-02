@@ -1,6 +1,7 @@
 import type { ArgumentsType } from "vitest";
 import { it, expect, describe, beforeEach } from "vitest";
-import { Client, ContentTypeText, DecodedMessage } from "@xmtp/xmtp-js";
+import { Client, DecodedMessage } from "@xmtp/xmtp-js";
+import { ContentTypeText } from "@xmtp/content-type-text";
 import type { CachedMessage } from "@/helpers/caching/messages";
 import {
   saveMessage,

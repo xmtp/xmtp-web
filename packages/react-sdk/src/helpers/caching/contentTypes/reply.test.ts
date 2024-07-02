@@ -1,7 +1,8 @@
 import { it, expect, describe, vi, beforeEach } from "vitest";
-import { Client, ContentTypeText } from "@xmtp/xmtp-js";
+import { Client } from "@xmtp/xmtp-js";
 import type { Reply } from "@xmtp/content-type-reply";
 import { ContentTypeReply, ReplyCodec } from "@xmtp/content-type-reply";
+import { ContentTypeText } from "@xmtp/content-type-text";
 import {
   processReply,
   hasReply,

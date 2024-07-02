@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
-import type { ContentTypeId, InvitationContext } from "@xmtp/xmtp-js";
+import type { InvitationContext } from "@xmtp/xmtp-js";
+import type { ContentTypeId } from "@xmtp/content-type-primitives";
 import { useClient } from "./useClient";
 import type { OnError } from "../sharedTypes";
 import type { SendMessageOptions } from "@/hooks/useMessage";

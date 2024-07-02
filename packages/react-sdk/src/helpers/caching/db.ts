@@ -1,5 +1,6 @@
 import Dexie from "dexie";
-import type { Client, ContentCodec } from "@xmtp/xmtp-js";
+import type { Client } from "@xmtp/xmtp-js";
+import type { ContentCodec } from "@xmtp/content-type-primitives";
 import type { CachedMessage } from "@/helpers/caching/messages";
 import type { CachedConversation } from "./conversations";
 import { textContentTypeConfig } from "./contentTypes/text";
