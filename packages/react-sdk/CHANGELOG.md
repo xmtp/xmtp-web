@@ -1,5 +1,12 @@
 # @xmtp/react-sdk
 
+## 7.0.0
+
+### Major Changes
+
+- cd41019: - Upgraded to latest JS SDK
+  - Removed `ContentTypeId` and `ContentTypeText` from exports
+
 ## 6.0.1
 
 ### Patch Changes
