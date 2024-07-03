@@ -98,7 +98,7 @@
     "eslint": "^8.57.0",
     "eslint-config-xmtp-web": "workspace:*",
     "fake-indexeddb": "^5.0.2",
-    "happy-dom": "^13.8.2",
+    "happy-dom": "^14.12.3",
     "prettier": "^3.3.2",
     "prettier-plugin-packagejson": "^2.5.0",
     "react": "^18.2.0",
