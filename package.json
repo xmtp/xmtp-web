@@ -22,7 +22,7 @@
     "typecheck": "FORCE_COLOR=1 turbo run typecheck"
   },
   "resolutions": {
-    "viem": "2.7.15"
+    "viem": "^2.17.0"
   },
   "dependencies": {
     "@changesets/changelog-git": "^0.2.0",
