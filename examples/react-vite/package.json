@@ -16,27 +16,28 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@rainbow-me/rainbowkit": "^2.0.2",
-    "@tanstack/react-query": "^5.28.0",
-    "@wagmi/core": "^2.6.6",
+    "@rainbow-me/rainbowkit": "^2.1.3",
+    "@tanstack/react-query": "^5.49.2",
+    "@wagmi/core": "^2.11.6",
     "@xmtp/react-app": "workspace:*",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "viem": "^2.7.15",
-    "wagmi": "^2.5.8"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "viem": "^2.17.0",
+    "wagmi": "^2.10.9"
   },
   "devDependencies": {
-    "@types/react": "^18.2.65",
-    "@types/react-dom": "^18.2.22",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
     "@xmtp/tsconfig": "workspace:*",
-    "autoprefixer": "^10.4.18",
+    "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
     "eslint-config-xmtp-web": "workspace:*",
-    "postcss": "^8.4.35",
-    "postcss-preset-env": "^9.5.0",
-    "prettier": "^3.2.5",
-    "typescript": "^5.4.2",
-    "vite": "^5.1.6"
+    "postcss": "^8.4.39",
+    "postcss-preset-env": "^9.5.15",
+    "prettier": "^3.3.2",
+    "prettier-plugin-packagejson": "^2.5.0",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.3"
   }
 }

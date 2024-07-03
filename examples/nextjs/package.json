@@ -7,31 +7,32 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .next",
     "dev": "next dev",
     "format": "yarn format:base -w .",
-    "format:base": "prettier --ignore-path ../../.gitignore --ignore",
+    "format:base": "prettier --ignore-path ../../.gitignore",
     "format:check": "yarn format:base -c .",
     "lint": "eslint . --ignore-path ../../.gitignore",
     "start": "next start",
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@rainbow-me/rainbowkit": "^2.0.2",
-    "@tanstack/react-query": "^5.28.0",
-    "@wagmi/core": "^2.6.6",
+    "@rainbow-me/rainbowkit": "^2.1.3",
+    "@tanstack/react-query": "^5.49.2",
+    "@wagmi/core": "^2.11.6",
     "@xmtp/react-app": "workspace:*",
     "next": "14.2.4",
-    "react": "^18",
-    "react-dom": "^18",
-    "viem": "^2.7.15",
-    "wagmi": "^2.5.8"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "viem": "^2.17.0",
+    "wagmi": "^2.10.9"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/node": "^20.14.9",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
     "copy-webpack-plugin": "^12.0.2",
     "eslint": "^8.57.0",
     "eslint-config-xmtp-web": "workspace:*",
-    "prettier": "^3.2.5",
-    "typescript": "^5"
+    "prettier": "^3.3.2",
+    "prettier-plugin-packagejson": "^2.5.0",
+    "typescript": "^5.5.3"
   }
 }
