@@ -7,7 +7,7 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .next",
     "dev": "next dev",
     "format": "yarn format:base -w .",
-    "format:base": "prettier --ignore-path ../../.gitignore --ignore",
+    "format:base": "prettier --ignore-path ../../.gitignore",
     "format:check": "yarn format:base -c .",
     "lint": "eslint . --ignore-path ../../.gitignore",
     "start": "next start",
@@ -31,7 +31,8 @@
     "copy-webpack-plugin": "^12.0.2",
     "eslint": "^8.57.0",
     "eslint-config-xmtp-web": "workspace:*",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.2",
+    "prettier-plugin-packagejson": "^2.5.0",
     "typescript": "^5"
   }
 }

@@ -39,7 +39,8 @@
     "@xmtp/tsconfig": "workspace:*",
     "eslint": "^8.57.0",
     "eslint-config-xmtp-web": "workspace:*",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.2",
+    "prettier-plugin-packagejson": "^2.5.0",
     "typescript": "^5.4.2"
   }
 }
