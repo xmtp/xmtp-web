@@ -5787,7 +5787,7 @@ __metadata:
     rollup-plugin-dts: "npm:^6.1.1"
     rollup-plugin-filesize: "npm:^10.0.0"
     typedoc: "npm:^0.25.12"
-    typescript: "npm:^5.4.2"
+    typescript: "npm:^5.5.3"
     vite: "npm:^5.3.3"
     vitest: "npm:^1.6.0"
   languageName: unknown
@@ -5865,7 +5865,7 @@ __metadata:
     rollup-plugin-filesize: "npm:^10.0.0"
     rollup-plugin-tsconfig-paths: "npm:^1.5.2"
     typedoc: "npm:^0.25.12"
-    typescript: "npm:^5.4.2"
+    typescript: "npm:^5.5.3"
     vite: "npm:^5.3.3"
     vite-tsconfig-paths: "npm:^4.3.2"
     vitest: "npm:^1.6.0"
@@ -5893,7 +5893,7 @@ __metadata:
     prettier-plugin-packagejson: "npm:^2.5.0"
     react: "npm:^18"
     react-dom: "npm:^18"
-    typescript: "npm:^5"
+    typescript: "npm:^5.5.3"
     viem: "npm:^2.7.15"
     wagmi: "npm:^2.5.8"
   languageName: unknown
@@ -5947,7 +5947,7 @@ __metadata:
     react: "npm:^18.2.0"
     react-18-blockies: "npm:^1.0.6"
     react-dom: "npm:^18.2.0"
-    typescript: "npm:^5.4.2"
+    typescript: "npm:^5.5.3"
     viem: "npm:^2.7.15"
     wagmi: "npm:^2.5.8"
   languageName: unknown
@@ -5989,7 +5989,7 @@ __metadata:
     rollup-plugin-filesize: "npm:^10.0.0"
     rollup-plugin-tsconfig-paths: "npm:^1.5.2"
     typedoc: "npm:^0.25.12"
-    typescript: "npm:^5.4.2"
+    typescript: "npm:^5.5.3"
     uuid: "npm:^10.0.0"
     viem: "npm:^2.7.15"
     vite: "npm:^5.3.3"
@@ -6027,7 +6027,7 @@ __metadata:
     prettier-plugin-packagejson: "npm:^2.5.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
-    typescript: "npm:^5.4.2"
+    typescript: "npm:^5.5.3"
     viem: "npm:^2.7.15"
     vite: "npm:^5.3.3"
     wagmi: "npm:^2.5.8"
@@ -6063,7 +6063,7 @@ __metadata:
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     remix-utils: "npm:^7.5.0"
-    typescript: "npm:^5.1.6"
+    typescript: "npm:^5.5.3"
     viem: "npm:^2.7.15"
     vite: "npm:^5.3.3"
     vite-tsconfig-paths: "npm:^4.3.2"
@@ -9221,7 +9221,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^4.6.0"
     prettier: "npm:^3.3.2"
     prettier-plugin-packagejson: "npm:^2.5.0"
-    typescript: "npm:^5.4.2"
+    typescript: "npm:^5.5.3"
   languageName: unknown
   linkType: soft
 
@@ -17894,23 +17894,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5, typescript@npm:^5.1.6, typescript@npm:^5.4.2":
-  version: 5.4.2
-  resolution: "typescript@npm:5.4.2"
+"typescript@npm:^5.5.3":
+  version: 5.5.3
+  resolution: "typescript@npm:5.5.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/f8cfdc630ab1672f004e9561eb2916935b2d267792d07ce93e97fc601c7a65191af32033d5e9c0169b7dc37da7db9bf320f7432bc84527cb7697effaa4e4559d
+  checksum: 10/11a867312419ed497929aafd2f1d28b2cd41810a5eb6c6e9e169559112e9ea073d681c121a29102e67cd4478d0a4ae37a306a5800f3717f59c4337e6a9bd5e8d
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.1.6#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.4.2#optional!builtin<compat/typescript>":
-  version: 5.4.2
-  resolution: "typescript@patch:typescript@npm%3A5.4.2#optional!builtin<compat/typescript>::version=5.4.2&hash=5adc0c"
+"typescript@patch:typescript@npm%3A^5.5.3#optional!builtin<compat/typescript>":
+  version: 5.5.3
+  resolution: "typescript@patch:typescript@npm%3A5.5.3#optional!builtin<compat/typescript>::version=5.5.3&hash=379a07"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/f5f9a4133c2670761f0166eae5b3bafbc4a3fc24f0f42a93c9c893d9e9d6e66ea066969c5e7483fa66b4ae0e99125592553f3b92fd3599484de8be13b0615176
+  checksum: 10/7cf7acb78a80f749b82842f2ffe01e90e7b3e709a6f4268588e0b7599c41dca1059be217f47778fe1a380bfaf60933021ef20d002c426d4d7745e1b36c11467b
   languageName: node
   linkType: hard
 
