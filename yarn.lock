@@ -6054,7 +6054,7 @@ __metadata:
     eslint-plugin-jsx-a11y: "npm:^6.9.0"
     eslint-plugin-react: "npm:^7.34.3"
     eslint-plugin-react-hooks: "npm:^4.6.2"
-    isbot: "npm:^5.1.11"
+    isbot: "npm:^5.1.12"
     prettier: "npm:^3.3.2"
     prettier-plugin-packagejson: "npm:^2.5.0"
     react: "npm:^18.3.1"
@@ -11654,10 +11654,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"isbot@npm:^5.1.11":
-  version: 5.1.11
-  resolution: "isbot@npm:5.1.11"
-  checksum: 10/777e4d1eb2dca530691e260b87e8ce5220e244806e92646629379aca221da8bf70b1d8c5d583c595de236f5958c5898ba7e5703f6d7e314057516a7dd985f068
+"isbot@npm:^5.1.12":
+  version: 5.1.12
+  resolution: "isbot@npm:5.1.12"
+  checksum: 10/9f8f56a28e75a9628113b1c6da6cd2776728e215d1f384c8ea82a7e52005a1429c37ad61de0758514879272c6e74ba19fcfa80f7b09faef785edfb945824892a
   languageName: node
   linkType: hard
 
@@ -18424,9 +18424,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:^2.17.0":
-  version: 2.17.0
-  resolution: "viem@npm:2.17.0"
+"viem@npm:^2.17.3":
+  version: 2.17.3
+  resolution: "viem@npm:2.17.3"
   dependencies:
     "@adraffy/ens-normalize": "npm:1.10.0"
     "@noble/curves": "npm:1.4.0"
@@ -18441,7 +18441,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10/8f592ec264df6a582d166a4ae359c01f4e4c8a36ef6ff675548ba130d58ea69806913a8213aa59460db094e6f7e1a5d66fe1a30805b839cb0b2547945cfb22f1
+  checksum: 10/803b49f7932fd59058f41202682610a0dd767b908cdc7777ef20c62108587a069e23e5ba8fc3d278443620b057571931503dc4e1ff257d1b7fd7f2411199de8b
   languageName: node
   linkType: hard
 
