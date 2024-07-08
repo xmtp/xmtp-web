@@ -1,5 +1,17 @@
 # @xmtp/react-sdk
 
+## 7.0.1
+
+### Patch Changes
+
+- 3fc5b82: ### React SDK
+
+  - Fixed dev and peer dependencies
+
+  ### Frames client
+
+  - Upgraded dependencies
+
 ## 7.0.0
 
 ### Major Changes
