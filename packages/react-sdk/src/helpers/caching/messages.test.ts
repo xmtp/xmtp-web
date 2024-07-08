@@ -1,4 +1,3 @@
-import type { ArgumentsType } from "vitest";
 import { it, expect, describe, beforeEach } from "vitest";
 import { Client, DecodedMessage } from "@xmtp/xmtp-js";
 import { ContentTypeText } from "@xmtp/content-type-text";
@@ -483,10 +482,7 @@ describe("getUnprocessedMessages", () => {
 });
 
 describe("processMessage", () => {
-  const mockProcessor1 = vi.fn<
-    ArgumentsType<ContentTypeMessageProcessor>,
-    Promise<void>
-  >();
+  const mockProcessor1 = vi.fn<ContentTypeMessageProcessor>();
   const mockProcessor2 = vi.fn();
   const mockProcessor3 = vi.fn();
   const testNamepaces = {
