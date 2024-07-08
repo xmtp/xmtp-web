@@ -4,13 +4,7 @@
 
 ### Patch Changes
 
-- 3fc5b82: ### React SDK
-
-  - Fixed dev and peer dependencies
-
-  ### Frames client
-
-  - Upgraded dependencies
+- 3fc5b82: Fixed dev and peer dependencies
 
 ## 7.0.0
 
