@@ -6031,6 +6031,33 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@xmtp/react-vite-sqlite-example@workspace:examples/react-vite-sqlite":
+  version: 0.0.0-use.local
+  resolution: "@xmtp/react-vite-sqlite-example@workspace:examples/react-vite-sqlite"
+  dependencies:
+    "@tanstack/react-query": "npm:^5.50.1"
+    "@types/react": "npm:^18.3.3"
+    "@types/react-dom": "npm:^18.3.0"
+    "@vitejs/plugin-react": "npm:^4.3.1"
+    "@wagmi/core": "npm:^2.11.6"
+    "@xmtp/tsconfig": "workspace:*"
+    "@xmtp/wa-sqlite": "npm:^1.0.1"
+    autoprefixer: "npm:^10.4.19"
+    eslint: "npm:^8.57.0"
+    eslint-config-xmtp-web: "workspace:*"
+    postcss: "npm:^8.4.39"
+    postcss-preset-env: "npm:^9.6.0"
+    prettier: "npm:^3.3.2"
+    prettier-plugin-packagejson: "npm:^2.5.0"
+    react: "npm:^18.3.1"
+    react-dom: "npm:^18.3.1"
+    typescript: "npm:^5.5.3"
+    viem: "npm:^2.17.3"
+    vite: "npm:^5.3.3"
+    wagmi: "npm:^2.10.9"
+  languageName: unknown
+  linkType: soft
+
 "@xmtp/remix-example@workspace:examples/remix":
   version: 0.0.0-use.local
   resolution: "@xmtp/remix-example@workspace:examples/remix"
@@ -6081,6 +6108,18 @@ __metadata:
   version: 0.3.6
   resolution: "@xmtp/user-preferences-bindings-wasm@npm:0.3.6"
   checksum: 10/a7475945996142e9238b74f66ae4d8c4d04dfe758da9510933823499f52b519b53b1e5b8e807c69426e2ec73ccec20b1f388ed16e74606645cd5dc0ff28247f3
+  languageName: node
+  linkType: hard
+
+"@xmtp/wa-sqlite@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@xmtp/wa-sqlite@npm:1.0.1"
+  dependenciesMeta:
+    monaco-editor@0.34.1:
+      unplugged: true
+    web-test-runner-jasmine@0.0.6:
+      unplugged: true
+  checksum: 10/bd08dd04fb98fef2f791274a502f6227c2050c92fdce288576d68c5e864efea2653217cfef73f134ed27999e90ad7300a64a1ab8344eeb9e9c6c2f802b7a7c64
   languageName: node
   linkType: hard
 
