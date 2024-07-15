@@ -110,7 +110,7 @@
     "rollup-plugin-tsconfig-paths": "^1.5.2",
     "typedoc": "^0.26.3",
     "typescript": "^5.5.3",
-    "viem": "^2.17.3",
+    "viem": "^2.17.4",
     "vite": "^5.3.3",
     "vite-tsconfig-paths": "^4.3.2",
     "vitest": "^2.0.1"

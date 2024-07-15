@@ -20,16 +20,16 @@
     "@remix-run/node": "^2.10.2",
     "@remix-run/react": "^2.10.2",
     "@remix-run/serve": "^2.10.2",
-    "@tanstack/react-query": "^5.50.1",
+    "@tanstack/react-query": "^5.51.1",
     "@wagmi/core": "^2.11.6",
     "@xmtp/react-app": "workspace:*",
     "buffer": "^6.0.3",
-    "isbot": "^5.1.12",
+    "isbot": "^5.1.13",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "remix-utils": "^7.6.0",
-    "viem": "^2.17.3",
-    "wagmi": "^2.10.9"
+    "viem": "^2.17.4",
+    "wagmi": "^2.10.10"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.10.2",
