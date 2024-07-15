@@ -108,15 +108,7 @@ describe("useCanMessage", () => {
       }));
       const canMessageStaticSpy = vi
         .spyOn(Client, "canMessage")
-        .mockImplementation((peerAddress: string | string[]) =>
-          typeof peerAddress === "string"
-            ? Promise.resolve([true])
-            : Promise.resolve(
-                Array.from({ length: peerAddress.length }).fill(
-                  true,
-                ) as boolean[],
-              ),
-        );
+        .mockResolvedValue([true]);
 
       const { result } = renderHook(() => useCanMessage());
 
