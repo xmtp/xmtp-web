@@ -60,7 +60,6 @@ export type ContentTypeMessageProcessors = {
 export type GetDBInstanceOptions = {
   db?: Dexie;
   contentTypeConfigs?: ContentTypeConfiguration[];
-  version?: number;
 };
 
 /**
@@ -80,9 +79,7 @@ export const getDbInstance = (options?: GetDBInstanceOptions) => {
       {} as Record<string, string>,
     );
 
-    const version = options?.version ?? 1;
-
-    db.version(version).stores({
+    db.version(1).stores({
       ...customSchema,
       conversations: `
         ++id,

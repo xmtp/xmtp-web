@@ -7,8 +7,6 @@ import {
 import { WalletProvider } from "../contexts/WalletContext";
 import { App } from "../components/App";
 
-const DB_VERSION = 1;
-
 const contentTypeConfigs = [
   attachmentContentTypeConfig,
   reactionContentTypeConfig,
@@ -17,9 +15,7 @@ const contentTypeConfigs = [
 
 export const AppController: React.FC = () => (
   <WalletProvider>
-    <XMTPProvider
-      dbVersion={DB_VERSION}
-      contentTypeConfigs={contentTypeConfigs}>
+    <XMTPProvider contentTypeConfigs={contentTypeConfigs}>
       <App />
     </XMTPProvider>
   </WalletProvider>
