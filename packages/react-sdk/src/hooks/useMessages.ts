@@ -3,7 +3,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { min, subSeconds } from "date-fns";
 import type { OnError } from "../sharedTypes";
 import { useCachedMessages } from "./useCachedMessages";
-import type { CachedMessageWithId } from "@/helpers/caching/messages";
 import { toCachedMessage } from "@/helpers/caching/messages";
 import { getConversationByTopic } from "@/helpers/caching/conversations";
 import type { CachedConversation } from "@/helpers/caching/conversations";
@@ -37,9 +36,7 @@ export const useMessages = (
   const [error, setError] = useState<Error | null>(null);
   const { processMessage } = useMessage();
   const { updateConversation } = useConversationInternal();
-  const messages = useCachedMessages(
-    conversation.topic,
-  ) as CachedMessageWithId[];
+  const messages = useCachedMessages(conversation.topic);
   const { client } = useClient();
   // to prevent messages from being fetched multiple times
   const loadingRef = useRef(false);

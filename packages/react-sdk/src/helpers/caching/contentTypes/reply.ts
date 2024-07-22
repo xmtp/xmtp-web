@@ -5,7 +5,6 @@ import { z } from "zod";
 import { ContentTypeId } from "@xmtp/content-type-primitives";
 import type {
   CachedMessage,
-  CachedMessageWithId,
   CachedMessagesTable,
 } from "@/helpers/caching/messages";
 import type {
@@ -75,7 +74,7 @@ export const getReplies = async (message: CachedMessage, db: Dexie) => {
       .where("xmtpID")
       .anyOf(replies.map((reply) => reply.xmtpID))
       .sortBy("sentAt");
-    return replyMessages as CachedMessageWithId[];
+    return replyMessages;
   }
   return [];
 };

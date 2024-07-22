@@ -2,7 +2,7 @@ import { it, expect, describe, vi, beforeEach } from "vitest";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { ContentTypeText } from "@xmtp/content-type-text";
 import { useResendMessage } from "@/hooks/useResendMessage";
-import type { CachedMessageWithId } from "@/helpers/caching/messages";
+import type { CachedMessage } from "@/helpers/caching/messages";
 
 const resendMock = vi.hoisted(() => vi.fn());
 
@@ -39,7 +39,7 @@ describe("useResendMessage", () => {
       uuid: "testUuid",
       walletAddress: "testWalletAddress",
       xmtpID: "testXmtpId",
-    } satisfies CachedMessageWithId;
+    } satisfies CachedMessage;
 
     const { result } = renderHook(() =>
       useResendMessage({
@@ -77,7 +77,7 @@ describe("useResendMessage", () => {
       uuid: "testUuid",
       walletAddress: "testWalletAddress",
       xmtpID: "testXmtpId",
-    } satisfies CachedMessageWithId;
+    } satisfies CachedMessage;
 
     const { result } = renderHook(() =>
       useResendMessage({

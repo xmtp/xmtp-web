@@ -126,6 +126,7 @@ describe("saveMessage", () => {
 
   it("should return a duplicate message", async () => {
     const testMessage = {
+      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test",

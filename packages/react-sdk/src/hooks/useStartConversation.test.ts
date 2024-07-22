@@ -7,7 +7,7 @@ import {
   toCachedConversation,
   type CachedConversation,
 } from "@/helpers/caching/conversations";
-import type { CachedMessageWithId } from "@/helpers/caching/messages";
+import type { CachedMessage } from "@/helpers/caching/messages";
 
 const useClientMock = vi.hoisted(() => vi.fn());
 const sendMessageMock = vi.hoisted(() => vi.fn());
@@ -255,7 +255,7 @@ describe("useStartConversation", () => {
       walletAddress: "testWalletAddress",
       uuid: "testUuid",
       xmtpID: "testXmtpId",
-    } satisfies CachedMessageWithId;
+    } satisfies CachedMessage;
     saveConversationMock.mockResolvedValueOnce(savedConversation);
     sendMessageMock.mockResolvedValueOnce({
       cachedMessage: savedMessage,

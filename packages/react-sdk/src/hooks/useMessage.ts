@@ -13,7 +13,7 @@ import {
 } from "@/helpers/caching/messages";
 import type {
   CachedMessage,
-  CachedMessageWithId,
+  ProcessMessageOptions,
 } from "@/helpers/caching/messages";
 import {
   getConversationByTopic,
@@ -39,7 +39,10 @@ export const useMessage = () => {
   const { db } = useDb();
 
   const processMessage = useCallback(
-    async (conversation: CachedConversation, message: CachedMessage) =>
+    async (
+      conversation: ProcessMessageOptions["conversation"],
+      message: ProcessMessageOptions["message"],
+    ) =>
       _processMessage({
         client,
         conversation,
@@ -145,7 +148,10 @@ export const useMessage = () => {
 
             // before updating, make sure the message was added to cache
             if (message.id) {
-              await updateMessageAfterSending(message, sentMessage.sent);
+              await updateMessageAfterSending(
+                message as CachedMessage,
+                sentMessage.sent,
+              );
             }
 
             return {
@@ -155,7 +161,7 @@ export const useMessage = () => {
           } catch (e) {
             // before updating, make sure the message is in the cache
             if (message.id) {
-              await updateMessage(message, {
+              await updateMessage(message as CachedMessage, {
                 hasSendError: true,
                 sendOptions: finalSendOptions,
               });
@@ -185,7 +191,7 @@ export const useMessage = () => {
    * @returns The sent message, or `undefined` if there's no XMTP client
    */
   const resendMessage = useCallback(
-    async (message: CachedMessageWithId) => {
+    async (message: CachedMessage) => {
       if (!message.hasSendError) {
         throw new Error(
           "Resending a message that hasn't failed to send is not allowed",

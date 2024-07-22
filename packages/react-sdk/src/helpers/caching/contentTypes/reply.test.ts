@@ -13,7 +13,7 @@ import {
 } from "./reply";
 import {
   saveMessage,
-  type CachedMessageWithId,
+  type CachedMessage,
   getMessageByXmtpID,
 } from "@/helpers/caching/messages";
 import { getDbInstance, clearCache } from "@/helpers/caching/db";
@@ -68,7 +68,7 @@ describe("ContentTypeReply", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid1",
         xmtpID: "testXmtpId1",
-      } satisfies CachedMessageWithId;
+      } satisfies CachedMessage;
 
       await saveMessage(testTextMessage, db);
 
@@ -92,7 +92,7 @@ describe("ContentTypeReply", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid2",
         xmtpID: "testXmtpId2",
-      } satisfies CachedMessageWithId<Reply>;
+      } satisfies CachedMessage<Reply>;
 
       await saveMessage(testReplyMessage, db);
 
@@ -145,7 +145,7 @@ describe("ContentTypeReply", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid",
         xmtpID: "testXmtpId",
-      } satisfies CachedMessageWithId;
+      } satisfies CachedMessage;
 
       const updateConversationMetadata = vi.fn();
       await processReply({
@@ -175,7 +175,7 @@ describe("ContentTypeReply", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid1",
         xmtpID: "testXmtpId1",
-      } satisfies CachedMessageWithId;
+      } satisfies CachedMessage;
 
       const originalMessageFromReply = await getOriginalMessageFromReply(
         testTextMessage,
@@ -201,7 +201,7 @@ describe("ContentTypeReply", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid2",
         xmtpID: "testXmtpId2",
-      } satisfies CachedMessageWithId<Reply>;
+      } satisfies CachedMessage<Reply>;
 
       const originalMessageFromReply2 = await getOriginalMessageFromReply(
         testReplyMessage,
@@ -227,7 +227,7 @@ describe("ContentTypeReply", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid1",
         xmtpID: "testXmtpId1",
-      } satisfies CachedMessageWithId;
+      } satisfies CachedMessage;
 
       const replies = await getReplies(testTextMessage, db);
       expect(replies).toEqual([]);
@@ -250,7 +250,7 @@ describe("ContentTypeReply", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid1",
         xmtpID: "testXmtpId1",
-      } satisfies CachedMessageWithId;
+      } satisfies CachedMessage;
 
       const testReplyMessage1 = {
         id: 2,
@@ -270,7 +270,7 @@ describe("ContentTypeReply", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid2",
         xmtpID: "testXmtpId2",
-      } satisfies CachedMessageWithId;
+      } satisfies CachedMessage;
 
       await saveMessage(testReplyMessage1, db);
 
@@ -292,7 +292,7 @@ describe("ContentTypeReply", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid3",
         xmtpID: "testXmtpId3",
-      } satisfies CachedMessageWithId;
+      } satisfies CachedMessage;
 
       await saveMessage(testReplyMessage2, db);
 

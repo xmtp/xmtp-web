@@ -15,7 +15,7 @@ import {
   hasAttachment,
   attachmentContentTypeConfig,
 } from "./attachment";
-import { type CachedMessageWithId } from "@/helpers/caching/messages";
+import { type CachedMessage } from "@/helpers/caching/messages";
 import { createRandomWallet } from "@/helpers/testing";
 
 const testWallet = createRandomWallet();
@@ -53,7 +53,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid",
         xmtpID: "testXmtpId",
-      } satisfies CachedMessageWithId<Attachment>;
+      } satisfies CachedMessage<Attachment>;
 
       const attachment = getAttachment(testMessage);
       expect(attachment).toEqual(testContent);
@@ -82,7 +82,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid",
         xmtpID: "testXmtpId",
-      } satisfies CachedMessageWithId<RemoteAttachment>;
+      } satisfies CachedMessage<RemoteAttachment>;
 
       const attachment2 = getAttachment(testMessage2);
       expect(attachment2).toEqual(testContent2);
@@ -101,7 +101,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid",
         xmtpID: "testXmtpId",
-      } satisfies CachedMessageWithId;
+      } satisfies CachedMessage;
 
       const attachment3 = getAttachment(testMessage3);
       expect(attachment3).toBeUndefined();
@@ -129,7 +129,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid",
         xmtpID: "testXmtpId",
-      } satisfies CachedMessageWithId<Attachment>;
+      } satisfies CachedMessage<Attachment>;
 
       const attachment = hasAttachment(testMessage);
       expect(attachment).toBe(true);
@@ -148,7 +148,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid",
         xmtpID: "testXmtpId",
-      } satisfies CachedMessageWithId;
+      } satisfies CachedMessage;
 
       const attachment2 = hasAttachment(testMessage2);
       expect(attachment2).toBe(false);

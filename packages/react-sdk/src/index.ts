@@ -42,7 +42,6 @@ export { useStreamMessages } from "./hooks/useStreamMessages";
 
 export type {
   CachedMessage,
-  CachedMessageWithId,
   CachedMessagesTable,
   ProcessUnprocessedMessagesOptions,
 } from "./helpers/caching/messages";

@@ -1,7 +1,10 @@
 import Dexie from "dexie";
 import type { Client } from "@xmtp/xmtp-js";
 import type { ContentCodec } from "@xmtp/content-type-primitives";
-import type { CachedMessage } from "@/helpers/caching/messages";
+import type {
+  CachedMessage,
+  CachedMessageWithOptionalId,
+} from "@/helpers/caching/messages";
 import type { CachedConversation } from "./conversations";
 import { textContentTypeConfig } from "./contentTypes/text";
 
@@ -32,7 +35,7 @@ export type ContentTypeMessageProcessor<C = any> = (options: {
   client: Client;
   conversation: CachedConversation;
   db: Dexie;
-  message: CachedMessage<C>;
+  message: CachedMessageWithOptionalId<C>;
   processors?: ContentTypeMessageProcessors;
   updateConversationMetadata: (
     data: ContentTypeMetadataValues,

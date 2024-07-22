@@ -16,7 +16,7 @@ import {
 } from "./reaction";
 import {
   saveMessage,
-  type CachedMessageWithId,
+  type CachedMessage,
   getMessageByXmtpID,
 } from "@/helpers/caching/messages";
 import { getDbInstance, clearCache } from "@/helpers/caching/db";
@@ -106,7 +106,7 @@ describe("ContentTypeReaction", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid1",
         xmtpID: "testXmtpId1",
-      } satisfies CachedMessageWithId;
+      } satisfies CachedMessage;
 
       await saveMessage(testTextMessage, db);
 
@@ -131,7 +131,7 @@ describe("ContentTypeReaction", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid2",
         xmtpID: "testXmtpId2",
-      } satisfies CachedMessageWithId<Reaction>;
+      } satisfies CachedMessage<Reaction>;
 
       const updateConversationMetadata = vi.fn();
       await processReaction({
@@ -173,7 +173,7 @@ describe("ContentTypeReaction", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid3",
         xmtpID: "testXmtpId3",
-      } satisfies CachedMessageWithId<Reaction>;
+      } satisfies CachedMessage<Reaction>;
 
       await processReaction({
         client: testClient,
@@ -216,7 +216,7 @@ describe("ContentTypeReaction", () => {
         senderAddress: "testWalletAddress",
         uuid: "testUuid",
         xmtpID: "testXmtpId",
-      } satisfies CachedMessageWithId;
+      } satisfies CachedMessage;
 
       const updateConversationMetadata = vi.fn();
       await processReaction({
