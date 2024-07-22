@@ -16,7 +16,6 @@ export { useStreamConversations } from "./hooks/useStreamConversations";
 
 export type {
   CachedConversation,
-  CachedConversationWithId,
   CachedConversationsTable,
 } from "./helpers/caching/conversations";
 export {

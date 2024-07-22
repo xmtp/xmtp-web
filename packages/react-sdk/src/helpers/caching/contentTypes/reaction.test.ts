@@ -20,7 +20,7 @@ import {
   getMessageByXmtpID,
 } from "@/helpers/caching/messages";
 import { getDbInstance, clearCache } from "@/helpers/caching/db";
-import type { CachedConversationWithId } from "@/helpers/caching/conversations";
+import type { CachedConversation } from "@/helpers/caching/conversations";
 import { createRandomWallet } from "@/helpers/testing";
 
 const testWallet = createRandomWallet();
@@ -91,7 +91,7 @@ describe("ContentTypeReaction", () => {
         topic: "testTopic",
         peerAddress: "testPeerAddress",
         walletAddress: testWallet.account.address,
-      } satisfies CachedConversationWithId;
+      } satisfies CachedConversation;
       const testTextMessage = {
         id: 1,
         walletAddress: testWallet.account.address,
@@ -201,7 +201,7 @@ describe("ContentTypeReaction", () => {
         topic: "testTopic",
         peerAddress: "testPeerAddress",
         walletAddress: testWallet.account.address,
-      } satisfies CachedConversationWithId;
+      } satisfies CachedConversation;
       const testMessage = {
         id: 1,
         walletAddress: testWallet.account.address,

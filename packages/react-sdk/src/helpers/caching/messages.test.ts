@@ -311,10 +311,10 @@ describe("prepareMessageForSending", () => {
       client,
       content: "test",
       contentType: ContentTypeText.toString(),
-      conversation: toCachedConversation(
-        conversation,
-        testWallet1.account.address,
-      ),
+      conversation: {
+        ...toCachedConversation(conversation, testWallet1.account.address),
+        id: 1,
+      },
     });
 
     expect(message.content).toBe("test");
@@ -338,10 +338,10 @@ describe("prepareMessageForSending", () => {
     const { message, preparedMessage } = await prepareMessageForSending({
       client,
       content: "test",
-      conversation: toCachedConversation(
-        conversation,
-        testWallet1.account.address,
-      ),
+      conversation: {
+        ...toCachedConversation(conversation, testWallet1.account.address),
+        id: 1,
+      },
     });
 
     expect(message.content).toBe("test");
@@ -936,6 +936,7 @@ describe("reprocessMessage", () => {
     const testClient = await Client.create(testWallet1, { env: "local" });
     const createdAt = new Date();
     const testConversation = {
+      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,
@@ -998,6 +999,7 @@ describe("reprocessMessage", () => {
     const testClient = await Client.create(testWallet1, { env: "local" });
     const createdAt = new Date();
     const testConversation = {
+      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,
@@ -1048,6 +1050,7 @@ describe("processUnprocessedMessages", () => {
     const createdAt = new Date();
     const sentAt = adjustDate(createdAt, 1000);
     const testConversation = {
+      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,
