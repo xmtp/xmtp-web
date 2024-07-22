@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 8.0.0
+
+### Major Changes
+
+- b5dd0a8: Upgrade dexie, remove DB versioning
+
 ## 7.0.1
 
 ### Patch Changes
