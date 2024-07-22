@@ -4,7 +4,13 @@
 
 ### Major Changes
 
-- b5dd0a8: Upgrade dexie, remove DB versioning
+- b5dd0a8:
+  - Upgraded dexie
+
+### BREAKING CHANGES
+
+- Removed `CachedMessageWithId` and `CachedConversationWithId` exports
+- Removed `dbVersion` prop from `XMTPProvider` component
 
 ## 7.0.1
 
