@@ -1,5 +1,17 @@
 # @xmtp/react-sdk
 
+## 8.0.0
+
+### Major Changes
+
+- b5dd0a8:
+  - Upgraded dexie
+
+### BREAKING CHANGES
+
+- Removed `CachedMessageWithId` and `CachedConversationWithId` exports
+- Removed `dbVersion` prop from `XMTPProvider` component
+
 ## 7.0.1
 
 ### Patch Changes
