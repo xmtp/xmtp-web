@@ -7,7 +7,7 @@ import type { ContentTypeMetadata, ContentTypeMetadataValues } from "./db";
 export type CachedConversation<M = ContentTypeMetadata> = {
   context?: InvitationContext;
   createdAt: Date;
-  id?: number;
+  id: number;
   isReady: boolean;
   lastSyncedAt?: Date;
   metadata?: M;
@@ -27,13 +27,13 @@ type ToFunctionArgs<T> = {
 
 type GetCachedConversationBy = (
   ...args: [string, ...ToFunctionArgs<SearchableProperties>, Dexie]
-) => Promise<CachedConversationWithId | undefined>;
+) => Promise<CachedConversation | undefined>;
 
-export type CachedConversationsTable = Table<CachedConversation, number>;
-
-export type CachedConversationWithId = CachedConversation & {
-  id: number;
-};
+export type CachedConversationsTable = Table<
+  CachedConversation,
+  number,
+  Omit<CachedConversation, "id">
+>;
 
 /**
  * Retrieve a cached conversation by a given key and value
@@ -55,7 +55,7 @@ export const getCachedConversationBy: GetCachedConversationBy = async (
       [key]: value,
     })
     .first();
-  return conversation ? (conversation as CachedConversationWithId) : undefined;
+  return conversation;
 };
 
 /**
@@ -177,15 +177,16 @@ export const hasConversationTopic = async (
 export const toCachedConversation = (
   conversation: Conversation,
   walletAddress: string,
-) => ({
-  context: conversation.context,
-  createdAt: conversation.createdAt,
-  isReady: false,
-  peerAddress: conversation.peerAddress,
-  topic: conversation.topic,
-  updatedAt: conversation.createdAt,
-  walletAddress,
-});
+) =>
+  ({
+    context: conversation.context,
+    createdAt: conversation.createdAt,
+    isReady: false,
+    peerAddress: conversation.peerAddress,
+    topic: conversation.topic,
+    updatedAt: conversation.createdAt,
+    walletAddress,
+  }) satisfies Omit<CachedConversation, "id">;
 
 const saveConversationMutex = new Mutex();
 
@@ -195,7 +196,7 @@ const saveConversationMutex = new Mutex();
  * @returns The saved cached conversation with ID
  */
 export const saveConversation = async (
-  conversation: CachedConversation,
+  conversation: Omit<CachedConversation, "id">,
   db: Dexie,
 ) =>
   // ensure that only 1 conversation is saved at a time to prevent duplicates
@@ -210,11 +211,10 @@ export const saveConversation = async (
       .first();
 
     if (existing) {
-      return existing as CachedConversationWithId;
+      return existing;
     }
 
-    // eslint-disable-next-line no-param-reassign
-    conversation.id = await conversations.add(conversation);
+    const id = await conversations.add(conversation);
 
-    return conversation as CachedConversationWithId;
+    return { ...conversation, id };
   });

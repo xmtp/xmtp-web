@@ -13,10 +13,7 @@ import {
   updateConversation,
   updateConversationMetadata,
 } from "@/helpers/caching/conversations";
-import type {
-  CachedConversation,
-  CachedConversationWithId,
-} from "@/helpers/caching/conversations";
+import type { CachedConversation } from "@/helpers/caching/conversations";
 import { adjustDate } from "@/helpers/adjustDate";
 import { createRandomWallet } from "@/helpers/testing";
 
@@ -75,7 +72,7 @@ describe("getCachedConversationBy", () => {
       topic: "testTopic",
       peerAddress: "testPeerAddress",
       walletAddress: "testWalletAddress",
-    } satisfies CachedConversationWithId;
+    } satisfies CachedConversation;
     const cachedConversation = await saveConversation(testConversation, db);
     const conversation = await getCachedConversationBy(
       "testWalletAddress",
@@ -146,7 +143,7 @@ describe("updateConversation", () => {
       topic: "testTopic",
       peerAddress: "testPeerAddress",
       walletAddress: "testWalletAddress",
-    } satisfies CachedConversationWithId;
+    } satisfies CachedConversation;
     const cachedConversation = await saveConversation(testConversation, db);
     expect(cachedConversation).toEqual(testConversation);
 
@@ -185,7 +182,7 @@ describe("updateConversationMetadata", () => {
       topic: "testTopic",
       peerAddress: "testPeerAddress",
       walletAddress: "testWalletAddress",
-    } satisfies CachedConversationWithId;
+    } satisfies CachedConversation;
     const cachedConversation = await saveConversation(testConversation, db);
     expect(cachedConversation).toEqual(testConversation);
 
@@ -218,7 +215,7 @@ describe("setConversationUpdatedAt", () => {
       topic: "testTopic",
       peerAddress: "testPeerAddress",
       walletAddress: "testWalletAddress",
-    } satisfies CachedConversationWithId;
+    } satisfies CachedConversation;
     const cachedConversation = await saveConversation(testConversation, db);
     expect(cachedConversation.updatedAt).toEqual(createdAt);
 
@@ -246,7 +243,7 @@ describe("hasConversationTopic", () => {
       topic: "testTopic",
       peerAddress: "testPeerAddress",
       walletAddress: "testWalletAddress",
-    } satisfies CachedConversationWithId;
+    } satisfies CachedConversation;
     const cachedConversation = await saveConversation(testConversation, db);
     expect(cachedConversation).toEqual(testConversation);
 
@@ -273,7 +270,7 @@ describe("saveConversation", () => {
       topic: "testTopic",
       peerAddress: "testPeerAddress",
       walletAddress: "testWalletAddress",
-    } satisfies CachedConversationWithId;
+    } satisfies CachedConversation;
     const cachedConversation = await saveConversation(testConversation, db);
     expect(cachedConversation).toEqual(testConversation);
   });
@@ -281,6 +278,7 @@ describe("saveConversation", () => {
   it("should return a duplicate conversation", async () => {
     const createdAt = new Date();
     const testConversation = {
+      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,
@@ -292,7 +290,6 @@ describe("saveConversation", () => {
     expect(cachedConversation).toEqual(testConversation);
     const cachedConversation2 = await saveConversation(testConversation, db);
     expect(cachedConversation2).toEqual(testConversation);
-    expect(cachedConversation2.id).toBe(cachedConversation.id);
   });
 });
 

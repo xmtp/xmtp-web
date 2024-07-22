@@ -65,20 +65,12 @@ export type XMTPProviderProps = React.PropsWithChildren & {
    * processing of messages
    */
   contentTypeConfigs?: ContentTypeConfiguration[];
-  /**
-   * Database version to use for the local cache
-   *
-   * This number should be incremented when adding support for additional
-   * content types
-   */
-  dbVersion?: number;
 };
 
 export const XMTPProvider: React.FC<XMTPProviderProps> = ({
   children,
   client: initialClient,
   contentTypeConfigs,
-  dbVersion,
 }) => {
   const [client, setClient] = useState<Client | undefined>(initialClient);
 
@@ -112,9 +104,8 @@ export const XMTPProvider: React.FC<XMTPProviderProps> = ({
       getDbInstance({
         db: initialDb,
         contentTypeConfigs,
-        version: dbVersion,
       }),
-    [dbVersion, contentTypeConfigs],
+    [contentTypeConfigs],
   );
 
   // memo-ize the context value to prevent unnecessary re-renders

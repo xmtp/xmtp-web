@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import { getLastMessage as _getLastMessage } from "@/helpers/caching/messages";
-import type { CachedConversation } from "@/helpers/caching/conversations";
 import {
   getCachedConversationByTopic,
   getConversationByTopic,
@@ -19,7 +18,7 @@ export const useConversationInternal = () => {
   const { db } = useDb();
 
   const saveConversation = useCallback(
-    (conversation: CachedConversation) =>
+    (conversation: Parameters<typeof _saveConversation>[0]) =>
       client ? _saveConversation(conversation, db) : undefined,
     [client, db],
   );

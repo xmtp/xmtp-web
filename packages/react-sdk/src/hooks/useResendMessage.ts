@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useMessage } from "@/hooks/useMessage";
 import type { UseSendMessageOptions } from "@/hooks/useSendMessage";
-import type { CachedMessageWithId } from "@/helpers/caching/messages";
+import type { CachedMessage } from "@/helpers/caching/messages";
 
 /**
  * This hook can be used to resend a previously failed message, or cancel it.
@@ -15,7 +15,7 @@ export const useResendMessage = (options?: UseSendMessageOptions) => {
   const { onError, onSuccess } = options ?? {};
 
   const resend = useCallback(
-    async (message: CachedMessageWithId) => {
+    async (message: CachedMessage) => {
       setIsLoading(true);
       setError(null);
 
@@ -36,7 +36,7 @@ export const useResendMessage = (options?: UseSendMessageOptions) => {
   );
 
   const cancel = useCallback(
-    async (message: CachedMessageWithId) => {
+    async (message: CachedMessage) => {
       try {
         await deleteMessage(message);
       } catch (e) {

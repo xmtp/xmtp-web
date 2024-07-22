@@ -32,7 +32,7 @@ export type CachedMessage<C = any, M = ContentTypeMetadata> = {
   conversationTopic: string;
   hasLoadError: boolean;
   hasSendError: boolean;
-  id?: number;
+  id: number;
   isSending: boolean;
   metadata?: M;
   senderAddress: string;
@@ -44,11 +44,18 @@ export type CachedMessage<C = any, M = ContentTypeMetadata> = {
   xmtpID: string;
 };
 
-export type CachedMessagesTable = Table<CachedMessage, number>;
-
-export type CachedMessageWithId<C = any> = CachedMessage<C> & {
-  id: number;
+export type CachedMessageWithOptionalId<C = any> = Omit<
+  CachedMessage<C>,
+  "id"
+> & {
+  id?: CachedMessage<C>["id"];
 };
+
+export type CachedMessagesTable<C = any> = Table<
+  CachedMessage<C>,
+  number,
+  Omit<CachedMessage<C>, "id">
+>;
 
 /**
  * Converts a DecodedMessage from the XMTP network to its cached format
@@ -83,7 +90,7 @@ export const toCachedMessage = (
     uuid: v4(),
     walletAddress,
     xmtpID: message.id,
-  } satisfies CachedMessage;
+  } satisfies Omit<CachedMessage, "id">;
 };
 
 /**
@@ -96,7 +103,7 @@ export const toCachedMessage = (
 export const getMessageByXmtpID = async (xmtpID: string, db: Dexie) => {
   const messages = db.table("messages") as CachedMessagesTable;
   const message = await messages.where("xmtpID").equals(xmtpID).first();
-  return message ? (message as CachedMessageWithId) : undefined;
+  return message;
 };
 
 export type SaveMessageOptions = Omit<
@@ -109,7 +116,10 @@ export type SaveMessageOptions = Omit<
  *
  * @returns The newly cached message, or an already existing cached message
  */
-export const saveMessage = async (message: CachedMessage, db: Dexie) => {
+export const saveMessage = async (
+  message: Omit<CachedMessage, "id">,
+  db: Dexie,
+) => {
   const messages = db.table("messages") as CachedMessagesTable;
 
   // check if message already exists
@@ -117,7 +127,7 @@ export const saveMessage = async (message: CachedMessage, db: Dexie) => {
 
   if (existing) {
     // return the existing message
-    return existing as CachedMessageWithId;
+    return existing;
   }
 
   const id = await messages.add(message);
@@ -131,10 +141,7 @@ export const saveMessage = async (message: CachedMessage, db: Dexie) => {
 /**
  * Remove a message from the cache
  */
-export const deleteMessage = async (
-  message: CachedMessageWithId,
-  db: Dexie,
-) => {
+export const deleteMessage = async (message: CachedMessage, db: Dexie) => {
   const messagesTable = db.table("messages") as CachedMessagesTable;
 
   // make sure message exists
@@ -208,7 +215,7 @@ export const prepareMessageForSending = async ({
   conversation,
   sendOptions,
 }: PrepareMessageOptions): Promise<{
-  message: CachedMessage;
+  message: Omit<CachedMessage, "id">;
   preparedMessage: Awaited<ReturnType<Conversation["prepareMessage"]>>;
 }> => {
   const networkConversation = await getConversationByTopic(
@@ -244,7 +251,7 @@ export const prepareMessageForSending = async ({
     uuid: v4(),
     walletAddress: client.address,
     xmtpID: await preparedMessage.messageID(),
-  } satisfies CachedMessage;
+  } satisfies Omit<CachedMessage, "id">;
 
   return {
     message,
@@ -275,7 +282,7 @@ export type ProcessMessageOptions = {
   client?: Client;
   conversation: CachedConversation;
   db: Dexie;
-  message: CachedMessage;
+  message: CachedMessageWithOptionalId;
   namespaces: Record<string, string>;
   processors: ContentTypeMessageProcessors;
   validators: ContentTypeMessageValidators;
@@ -322,7 +329,7 @@ export const processMessage = async (
   removeExisting = false,
 ): Promise<{
   status: ProcessStatus;
-  message: CachedMessage;
+  message: CachedMessageWithOptionalId;
 }> => {
   // client is required
   if (!client) {

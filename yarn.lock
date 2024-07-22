@@ -5965,7 +5965,7 @@ __metadata:
     "@xmtp/xmtp-js": "npm:^12.0.0"
     async-mutex: "npm:^0.5.0"
     date-fns: "npm:^3.6.0"
-    dexie: "npm:^3.2.6"
+    dexie: "npm:^4.0.8"
     dexie-react-hooks: "npm:^1.1.7"
     eslint: "npm:^8.57.0"
     eslint-config-xmtp-web: "workspace:*"
@@ -8117,12 +8117,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dexie@npm:^3.2.6":
-  version: 3.2.6
-  resolution: "dexie@npm:3.2.6"
-  dependencies:
-    karma-safari-launcher: "npm:^1.0.0"
-  checksum: 10/ab80f3b612c7c60ff8b60b2c0da7bd77aeec538f6be965c00523adc4cf17863a9513d71ff2a5dba7671985a7e10ff46ff9d53f300e058423da07da5aefbff49c
+"dexie@npm:^4.0.8":
+  version: 4.0.8
+  resolution: "dexie@npm:4.0.8"
+  checksum: 10/1aa04bdba2f9d7ee0cd7b2bf2df8e7c25a486f58ece7cefc850a5cacf66e7a1a86a3f2f5a0e42ef980051a0c87d061131afe62bcfaeca8aa42305422e5af4e16
   languageName: node
   linkType: hard
 
@@ -11983,15 +11981,6 @@ __metadata:
     object.assign: "npm:^4.1.4"
     object.values: "npm:^1.1.6"
   checksum: 10/b61d44613687dfe4cc8ad4b4fbf3711bf26c60b8d5ed1f494d723e0808415c59b24a7c0ed8ab10736a40ff84eef38cbbfb68b395e05d31117b44ffc59d31edfc
-  languageName: node
-  linkType: hard
-
-"karma-safari-launcher@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "karma-safari-launcher@npm:1.0.0"
-  peerDependencies:
-    karma: ">=0.9"
-  checksum: 10/09de8a231035c147c22c4106137594e5285e21e5d9f56d12a25563975b410363997947a7e8b5fdbfa0b8ba6f4f120b08a8f2777a28212c410d99b2e30c2eecb8
   languageName: node
   linkType: hard
 

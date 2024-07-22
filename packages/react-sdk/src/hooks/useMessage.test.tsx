@@ -109,10 +109,10 @@ describe("useMessage", () => {
         testWallet2.account.address,
         undefined,
       );
-      const testConversation = toCachedConversation(
-        conversation,
-        testWallet1.account.address,
-      );
+      const testConversation = {
+        ...toCachedConversation(conversation, testWallet1.account.address),
+        id: 1,
+      };
       const testError = new Error("testError");
       const sendMock = vi.fn().mockRejectedValueOnce(testError);
       const onErrorMock = vi.fn();
@@ -175,10 +175,10 @@ describe("useMessage", () => {
         testWallet2.account.address,
         undefined,
       );
-      const testConversation = toCachedConversation(
-        conversation,
-        testWallet1.account.address,
-      );
+      const testConversation = {
+        ...toCachedConversation(conversation, testWallet1.account.address),
+        id: 1,
+      };
       const sentAt = new Date();
       const sendMock = vi.fn().mockImplementation(() => ({
         id: 1,
