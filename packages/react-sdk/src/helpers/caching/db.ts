@@ -103,8 +103,9 @@ export const getDbInstance = (options?: GetDBInstanceOptions) => {
         walletAddress
       `,
       consent: `
-        [walletAddress+peerAddress],
-        peerAddress,
+        [walletAddress+type+value],
+        type,
+        value,
         state,
         walletAddress
       `,

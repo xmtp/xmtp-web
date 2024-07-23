@@ -51,6 +51,7 @@ describe("useConsent", () => {
       expect(allowSpy).toHaveBeenCalledWith([testWallet2.account.address]);
       const state = await getCachedConsentState(
         testWallet1.account.address,
+        "address",
         testWallet2.account.address,
         db,
       );
@@ -73,6 +74,7 @@ describe("useConsent", () => {
       expect(allowSpy).toHaveBeenCalledWith([testWallet2.account.address]);
       const state = await getCachedConsentState(
         testWallet1.account.address,
+        "address",
         testWallet2.account.address,
         db,
       );

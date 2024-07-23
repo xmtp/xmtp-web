@@ -25,50 +25,59 @@ describe("Consent helpers", () => {
     it("should add a new entry and update it", async () => {
       const undefinedEntry = await getCachedConsentEntry(
         testWallet1.account.address,
+        "address",
         testWallet2.account.address,
         db,
       );
       expect(undefinedEntry).toBeUndefined();
       await putConsentState(
         testWallet1.account.address,
+        "address",
         testWallet2.account.address,
         "allowed",
         db,
       );
       const entry = await getCachedConsentEntry(
         testWallet1.account.address,
+        "address",
         testWallet2.account.address,
         db,
       );
       expect(entry).toEqual({
-        peerAddress: testWallet2.account.address,
+        type: "address",
+        value: testWallet2.account.address,
         state: "allowed",
         walletAddress: testWallet1.account.address,
       });
       const state = await getCachedConsentState(
         testWallet1.account.address,
+        "address",
         testWallet2.account.address,
         db,
       );
       expect(state).toBe("allowed");
       await putConsentState(
         testWallet1.account.address,
+        "address",
         testWallet2.account.address,
         "denied",
         db,
       );
       const updatedEntry = await getCachedConsentEntry(
         testWallet1.account.address,
+        "address",
         testWallet2.account.address,
         db,
       );
       expect(updatedEntry).toEqual({
-        peerAddress: testWallet2.account.address,
+        value: testWallet2.account.address,
+        type: "address",
         state: "denied",
         walletAddress: testWallet1.account.address,
       });
       const updatedState = await getCachedConsentState(
         testWallet1.account.address,
+        "address",
         testWallet2.account.address,
         db,
       );
@@ -81,12 +90,14 @@ describe("Consent helpers", () => {
       await bulkPutConsentState(
         [
           {
-            peerAddress: testWallet2.account.address,
+            value: testWallet2.account.address,
+            type: "address",
             state: "allowed",
             walletAddress: testWallet1.account.address,
           },
           {
-            peerAddress: testWallet1.account.address,
+            value: testWallet1.account.address,
+            type: "address",
             state: "denied",
             walletAddress: testWallet2.account.address,
           },
@@ -117,6 +128,7 @@ describe("Consent helpers", () => {
       const testClient = await Client.create(testWallet1, { env: "local" });
       await putConsentState(
         testWallet1.account.address,
+        "address",
         testWallet2.account.address,
         "denied",
         db,

@@ -26,7 +26,8 @@ export const useConsent = () => {
       // update DB
       await bulkPutConsentState(
         addresses.map((peerAddress) => ({
-          peerAddress,
+          value: peerAddress,
+          type: "address",
           state: "allowed",
           walletAddress: client.address,
         })),
@@ -47,7 +48,8 @@ export const useConsent = () => {
       // update DB
       await bulkPutConsentState(
         addresses.map((peerAddress) => ({
-          peerAddress,
+          value: peerAddress,
+          type: "address",
           state: "denied",
           walletAddress: client.address,
         })),
@@ -62,7 +64,7 @@ export const useConsent = () => {
       if (!client) {
         throw new Error("XMTP client is required");
       }
-      return getCachedConsentState(client.address, address, db);
+      return getCachedConsentState(client.address, "address", address, db);
     },
     [client, db],
   );
@@ -72,7 +74,12 @@ export const useConsent = () => {
       if (!client) {
         throw new Error("XMTP client is required");
       }
-      const state = await getCachedConsentState(client.address, address, db);
+      const state = await getCachedConsentState(
+        client.address,
+        "address",
+        address,
+        db,
+      );
       return state === "allowed";
     },
     [client, db],
@@ -83,7 +90,12 @@ export const useConsent = () => {
       if (!client) {
         throw new Error("XMTP client is required");
       }
-      const state = await getCachedConsentState(client.address, address, db);
+      const state = await getCachedConsentState(
+        client.address,
+        "address",
+        address,
+        db,
+      );
       return state === "denied";
     },
     [client, db],
@@ -99,7 +111,8 @@ export const useConsent = () => {
         // update DB
         await bulkPutConsentState(
           newEntries.map((entry) => ({
-            peerAddress: entry.value,
+            value: entry.value,
+            type: "address",
             state: entry.permissionType,
             walletAddress: client.address,
           })),
@@ -122,7 +135,8 @@ export const useConsent = () => {
       // update DB
       await bulkPutConsentState(
         newEntries.map((entry) => ({
-          peerAddress: entry.value,
+          value: entry.value,
+          type: "address",
           state: entry.permissionType,
           walletAddress: client.address,
         })),
