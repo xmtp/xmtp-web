@@ -92,7 +92,6 @@ describe("ContentTypeReaction", () => {
         walletAddress: testWallet.account.address,
       } satisfies CachedConversation;
       const testTextMessage = {
-        id: 1,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
@@ -104,7 +103,7 @@ describe("ContentTypeReaction", () => {
         status: "unprocessed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid1",
-        xmtpID: "testXmtpId1",
+        id: "test3",
       } satisfies CachedMessage;
 
       await saveMessage(testTextMessage, db);
@@ -117,7 +116,6 @@ describe("ContentTypeReaction", () => {
       } satisfies Reaction;
 
       const testReactionMessage = {
-        id: 2,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: testReactionContent,
@@ -129,7 +127,7 @@ describe("ContentTypeReaction", () => {
         status: "unprocessed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid2",
-        xmtpID: "testXmtpId2",
+        id: "test4",
       } satisfies CachedMessage<Reaction>;
 
       const updateConversationMetadata = vi.fn();
@@ -150,13 +148,12 @@ describe("ContentTypeReaction", () => {
       );
       expect(reactions[0].schema).toEqual(testReactionContent.schema);
       expect(reactions[0].senderAddress).toBe("testWalletAddress");
-      expect(reactions[0].xmtpID).toEqual("testXmtpId2");
+      expect(reactions[0].id).toEqual("test4");
 
       const originalMessage = await getMessageByXmtpID("testXmtpId1", db);
       expect(hasReaction(originalMessage!)).toBe(true);
 
       const testReactionMessage2 = {
-        id: 3,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: {
@@ -171,7 +168,7 @@ describe("ContentTypeReaction", () => {
         status: "unprocessed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid3",
-        xmtpID: "testXmtpId3",
+        id: "testXmtpId3",
       } satisfies CachedMessage<Reaction>;
 
       await processReaction({
@@ -201,7 +198,6 @@ describe("ContentTypeReaction", () => {
         walletAddress: testWallet.account.address,
       } satisfies CachedConversation;
       const testMessage = {
-        id: 1,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
@@ -213,7 +209,7 @@ describe("ContentTypeReaction", () => {
         status: "unprocessed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid",
-        xmtpID: "testXmtpId",
+        id: "test5",
       } satisfies CachedMessage;
 
       const updateConversationMetadata = vi.fn();

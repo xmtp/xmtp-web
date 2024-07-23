@@ -42,7 +42,6 @@ describe("useCachedMessages", () => {
 
   it("should return messages when they're added to the cache", async () => {
     const testMessage = {
-      id: 1,
       walletAddress: testWalletAddress,
       conversationTopic: testTopic,
       content: "test",
@@ -54,7 +53,7 @@ describe("useCachedMessages", () => {
       status: "processed",
       senderAddress: testWalletAddress,
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
 
     await saveMessage(testMessage, db);

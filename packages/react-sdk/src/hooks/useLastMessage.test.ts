@@ -42,7 +42,6 @@ describe("useLastMessage", () => {
 
   it("should return a message when one is in the cache", async () => {
     const testMessage = {
-      id: 1,
       walletAddress: testWalletAddress,
       conversationTopic: testTopic,
       content: "test",
@@ -54,7 +53,7 @@ describe("useLastMessage", () => {
       status: "processed",
       senderAddress: testWalletAddress,
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
 
     await saveMessage(testMessage, db);

@@ -66,12 +66,12 @@ export const addReply = async (
 export const getReplies = async (message: CachedMessage, db: Dexie) => {
   const repliesTable = db.table("replies") as CachedRepliesTable;
   const replies = await repliesTable
-    .where({ referenceXmtpID: message.xmtpID })
+    .where({ referenceXmtpID: message.id })
     .toArray();
   if (replies.length > 0) {
     const messagesTable = db.table("messages") as CachedMessagesTable;
     const replyMessages = await messagesTable
-      .where("xmtpID")
+      .where("id")
       .anyOf(replies.map((reply) => reply.xmtpID))
       .sortBy("sentAt");
     return replyMessages;
@@ -89,7 +89,7 @@ export const getReplies = async (message: CachedMessage, db: Dexie) => {
 export const hasReply = async (message: CachedMessage, db: Dexie) => {
   const repliesTable = db.table("replies") as CachedRepliesTable;
   const replies = await repliesTable
-    .where({ referenceXmtpID: message.xmtpID })
+    .where({ referenceXmtpID: message.id })
     .toArray();
   return replies.length > 0;
 };
@@ -156,7 +156,7 @@ export const processReply: ContentTypeMessageProcessor = async ({
     const reply = message.content as Reply;
 
     // save the reply to cache
-    await addReply(reply.reference, message.xmtpID, db);
+    await addReply(reply.reference, message.id, db);
   }
 };
 

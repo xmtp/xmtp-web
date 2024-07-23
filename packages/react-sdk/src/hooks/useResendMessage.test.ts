@@ -26,7 +26,6 @@ describe("useResendMessage", () => {
     const onSuccessMock = vi.fn();
 
     const testMessage = {
-      id: 1,
       content: "test",
       contentType: ContentTypeText.toString(),
       hasLoadError: false,
@@ -38,7 +37,7 @@ describe("useResendMessage", () => {
       status: "processed",
       uuid: "testUuid",
       walletAddress: "testWalletAddress",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
 
     const { result } = renderHook(() =>
@@ -64,7 +63,6 @@ describe("useResendMessage", () => {
     const onErrorMock = vi.fn();
 
     const testMessage = {
-      id: 1,
       content: "test",
       contentType: ContentTypeText.toString(),
       hasLoadError: false,
@@ -76,7 +74,7 @@ describe("useResendMessage", () => {
       status: "processed",
       uuid: "testUuid",
       walletAddress: "testWalletAddress",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
 
     const { result } = renderHook(() =>

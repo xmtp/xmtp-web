@@ -258,7 +258,6 @@ describe("useMessage", () => {
       await act(async () => {
         await expect(
           result.current.resendMessage({
-            id: 1,
             content: "test",
             contentType: ContentTypeText.toString(),
             hasLoadError: false,
@@ -270,7 +269,7 @@ describe("useMessage", () => {
             status: "processed",
             uuid: "testUuid",
             walletAddress: testWallet1.account.address,
-            xmtpID: "testXmtpId",
+            id: "testXmtpId",
           } satisfies CachedMessage),
         ).rejects.toThrow(
           "Resending a message that hasn't failed to send is not allowed",
@@ -284,7 +283,6 @@ describe("useMessage", () => {
       await act(async () => {
         await expect(
           result.current.resendMessage({
-            id: 1,
             content: "test",
             contentType: ContentTypeText.toString(),
             hasLoadError: false,
@@ -296,7 +294,7 @@ describe("useMessage", () => {
             status: "processed",
             uuid: "testUuid",
             walletAddress: testWallet1.account.address,
-            xmtpID: "testXmtpId",
+            id: "testXmtpId",
           } satisfies CachedMessage),
         ).rejects.toThrow("XMTP client is required to send a message");
       });
@@ -312,7 +310,6 @@ describe("useMessage", () => {
       await act(async () => {
         await expect(
           result.current.resendMessage({
-            id: 1,
             content: "test",
             contentType: ContentTypeText.toString(),
             hasLoadError: false,
@@ -324,7 +321,7 @@ describe("useMessage", () => {
             status: "processed",
             uuid: "testUuid",
             walletAddress: testWallet1.account.address,
-            xmtpID: "testXmtpId",
+            id: "testXmtpId",
           } satisfies CachedMessage),
         ).rejects.toThrow(
           "Conversation not found in XMTP client, unable to send message",
@@ -346,7 +343,6 @@ describe("useMessage", () => {
       });
 
       const cachedMessage = {
-        id: 1,
         content: "test",
         contentType: ContentTypeText.toString(),
         hasLoadError: false,
@@ -358,7 +354,7 @@ describe("useMessage", () => {
         status: "processed",
         uuid: "testUuid",
         walletAddress: testWallet1.account.address,
-        xmtpID: "testXmtpId",
+        id: "testXmtpId",
         sendOptions: {
           contentType: ContentTypeText,
         },

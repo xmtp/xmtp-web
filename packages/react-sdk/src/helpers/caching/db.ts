@@ -1,10 +1,7 @@
 import Dexie from "dexie";
 import type { Client } from "@xmtp/xmtp-js";
 import type { ContentCodec } from "@xmtp/content-type-primitives";
-import type {
-  CachedMessage,
-  CachedMessageWithOptionalId,
-} from "@/helpers/caching/messages";
+import type { CachedMessage } from "@/helpers/caching/messages";
 import type { CachedConversation } from "./conversations";
 import { textContentTypeConfig } from "./contentTypes/text";
 
@@ -35,7 +32,7 @@ export type ContentTypeMessageProcessor<C = any> = (options: {
   client: Client;
   conversation: CachedConversation;
   db: Dexie;
-  message: CachedMessageWithOptionalId<C>;
+  message: CachedMessage<C>;
   processors?: ContentTypeMessageProcessors;
   updateConversationMetadata: (
     data: ContentTypeMetadataValues,
@@ -94,7 +91,7 @@ export const getDbInstance = (options?: GetDBInstanceOptions) => {
         walletAddress
       `,
       messages: `
-        ++id,
+        id,
         [conversationTopic+walletAddress],
         contentFallback,
         contentType,
@@ -103,8 +100,7 @@ export const getDbInstance = (options?: GetDBInstanceOptions) => {
         sentAt,
         status,
         uuid,
-        walletAddress,
-        xmtpID
+        walletAddress
       `,
       consent: `
         [walletAddress+peerAddress],
