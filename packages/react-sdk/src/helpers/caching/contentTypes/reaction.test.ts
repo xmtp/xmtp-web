@@ -47,36 +47,36 @@ describe("ContentTypeReaction", () => {
       const firstSentAt = new Date();
       const testReaction = {
         content: "test",
-        referenceXmtpID: "testXmtpId",
+        referenceXmtpID: "foo",
         schema: "custom",
         senderAddress: "testWalletAddress",
         sentAt: firstSentAt,
-        xmtpID: "testXmtpId",
+        id: "test1",
       } satisfies CachedReaction;
 
       const reactionId = await saveReaction(testReaction, db);
-      expect(reactionId).toEqual(1);
+      expect(reactionId).toEqual("test1");
 
-      const testReactions = await getReactionsByXmtpID("testXmtpId", db);
+      const testReactions = await getReactionsByXmtpID("foo", db);
       expect(testReactions.length).toEqual(1);
       expect(testReactions[0].sentAt).toEqual(firstSentAt);
 
       const secondSentAt = new Date();
       const testReaction2 = {
         content: "test",
-        referenceXmtpID: "testXmtpId",
+        referenceXmtpID: "foo",
         schema: "custom",
         senderAddress: "testWalletAddress",
         sentAt: secondSentAt,
-        xmtpID: "testXmtpId",
+        id: "test2",
       } satisfies CachedReaction;
 
       const reactionId2 = await saveReaction(testReaction2, db);
-      expect(reactionId2).toEqual(1);
+      expect(reactionId2).toEqual("test2");
 
-      const testReactions2 = await getReactionsByXmtpID("testXmtpId", db);
-      expect(testReactions2.length).toEqual(1);
-      expect(testReactions2[0].sentAt).toEqual(secondSentAt);
+      const testReactions2 = await getReactionsByXmtpID("foo", db);
+      expect(testReactions2.length).toEqual(2);
+      expect(testReactions2[1].sentAt).toEqual(secondSentAt);
     });
   });
 
@@ -112,7 +112,7 @@ describe("ContentTypeReaction", () => {
         content: "test",
         schema: "custom",
         action: "added",
-        reference: "testXmtpId1",
+        reference: "test3",
       } satisfies Reaction;
 
       const testReactionMessage = {
@@ -140,7 +140,7 @@ describe("ContentTypeReaction", () => {
         processors: reactionContentTypeConfig.processors,
       });
 
-      const reactions = await getReactionsByXmtpID("testXmtpId1", db);
+      const reactions = await getReactionsByXmtpID("test3", db);
       expect(reactions.length).toEqual(1);
       expect(reactions[0].content).toEqual(testReactionContent.content);
       expect(reactions[0].referenceXmtpID).toEqual(
@@ -150,7 +150,7 @@ describe("ContentTypeReaction", () => {
       expect(reactions[0].senderAddress).toBe("testWalletAddress");
       expect(reactions[0].id).toEqual("test4");
 
-      const originalMessage = await getMessageByXmtpID("testXmtpId1", db);
+      const originalMessage = await getMessageByXmtpID("test3", db);
       expect(hasReaction(originalMessage!)).toBe(true);
 
       const testReactionMessage2 = {
