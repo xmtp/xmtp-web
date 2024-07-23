@@ -16,16 +16,16 @@ import { getMessageByXmtpID } from "../messages";
 const NAMESPACE = "replies";
 
 export type CachedReply = {
-  id?: number;
+  id: number;
   referenceXmtpID: Reply["reference"];
   xmtpID: string;
 };
 
-export type CachedReplyWithId = CachedReply & {
-  id: number;
-};
-
-export type CachedRepliesTable = Table<CachedReply, number>;
+export type CachedRepliesTable = Table<
+  CachedReply,
+  number,
+  Omit<CachedReply, "id">
+>;
 
 /**
  * Add a reply to the cache
@@ -49,7 +49,7 @@ export const addReply = async (
     .first();
 
   return existing
-    ? (existing as CachedReplyWithId).id
+    ? existing.id
     : repliesTable.add({
         referenceXmtpID: xmtpID,
         xmtpID: replyXmtpID,
