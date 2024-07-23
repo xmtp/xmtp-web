@@ -62,7 +62,6 @@ describe("useMessage", () => {
         await expect(
           result.current.sendMessage(
             {
-              id: 1,
               createdAt: new Date(),
               updatedAt: new Date(),
               isReady: false,
@@ -87,7 +86,6 @@ describe("useMessage", () => {
         await expect(
           result.current.sendMessage(
             {
-              id: 1,
               createdAt: new Date(),
               updatedAt: new Date(),
               isReady: false,

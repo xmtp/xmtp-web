@@ -179,7 +179,6 @@ describe("useStartConversation", () => {
       },
     }));
     const savedConversation = {
-      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,
@@ -233,7 +232,6 @@ describe("useStartConversation", () => {
       },
     }));
     const savedConversation = {
-      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,

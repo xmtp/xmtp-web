@@ -46,7 +46,6 @@ describe("ContentTypeReply", () => {
     it("should add the reply and message to the cache", async () => {
       const testClient = await Client.create(testWallet, { env: "local" });
       const testConversation = {
-        id: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
         isReady: false,
@@ -123,7 +122,6 @@ describe("ContentTypeReply", () => {
     it("should not process a message with the wrong content type", async () => {
       const testClient = await Client.create(testWallet, { env: "local" });
       const testConversation = {
-        id: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
         isReady: false,

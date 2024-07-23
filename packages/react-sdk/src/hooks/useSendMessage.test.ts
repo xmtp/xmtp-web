@@ -44,7 +44,6 @@ describe("useSendMessage", () => {
       sentMessage: { id: 1 },
     });
     const testConversation = {
-      id: 1,
       createdAt: new Date(),
       updatedAt: new Date(),
       isReady: false,
@@ -88,7 +87,6 @@ describe("useSendMessage", () => {
       sentMessage: { id: 1 },
     });
     const testConversation = {
-      id: 1,
       createdAt: new Date(),
       updatedAt: new Date(),
       isReady: false,
@@ -135,7 +133,6 @@ describe("useSendMessage", () => {
     const testError = new Error("testError");
     sendMessageMock.mockRejectedValueOnce(testError);
     const testConversation = {
-      id: 1,
       createdAt: new Date(),
       updatedAt: new Date(),
       isReady: false,

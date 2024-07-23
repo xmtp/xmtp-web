@@ -85,12 +85,11 @@ export const getDbInstance = (options?: GetDBInstanceOptions) => {
     db.version(1).stores({
       ...customSchema,
       conversations: `
-        ++id,
+        topic,
         [walletAddress+topic],
         [walletAddress+peerAddress],
         createdAt,
         peerAddress,
-        topic,
         updatedAt,
         walletAddress
       `,

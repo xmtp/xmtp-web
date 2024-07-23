@@ -41,7 +41,6 @@ describe("useCachedConversations", () => {
 
   it("should return conversations when they're added to the cache", async () => {
     const testConversation = {
-      id: 1,
       createdAt: new Date(),
       updatedAt: new Date(),
       isReady: false,

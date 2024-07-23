@@ -84,7 +84,6 @@ describe("ContentTypeReaction", () => {
     it("should add and remove reactions to the cache", async () => {
       const testClient = await Client.create(testWallet, { env: "local" });
       const testConversation = {
-        id: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
         isReady: false,
@@ -194,7 +193,6 @@ describe("ContentTypeReaction", () => {
     it("should not process a message with the wrong content type", async () => {
       const testClient = await Client.create(testWallet, { env: "local" });
       const testConversation = {
-        id: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
         isReady: false,
