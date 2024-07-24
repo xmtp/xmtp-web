@@ -197,7 +197,6 @@ export const reactionContentTypeConfig: ContentTypeConfiguration = {
   schema: {
     reactions: `
       id,
-      [content+referenceXmtpID+schema+senderAddress],
       referenceXmtpID,
       content,
       schema,
