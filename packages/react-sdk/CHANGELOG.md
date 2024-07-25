@@ -1,5 +1,14 @@
 # @xmtp/react-sdk
 
+## 8.0.1
+
+### Patch Changes
+
+- ab6ec41:
+  - Updated DB schema for conversations, messages, consent, and reactions
+  - Added automatic DB migration
+  - Upgraded to latest JS SDK
+
 ## 8.0.0
 
 ### Major Changes
