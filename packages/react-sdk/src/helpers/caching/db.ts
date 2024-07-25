@@ -61,7 +61,7 @@ export type GetDBInstanceOptions = {
   contentTypeConfigs?: ContentTypeConfiguration[];
 };
 
-const setupLegacyDB = () => {
+export const getLegacyDB = () => {
   const db = new Dexie("__XMTP__");
 
   if (db.isOpen()) {
@@ -118,7 +118,7 @@ const setupLegacyDB = () => {
   return db;
 };
 
-const setupDB = (contentTypeConfigs?: ContentTypeConfiguration[]) => {
+export const getDB = (contentTypeConfigs?: ContentTypeConfiguration[]) => {
   const db = new Dexie("__XMTP2__");
 
   if (db.isOpen()) {
@@ -190,7 +190,7 @@ export const getDbInstance = async (options?: GetDBInstanceOptions) => {
 
   // no legacy DB to migrate, just use new DB
   if (!migrationRequired) {
-    return setupDB(options?.contentTypeConfigs);
+    return getDB(options?.contentTypeConfigs);
   }
 
   // DB migration already in progress, wait for it to finish
@@ -205,8 +205,8 @@ export const getDbInstance = async (options?: GetDBInstanceOptions) => {
     dbMigrationResolve = resolve;
   });
 
-  const legacyDB = setupLegacyDB();
-  const newDB = setupDB(options?.contentTypeConfigs);
+  const legacyDB = getLegacyDB();
+  const newDB = getDB(options?.contentTypeConfigs);
 
   /* eslint-disable no-param-reassign, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment */
 
