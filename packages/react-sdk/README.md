@@ -43,15 +43,7 @@ yarn add react @xmtp/react-sdk @xmtp/xmtp-js @xmtp/content-type-reaction @xmtp/c
 
 ### Buffer polyfill
 
-The Node Buffer API must be polyfilled in some cases. To do so, add the `buffer` dependency to your project and then polyfill it in your entry file.
-
-**Example**
-
-```ts
-import { Buffer } from "buffer";
-
-window.Buffer = window.Buffer ?? Buffer;
-```
+If you run into issues with Buffer and polyfills, see this [solution](https://xmtp.org/docs/faq#why-is-my-app-failing-with-a-buffer-is-not-found-error).
 
 #### Create React App
 
