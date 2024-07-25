@@ -14,7 +14,7 @@ export const useCachedConsentEntries = () => {
   const { client } = useClient();
   return (
     useLiveQuery(async () => {
-      // client and db required
+      // client required
       if (!client) {
         return {};
       }

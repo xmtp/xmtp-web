@@ -14,7 +14,7 @@ export const useCachedConversations = () => {
   const { client } = useClient();
   return (
     useLiveQuery(async () => {
-      // client and DB required
+      // client required
       if (!client) {
         return [];
       }
