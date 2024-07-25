@@ -112,17 +112,17 @@ describe("useClient", () => {
       });
     });
 
-    // expect(clientCreateSpy).toHaveBeenCalledWith(testWallet, {
-    //   env: "local",
-    //   codecs: [new TextCodec()],
-    //   privateKeyOverride: undefined,
-    // });
+    expect(clientCreateSpy).toHaveBeenCalledWith(testWallet, {
+      env: "local",
+      codecs: [new TextCodec()],
+      privateKeyOverride: undefined,
+    });
     expect(result.current.client).toBe(client);
 
-    // await waitFor(() => {
-    //   expect(loadConsentListFromCacheMock).toHaveBeenCalledTimes(1);
-    //   expect(processUnprocessedMessagesMock).toHaveBeenCalledTimes(1);
-    // });
+    await waitFor(() => {
+      expect(loadConsentListFromCacheMock).toHaveBeenCalledTimes(1);
+      expect(processUnprocessedMessagesMock).toHaveBeenCalledTimes(1);
+    });
   });
 
   it("should initialize a client with keys", async () => {
