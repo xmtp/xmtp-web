@@ -68,19 +68,13 @@ export const ReactionsContent: React.FC<ReactionsContentProps> = ({
         {
           content: emoji,
           schema: "unicode",
-          reference: message.xmtpID,
+          reference: message.id,
           action: hasReacted ? "removed" : "added",
         },
         ContentTypeReaction,
       );
     },
-    [
-      client?.address,
-      conversation,
-      emojiReactions,
-      message.xmtpID,
-      sendMessage,
-    ],
+    [client?.address, conversation, emojiReactions, message.id, sendMessage],
   );
 
   return (

@@ -10,14 +10,15 @@ import { getCachedConsentEntriesMap } from "@/helpers/caching/consent";
  * It's intended to be used internally and is not exported from the SDK
  */
 export const useCachedConsentEntries = () => {
-  const { db } = useDb();
+  const { getDbInstance } = useDb();
   const { client } = useClient();
   return (
     useLiveQuery(async () => {
-      // client required for address
+      // client required
       if (!client) {
         return {};
       }
+      const db = await getDbInstance();
       return getCachedConsentEntriesMap(client.address, db);
     }, [client?.address]) ?? {}
   );

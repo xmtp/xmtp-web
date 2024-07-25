@@ -29,7 +29,7 @@ import { adjustDate } from "@/helpers/adjustDate";
 import { textContentTypeConfig } from "@/helpers/caching/contentTypes/text";
 import { createRandomWallet } from "@/helpers/testing";
 
-const db = getDbInstance();
+const db = await getDbInstance();
 const testWallet1 = createRandomWallet();
 const testWallet2 = createRandomWallet();
 
@@ -71,14 +71,13 @@ describe("toCachedMessage", () => {
     expect(cachedMessage.senderAddress).toBe("testSenderAddress");
     expect(cachedMessage.sentAt).toBe(sentAt);
     expect(cachedMessage.walletAddress).toBe("testWalletAddress");
-    expect(cachedMessage.xmtpID).toBe("testId");
+    expect(cachedMessage.id).toBe("testId");
   });
 });
 
 describe("getMessageByXmtpID", () => {
   it("should return a message from the cache", async () => {
     const testMessage = {
-      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test",
@@ -90,7 +89,7 @@ describe("getMessageByXmtpID", () => {
       status: "processed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
 
     await db.table("messages").add(testMessage);
@@ -102,7 +101,6 @@ describe("getMessageByXmtpID", () => {
 describe("saveMessage", () => {
   it("should save a message to the cache", async () => {
     const testMessage = {
-      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test",
@@ -114,7 +112,7 @@ describe("saveMessage", () => {
       status: "processed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
 
     const cachedMessage = await saveMessage(testMessage, db);
@@ -126,7 +124,6 @@ describe("saveMessage", () => {
 
   it("should return a duplicate message", async () => {
     const testMessage = {
-      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test",
@@ -138,7 +135,7 @@ describe("saveMessage", () => {
       status: "processed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
     const cachedMessage = await saveMessage(testMessage, db);
     expect(cachedMessage).toEqual(testMessage);
@@ -151,7 +148,6 @@ describe("saveMessage", () => {
 describe("deleteMessage", () => {
   it("should delete a message from the cache", async () => {
     const testMessage = {
-      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test",
@@ -163,7 +159,7 @@ describe("deleteMessage", () => {
       status: "unprocessed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
 
     await saveMessage(testMessage, db);
@@ -181,7 +177,6 @@ describe("deleteMessage", () => {
 describe("updateMessage", () => {
   it("should update a message's properties in the cache", async () => {
     const testMessage = {
-      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test",
@@ -193,7 +188,7 @@ describe("updateMessage", () => {
       status: "unprocessed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
 
     const cachedMessage = await saveMessage(testMessage, db);
@@ -221,7 +216,6 @@ describe("updateMessage", () => {
 describe("updateMessageMetadata", () => {
   it("should update a message's metadata in the cache", async () => {
     const testMessage = {
-      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test",
@@ -233,7 +227,7 @@ describe("updateMessageMetadata", () => {
       status: "processed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
 
     const cachedMessage = await saveMessage(testMessage, db);
@@ -286,7 +280,6 @@ describe("prepareMessageForSending", () => {
         contentType: ContentTypeText.toString(),
         conversation: {
           createdAt: new Date(),
-          id: 1,
           isReady: true,
           peerAddress: "testPeerAddress",
           topic: "testTopic",
@@ -312,10 +305,10 @@ describe("prepareMessageForSending", () => {
       client,
       content: "test",
       contentType: ContentTypeText.toString(),
-      conversation: {
-        ...toCachedConversation(conversation, testWallet1.account.address),
-        id: 1,
-      },
+      conversation: toCachedConversation(
+        conversation,
+        testWallet1.account.address,
+      ),
     });
 
     expect(message.content).toBe("test");
@@ -324,7 +317,7 @@ describe("prepareMessageForSending", () => {
     expect(message.isSending).toBe(true);
     expect(message.status).toBe("unprocessed");
     expect(message.walletAddress).toBe(testWallet1.account.address);
-    expect(message.xmtpID).toBe(await preparedMessage.messageID());
+    expect(message.id).toBe(await preparedMessage.messageID());
   });
 
   it("should prepare a message for sending without a content type", async () => {
@@ -339,10 +332,10 @@ describe("prepareMessageForSending", () => {
     const { message, preparedMessage } = await prepareMessageForSending({
       client,
       content: "test",
-      conversation: {
-        ...toCachedConversation(conversation, testWallet1.account.address),
-        id: 1,
-      },
+      conversation: toCachedConversation(
+        conversation,
+        testWallet1.account.address,
+      ),
     });
 
     expect(message.content).toBe("test");
@@ -351,14 +344,13 @@ describe("prepareMessageForSending", () => {
     expect(message.isSending).toBe(true);
     expect(message.status).toBe("unprocessed");
     expect(message.walletAddress).toBe(testWallet1.account.address);
-    expect(message.xmtpID).toBe(await preparedMessage.messageID());
+    expect(message.id).toBe(await preparedMessage.messageID());
   });
 });
 
 describe("updateMessageAfterSending", () => {
   it("should update specific properties of a message", async () => {
     const testMessage = {
-      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test",
@@ -370,7 +362,7 @@ describe("updateMessageAfterSending", () => {
       status: "processed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
 
     const cachedMessage = await saveMessage(testMessage, db);
@@ -395,7 +387,6 @@ describe("getLastMessage", () => {
   it("should get the last message of a conversation topic", async () => {
     const sentAt = new Date();
     const testMessage = {
-      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test",
@@ -407,11 +398,10 @@ describe("getLastMessage", () => {
       status: "processed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid1",
-      xmtpID: "testXmtpId1",
+      id: "testXmtpId1",
     } satisfies CachedMessage;
 
     const testMessage2 = {
-      id: 2,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test",
@@ -423,7 +413,7 @@ describe("getLastMessage", () => {
       status: "processed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid2",
-      xmtpID: "testXmtpId2",
+      id: "testXmtpId2",
     } satisfies CachedMessage;
 
     const cachedMessage = await saveMessage(testMessage, db);
@@ -440,7 +430,6 @@ describe("getUnprocessedMessages", () => {
   it("should get all unprocessed messages", async () => {
     const sentAt = new Date();
     const testMessage = {
-      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test",
@@ -452,11 +441,10 @@ describe("getUnprocessedMessages", () => {
       status: "processed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid1",
-      xmtpID: "testXmtpId1",
+      id: "testXmtpId1",
     } satisfies CachedMessage;
 
     const testMessage2 = {
-      id: 2,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test",
@@ -468,7 +456,7 @@ describe("getUnprocessedMessages", () => {
       status: "unprocessed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid2",
-      xmtpID: "testXmtpId2",
+      id: "testXmtpId2",
     } satisfies CachedMessage;
 
     const cachedMessage = await saveMessage(testMessage, db);
@@ -515,7 +503,6 @@ describe("processMessage", () => {
 
     const sentAt = new Date();
     const testMessage = {
-      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test",
@@ -527,7 +514,7 @@ describe("processMessage", () => {
       status: "unprocessed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
 
     const { status, message: cachedMessage } = await processMessage({
@@ -571,7 +558,6 @@ describe("processMessage", () => {
 
     const sentAt = new Date();
     const testMessage = {
-      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test",
@@ -583,7 +569,7 @@ describe("processMessage", () => {
       status: "processed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
 
     await saveMessage(testMessage, db);
@@ -626,7 +612,6 @@ describe("processMessage", () => {
 
     const sentAt = new Date();
     const testMessage = {
-      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: undefined,
@@ -638,7 +623,7 @@ describe("processMessage", () => {
       status: "processed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
 
     const { status, message: cachedMessage } = await processMessage({
@@ -679,7 +664,6 @@ describe("processMessage", () => {
 
     const sentAt = new Date();
     const testMessage = {
-      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test",
@@ -691,7 +675,7 @@ describe("processMessage", () => {
       status: "unprocessed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
 
     const { status, message: cachedMessage } = await processMessage({
@@ -751,7 +735,6 @@ describe("processMessage", () => {
     });
 
     const testMessage2 = {
-      id: 2,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: "test2",
@@ -763,7 +746,7 @@ describe("processMessage", () => {
       status: "unprocessed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid2",
-      xmtpID: "testXmtpId2",
+      id: "testXmtpId2",
     } satisfies CachedMessage;
 
     const { status: status2, message: cachedMessage2 } = await processMessage({
@@ -804,7 +787,6 @@ describe("processMessage", () => {
 
     const sentAt = new Date();
     const testMessage = {
-      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: undefined,
@@ -816,7 +798,7 @@ describe("processMessage", () => {
       status: "unprocessed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
 
     const { status, message: cachedMessage } = await processMessage(
@@ -856,7 +838,6 @@ describe("processMessage", () => {
 
     const sentAt = new Date();
     const testMessage = {
-      id: 1,
       walletAddress: client.address,
       conversationTopic: conversation.topic,
       content: "test",
@@ -868,7 +849,7 @@ describe("processMessage", () => {
       status: "unprocessed",
       senderAddress: client.address,
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
 
     mockProcessor1.mockImplementation(
@@ -937,7 +918,6 @@ describe("reprocessMessage", () => {
     const testClient = await Client.create(testWallet1, { env: "local" });
     const createdAt = new Date();
     const testConversation = {
-      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,
@@ -948,7 +928,6 @@ describe("reprocessMessage", () => {
     const sentAt = adjustDate(createdAt, 1000);
     const contentBytes = new TextEncoder().encode("test");
     const testMessage = {
-      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: undefined,
@@ -961,7 +940,7 @@ describe("reprocessMessage", () => {
       status: "unprocessed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
     decodeContentMock.mockImplementation((bytes: Uint8Array) => ({
       content: new TextDecoder().decode(bytes),
@@ -1000,7 +979,6 @@ describe("reprocessMessage", () => {
     const testClient = await Client.create(testWallet1, { env: "local" });
     const createdAt = new Date();
     const testConversation = {
-      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,
@@ -1011,7 +989,6 @@ describe("reprocessMessage", () => {
     const sentAt = adjustDate(createdAt, 1000);
     const contentBytes = new TextEncoder().encode("foo");
     const testMessage = {
-      id: 1,
       walletAddress: "testWalletAddress",
       conversationTopic: "testTopic",
       content: undefined,
@@ -1024,7 +1001,7 @@ describe("reprocessMessage", () => {
       status: "unprocessed",
       senderAddress: "testWalletAddress",
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
     decodeContentMock.mockImplementation(() => ({
       content: undefined,
@@ -1051,7 +1028,6 @@ describe("processUnprocessedMessages", () => {
     const createdAt = new Date();
     const sentAt = adjustDate(createdAt, 1000);
     const testConversation = {
-      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,
@@ -1061,7 +1037,6 @@ describe("processUnprocessedMessages", () => {
     } satisfies CachedConversation;
     const cachedConversation = await saveConversation(testConversation, db);
     const testMessage1 = {
-      id: 1,
       walletAddress: testWallet1.account.address,
       conversationTopic: "testTopic",
       content: "test",
@@ -1073,11 +1048,10 @@ describe("processUnprocessedMessages", () => {
       status: "unprocessed",
       senderAddress: testWallet1.account.address,
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
     await saveMessage(testMessage1, db);
     const testMessage2 = {
-      id: 1,
       walletAddress: testWallet1.account.address,
       conversationTopic: "testTopic",
       content: "test",
@@ -1089,7 +1063,7 @@ describe("processUnprocessedMessages", () => {
       status: "processed",
       senderAddress: testWallet1.account.address,
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
     await saveMessage(testMessage2, db);
     const mockReprocessMessage = vi.fn();
@@ -1125,7 +1099,6 @@ describe("processUnprocessedMessages", () => {
     const createdAt = new Date();
     const sentAt = adjustDate(createdAt, 1000);
     const testMessage1 = {
-      id: 1,
       walletAddress: testWallet1.account.address,
       conversationTopic: "testTopic",
       content: "test",
@@ -1137,7 +1110,7 @@ describe("processUnprocessedMessages", () => {
       status: "unprocessed",
       senderAddress: testWallet1.account.address,
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
     await saveMessage(testMessage1, db);
     const mockReprocessMessage = vi.fn();

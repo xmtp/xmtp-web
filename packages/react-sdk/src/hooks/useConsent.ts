@@ -12,7 +12,7 @@ import { useCachedConsentEntries } from "@/hooks/useCachedConsentEntries";
  */
 export const useConsent = () => {
   const { client } = useClient();
-  const { db } = useDb();
+  const { getDbInstance } = useDb();
   const entries = useCachedConsentEntries();
 
   const allow = useCallback(
@@ -23,17 +23,19 @@ export const useConsent = () => {
       if (!skipPublish) {
         await client.contacts.allow(addresses);
       }
+      const db = await getDbInstance();
       // update DB
       await bulkPutConsentState(
         addresses.map((peerAddress) => ({
-          peerAddress,
+          value: peerAddress,
+          type: "address",
           state: "allowed",
           walletAddress: client.address,
         })),
         db,
       );
     },
-    [client, db],
+    [client, getDbInstance],
   );
 
   const deny = useCallback(
@@ -44,17 +46,19 @@ export const useConsent = () => {
       if (!skipPublish) {
         await client.contacts.deny(addresses);
       }
+      const db = await getDbInstance();
       // update DB
       await bulkPutConsentState(
         addresses.map((peerAddress) => ({
-          peerAddress,
+          value: peerAddress,
+          type: "address",
           state: "denied",
           walletAddress: client.address,
         })),
         db,
       );
     },
-    [client, db],
+    [client, getDbInstance],
   );
 
   const consentState = useCallback(
@@ -62,9 +66,10 @@ export const useConsent = () => {
       if (!client) {
         throw new Error("XMTP client is required");
       }
-      return getCachedConsentState(client.address, address, db);
+      const db = await getDbInstance();
+      return getCachedConsentState(client.address, "address", address, db);
     },
-    [client, db],
+    [client, getDbInstance],
   );
 
   const isAllowed = useCallback(
@@ -72,10 +77,16 @@ export const useConsent = () => {
       if (!client) {
         throw new Error("XMTP client is required");
       }
-      const state = await getCachedConsentState(client.address, address, db);
+      const db = await getDbInstance();
+      const state = await getCachedConsentState(
+        client.address,
+        "address",
+        address,
+        db,
+      );
       return state === "allowed";
     },
-    [client, db],
+    [client, getDbInstance],
   );
 
   const isDenied = useCallback(
@@ -83,10 +94,16 @@ export const useConsent = () => {
       if (!client) {
         throw new Error("XMTP client is required");
       }
-      const state = await getCachedConsentState(client.address, address, db);
+      const db = await getDbInstance();
+      const state = await getCachedConsentState(
+        client.address,
+        "address",
+        address,
+        db,
+      );
       return state === "denied";
     },
-    [client, db],
+    [client, getDbInstance],
   );
 
   const loadConsentList = useCallback(
@@ -94,12 +111,14 @@ export const useConsent = () => {
       if (!client) {
         throw new Error("XMTP client is required");
       }
+      const db = await getDbInstance();
       const newEntries = await client.contacts.loadConsentList(startTime);
       if (newEntries.length > 0) {
         // update DB
         await bulkPutConsentState(
           newEntries.map((entry) => ({
-            peerAddress: entry.value,
+            value: entry.value,
+            type: "address",
             state: entry.permissionType,
             walletAddress: client.address,
           })),
@@ -108,7 +127,7 @@ export const useConsent = () => {
       }
       return newEntries;
     },
-    [client, db],
+    [client, getDbInstance],
   );
 
   const refreshConsentList = useCallback(async () => {
@@ -116,13 +135,15 @@ export const useConsent = () => {
       throw new Error("XMTP client is required");
     }
     // clear consent DB table
+    const db = await getDbInstance();
     await db.table("consent").clear();
     const newEntries = await client?.contacts.refreshConsentList();
     if (newEntries.length > 0) {
       // update DB
       await bulkPutConsentState(
         newEntries.map((entry) => ({
-          peerAddress: entry.value,
+          value: entry.value,
+          type: "address",
           state: entry.permissionType,
           walletAddress: client.address,
         })),
@@ -130,7 +151,7 @@ export const useConsent = () => {
       );
     }
     return newEntries;
-  }, [client, db]);
+  }, [client, getDbInstance]);
 
   return {
     allow,

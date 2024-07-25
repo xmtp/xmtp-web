@@ -179,7 +179,6 @@ describe("useStartConversation", () => {
       },
     }));
     const savedConversation = {
-      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,
@@ -233,7 +232,6 @@ describe("useStartConversation", () => {
       },
     }));
     const savedConversation = {
-      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,
@@ -242,7 +240,6 @@ describe("useStartConversation", () => {
       peerAddress: "testPeerAddress",
     } satisfies CachedConversation;
     const savedMessage = {
-      id: 1,
       sentAt: new Date(),
       conversationTopic: "testTopic",
       content: "test",
@@ -254,7 +251,7 @@ describe("useStartConversation", () => {
       status: "processed",
       walletAddress: "testWalletAddress",
       uuid: "testUuid",
-      xmtpID: "testXmtpId",
+      id: "testXmtpId",
     } satisfies CachedMessage;
     saveConversationMock.mockResolvedValueOnce(savedConversation);
     sendMessageMock.mockResolvedValueOnce({

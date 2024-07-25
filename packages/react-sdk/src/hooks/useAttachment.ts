@@ -40,7 +40,7 @@ export const useAttachment = (
   options?: UseAttachmentOptions,
 ) => {
   const { client } = useClient();
-  const { db } = useDb();
+  const { getDbInstance } = useDb();
   const { updateMessage } = useMessage();
   const [error, setError] = useState<Error | undefined>(undefined);
   const [status, setStatus] = useState<AttachmentStatus>("init");
@@ -88,6 +88,7 @@ export const useAttachment = (
           );
           // cache attachment data
           try {
+            const db = await getDbInstance();
             await updateAttachmentData(message, loadedAttachment, db);
           } catch {
             // if this call fails, it's not a big deal
@@ -113,7 +114,7 @@ export const useAttachment = (
       client,
       message,
       attachment,
-      db,
+      getDbInstance,
       updateMessage,
     ],
   );
@@ -173,7 +174,6 @@ export const useAttachment = (
   }, [
     remoteAttachmentData,
     autoloadMaxFileSize,
-    db,
     disableAutoload,
     loadRemoteAttachment,
     message,

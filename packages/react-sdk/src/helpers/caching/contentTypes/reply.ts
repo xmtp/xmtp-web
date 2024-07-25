@@ -16,16 +16,16 @@ import { getMessageByXmtpID } from "../messages";
 const NAMESPACE = "replies";
 
 export type CachedReply = {
-  id?: number;
+  id: number;
   referenceXmtpID: Reply["reference"];
   xmtpID: string;
 };
 
-export type CachedReplyWithId = CachedReply & {
-  id: number;
-};
-
-export type CachedRepliesTable = Table<CachedReply, number>;
+export type CachedRepliesTable = Table<
+  CachedReply,
+  number,
+  Omit<CachedReply, "id">
+>;
 
 /**
  * Add a reply to the cache
@@ -49,7 +49,7 @@ export const addReply = async (
     .first();
 
   return existing
-    ? (existing as CachedReplyWithId).id
+    ? existing.id
     : repliesTable.add({
         referenceXmtpID: xmtpID,
         xmtpID: replyXmtpID,
@@ -66,12 +66,12 @@ export const addReply = async (
 export const getReplies = async (message: CachedMessage, db: Dexie) => {
   const repliesTable = db.table("replies") as CachedRepliesTable;
   const replies = await repliesTable
-    .where({ referenceXmtpID: message.xmtpID })
+    .where({ referenceXmtpID: message.id })
     .toArray();
   if (replies.length > 0) {
     const messagesTable = db.table("messages") as CachedMessagesTable;
     const replyMessages = await messagesTable
-      .where("xmtpID")
+      .where("id")
       .anyOf(replies.map((reply) => reply.xmtpID))
       .sortBy("sentAt");
     return replyMessages;
@@ -89,7 +89,7 @@ export const getReplies = async (message: CachedMessage, db: Dexie) => {
 export const hasReply = async (message: CachedMessage, db: Dexie) => {
   const repliesTable = db.table("replies") as CachedRepliesTable;
   const replies = await repliesTable
-    .where({ referenceXmtpID: message.xmtpID })
+    .where({ referenceXmtpID: message.id })
     .toArray();
   return replies.length > 0;
 };
@@ -156,7 +156,7 @@ export const processReply: ContentTypeMessageProcessor = async ({
     const reply = message.content as Reply;
 
     // save the reply to cache
-    await addReply(reply.reference, message.xmtpID, db);
+    await addReply(reply.reference, message.id, db);
   }
 };
 

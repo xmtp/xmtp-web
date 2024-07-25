@@ -7,7 +7,6 @@ import type { ContentTypeMetadata, ContentTypeMetadataValues } from "./db";
 export type CachedConversation<M = ContentTypeMetadata> = {
   context?: InvitationContext;
   createdAt: Date;
-  id: number;
   isReady: boolean;
   lastSyncedAt?: Date;
   metadata?: M;
@@ -18,7 +17,7 @@ export type CachedConversation<M = ContentTypeMetadata> = {
 };
 
 type SearchableProperties = Required<
-  Pick<CachedConversation, "id" | "peerAddress" | "topic">
+  Pick<CachedConversation, "peerAddress" | "topic">
 >;
 
 type ToFunctionArgs<T> = {
@@ -31,7 +30,7 @@ type GetCachedConversationBy = (
 
 export type CachedConversationsTable = Table<
   CachedConversation,
-  number,
+  string,
   Omit<CachedConversation, "id">
 >;
 
@@ -196,7 +195,7 @@ const saveConversationMutex = new Mutex();
  * @returns The saved cached conversation with ID
  */
 export const saveConversation = async (
-  conversation: Omit<CachedConversation, "id">,
+  conversation: CachedConversation,
   db: Dexie,
 ) =>
   // ensure that only 1 conversation is saved at a time to prevent duplicates
@@ -214,7 +213,7 @@ export const saveConversation = async (
       return existing;
     }
 
-    const id = await conversations.add(conversation);
+    await conversations.add(conversation);
 
-    return { ...conversation, id };
+    return conversation;
   });

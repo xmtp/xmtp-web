@@ -18,7 +18,7 @@ const prepareMessageForSendingMock = vi.hoisted(() => vi.fn());
 const processMessageMock = vi.hoisted(() => vi.fn());
 const updateMessageMock = vi.hoisted(() => vi.fn());
 const updateMessageAfterSendingMock = vi.hoisted(() => vi.fn());
-const db = getDbInstance();
+const db = await getDbInstance();
 const testWallet1 = createRandomWallet();
 const testWallet2 = createRandomWallet();
 
@@ -29,7 +29,7 @@ const testWrapper =
 
 vi.mock("@/hooks/useDb", () => ({
   useDb: () => ({
-    db,
+    getDbInstance: () => db,
   }),
 }));
 
@@ -62,7 +62,6 @@ describe("useMessage", () => {
         await expect(
           result.current.sendMessage(
             {
-              id: 1,
               createdAt: new Date(),
               updatedAt: new Date(),
               isReady: false,
@@ -87,7 +86,6 @@ describe("useMessage", () => {
         await expect(
           result.current.sendMessage(
             {
-              id: 1,
               createdAt: new Date(),
               updatedAt: new Date(),
               isReady: false,
@@ -260,7 +258,6 @@ describe("useMessage", () => {
       await act(async () => {
         await expect(
           result.current.resendMessage({
-            id: 1,
             content: "test",
             contentType: ContentTypeText.toString(),
             hasLoadError: false,
@@ -272,7 +269,7 @@ describe("useMessage", () => {
             status: "processed",
             uuid: "testUuid",
             walletAddress: testWallet1.account.address,
-            xmtpID: "testXmtpId",
+            id: "testXmtpId",
           } satisfies CachedMessage),
         ).rejects.toThrow(
           "Resending a message that hasn't failed to send is not allowed",
@@ -286,7 +283,6 @@ describe("useMessage", () => {
       await act(async () => {
         await expect(
           result.current.resendMessage({
-            id: 1,
             content: "test",
             contentType: ContentTypeText.toString(),
             hasLoadError: false,
@@ -298,7 +294,7 @@ describe("useMessage", () => {
             status: "processed",
             uuid: "testUuid",
             walletAddress: testWallet1.account.address,
-            xmtpID: "testXmtpId",
+            id: "testXmtpId",
           } satisfies CachedMessage),
         ).rejects.toThrow("XMTP client is required to send a message");
       });
@@ -314,7 +310,6 @@ describe("useMessage", () => {
       await act(async () => {
         await expect(
           result.current.resendMessage({
-            id: 1,
             content: "test",
             contentType: ContentTypeText.toString(),
             hasLoadError: false,
@@ -326,7 +321,7 @@ describe("useMessage", () => {
             status: "processed",
             uuid: "testUuid",
             walletAddress: testWallet1.account.address,
-            xmtpID: "testXmtpId",
+            id: "testXmtpId",
           } satisfies CachedMessage),
         ).rejects.toThrow(
           "Conversation not found in XMTP client, unable to send message",
@@ -348,7 +343,6 @@ describe("useMessage", () => {
       });
 
       const cachedMessage = {
-        id: 1,
         content: "test",
         contentType: ContentTypeText.toString(),
         hasLoadError: false,
@@ -360,7 +354,7 @@ describe("useMessage", () => {
         status: "processed",
         uuid: "testUuid",
         walletAddress: testWallet1.account.address,
-        xmtpID: "testXmtpId",
+        id: "testXmtpId",
         sendOptions: {
           contentType: ContentTypeText,
         },

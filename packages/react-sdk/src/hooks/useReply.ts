@@ -7,7 +7,7 @@ import { getOriginalMessageFromReply } from "@/helpers/caching/contentTypes/repl
  * This hook returns the original message of a cached reply
  */
 export const useReply = (message?: CachedMessage) => {
-  const { db } = useDb();
+  const { getDbInstance } = useDb();
 
   const [originalMessage, setOriginalMessage] = useState<
     CachedMessage | undefined
@@ -16,6 +16,7 @@ export const useReply = (message?: CachedMessage) => {
   useEffect(() => {
     const getOriginalMessage = async () => {
       if (message) {
+        const db = await getDbInstance();
         const msg = await getOriginalMessageFromReply(message, db);
         if (msg) {
           setOriginalMessage(msg);
@@ -23,7 +24,7 @@ export const useReply = (message?: CachedMessage) => {
       }
     };
     void getOriginalMessage();
-  }, [db, message]);
+  }, [getDbInstance, message]);
 
   return { originalMessage };
 };

@@ -4,13 +4,13 @@ import { getDbInstance, clearCache } from "@/helpers/caching/db";
 import type { CachedConversation } from "@/helpers/caching/conversations";
 import { saveConversation } from "@/helpers/caching/conversations";
 
-const db = getDbInstance();
+const db = await getDbInstance();
 const testWalletAddress = "testAddress";
 const testPeerAddress = "testPeerAddress";
 
 vi.mock("./useDb", () => ({
   useDb: () => ({
-    db,
+    getDbInstance: () => db,
   }),
 }));
 
@@ -41,7 +41,6 @@ describe("useCachedConversations", () => {
 
   it("should return conversations when they're added to the cache", async () => {
     const testConversation = {
-      id: 1,
       createdAt: new Date(),
       updatedAt: new Date(),
       isReady: false,

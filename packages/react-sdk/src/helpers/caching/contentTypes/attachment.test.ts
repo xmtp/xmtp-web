@@ -40,7 +40,6 @@ describe("ContentTypeRemoteAttachment caching", () => {
         data: new Uint8Array(),
       } satisfies Attachment;
       const testMessage = {
-        id: 1,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: testContent,
@@ -52,7 +51,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         status: "unprocessed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid",
-        xmtpID: "testXmtpId",
+        id: "testXmtpId",
       } satisfies CachedMessage<Attachment>;
 
       const attachment = getAttachment(testMessage);
@@ -69,7 +68,6 @@ describe("ContentTypeRemoteAttachment caching", () => {
         filename: "testFilename",
       } satisfies RemoteAttachment;
       const testMessage2 = {
-        id: 2,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: testContent2,
@@ -81,14 +79,13 @@ describe("ContentTypeRemoteAttachment caching", () => {
         status: "unprocessed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid",
-        xmtpID: "testXmtpId",
+        id: "testXmtpId",
       } satisfies CachedMessage<RemoteAttachment>;
 
       const attachment2 = getAttachment(testMessage2);
       expect(attachment2).toEqual(testContent2);
 
       const testMessage3 = {
-        id: 3,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "foo",
@@ -100,7 +97,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         status: "unprocessed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid",
-        xmtpID: "testXmtpId",
+        id: "testXmtpId",
       } satisfies CachedMessage;
 
       const attachment3 = getAttachment(testMessage3);
@@ -116,7 +113,6 @@ describe("ContentTypeRemoteAttachment caching", () => {
         data: new Uint8Array(),
       } satisfies Attachment;
       const testMessage = {
-        id: 1,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: testContent,
@@ -128,14 +124,13 @@ describe("ContentTypeRemoteAttachment caching", () => {
         status: "unprocessed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid",
-        xmtpID: "testXmtpId",
+        id: "testXmtpId",
       } satisfies CachedMessage<Attachment>;
 
       const attachment = hasAttachment(testMessage);
       expect(attachment).toBe(true);
 
       const testMessage2 = {
-        id: 2,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "foo",
@@ -147,7 +142,7 @@ describe("ContentTypeRemoteAttachment caching", () => {
         status: "unprocessed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid",
-        xmtpID: "testXmtpId",
+        id: "testXmtpId",
       } satisfies CachedMessage;
 
       const attachment2 = hasAttachment(testMessage2);

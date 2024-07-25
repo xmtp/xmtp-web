@@ -21,7 +21,7 @@ import type { CachedConversation } from "@/helpers/caching/conversations";
 import { createRandomWallet } from "@/helpers/testing";
 
 const testWallet = createRandomWallet();
-const db = getDbInstance({
+const db = await getDbInstance({
   contentTypeConfigs: [replyContentTypeConfig],
 });
 
@@ -46,7 +46,6 @@ describe("ContentTypeReply", () => {
     it("should add the reply and message to the cache", async () => {
       const testClient = await Client.create(testWallet, { env: "local" });
       const testConversation = {
-        id: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
         isReady: false,
@@ -55,7 +54,6 @@ describe("ContentTypeReply", () => {
         walletAddress: testWallet.account.address,
       } satisfies CachedConversation;
       const testTextMessage = {
-        id: 1,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
@@ -67,7 +65,7 @@ describe("ContentTypeReply", () => {
         status: "processed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid1",
-        xmtpID: "testXmtpId1",
+        id: "testXmtpId1",
       } satisfies CachedMessage;
 
       await saveMessage(testTextMessage, db);
@@ -79,7 +77,6 @@ describe("ContentTypeReply", () => {
       } satisfies Reply;
 
       const testReplyMessage = {
-        id: 2,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: testReplyContent,
@@ -91,7 +88,7 @@ describe("ContentTypeReply", () => {
         status: "processed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid2",
-        xmtpID: "testXmtpId2",
+        id: "testXmtpId2",
       } satisfies CachedMessage<Reply>;
 
       await saveMessage(testReplyMessage, db);
@@ -123,7 +120,6 @@ describe("ContentTypeReply", () => {
     it("should not process a message with the wrong content type", async () => {
       const testClient = await Client.create(testWallet, { env: "local" });
       const testConversation = {
-        id: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
         isReady: false,
@@ -132,7 +128,6 @@ describe("ContentTypeReply", () => {
         walletAddress: testWallet.account.address,
       } satisfies CachedConversation;
       const testMessage = {
-        id: 1,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
@@ -144,7 +139,7 @@ describe("ContentTypeReply", () => {
         status: "unprocessed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid",
-        xmtpID: "testXmtpId",
+        id: "testXmtpId",
       } satisfies CachedMessage;
 
       const updateConversationMetadata = vi.fn();
@@ -162,7 +157,6 @@ describe("ContentTypeReply", () => {
   describe("getOriginalMessageFromReply", () => {
     it("should return undefined if the message isn't a processed reply", async () => {
       const testTextMessage = {
-        id: 1,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
@@ -174,7 +168,7 @@ describe("ContentTypeReply", () => {
         status: "processed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid1",
-        xmtpID: "testXmtpId1",
+        id: "testXmtpId1",
       } satisfies CachedMessage;
 
       const originalMessageFromReply = await getOriginalMessageFromReply(
@@ -184,7 +178,6 @@ describe("ContentTypeReply", () => {
       expect(originalMessageFromReply).toBeUndefined();
 
       const testReplyMessage = {
-        id: 2,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: {
@@ -200,7 +193,7 @@ describe("ContentTypeReply", () => {
         status: "unprocessed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid2",
-        xmtpID: "testXmtpId2",
+        id: "testXmtpId2",
       } satisfies CachedMessage<Reply>;
 
       const originalMessageFromReply2 = await getOriginalMessageFromReply(
@@ -214,7 +207,6 @@ describe("ContentTypeReply", () => {
   describe("getReplies", () => {
     it("should return empty array if no metadata is present", async () => {
       const testTextMessage = {
-        id: 1,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
@@ -226,7 +218,7 @@ describe("ContentTypeReply", () => {
         status: "processed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid1",
-        xmtpID: "testXmtpId1",
+        id: "testXmtpId1",
       } satisfies CachedMessage;
 
       const replies = await getReplies(testTextMessage, db);
@@ -237,7 +229,6 @@ describe("ContentTypeReply", () => {
   describe("addReply", () => {
     it("should create multiple replies", async () => {
       const testTextMessage = {
-        id: 1,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: "test",
@@ -249,11 +240,10 @@ describe("ContentTypeReply", () => {
         status: "processed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid1",
-        xmtpID: "testXmtpId1",
+        id: "testXmtpId1",
       } satisfies CachedMessage;
 
       const testReplyMessage1 = {
-        id: 2,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: {
@@ -269,13 +259,12 @@ describe("ContentTypeReply", () => {
         status: "processed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid2",
-        xmtpID: "testXmtpId2",
+        id: "testXmtpId2",
       } satisfies CachedMessage;
 
       await saveMessage(testReplyMessage1, db);
 
       const testReplyMessage2 = {
-        id: 3,
         walletAddress: testWallet.account.address,
         conversationTopic: "testTopic",
         content: {
@@ -291,7 +280,7 @@ describe("ContentTypeReply", () => {
         status: "processed",
         senderAddress: "testWalletAddress",
         uuid: "testUuid3",
-        xmtpID: "testXmtpId3",
+        id: "testXmtpId3",
       } satisfies CachedMessage;
 
       await saveMessage(testReplyMessage2, db);

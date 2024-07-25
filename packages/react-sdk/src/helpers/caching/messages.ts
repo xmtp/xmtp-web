@@ -32,7 +32,7 @@ export type CachedMessage<C = any, M = ContentTypeMetadata> = {
   conversationTopic: string;
   hasLoadError: boolean;
   hasSendError: boolean;
-  id: number;
+  id: string;
   isSending: boolean;
   metadata?: M;
   senderAddress: string;
@@ -41,21 +41,9 @@ export type CachedMessage<C = any, M = ContentTypeMetadata> = {
   status: "unprocessed" | "processed";
   uuid: string;
   walletAddress: string;
-  xmtpID: string;
 };
 
-export type CachedMessageWithOptionalId<C = any> = Omit<
-  CachedMessage<C>,
-  "id"
-> & {
-  id?: CachedMessage<C>["id"];
-};
-
-export type CachedMessagesTable<C = any> = Table<
-  CachedMessage<C>,
-  number,
-  Omit<CachedMessage<C>, "id">
->;
+export type CachedMessagesTable<C = any> = Table<CachedMessage<C>, string>;
 
 /**
  * Converts a DecodedMessage from the XMTP network to its cached format
@@ -84,25 +72,25 @@ export const toCachedMessage = (
     status: "unprocessed",
     hasLoadError: false,
     hasSendError: false,
+    id: message.id,
     isSending: false,
     senderAddress: message.senderAddress,
     sentAt: message.sent,
     uuid: v4(),
     walletAddress,
-    xmtpID: message.id,
-  } satisfies Omit<CachedMessage, "id">;
+  } satisfies CachedMessage;
 };
 
 /**
  * Retrieve a message from the cache by its XMTP ID
  *
- * @param xmtpID The XMTP ID of the message to retrieve
+ * @param id The XMTP ID of the message to retrieve
  * @param db Database instance
  * @returns The cached message, or `undefined` if not found
  */
-export const getMessageByXmtpID = async (xmtpID: string, db: Dexie) => {
+export const getMessageByXmtpID = async (id: string, db: Dexie) => {
   const messages = db.table("messages") as CachedMessagesTable;
-  const message = await messages.where("xmtpID").equals(xmtpID).first();
+  const message = await messages.where("id").equals(id).first();
   return message;
 };
 
@@ -116,14 +104,11 @@ export type SaveMessageOptions = Omit<
  *
  * @returns The newly cached message, or an already existing cached message
  */
-export const saveMessage = async (
-  message: Omit<CachedMessage, "id">,
-  db: Dexie,
-) => {
+export const saveMessage = async (message: CachedMessage, db: Dexie) => {
   const messages = db.table("messages") as CachedMessagesTable;
 
   // check if message already exists
-  const existing = await getMessageByXmtpID(message.xmtpID, db);
+  const existing = await getMessageByXmtpID(message.id, db);
 
   if (existing) {
     // return the existing message
@@ -162,7 +147,7 @@ export const updateMessage = async (
       | "status"
       | "isSending"
       | "sentAt"
-      | "xmtpID"
+      | "id"
       | "metadata"
       | "hasLoadError"
       | "hasSendError"
@@ -215,7 +200,7 @@ export const prepareMessageForSending = async ({
   conversation,
   sendOptions,
 }: PrepareMessageOptions): Promise<{
-  message: Omit<CachedMessage, "id">;
+  message: CachedMessage;
   preparedMessage: Awaited<ReturnType<Conversation["prepareMessage"]>>;
 }> => {
   const networkConversation = await getConversationByTopic(
@@ -244,14 +229,14 @@ export const prepareMessageForSending = async ({
     conversationTopic: conversation.topic,
     hasLoadError: false,
     hasSendError: false,
+    id: await preparedMessage.messageID(),
     isSending: true,
     senderAddress: client.address,
     sentAt,
     status: "unprocessed",
     uuid: v4(),
     walletAddress: client.address,
-    xmtpID: await preparedMessage.messageID(),
-  } satisfies Omit<CachedMessage, "id">;
+  } satisfies CachedMessage;
 
   return {
     message,
@@ -282,7 +267,7 @@ export type ProcessMessageOptions = {
   client?: Client;
   conversation: CachedConversation;
   db: Dexie;
-  message: CachedMessageWithOptionalId;
+  message: CachedMessage;
   namespaces: Record<string, string>;
   processors: ContentTypeMessageProcessors;
   validators: ContentTypeMessageValidators;
@@ -329,7 +314,7 @@ export const processMessage = async (
   removeExisting = false,
 ): Promise<{
   status: ProcessStatus;
-  message: CachedMessageWithOptionalId;
+  message: CachedMessage;
 }> => {
   // client is required
   if (!client) {
@@ -340,7 +325,7 @@ export const processMessage = async (
   }
 
   // don't process a message if it's already in the queue
-  if (processQueue.includes(message.xmtpID)) {
+  if (processQueue.includes(message.id)) {
     return {
       status: "queued",
       message,
@@ -348,12 +333,12 @@ export const processMessage = async (
   }
 
   // add message to the processing queue
-  processQueue.push(message.xmtpID);
+  processQueue.push(message.id);
 
   const namespace = namespaces[message.contentType];
 
   try {
-    const existingMessage = await getMessageByXmtpID(message.xmtpID, db);
+    const existingMessage = await getMessageByXmtpID(message.id, db);
     // don't re-process an existing message that's already processed
     if (existingMessage && existingMessage.status === "processed") {
       return {
@@ -436,7 +421,7 @@ export const processMessage = async (
     };
   } finally {
     // always remove message from the processing queue
-    const index = processQueue.indexOf(message.xmtpID);
+    const index = processQueue.indexOf(message.id);
     if (index > -1) {
       processQueue.splice(index, 1);
     }

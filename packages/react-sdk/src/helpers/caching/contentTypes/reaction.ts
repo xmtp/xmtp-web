@@ -18,49 +18,28 @@ const NAMESPACE = "reactions";
 
 export type CachedReaction = {
   content: Reaction["content"];
-  id?: number;
+  id: string;
   referenceXmtpID: Reaction["reference"];
   schema: Reaction["schema"];
   senderAddress: string;
   sentAt: Date;
-  xmtpID: string;
 };
-
-export type CachedReactionWithId = CachedReaction & {
-  id: number;
-};
-
-export type CachedReactionQuery = Partial<
-  Pick<
-    CachedReaction,
-    "content" | "referenceXmtpID" | "schema" | "senderAddress"
-  >
->;
 
 export type CachedReactionsMetadata = boolean;
 
-export type CachedReactionsTable = Table<CachedReaction, number>;
+export type CachedReactionsTable = Table<CachedReaction, string>;
 
 /**
  * Finds a reaction in the cache
  *
- * @param reaction Cached reaction properties to look for
+ * @param reaction Cached reaction to look for
  * @param db Database instance
  * @returns Cached reaction, or `undefined` if not found
  */
 export const findReaction = async (reaction: CachedReaction, db: Dexie) => {
   const reactionsTable = db.table("reactions") as CachedReactionsTable;
-
-  const reactionQuery: CachedReactionQuery = {
-    content: reaction.content,
-    referenceXmtpID: reaction.referenceXmtpID,
-    schema: reaction.schema,
-    senderAddress: reaction.senderAddress,
-  };
-
-  const found = await reactionsTable.where(reactionQuery).first();
-
-  return found ? (found as CachedReactionWithId) : undefined;
+  const found = await reactionsTable.where("id").equals(reaction.id).first();
+  return found;
 };
 
 /**
@@ -189,7 +168,7 @@ export const processReaction: ContentTypeMessageProcessor = async ({
         schema: reaction.schema,
         senderAddress: message.senderAddress,
         sentAt: message.sentAt,
-        xmtpID: message.xmtpID,
+        id: message.id,
       } satisfies CachedReaction;
 
       switch (reaction.action) {
@@ -217,14 +196,12 @@ export const reactionContentTypeConfig: ContentTypeConfiguration = {
   },
   schema: {
     reactions: `
-      ++id,
-      [content+referenceXmtpID+schema+senderAddress],
+      id,
       referenceXmtpID,
       content,
       schema,
       senderAddress,
-      sentAt,
-      xmtpID
+      sentAt
     `,
   },
   validators: {

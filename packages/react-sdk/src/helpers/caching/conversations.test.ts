@@ -20,7 +20,7 @@ import { createRandomWallet } from "@/helpers/testing";
 const testWallet1 = createRandomWallet();
 const testWallet2 = createRandomWallet();
 
-const db = getDbInstance();
+const db = await getDbInstance();
 
 beforeEach(async () => {
   await clearCache(db);
@@ -35,13 +35,6 @@ describe("getCachedConversationBy", () => {
       db,
     );
     expect(conversation).toBeUndefined();
-    const conversation2 = await getCachedConversationBy(
-      "testWalletAddress",
-      "id",
-      1,
-      db,
-    );
-    expect(conversation2).toBeUndefined();
     const conversation3 = await getCachedConversationBy(
       "testWalletAddress",
       "peerAddress",
@@ -65,7 +58,6 @@ describe("getCachedConversationBy", () => {
 
   it("should return a conversation if one is found", async () => {
     const testConversation = {
-      id: 1,
       createdAt: new Date(),
       updatedAt: new Date(),
       isReady: false,
@@ -81,13 +73,6 @@ describe("getCachedConversationBy", () => {
       db,
     );
     expect(conversation).toEqual(cachedConversation);
-    const conversation2 = await getCachedConversationBy(
-      "testWalletAddress",
-      "id",
-      1,
-      db,
-    );
-    expect(conversation2).toEqual(cachedConversation);
     const conversation3 = await getCachedConversationBy(
       "testWalletAddress",
       "peerAddress",
@@ -136,7 +121,6 @@ describe("updateConversation", () => {
   it("should update conversation properties", async () => {
     const createdAt = new Date();
     const testConversation = {
-      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,
@@ -175,7 +159,6 @@ describe("updateConversationMetadata", () => {
   it("should update conversation metadata with the right namespace", async () => {
     const createdAt = new Date();
     const testConversation = {
-      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,
@@ -208,7 +191,6 @@ describe("setConversationUpdatedAt", () => {
   it("should update the `updatedAt` field of a cached conversation", async () => {
     const createdAt = new Date();
     const testConversation = {
-      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,
@@ -236,7 +218,6 @@ describe("hasConversationTopic", () => {
   it("should return true if the topic exists", async () => {
     const createdAt = new Date();
     const testConversation = {
-      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,
@@ -263,7 +244,6 @@ describe("saveConversation", () => {
   it("should save a conversation to the cache", async () => {
     const createdAt = new Date();
     const testConversation = {
-      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,
@@ -278,7 +258,6 @@ describe("saveConversation", () => {
   it("should return a duplicate conversation", async () => {
     const createdAt = new Date();
     const testConversation = {
-      id: 1,
       createdAt,
       updatedAt: createdAt,
       isReady: false,

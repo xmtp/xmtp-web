@@ -26,13 +26,13 @@ export const ReactionsBar: React.FC<ReactionsBarProps> = ({
         {
           content: emoji,
           schema: "unicode",
-          reference: message.xmtpID,
+          reference: message.id,
           action: "added",
         },
         ContentTypeReaction,
       );
     },
-    [conversation, message.xmtpID, sendMessage],
+    [conversation, message.id, sendMessage],
   );
 
   return (
