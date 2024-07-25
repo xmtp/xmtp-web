@@ -5,6 +5,7 @@ import { XMTPContext } from "../contexts/XMTPContext";
 import type { OnError } from "@/sharedTypes";
 import { processUnprocessedMessages } from "@/helpers/caching/messages";
 import { loadConsentListFromCache } from "@/helpers/caching/consent";
+import { useDb } from "@/hooks/useDb";
 
 export type InitializeClientOptions = {
   /**
@@ -32,8 +33,9 @@ export const useClient = (onError?: OnError["onError"]) => {
   const [error, setError] = useState<Error | null>(null);
   // client is initializing
   const initializingRef = useRef(false);
+  const { getInstance } = useDb();
 
-  const { client, setClient, codecs, db, processors, namespaces, validators } =
+  const { client, setClient, codecs, processors, namespaces, validators } =
     useContext(XMTPContext);
 
   /**
@@ -78,6 +80,8 @@ export const useClient = (onError?: OnError["onError"]) => {
 
         setIsLoading(false);
 
+        const db = await getInstance();
+
         // load cached consent list
         try {
           await loadConsentListFromCache(xmtpClient, db);
@@ -107,7 +111,7 @@ export const useClient = (onError?: OnError["onError"]) => {
     [
       client,
       codecs,
-      db,
+      getInstance,
       namespaces,
       onError,
       processors,

@@ -36,14 +36,15 @@ export const useMessage = () => {
   const xmtpContext = useContext(XMTPContext);
   const { processors, namespaces, validators } = xmtpContext;
   const { client } = useClient();
-  const { db } = useDb();
+  const { getInstance } = useDb();
 
   const processMessage = useCallback(
     async (
       conversation: ProcessMessageOptions["conversation"],
       message: ProcessMessageOptions["message"],
-    ) =>
-      _processMessage({
+    ) => {
+      const db = await getInstance();
+      return _processMessage({
         client,
         conversation,
         db,
@@ -51,29 +52,45 @@ export const useMessage = () => {
         namespaces,
         processors,
         validators,
-      }),
-    [client, db, namespaces, processors, validators],
+      });
+    },
+    [client, getInstance, namespaces, processors, validators],
   );
 
   const updateMessage = useCallback<RemoveLastParameter<typeof _updateMessage>>(
-    async (message, update) => _updateMessage(message, update, db),
-    [db],
+    async (message, update) => {
+      const db = await getInstance();
+      return _updateMessage(message, update, db);
+    },
+    [getInstance],
   );
 
   const updateMessageAfterSending = useCallback<
     RemoveLastParameter<typeof _updateMessageAfterSending>
   >(
-    async (message, sentAt) => _updateMessageAfterSending(message, sentAt, db),
-    [db],
+    async (message, sentAt) => {
+      const db = await getInstance();
+      return _updateMessageAfterSending(message, sentAt, db);
+    },
+    [getInstance],
   );
 
   const getMessageByXmtpID = useCallback<
     RemoveLastParameter<typeof _getMessageByXmtpID>
-  >(async (xmtpID) => _getMessageByXmtpID(xmtpID, db), [db]);
+  >(
+    async (xmtpID) => {
+      const db = await getInstance();
+      return _getMessageByXmtpID(xmtpID, db);
+    },
+    [getInstance],
+  );
 
   const deleteMessage = useCallback<RemoveLastParameter<typeof _deleteMessage>>(
-    async (message) => _deleteMessage(message, db),
-    [db],
+    async (message) => {
+      const db = await getInstance();
+      return _deleteMessage(message, db);
+    },
+    [getInstance],
   );
 
   /**
@@ -135,6 +152,7 @@ export const useMessage = () => {
         // only send the message if it's been processed
         if (status === "processed") {
           try {
+            const db = await getInstance();
             const sentMessage = await preparedMessage.send();
 
             // update conversation's last message time
@@ -180,7 +198,13 @@ export const useMessage = () => {
         throw e;
       }
     },
-    [client, db, processMessage, updateMessage, updateMessageAfterSending],
+    [
+      client,
+      getInstance,
+      processMessage,
+      updateMessage,
+      updateMessageAfterSending,
+    ],
   );
 
   /**
@@ -221,6 +245,8 @@ export const useMessage = () => {
         message.sendOptions,
       );
 
+      const db = await getInstance();
+
       // update conversation's last message time
       await setConversationUpdatedAt(
         networkConversation.topic,
@@ -233,7 +259,7 @@ export const useMessage = () => {
 
       return sentMessage;
     },
-    [client, db, updateMessageAfterSending],
+    [client, getInstance, updateMessageAfterSending],
   );
 
   return {

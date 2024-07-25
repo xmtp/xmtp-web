@@ -21,7 +21,7 @@ import type { CachedConversation } from "@/helpers/caching/conversations";
 import { createRandomWallet } from "@/helpers/testing";
 
 const testWallet = createRandomWallet();
-const db = getDbInstance({
+const db = await getDbInstance({
   contentTypeConfigs: [replyContentTypeConfig],
 });
 

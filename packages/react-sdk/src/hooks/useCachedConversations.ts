@@ -10,14 +10,15 @@ import { useClient } from "@/hooks/useClient";
  * It's intended to be used internally and is not exported from the SDK
  */
 export const useCachedConversations = () => {
-  const { db } = useDb();
+  const { getInstance } = useDb();
   const { client } = useClient();
   return (
     useLiveQuery(async () => {
-      // client required for address
+      // client and DB required
       if (!client) {
         return [];
       }
+      const db = await getInstance();
       return (db.table("conversations") as CachedConversationsTable)
         .where("walletAddress")
         .equals(client.address)

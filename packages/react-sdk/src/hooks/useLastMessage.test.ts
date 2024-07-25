@@ -9,13 +9,13 @@ import { saveMessage } from "@/helpers/caching/messages";
 // eslint-disable-next-line import/first
 import { useLastMessage } from "./useLastMessage";
 
-const db = getDbInstance();
+const db = await getDbInstance();
 const testWalletAddress = "testAddress";
 const testTopic = "testTopic";
 
 vi.mock("./useDb", () => ({
   useDb: () => ({
-    db,
+    getInstance: () => db,
   }),
 }));
 

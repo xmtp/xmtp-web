@@ -14,7 +14,7 @@ import {
 // eslint-disable-next-line import/first
 import { useConsent } from "./useConsent";
 
-const db = getDbInstance();
+const db = await getDbInstance();
 const testWallet1 = createRandomWallet();
 const testWallet2 = createRandomWallet();
 const testWallet3 = createRandomWallet();
@@ -27,7 +27,7 @@ const testWrapper =
 
 vi.mock("@/hooks/useDb", () => ({
   useDb: () => ({
-    db,
+    getInstance: () => db,
   }),
 }));
 

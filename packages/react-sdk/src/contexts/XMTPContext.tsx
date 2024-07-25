@@ -1,13 +1,12 @@
-import { createContext, useMemo, useState } from "react";
+import { createContext, useMemo, useRef, useState } from "react";
 import type { Client } from "@xmtp/xmtp-js";
-import Dexie from "dexie";
 import type { ContentCodec } from "@xmtp/content-type-primitives";
+import type Dexie from "dexie";
 import type {
   ContentTypeConfiguration,
   ContentTypeMessageProcessors,
   ContentTypeMessageValidators,
 } from "@/helpers/caching/db";
-import { getDbInstance } from "@/helpers/caching/db";
 import { combineNamespaces } from "@/helpers/combineNamespaces";
 import { combineMessageProcessors } from "@/helpers/combineMessageProcessors";
 import { combineCodecs } from "@/helpers/combineCodecs";
@@ -23,9 +22,13 @@ export type XMTPContextValue = {
    */
   codecs: ContentCodec<any>[];
   /**
-   * Local DB instance
+   * Content type configurations used by the XMTP client instance
    */
-  db: Dexie;
+  contentTypeConfigs?: ContentTypeConfiguration[];
+  /**
+   * Reference to Dexie database instance
+   */
+  dbRef: React.MutableRefObject<Dexie | null>;
   /**
    * Namespaces for content types
    */
@@ -44,11 +47,10 @@ export type XMTPContextValue = {
   validators: ContentTypeMessageValidators;
 };
 
-const initialDb = new Dexie("__XMTP__");
-
 export const XMTPContext = createContext<XMTPContextValue>({
   codecs: [],
-  db: initialDb,
+  contentTypeConfigs: [],
+  dbRef: { current: null },
   namespaces: {},
   processors: {},
   setClient: () => {},
@@ -73,6 +75,7 @@ export const XMTPProvider: React.FC<XMTPProviderProps> = ({
   contentTypeConfigs,
 }) => {
   const [client, setClient] = useState<Client | undefined>(initialClient);
+  const dbRef = useRef<Dexie | null>(null);
 
   // combine all message processors
   const processors = useMemo(
@@ -98,28 +101,19 @@ export const XMTPProvider: React.FC<XMTPProviderProps> = ({
     [contentTypeConfigs],
   );
 
-  // DB instance for caching
-  const db = useMemo(
-    () =>
-      getDbInstance({
-        db: initialDb,
-        contentTypeConfigs,
-      }),
-    [contentTypeConfigs],
-  );
-
   // memo-ize the context value to prevent unnecessary re-renders
   const value = useMemo(
     () => ({
       client,
       codecs,
-      db,
+      contentTypeConfigs: contentTypeConfigs ?? [],
+      dbRef,
       namespaces,
       processors,
       setClient,
       validators,
     }),
-    [client, codecs, db, namespaces, processors, validators],
+    [client, codecs, contentTypeConfigs, namespaces, processors, validators],
   );
 
   return <XMTPContext.Provider value={value}>{children}</XMTPContext.Provider>;

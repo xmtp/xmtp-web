@@ -2,12 +2,12 @@ import { it, expect, describe, beforeEach } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 import { getDbInstance, clearCache } from "@/helpers/caching/db";
 
-const db = getDbInstance();
+const db = await getDbInstance();
 const testTopic = "testTopic";
 
 vi.mock("./useDb", () => ({
   useDb: () => ({
-    db,
+    getInstance: () => db,
   }),
 }));
 

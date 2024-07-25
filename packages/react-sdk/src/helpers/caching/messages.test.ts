@@ -29,7 +29,7 @@ import { adjustDate } from "@/helpers/adjustDate";
 import { textContentTypeConfig } from "@/helpers/caching/contentTypes/text";
 import { createRandomWallet } from "@/helpers/testing";
 
-const db = getDbInstance();
+const db = await getDbInstance();
 const testWallet1 = createRandomWallet();
 const testWallet2 = createRandomWallet();
 

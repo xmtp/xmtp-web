@@ -18,7 +18,7 @@ const prepareMessageForSendingMock = vi.hoisted(() => vi.fn());
 const processMessageMock = vi.hoisted(() => vi.fn());
 const updateMessageMock = vi.hoisted(() => vi.fn());
 const updateMessageAfterSendingMock = vi.hoisted(() => vi.fn());
-const db = getDbInstance();
+const db = await getDbInstance();
 const testWallet1 = createRandomWallet();
 const testWallet2 = createRandomWallet();
 
@@ -29,7 +29,7 @@ const testWrapper =
 
 vi.mock("@/hooks/useDb", () => ({
   useDb: () => ({
-    db,
+    getInstance: () => db,
   }),
 }));
 

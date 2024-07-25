@@ -4,13 +4,13 @@ import { getDbInstance, clearCache } from "@/helpers/caching/db";
 import type { CachedConversation } from "@/helpers/caching/conversations";
 import { saveConversation } from "@/helpers/caching/conversations";
 
-const db = getDbInstance();
+const db = await getDbInstance();
 const testWalletAddress = "testAddress";
 const testPeerAddress = "testPeerAddress";
 
 vi.mock("./useDb", () => ({
   useDb: () => ({
-    db,
+    getInstance: () => db,
   }),
 }));
 

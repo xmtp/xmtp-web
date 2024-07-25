@@ -104,12 +104,12 @@ export const useConversations = (options?: UseConversationsOptions) => {
 
     void getConversations();
   }, [
+    client,
+    hasConversationTopic,
     onConversations,
     onError,
-    client,
-    saveConversation,
     processMessage,
-    hasConversationTopic,
+    saveConversation,
   ]);
 
   return {

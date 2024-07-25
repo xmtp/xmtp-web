@@ -15,21 +15,27 @@ import { useDb } from "@/hooks/useDb";
 
 export const useConversationInternal = () => {
   const { client } = useClient();
-  const { db } = useDb();
+  const { getInstance } = useDb();
 
   const saveConversation = useCallback(
-    (conversation: Parameters<typeof _saveConversation>[0]) =>
-      client ? _saveConversation(conversation, db) : undefined,
-    [client, db],
+    async (conversation: Parameters<typeof _saveConversation>[0]) => {
+      if (!client) {
+        return undefined;
+      }
+      const db = await getInstance();
+      return _saveConversation(conversation, db);
+    },
+    [client, getInstance],
   );
 
   const updateConversation = useCallback<
     RemoveLastParameter<typeof _updateConversation>
   >(
     async (conversation, update) => {
+      const db = await getInstance();
       await _updateConversation(conversation, update, db);
     },
-    [db],
+    [getInstance],
   );
 
   const updateMetadata = useCallback<
@@ -37,6 +43,7 @@ export const useConversationInternal = () => {
   >(
     async (conversation, namespace, data) => {
       if (client) {
+        const db = await getInstance();
         await updateConversationMetadata(
           client.address,
           conversation,
@@ -46,7 +53,7 @@ export const useConversationInternal = () => {
         );
       }
     },
-    [client, db],
+    [client, getInstance],
   );
 
   return {
@@ -62,7 +69,7 @@ export const useConversationInternal = () => {
  */
 export const useConversation = () => {
   const { client } = useClient();
-  const { db } = useDb();
+  const { getInstance } = useDb();
 
   const getByTopic = useCallback(
     async (topic: string) =>
@@ -71,30 +78,48 @@ export const useConversation = () => {
   );
 
   const getCachedByTopic = useCallback(
-    async (topic: string) =>
-      client
-        ? getCachedConversationByTopic(client.address, topic, db)
-        : undefined,
-    [client, db],
+    async (topic: string) => {
+      if (!client) {
+        return undefined;
+      }
+      const db = await getInstance();
+      return getCachedConversationByTopic(client.address, topic, db);
+    },
+    [client, getInstance],
   );
 
   const getCachedByPeerAddress = useCallback(
-    async (peerAddress: string) =>
-      client
-        ? getCachedConversationByPeerAddress(client.address, peerAddress, db)
-        : undefined,
-    [client, db],
+    async (peerAddress: string) => {
+      if (!client) {
+        return undefined;
+      }
+      const db = await getInstance();
+      return getCachedConversationByPeerAddress(
+        client.address,
+        peerAddress,
+        db,
+      );
+    },
+    [client, getInstance],
   );
 
   const getLastMessage = useCallback(
-    async (topic: string) => _getLastMessage(topic, db),
-    [db],
+    async (topic: string) => {
+      const db = await getInstance();
+      return _getLastMessage(topic, db);
+    },
+    [getInstance],
   );
 
   const hasConversationTopic = useCallback(
-    async (topic: string) =>
-      client ? _hasConversationTopic(client.address, topic, db) : false,
-    [client, db],
+    async (topic: string) => {
+      if (!client) {
+        return false;
+      }
+      const db = await getInstance();
+      return _hasConversationTopic(client.address, topic, db);
+    },
+    [client, getInstance],
   );
 
   return {

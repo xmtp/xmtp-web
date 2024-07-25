@@ -14,7 +14,7 @@ import {
 const testWallet1 = createRandomWallet();
 const testWallet2 = createRandomWallet();
 
-const db = getDbInstance();
+const db = await getDbInstance();
 
 beforeEach(async () => {
   await clearCache(db);
