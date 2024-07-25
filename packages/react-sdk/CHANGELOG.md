@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 8.0.1
+
+### Patch Changes
+
+- ab6ec41: Update DB schema, add migration
+
 ## 8.0.0
 
 ### Major Changes

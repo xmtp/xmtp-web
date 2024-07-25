@@ -1,6 +1,6 @@
 {
   "name": "@xmtp/react-sdk",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "description": "XMTP client SDK for React apps written in TypeScript",
   "keywords": [
     "xmtp",
