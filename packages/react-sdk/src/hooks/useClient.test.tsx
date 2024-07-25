@@ -21,7 +21,7 @@ const db = await getDbInstance();
 
 vi.mock("@/hooks/useDb", () => ({
   useDb: () => ({
-    getInstance: () => db,
+    getDbInstance: () => db,
   }),
 }));
 

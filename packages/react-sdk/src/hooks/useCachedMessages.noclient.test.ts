@@ -7,7 +7,7 @@ const testTopic = "testTopic";
 
 vi.mock("./useDb", () => ({
   useDb: () => ({
-    getInstance: () => db,
+    getDbInstance: () => db,
   }),
 }));
 

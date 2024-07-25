@@ -10,7 +10,7 @@ import { useClient } from "@/hooks/useClient";
  * It's intended to be used internally and is not exported from the SDK
  */
 export const useCachedMessages = (topic: string) => {
-  const { getInstance } = useDb();
+  const { getDbInstance } = useDb();
   const { client } = useClient();
   return (
     useLiveQuery(async () => {
@@ -18,7 +18,7 @@ export const useCachedMessages = (topic: string) => {
       if (!client) {
         return [];
       }
-      const db = await getInstance();
+      const db = await getDbInstance();
       return (db.table("messages") as CachedMessagesTable)
         .where({
           conversationTopic: topic,

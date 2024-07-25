@@ -7,13 +7,13 @@ import type { CachedReactionsTable } from "@/helpers/caching/contentTypes/reacti
  * This hook returns cached reactions to a message from the local cache
  */
 export const useReactions = (message?: CachedMessage) => {
-  const { getInstance } = useDb();
+  const { getDbInstance } = useDb();
 
   return (
     useLiveQuery(async () => {
       if (!message) return [];
       try {
-        const db = await getInstance();
+        const db = await getDbInstance();
         const reactionsTable = db.table("reactions") as CachedReactionsTable;
         return await reactionsTable
           .where("referenceXmtpID")
@@ -22,6 +22,6 @@ export const useReactions = (message?: CachedMessage) => {
       } catch {
         return [];
       }
-    }, [message, getInstance]) ?? []
+    }, [message, getDbInstance]) ?? []
   );
 };

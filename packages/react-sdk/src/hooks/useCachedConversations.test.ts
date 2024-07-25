@@ -10,7 +10,7 @@ const testPeerAddress = "testPeerAddress";
 
 vi.mock("./useDb", () => ({
   useDb: () => ({
-    getInstance: () => db,
+    getDbInstance: () => db,
   }),
 }));
 

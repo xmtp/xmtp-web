@@ -33,7 +33,7 @@ export const useClient = (onError?: OnError["onError"]) => {
   const [error, setError] = useState<Error | null>(null);
   // client is initializing
   const initializingRef = useRef(false);
-  const { getInstance } = useDb();
+  const { getDbInstance } = useDb();
 
   const { client, setClient, codecs, processors, namespaces, validators } =
     useContext(XMTPContext);
@@ -80,7 +80,7 @@ export const useClient = (onError?: OnError["onError"]) => {
 
         setIsLoading(false);
 
-        const db = await getInstance();
+        const db = await getDbInstance();
 
         // load cached consent list
         try {
@@ -111,7 +111,7 @@ export const useClient = (onError?: OnError["onError"]) => {
     [
       client,
       codecs,
-      getInstance,
+      getDbInstance,
       namespaces,
       onError,
       processors,

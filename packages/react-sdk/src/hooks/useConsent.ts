@@ -12,7 +12,7 @@ import { useCachedConsentEntries } from "@/hooks/useCachedConsentEntries";
  */
 export const useConsent = () => {
   const { client } = useClient();
-  const { getInstance } = useDb();
+  const { getDbInstance } = useDb();
   const entries = useCachedConsentEntries();
 
   const allow = useCallback(
@@ -23,7 +23,7 @@ export const useConsent = () => {
       if (!skipPublish) {
         await client.contacts.allow(addresses);
       }
-      const db = await getInstance();
+      const db = await getDbInstance();
       // update DB
       await bulkPutConsentState(
         addresses.map((peerAddress) => ({
@@ -35,7 +35,7 @@ export const useConsent = () => {
         db,
       );
     },
-    [client, getInstance],
+    [client, getDbInstance],
   );
 
   const deny = useCallback(
@@ -46,7 +46,7 @@ export const useConsent = () => {
       if (!skipPublish) {
         await client.contacts.deny(addresses);
       }
-      const db = await getInstance();
+      const db = await getDbInstance();
       // update DB
       await bulkPutConsentState(
         addresses.map((peerAddress) => ({
@@ -58,7 +58,7 @@ export const useConsent = () => {
         db,
       );
     },
-    [client, getInstance],
+    [client, getDbInstance],
   );
 
   const consentState = useCallback(
@@ -66,10 +66,10 @@ export const useConsent = () => {
       if (!client) {
         throw new Error("XMTP client is required");
       }
-      const db = await getInstance();
+      const db = await getDbInstance();
       return getCachedConsentState(client.address, "address", address, db);
     },
-    [client, getInstance],
+    [client, getDbInstance],
   );
 
   const isAllowed = useCallback(
@@ -77,7 +77,7 @@ export const useConsent = () => {
       if (!client) {
         throw new Error("XMTP client is required");
       }
-      const db = await getInstance();
+      const db = await getDbInstance();
       const state = await getCachedConsentState(
         client.address,
         "address",
@@ -86,7 +86,7 @@ export const useConsent = () => {
       );
       return state === "allowed";
     },
-    [client, getInstance],
+    [client, getDbInstance],
   );
 
   const isDenied = useCallback(
@@ -94,7 +94,7 @@ export const useConsent = () => {
       if (!client) {
         throw new Error("XMTP client is required");
       }
-      const db = await getInstance();
+      const db = await getDbInstance();
       const state = await getCachedConsentState(
         client.address,
         "address",
@@ -103,7 +103,7 @@ export const useConsent = () => {
       );
       return state === "denied";
     },
-    [client, getInstance],
+    [client, getDbInstance],
   );
 
   const loadConsentList = useCallback(
@@ -111,7 +111,7 @@ export const useConsent = () => {
       if (!client) {
         throw new Error("XMTP client is required");
       }
-      const db = await getInstance();
+      const db = await getDbInstance();
       const newEntries = await client.contacts.loadConsentList(startTime);
       if (newEntries.length > 0) {
         // update DB
@@ -127,7 +127,7 @@ export const useConsent = () => {
       }
       return newEntries;
     },
-    [client, getInstance],
+    [client, getDbInstance],
   );
 
   const refreshConsentList = useCallback(async () => {
@@ -135,7 +135,7 @@ export const useConsent = () => {
       throw new Error("XMTP client is required");
     }
     // clear consent DB table
-    const db = await getInstance();
+    const db = await getDbInstance();
     await db.table("consent").clear();
     const newEntries = await client?.contacts.refreshConsentList();
     if (newEntries.length > 0) {
@@ -151,7 +151,7 @@ export const useConsent = () => {
       );
     }
     return newEntries;
-  }, [client, getInstance]);
+  }, [client, getDbInstance]);
 
   return {
     allow,
