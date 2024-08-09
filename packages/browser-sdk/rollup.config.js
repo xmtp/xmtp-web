@@ -24,7 +24,7 @@ export default defineConfig([
         showMinifiedSize: false,
       }),
     ],
-    external: [],
+    external: ["@xmtp/content-type-primitives", "@xmtp/content-type-text"],
   },
   {
     input: "src/index.ts",
