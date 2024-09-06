@@ -95,7 +95,7 @@
     "@xmtp/content-type-reply": "^1.1.11",
     "@xmtp/content-type-text": "^1.0.0",
     "@xmtp/tsconfig": "workspace:*",
-    "@xmtp/xmtp-js": "^12.1.0",
+    "@xmtp/xmtp-js": "^13.0.0",
     "eslint": "^8.57.0",
     "eslint-config-xmtp-web": "workspace:*",
     "fake-indexeddb": "^6.0.0",
