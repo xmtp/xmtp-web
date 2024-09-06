@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import type { ConsentState } from "@xmtp/xmtp-js";
 import { useClient } from "@/hooks/useClient";
 import { useDb } from "@/hooks/useDb";
 import {
@@ -113,13 +114,19 @@ export const useConsent = () => {
       }
       const db = await getDbInstance();
       const newEntries = await client.contacts.loadConsentList(startTime);
-      if (newEntries.length > 0) {
+      if (newEntries.size > 0) {
+        const addresses = Array.from(newEntries.entries())
+          .filter(([entry]) => entry.startsWith("address-"))
+          .map(
+            ([entry, state]) =>
+              [entry.split("-")[1], state] as [string, ConsentState],
+          );
         // update DB
         await bulkPutConsentState(
-          newEntries.map((entry) => ({
-            value: entry.value,
+          addresses.map(([address, state]) => ({
+            value: address,
             type: "address",
-            state: entry.permissionType,
+            state,
             walletAddress: client.address,
           })),
           db,
@@ -138,13 +145,19 @@ export const useConsent = () => {
     const db = await getDbInstance();
     await db.table("consent").clear();
     const newEntries = await client?.contacts.refreshConsentList();
-    if (newEntries.length > 0) {
+    if (newEntries.size > 0) {
+      const addresses = Array.from(newEntries.entries())
+        .filter(([entry]) => entry.startsWith("address-"))
+        .map(
+          ([entry, state]) =>
+            [entry.split("-")[1], state] as [string, ConsentState],
+        );
       // update DB
       await bulkPutConsentState(
-        newEntries.map((entry) => ({
-          value: entry.value,
+        addresses.map(([address, state]) => ({
+          value: address,
           type: "address",
-          state: entry.permissionType,
+          state,
           walletAddress: client.address,
         })),
         db,
