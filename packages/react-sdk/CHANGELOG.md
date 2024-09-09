@@ -1,5 +1,11 @@
 # @xmtp/react-sdk
 
+## 9.0.0
+
+### Major Changes
+
+- eb27cba: Upgrade JS SDK, refactor `useConsent` hook
+
 ## 8.0.1
 
 ### Patch Changes
