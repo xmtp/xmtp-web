@@ -91,13 +91,12 @@ describe("useConsent", () => {
 
     await act(async () => {
       const list = await result.current.loadConsentList();
-      expect(list).toEqual([]);
+      expect(list.size).toEqual(0);
       await result.current.allow([testWallet2.account.address]);
       const list2 = await result.current.loadConsentList();
-      expect(list2.length).toEqual(1);
-      expect(list2[0].entryType).toEqual("address");
-      expect(list2[0].permissionType).toEqual("allowed");
-      expect(list2[0].value).toEqual(testWallet2.account.address);
+      expect(list2.size).toEqual(1);
+      const entry = list2.get(`address-${testWallet2.account.address}`);
+      expect(entry).toEqual("allowed");
       const entries = await getCachedConsentEntries(
         testWallet1.account.address,
         db,
@@ -118,13 +117,12 @@ describe("useConsent", () => {
 
     await act(async () => {
       const list = await result.current.refreshConsentList();
-      expect(list).toEqual([]);
+      expect(list.size).toEqual(0);
       await result.current.allow([testWallet4.account.address]);
       const list2 = await result.current.refreshConsentList();
-      expect(list2.length).toEqual(1);
-      expect(list2[0].entryType).toEqual("address");
-      expect(list2[0].permissionType).toEqual("allowed");
-      expect(list2[0].value).toEqual(testWallet4.account.address);
+      expect(list2.size).toEqual(1);
+      const entry = list2.get(`address-${testWallet4.account.address}`);
+      expect(entry).toEqual("allowed");
       const entries = await getCachedConsentEntries(
         testWallet3.account.address,
         db,

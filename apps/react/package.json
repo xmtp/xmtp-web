@@ -26,7 +26,7 @@
     "@xmtp/content-type-reply": "^1.1.11",
     "@xmtp/content-type-text": "^1.0.0",
     "@xmtp/react-sdk": "workspace:*",
-    "@xmtp/xmtp-js": "^12.1.0",
+    "@xmtp/xmtp-js": "^13.0.0",
     "date-fns": "^3.6.0",
     "react": "^18.3.1",
     "react-18-blockies": "^1.0.6",
