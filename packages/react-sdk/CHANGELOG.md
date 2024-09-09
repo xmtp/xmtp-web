@@ -4,7 +4,13 @@
 
 ### Major Changes
 
-- eb27cba: Upgrade JS SDK, refactor `useConsent` hook
+- eb27cba: Upgraded JS SDK
+
+### BREAKING CHANGES
+
+- Refactored `refreshConsentList` and `loadConsentList` methods of the `useConsent` hook
+
+Most apps won't be affected by these changes, but the modified return types of the above methods are a breaking change for those relying on their return values.
 
 ## 8.0.1
 
