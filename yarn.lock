@@ -5599,6 +5599,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@web/rollup-plugin-copy@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "@web/rollup-plugin-copy@npm:0.5.1"
+  dependencies:
+    glob: "npm:^10.0.0"
+  checksum: 10/fa11f8b8a778476102bd94c3878271ae4e7b4fc7e1c5dcad1d840e42e5471253e25e77ae66061f8e5bf686850dfe9ae197825a6468712f4d25d594f76392576b
+  languageName: node
+  linkType: hard
+
 "@web3-storage/multipart-parser@npm:^1.0.0":
   version: 1.0.0
   resolution: "@web3-storage/multipart-parser@npm:1.0.0"
@@ -5756,6 +5765,51 @@ __metadata:
   checksum: 10/1a6a4b6bc4234f2b5adbab0cb11a24911b03380eb1cab6fb27a2250174a279fdc6aa2f5a9cf62dd1f6d4eb39f778f488e8ff15b9deb0670dee5c5077d46cf572
   languageName: node
   linkType: hard
+
+"@xmtp/browser-sdk@workspace:*, @xmtp/browser-sdk@workspace:packages/browser-sdk":
+  version: 0.0.0-use.local
+  resolution: "@xmtp/browser-sdk@workspace:packages/browser-sdk"
+  dependencies:
+    "@rollup/plugin-terser": "npm:^0.4.4"
+    "@rollup/plugin-typescript": "npm:^11.1.6"
+    "@testing-library/dom": "npm:^10.3.2"
+    "@testing-library/jest-dom": "npm:^6.4.6"
+    "@testing-library/react": "npm:^16.0.0"
+    "@types/uuid": "npm:^10.0.0"
+    "@vitejs/plugin-react": "npm:^4.3.1"
+    "@vitest/coverage-v8": "npm:^2.0.3"
+    "@web/rollup-plugin-copy": "npm:^0.5.1"
+    "@xmtp/client-bindings-wasm": "workspace:*"
+    "@xmtp/content-type-primitives": "npm:^1.0.1"
+    "@xmtp/content-type-text": "npm:^1.0.0"
+    "@xmtp/proto": "npm:^3.70.0"
+    "@xmtp/tsconfig": "workspace:*"
+    eslint: "npm:^8.57.0"
+    eslint-config-xmtp-web: "workspace:*"
+    happy-dom: "npm:^14.12.3"
+    prettier: "npm:^3.3.3"
+    prettier-plugin-packagejson: "npm:^2.5.0"
+    rollup: "npm:^4.18.1"
+    rollup-plugin-dts: "npm:^6.1.1"
+    rollup-plugin-filesize: "npm:^10.0.0"
+    rollup-plugin-tsconfig-paths: "npm:^1.5.2"
+    typedoc: "npm:^0.26.4"
+    typescript: "npm:^5.5.3"
+    uuid: "npm:^10.0.0"
+    viem: "npm:^2.17.4"
+    vite: "npm:^5.3.3"
+    vite-tsconfig-paths: "npm:^4.3.2"
+    vitest: "npm:^2.0.3"
+  languageName: unknown
+  linkType: soft
+
+"@xmtp/client-bindings-wasm@workspace:*, @xmtp/client-bindings-wasm@workspace:packages/bindings_wasm":
+  version: 0.0.0-use.local
+  resolution: "@xmtp/client-bindings-wasm@workspace:packages/bindings_wasm"
+  dependencies:
+    wasm-pack: "npm:^0.13.0"
+  languageName: unknown
+  linkType: soft
 
 "@xmtp/consent-proof-signature@npm:^0.1.3, @xmtp/consent-proof-signature@workspace:packages/consent-proof-signature":
   version: 0.0.0-use.local
@@ -5924,6 +5978,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xmtp/proto@npm:^3.70.0":
+  version: 3.70.0
+  resolution: "@xmtp/proto@npm:3.70.0"
+  dependencies:
+    long: "npm:^5.2.0"
+    protobufjs: "npm:^7.0.0"
+    rxjs: "npm:^7.8.0"
+    undici: "npm:^5.8.1"
+  checksum: 10/a49273ddd1384bec8c2201a45aef917e4a9a98ab4bf532d53d509c9c63d22244b563d985776ee84bfac8601f3a5a6339a4805cda355c8fd6b7e612498f0547bc
+  languageName: node
+  linkType: hard
+
 "@xmtp/react-app@workspace:*, @xmtp/react-app@workspace:apps/react":
   version: 0.0.0-use.local
   resolution: "@xmtp/react-app@workspace:apps/react"
@@ -5932,6 +5998,7 @@ __metadata:
     "@rainbow-me/rainbowkit": "npm:^2.1.3"
     "@tanstack/react-query": "npm:^5.51.1"
     "@types/react": "npm:^18.3.3"
+    "@xmtp/browser-sdk": "workspace:*"
     "@xmtp/content-type-primitives": "npm:^1.0.1"
     "@xmtp/content-type-reaction": "npm:^1.1.9"
     "@xmtp/content-type-remote-attachment": "npm:^1.1.9"
@@ -6089,6 +6156,34 @@ __metadata:
   checksum: 10/a7475945996142e9238b74f66ae4d8c4d04dfe758da9510933823499f52b519b53b1e5b8e807c69426e2ec73ccec20b1f388ed16e74606645cd5dc0ff28247f3
   languageName: node
   linkType: hard
+
+"@xmtp/v3-browser-sdk-example@workspace:examples/v3":
+  version: 0.0.0-use.local
+  resolution: "@xmtp/v3-browser-sdk-example@workspace:examples/v3"
+  dependencies:
+    "@rainbow-me/rainbowkit": "npm:^2.1.3"
+    "@tanstack/react-query": "npm:^5.51.1"
+    "@types/react": "npm:^18.3.3"
+    "@types/react-dom": "npm:^18.3.0"
+    "@vitejs/plugin-react": "npm:^4.3.1"
+    "@wagmi/core": "npm:^2.11.7"
+    "@xmtp/browser-sdk": "workspace:*"
+    "@xmtp/tsconfig": "workspace:*"
+    autoprefixer: "npm:^10.4.19"
+    eslint: "npm:^8.57.0"
+    eslint-config-xmtp-web: "workspace:*"
+    postcss: "npm:^8.4.39"
+    postcss-preset-env: "npm:^9.6.0"
+    prettier: "npm:^3.3.3"
+    prettier-plugin-packagejson: "npm:^2.5.0"
+    react: "npm:^18.3.1"
+    react-dom: "npm:^18.3.1"
+    typescript: "npm:^5.5.3"
+    viem: "npm:^2.17.4"
+    vite: "npm:^5.3.3"
+    wagmi: "npm:^2.10.10"
+  languageName: unknown
+  linkType: soft
 
 "@xmtp/xmtp-js@npm:^11.6.3":
   version: 11.6.3
@@ -6772,6 +6867,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:^0.26.1":
+  version: 0.26.1
+  resolution: "axios@npm:0.26.1"
+  dependencies:
+    follow-redirects: "npm:^1.14.8"
+  checksum: 10/02863f4a4fd4e43ad6e0c8bc9d1359a0863c43cc57bda42ea21dfce34681e3211df193b2bf2e8ee10b2c3870ab8d6bed38a3cf80cd6e8ee17749b7d73ccd4752
+  languageName: node
+  linkType: hard
+
 "axobject-query@npm:~3.1.1":
   version: 3.1.1
   resolution: "axobject-query@npm:3.1.1"
@@ -6824,6 +6928,17 @@ __metadata:
   version: 2.2.0
   resolution: "binary-extensions@npm:2.2.0"
   checksum: 10/ccd267956c58d2315f5d3ea6757cf09863c5fc703e50fbeb13a7dc849b812ef76e3cf9ca8f35a0c48498776a7478d7b4a0418e1e2b8cb9cb9731f2922aaad7f8
+  languageName: node
+  linkType: hard
+
+"binary-install@npm:^1.0.1":
+  version: 1.1.0
+  resolution: "binary-install@npm:1.1.0"
+  dependencies:
+    axios: "npm:^0.26.1"
+    rimraf: "npm:^3.0.2"
+    tar: "npm:^6.1.11"
+  checksum: 10/78121e9c32981c101cc090f1564fbd0453d976a1b40c599a5ca623184d739b0a7c49f5ba5f91c05142eb6ff9b2816959bb9e09a3aecd12e4e3e82398bed9b8f0
   languageName: node
   linkType: hard
 
@@ -10102,6 +10217,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"follow-redirects@npm:^1.14.8":
+  version: 1.15.9
+  resolution: "follow-redirects@npm:1.15.9"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: 10/e3ab42d1097e90d28b913903841e6779eb969b62a64706a3eb983e894a5db000fbd89296f45f08885a0e54cd558ef62e81be1165da9be25a6c44920da10f424c
+  languageName: node
+  linkType: hard
+
 "for-each@npm:^0.3.3":
   version: 0.3.3
   resolution: "for-each@npm:0.3.3"
@@ -10508,6 +10633,22 @@ __metadata:
   version: 0.4.1
   resolution: "glob-to-regexp@npm:0.4.1"
   checksum: 10/9009529195a955c40d7b9690794aeff5ba665cc38f1519e111c58bb54366fd0c106bde80acf97ba4e533208eb53422c83b136611a54c5fefb1edd8dc267cb62e
+  languageName: node
+  linkType: hard
+
+"glob@npm:^10.0.0":
+  version: 10.4.5
+  resolution: "glob@npm:10.4.5"
+  dependencies:
+    foreground-child: "npm:^3.1.0"
+    jackspeak: "npm:^3.1.2"
+    minimatch: "npm:^9.0.4"
+    minipass: "npm:^7.1.2"
+    package-json-from-dist: "npm:^1.0.0"
+    path-scurry: "npm:^1.11.1"
+  bin:
+    glob: dist/esm/bin.mjs
+  checksum: 10/698dfe11828b7efd0514cd11e573eaed26b2dff611f0400907281ce3eab0c1e56143ef9b35adc7c77ecc71fba74717b510c7c223d34ca8a98ec81777b293d4ac
   languageName: node
   linkType: hard
 
@@ -18686,6 +18827,17 @@ __metadata:
     typescript:
       optional: true
   checksum: 10/a4d6bacef9d1cf79cd9ae860ca11b86e131d324d179744fa2cc1f65beaae2ed4271f304898bf20632da39f34ebe6410a44edbcd91e6c0db132e0892c6b63ceaa
+  languageName: node
+  linkType: hard
+
+"wasm-pack@npm:^0.13.0":
+  version: 0.13.0
+  resolution: "wasm-pack@npm:0.13.0"
+  dependencies:
+    binary-install: "npm:^1.0.1"
+  bin:
+    wasm-pack: run.js
+  checksum: 10/74a18296adb29714fe393fe7824afb07392edb86f74afa0e3fa47a254e56921f105e68b8d80a887250ede6949c70eeae09381a5631444b0b280d9780e7de8f86
   languageName: node
   linkType: hard
 
