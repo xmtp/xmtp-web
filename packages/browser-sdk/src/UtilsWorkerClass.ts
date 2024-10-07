@@ -29,12 +29,11 @@ export class UtilsWorkerClass {
   sendMessage<A extends UtilsWorkerEvents>(
     action: A,
     data: Extract<UtilsWorkerEventsData, { action: A }>["data"],
-  ): Promise<UtilsEventsResult<A>> {
+  ) {
     const promiseId = v4();
     this.#worker.postMessage({
       action,
       id: promiseId,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       data,
     });
     const promise = new Promise<UtilsEventsResult<A>>((resolve, reject) => {
@@ -48,12 +47,12 @@ export class UtilsWorkerClass {
   ) => {
     const eventData = event.data;
     // eslint-disable-next-line no-console
-    console.log("client received event data", eventData);
+    console.log("utils received event data", eventData);
     const promise = this.#promises.get(eventData.id);
     if (promise) {
       this.#promises.delete(eventData.id);
       if ("error" in eventData) {
-        promise.reject(eventData.error);
+        promise.reject(new Error(eventData.error));
       } else {
         promise.resolve(eventData.result);
       }

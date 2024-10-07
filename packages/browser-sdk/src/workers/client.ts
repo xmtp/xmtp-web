@@ -38,6 +38,16 @@ self.onmessage = async (event: MessageEvent<ClientWorkerEventsData>) => {
   // eslint-disable-next-line no-console
   console.log("client worker received event data", event.data);
 
+  // a client is required for all actions except init
+  if (action !== "init" && !client) {
+    postMessageError({
+      id,
+      action,
+      error: "Client not initialized",
+    });
+    return;
+  }
+
   try {
     switch (action) {
       case "init":

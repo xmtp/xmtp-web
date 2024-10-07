@@ -29,12 +29,11 @@ export class ClientWorkerClass {
   sendMessage<A extends ClientWorkerEvents>(
     action: A,
     data: Extract<ClientWorkerEventsData, { action: A }>["data"],
-  ): Promise<ClientEventsResult<A>> {
+  ) {
     const promiseId = v4();
     this.#worker.postMessage({
       action,
       id: promiseId,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       data,
     });
     const promise = new Promise<ClientEventsResult<A>>((resolve, reject) => {
@@ -53,7 +52,7 @@ export class ClientWorkerClass {
     if (promise) {
       this.#promises.delete(eventData.id);
       if ("error" in eventData) {
-        promise.reject(eventData.error);
+        promise.reject(new Error(eventData.error));
       } else {
         promise.resolve(eventData.result);
       }
