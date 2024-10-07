@@ -11,7 +11,7 @@ const plugins = [
     declaration: false,
     declarationMap: false,
   }),
-  // terser(),
+  terser(),
   filesize({
     showMinifiedSize: false,
   }),
@@ -47,9 +47,9 @@ export default defineConfig([
     external,
   },
   {
-    input: "src/workers/helpers.ts",
+    input: "src/workers/utils.ts",
     output: {
-      file: "lib/workers/helpers.js",
+      file: "lib/workers/utils.js",
       format: "es",
       sourcemap: true,
     },

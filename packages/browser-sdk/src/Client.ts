@@ -109,7 +109,9 @@ export class Client extends ClientWorkerClass {
   encodeContent(content: any, contentType: ContentTypeId) {
     const codec = this.codecFor(contentType);
     if (!codec) {
-      throw new Error(`no codec for ${contentType.toString()}`);
+      throw new Error(
+        `Codec not found for "${contentType.toString()}" content type`,
+      );
     }
     const encoded = codec.encode(content, this);
     const fallback = codec.fallback(content);
@@ -122,7 +124,9 @@ export class Client extends ClientWorkerClass {
   decodeContent(message: SafeMessage, contentType: ContentTypeId) {
     const codec = this.codecFor(contentType);
     if (!codec) {
-      throw new Error(`no codec for ${contentType.toString()}`);
+      throw new Error(
+        `Codec not found for "${contentType.toString()}" content type`,
+      );
     }
 
     // throw an error if there's an invalid group membership change message

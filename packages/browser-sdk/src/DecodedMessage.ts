@@ -10,7 +10,7 @@ import { fromSafeContentTypeId } from "@/utils/conversions";
 export type MessageKind = "application" | "membership_change";
 export type MessageDeliveryStatus = "unpublished" | "published" | "failed";
 
-export class DecodeMessage {
+export class DecodedMessage {
   #client: Client;
 
   content: any;

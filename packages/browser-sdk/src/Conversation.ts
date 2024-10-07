@@ -2,7 +2,7 @@ import { ContentTypeText } from "@xmtp/content-type-text";
 import type { ContentTypeId } from "@xmtp/content-type-primitives";
 import type { Client } from "@/Client";
 import type { ListMessagesOptions } from "@/types";
-import { DecodeMessage } from "@/DecodedMessage";
+import { DecodedMessage } from "@/DecodedMessage";
 import type { SafeConversation } from "@/utils/conversions";
 import { nsToDate } from "@/utils/date";
 
@@ -258,6 +258,6 @@ export class Conversation {
       options,
     });
 
-    return messages.map((message) => new DecodeMessage(this.#client, message));
+    return messages.map((message) => new DecodedMessage(this.#client, message));
   }
 }

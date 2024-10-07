@@ -27,7 +27,8 @@ export class Conversations {
     });
 
     return conversations.map(
-      (conversation) => new Conversation(this.#client, conversation.id),
+      (conversation) =>
+        new Conversation(this.#client, conversation.id, conversation),
     );
   }
 

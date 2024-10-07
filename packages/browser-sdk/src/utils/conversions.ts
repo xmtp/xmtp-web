@@ -35,14 +35,13 @@ export const toContentTypeId = (
 
 export const fromContentTypeId = (
   contentTypeId: ContentTypeId,
-): WasmContentTypeId => {
-  const wasmContentTypeId = new WasmContentTypeId();
-  wasmContentTypeId.authority_id = contentTypeId.authorityId;
-  wasmContentTypeId.type_id = contentTypeId.typeId;
-  wasmContentTypeId.version_major = contentTypeId.versionMajor;
-  wasmContentTypeId.version_minor = contentTypeId.versionMinor;
-  return wasmContentTypeId;
-};
+): WasmContentTypeId =>
+  new WasmContentTypeId(
+    contentTypeId.authorityId,
+    contentTypeId.typeId,
+    contentTypeId.versionMajor,
+    contentTypeId.versionMinor,
+  );
 
 export type SafeContentTypeId = {
   authorityId: string;
@@ -82,15 +81,14 @@ export const toEncodedContent = (
 
 export const fromEncodedContent = (
   content: EncodedContent,
-): WasmEncodedContent => {
-  const wasmContent = new WasmEncodedContent();
-  wasmContent.type = fromContentTypeId(content.type);
-  wasmContent.parameters = content.parameters;
-  wasmContent.fallback = content.fallback;
-  wasmContent.compression = content.compression;
-  wasmContent.content = content.content;
-  return wasmContent;
-};
+): WasmEncodedContent =>
+  new WasmEncodedContent(
+    fromContentTypeId(content.type),
+    content.parameters,
+    content.fallback,
+    content.compression,
+    content.content,
+  );
 
 export type SafeEncodedContent = {
   type: SafeContentTypeId;

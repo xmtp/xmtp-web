@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { WasmConversations, WasmGroup } from "@xmtp/client-bindings-wasm";
 import type { CreateGroupOptions, ListConversationsOptions } from "@/types";
 import type { WorkerClient } from "@/WorkerClient";
@@ -25,11 +24,9 @@ export class WorkerConversations {
 
   getConversationById(id: string) {
     try {
+      const group = this.#conversations.find_group_by_id(id);
       // findGroupById will throw if group is not found
-      return new WorkerConversation(
-        this.#client,
-        this.#conversations.find_group_by_id(id),
-      );
+      return new WorkerConversation(this.#client, group);
     } catch {
       return undefined;
     }
@@ -49,7 +46,6 @@ export class WorkerConversations {
     const groups = (await this.#conversations.list(
       options ? fromListConversationsOptions(options) : undefined,
     )) as WasmGroup[];
-    console.log("groups", groups);
     return groups.map((group) => new WorkerConversation(this.#client, group));
   }
 

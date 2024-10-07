@@ -1,13 +1,13 @@
 /* eslint-disable no-void */
 import { useState } from "react";
-import type { Client, SafeConversation, SafeMessage } from "@xmtp/browser-sdk";
-import { ContentTypeGroupUpdated, Conversation } from "@xmtp/browser-sdk";
+import type { Client, DecodedMessage } from "@xmtp/browser-sdk";
+import { Conversation } from "@xmtp/browser-sdk";
 import { createClient } from "./createClient";
 
 export const App = () => {
   const [client, setClient] = useState<Client | undefined>(undefined);
-  const [conversations, setConversations] = useState<SafeConversation[]>([]);
-  const [messages, setMessages] = useState<Map<string, SafeMessage[]>>(
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [messages, setMessages] = useState<Map<string, DecodedMessage[]>>(
     new Map(),
   );
 
@@ -65,6 +65,15 @@ export const App = () => {
         newMessages.set(groupId, groupMessages);
         return newMessages;
       });
+    }
+  };
+
+  const handleSendGroupMessage = async (groupId: string, elementId: string) => {
+    if (client) {
+      const conversation = new Conversation(client, groupId);
+      const element = document.getElementById(elementId) as HTMLInputElement;
+      const message = element.value;
+      await conversation.send(message);
     }
   };
 
@@ -159,6 +168,22 @@ export const App = () => {
                       List messages
                     </button>
                   </div>
+                  <div className="ConversationAction">
+                    <input
+                      id={`group-send-message-${conversation.id}`}
+                      type="text"
+                    />
+                    <button
+                      onClick={() =>
+                        void handleSendGroupMessage(
+                          conversation.id,
+                          `group-send-message-${conversation.id}`,
+                        )
+                      }
+                      type="button">
+                      Send message
+                    </button>
+                  </div>
                 </div>
                 <div className="ConversationDetail">
                   <div>Name:</div>
@@ -173,16 +198,7 @@ export const App = () => {
                     <h3>Messages</h3>
                     {messages.get(conversation.id)?.map((message) => (
                       <div className="ConversationMessage" key={message.id}>
-                        <pre>
-                          {JSON.stringify(
-                            client?.decodeContent(
-                              message,
-                              ContentTypeGroupUpdated,
-                            ),
-                            null,
-                            2,
-                          )}
-                        </pre>
+                        <pre>{JSON.stringify(message.content, null, 2)}</pre>
                       </div>
                     ))}
                   </div>
