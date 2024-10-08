@@ -29,7 +29,7 @@ export class DecodedMessage {
 
   kind: MessageKind;
 
-  parameters: Record<string, string>;
+  parameters: Map<string, string>;
 
   senderInboxId: string;
 
@@ -66,7 +66,7 @@ export class DecodedMessage {
     }
 
     this.contentType = fromSafeContentTypeId(message.content.type!);
-    this.parameters = message.content.parameters as Record<string, string>;
+    this.parameters = message.content.parameters;
     this.fallback = message.content.fallback;
     this.compression = message.content.compression;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

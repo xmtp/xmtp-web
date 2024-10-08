@@ -137,7 +137,8 @@ export class Client extends ClientWorkerClass {
       throw new Error("Error decoding group membership change");
     }
 
+    const encodedContent = fromSafeEncodedContent(message.content);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return codec.decode(fromSafeEncodedContent(message.content), this);
+    return codec.decode(encodedContent, this);
   }
 }

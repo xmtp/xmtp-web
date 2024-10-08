@@ -73,7 +73,7 @@ export const toEncodedContent = (
   content: WasmEncodedContent,
 ): EncodedContent => ({
   type: toContentTypeId(content.type!),
-  parameters: content.parameters as Record<string, string>,
+  parameters: Object.fromEntries(content.parameters as Map<string, string>),
   fallback: content.fallback,
   compression: content.compression,
   content: content.content,
@@ -84,7 +84,7 @@ export const fromEncodedContent = (
 ): WasmEncodedContent =>
   new WasmEncodedContent(
     fromContentTypeId(content.type),
-    content.parameters,
+    new Map(Object.entries(content.parameters)),
     content.fallback,
     content.compression,
     content.content,
@@ -102,7 +102,7 @@ export const toSafeEncodedContent = (
   content: EncodedContent,
 ): SafeEncodedContent => ({
   type: toSafeContentTypeId(content.type),
-  parameters: content.parameters as Record<string, string>,
+  parameters: content.parameters,
   fallback: content.fallback,
   compression: content.compression,
   content: content.content,
@@ -112,7 +112,7 @@ export const fromSafeEncodedContent = (
   content: SafeEncodedContent,
 ): EncodedContent => ({
   type: fromSafeContentTypeId(content.type),
-  parameters: content.parameters as Record<string, string>,
+  parameters: content.parameters,
   fallback: content.fallback,
   compression: content.compression,
   content: content.content,

@@ -77,6 +77,29 @@ export const App = () => {
     }
   };
 
+  const handleCreateGroup = async () => {
+    if (client) {
+      const element = document.getElementById(
+        "create-group-name",
+      ) as HTMLInputElement;
+      const name = element.value;
+      const group = await client.conversations.newGroup([
+        "0x7ad9d3892D5EEC0586920D3E0ac813aaeF881488",
+        "0x73655B77df59d378d396918C3426cc5219EfB3c8",
+      ]);
+      await group.updateName(name);
+      await handleListGroups();
+    }
+  };
+
+  const handleSyncGroup = async (groupId: string) => {
+    if (client) {
+      const conversation = new Conversation(client, groupId);
+      await conversation.sync();
+      await handleListGroupMessages(groupId);
+    }
+  };
+
   return (
     <div className="App">
       <h1>XMTP V3</h1>
@@ -98,33 +121,35 @@ export const App = () => {
         )}
       </div>
       {client && (
-        <div className="Client">
-          <h2>Client details</h2>
-          <div className="ClientDetail">
-            <div>Address:</div>
-            <div>{client.address}</div>
+        <>
+          <div className="Client">
+            <h2>Client details</h2>
+            <div className="ClientDetail">
+              <div>Address:</div>
+              <div>{client.address}</div>
+            </div>
+            <div className="ClientDetail">
+              <div>Inbox ID:</div>
+              <div>{client.inboxId}</div>
+            </div>
+            <div className="ClientDetail">
+              <div>Installation ID:</div>
+              <div>{client.installationId}</div>
+            </div>
           </div>
-          <div className="ClientDetail">
-            <div>Inbox ID:</div>
-            <div>{client.inboxId}</div>
-          </div>
-          <div className="ClientDetail">
-            <div>Installation ID:</div>
-            <div>{client.installationId}</div>
-          </div>
-        </div>
-      )}
-      {conversations.length > 0 && (
-        <div className="Conversations">
-          <h2>Conversations</h2>
           <div className="ConversationActions">
             <div className="ConversationAction">
-              <input type="text" />
-              <button onClick={() => void handleCreateClient()} type="button">
+              <input id="create-group-name" type="text" />
+              <button onClick={() => void handleCreateGroup()} type="button">
                 Create group
               </button>
             </div>
           </div>
+        </>
+      )}
+      {conversations.length > 0 && (
+        <div className="Conversations">
+          <h2>Conversations</h2>
           <div className="ConversationWrapper">
             {conversations.map((conversation) => (
               <div className="Conversation" key={conversation.id}>
@@ -160,6 +185,11 @@ export const App = () => {
                     </button>
                   </div>
                   <div className="ConversationAction">
+                    <button
+                      onClick={() => void handleSyncGroup(conversation.id)}
+                      type="button">
+                      Sync group
+                    </button>
                     <button
                       onClick={() =>
                         void handleListGroupMessages(conversation.id)
