@@ -24,7 +24,6 @@
       "persistent": true
     },
     "test": {
-      "dependsOn": ["@xmtp/consent-proof-signature#build"],
       "outputs": []
     },
     "typecheck": {
