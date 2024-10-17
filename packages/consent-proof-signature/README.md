@@ -1,3 +1,6 @@
+> [!NOTE]
+> This package has been removed from this repository. Its contents and all active development have been moved to the [xmtp-js](https://github.com/xmtp/xmtp-js) repository.
+
 # Consent Proof Signature
 
 ## Usage

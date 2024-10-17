@@ -10,9 +10,6 @@ To learn more about the contents of this repository, see this README and the REA
 
 - [`eslint-config-xmtp-web`](https://github.com/xmtp/xmtp-web/blob/main/packages/eslint-config-xmtp-web): An opinionated ESLint configuration for XMTP web projects
 - [`react-sdk`](https://github.com/xmtp/xmtp-web/blob/main/packages/react-sdk): XMTP React client SDK
-- [`frames-client`](https://github.com/xmtp/xmtp-web/blob/main/packages/frames-client): XMTP Open Frames client
-- [`consent-proof-signature`](https://github.com/xmtp/xmtp-web/blob/main/packages/consent-proof-signature): Lightweight package for creating consent proofs
-
 
 ### Examples
 
