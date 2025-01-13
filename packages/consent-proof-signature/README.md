@@ -1,7 +1,11 @@
-> [!NOTE]
-> This package has been removed from this repository. Its contents and all active development have been moved to the [xmtp-js](https://github.com/xmtp/xmtp-js) repository.
-
 # Consent Proof Signature
+
+![Status](https://img.shields.io/badge/Deprecated-brown)
+
+> [!CAUTION]
+> The Consent Proof Signature package is no longer maintained.
+
+The documentation below is provided for reference only.
 
 ## Usage
 
