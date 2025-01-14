@@ -1,14 +1,21 @@
 # React XMTP client SDK
 
-![Status](https://img.shields.io/badge/Project_Status-Production-brightgreen)
+![Status](https://img.shields.io/badge/Deprecated-brown)
+
+> [!CAUTION]
+> The React XMTP client SDK is no longer maintained.
+
+For your project, consider using the [Browser SDK](https://github.com/xmtp/xmtp-js/tree/main/sdks/browser-sdk) or [Node SDK](https://github.com/xmtp/xmtp-js/tree/main/sdks/node-sdk). These updated SDKs provide enhanced functionality and are designed to provide better support for your development needs.
+
+The documentation below is provided for reference only.
+
+## What's inside?
 
 This package provides the XMTP client SDK for React.
 
 To keep up with the latest SDK developments, see the [Issues tab](https://github.com/xmtp/xmtp-web/issues) in this repo.
 
 To learn more about XMTP and get answers to frequently asked questions, see the [XMTP documentation](https://xmtp.org/docs).
-
-## What's inside?
 
 ### Hooks
 
