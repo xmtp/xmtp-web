@@ -21,7 +21,7 @@ This React app isn't a complete solution. For example, the list of conversations
 ## Useful commands
 
 - `yarn clean`: Removes `node_modules` and `.turbo` folders
-- `yarn format`: Runs prettier format and write changes
+- `yarn format`: Runs prettier format and writes changes
 - `yarn format:check`: Runs prettier format check
 - `yarn lint`: Runs ESLint
 - `yarn typecheck`: Runs `tsc`
