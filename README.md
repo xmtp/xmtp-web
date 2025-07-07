@@ -1,3 +1,8 @@
+![Status](https://img.shields.io/badge/Deprecated-brown)
+
+> [!CAUTION]
+> This repository is no longer maintained. Active development of our web SDKs has been moved to the [xmtp-js](https://github.com/xmtp/xmtp-js) repository.
+
 # XMTP web SDKs and examples
 
 This is the official repository for XMTP web SDKs and examples, powered by [Turborepo](https://turbo.build/repo).
